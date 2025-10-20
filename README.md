@@ -81,12 +81,8 @@ E. Merge sonrası kendi branch’ini silebilirsin.
 Bu komutların tamamı, projenin klonlandığı klasörün içinde (örneğin agilion-frontend) çalıştırılır.
 Yani terminalde dizin şu şekilde olmalı: ~/Desktop veya Downloads/agilion-frontend
     
-      
-
-## Ekip
-Frontend Developers: 3 kişi
-Scrum Master: ekaan8
-Backend Developers: Ayrı ekip, Express.js üzerinde çalışıyor
+     
 
 
-Emre Kaan Şahin
+
+Oluşturan: Emre Kaan Şahin
