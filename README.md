@@ -25,15 +25,19 @@ Bilgisayarınızda istediğiniz bir konumda (örneğin `Masaüstü` veya `C:\Pro
 
 
 1. Bu repoyu kendi bilgisayarınıza aktarın (proje dosyalarını indirin), sonra dizine geçin:
-       **git clone https://github.com/agilion-medcomm/agilion-frontend.git**
+
+       git clone https://github.com/agilion-medcomm/agilion-frontend.git
        (bu komutu yazdıktan sonra mevcut dizinde agilion-frontend dizini otomatik oluşur)
-       **cd agilion-frontend**
+   
+       cd agilion-frontend
 3. Gerekli bağımlılıkları yükle:
-       **npm install**
+
+       npm install
        (Bu komut, React ve diğer gerekli dosyaları yükler (bu adım bir kez yapılır).)
-4. Geliştirmeyi başlatın
-       **npm run dev**
-       Tarayıcıda şu adresi açın: **http://localhost:5173**
+5. Geliştirmeyi başlatın
+
+       npm run dev
+       Ardından tarayıcıda şu adresi açın: http://localhost:5173
 
 
 ## Git Kavramları
@@ -52,32 +56,51 @@ main dalına doğrudan push yapılmaz.
 Her görev için ayrı bir feature branch açılır.
 
 1. Yeni branch açma
-       git checkout -b feature/FE-[numara]-[kısa-açıklama]
+
+        git checkout -b feature/FE-[numara]-[kısa-açıklama]
+   
        //örnek: git checkout -b feature/FE-1-navbar
-2. Commit mesajı formatı
+3. Commit mesajı formatı
+   
        feat: açıklama  → yeni özellik  
        fix: açıklama   → hata düzeltmesi  
        style: açıklama → tasarım / düzenleme
+   
        //örnek: feat: add responsive navbar component
 
 
 ## Pull Request (PR) Süreci
 A. Güncelleme yaptıktan sonra sırasıyla şu komutlar girilmeli:
-  1: git add .
-  2: git commit -m "feat: açıklama"
-  3. git push origin feature/FE-[numara]-[açıklama]
+
+    1: git add .
+  
+    2: git commit -m "feat: açıklama"
+  
+    3: git push origin feature/FE-[numara]-[açıklama]
+    
 B. GitHub’da “Compare & Pull Request” butonuna tıkla.
+
 C. Açtığın PR, takım arkadaşların tarafından incelenecek.
+
 D. En az 1 onay alındıktan sonra merge edilir.
+
 E. Merge sonrası kendi branch’ini silebilirsin.
+
    -> Branch silme: 
+   
       1. Önce “main” dalına geç:
+      
          git checkout main
+         
       2. Yerel (bilgisayardaki) branch’i sil:
+      
          git branch -d feature/FE-1-navbar
+         
       3. GitHub’daki (uzaktaki) branch’i de sil:
+      
          git push origin --delete feature/FE-1-navbar
 ## Hangi dizinde çalışılmalı?
+
 Bu komutların tamamı, projenin klonlandığı klasörün içinde (örneğin agilion-frontend) çalıştırılır.
 Yani terminalde dizin şu şekilde olmalı: ~/Desktop veya Downloads/agilion-frontend
     
