@@ -1,111 +1,18 @@
-**20 Ekim Pazartesi 2025**
-# Agilion MedComm – Frontend (React)
+# React + Vite
 
-Bu proje, **Zeytinburnu Tıp Merkezi** için geliştirilen web uygulamasının frontend kısmını içerir.  
-Ana amaç, kullanıcıların **randevu alabileceği, doktor ve hizmet bilgilerini görüntüleyebileceği** modern bir arayüz oluşturmak.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## Kullanılan Teknolojiler
-- **React (Vite)** – Modern frontend framework  
-- **JavaScript (ES6)**  
-- **HTML5 & CSS3**  
-- **Git / GitHub (collaboration & branching)**
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
----
+## React Compiler
 
-## Kurulum Adımları
-Aşağıdaki adımlar, projeyi kendi bilgisayarınızda çalıştırmanı sağlar.
+The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
 
-  **Not:** Bu komutları çalıştırmadan önce bilgisayarınızda  
-  > [Node.js](https://nodejs.org/) (v16 veya üzeri) ve [Git](https://git-scm.com/) yüklü     olmalıdır.
+Note: This will impact Vite dev & build performances.
 
-### Proje klasörünü oluştur ve terminali aç
-Bilgisayarınızda istediğiniz bir konumda (örneğin `Masaüstü` veya `C:\Projects`) bir klasör açın. Sonra terminali açın.
+## Expanding the ESLint configuration
 
-
-1. Bu repoyu kendi bilgisayarınıza aktarın (proje dosyalarını indirin), sonra dizine geçin:
-
-       git clone https://github.com/agilion-medcomm/agilion-frontend.git
-       (bu komutu yazdıktan sonra mevcut dizinde agilion-frontend dizini otomatik oluşur)
-   
-       cd agilion-frontend
-3. Gerekli bağımlılıkları yükle:
-
-       npm install
-       (Bu komut, React ve diğer gerekli dosyaları yükler (bu adım bir kez yapılır).)
-5. Geliştirmeyi başlatın
-
-       npm run dev
-       Ardından tarayıcıda şu adresi açın: http://localhost:5173
-
-
-## Git Kavramları
-**Main Branch**: 
-Ana proje dosyalarının bulunduğu, en stabil koddur.
-→ Bu dala doğrudan push yapılmaz.
-**Branch**: 
-Her geliştiricinin kendi çalışmasını yaptığı yan koldur.
-→ Yeni özellik eklerken veya hata düzeltirken kullanılır.
-**Push**: Yaptığın değişiklikleri GitHub’a yüklemek.
-**Pull Request (PR)**:
-Yaptığın değişiklikleri ekibe sunarak “main” dalına eklenmesi için istekte bulunmak.
-
-## Branch ve Commit Kuralları
-main dalına doğrudan push yapılmaz.
-Her görev için ayrı bir feature branch açılır.
-
-1. Yeni branch açma
-
-        git checkout -b feature/FE-[numara]-[kısa-açıklama]
-   
-       //örnek: git checkout -b feature/FE-1-navbar
-3. Commit mesajı formatı
-   
-       feat: açıklama  → yeni özellik  
-       fix: açıklama   → hata düzeltmesi  
-       style: açıklama → tasarım / düzenleme
-   
-       //örnek: feat: add responsive navbar component
-
-
-## Pull Request (PR) Süreci
-A. Güncelleme yaptıktan sonra sırasıyla şu komutlar girilmeli:
-
-    1: git add .
-  
-    2: git commit -m "feat: açıklama"
-  
-    3: git push origin feature/FE-[numara]-[açıklama]
-    
-B. GitHub’da “Compare & Pull Request” butonuna tıkla.
-
-C. Açtığın PR, takım arkadaşların tarafından incelenecek.
-
-D. En az 1 onay alındıktan sonra merge edilir.
-
-E. Merge sonrası kendi branch’ini silebilirsin.
-
-   -> Branch silme: 
-   
-      1. Önce “main” dalına geç:
-      
-         git checkout main
-         
-      2. Yerel (bilgisayardaki) branch’i sil:
-      
-         git branch -d feature/FE-1-navbar
-         
-      3. GitHub’daki (uzaktaki) branch’i de sil:
-      
-         git push origin --delete feature/FE-1-navbar
-## Hangi dizinde çalışılmalı?
-
-Bu komutların tamamı, projenin klonlandığı klasörün içinde (örneğin agilion-frontend) çalıştırılır.
-Yani terminalde dizin şu şekilde olmalı: ~/Desktop veya Downloads/agilion-frontend
-    
-     
-
-
-
-Oluşturan: Emre Kaan Şahin
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
