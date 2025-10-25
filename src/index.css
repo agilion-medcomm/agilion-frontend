@@ -24,10 +24,16 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
+  overflow-x: hidden; /* Yatay kaymayı engelle */
+
+}
+
+body.dark {
+  background-color: #121212;
+  color: rgba(255, 255, 255, 0.87);
 }
 
 h1 {
