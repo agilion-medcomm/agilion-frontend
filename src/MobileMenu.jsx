@@ -123,7 +123,7 @@ export default function MobileMenu() {
 /* ---------------- Icons (inline SVG) ---------------- */
 function HamburgerIcon({ isOpen }) {
   return (
-    <svg className={`hamburger-icon ${isOpen ? 'open' : ''}`} width="28" height="28" viewBox="0 0 24 24" aria-hidden>
+    <svg className={`hamburger-icon ${isOpen ? 'open' : ''}`} width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
    
       <path className="line line1" d="M3 6h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path className="line line2" d="M3 12h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -134,7 +134,7 @@ function HamburgerIcon({ isOpen }) {
 
 function PlusIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden>
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
     </svg>
   );
@@ -142,7 +142,7 @@ function PlusIcon() {
 
 function ChevronIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden>
+    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
     </svg>
   );
