@@ -1,0 +1,147 @@
+.faq-section {
+  width: 100%;
+  background-color: #f3f4f6; /* açık gri zemin */
+  padding: 80px 20px;
+  box-sizing: border-box;
+}
+
+/* === Başlık === */
+.faq-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0e2b4b;
+  margin-bottom: 50px;
+}
+
+/* === Ana konteyner === */
+.faq-container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: nowrap;
+}
+
+/* === Görsel === */
+.faq-image {
+  flex: 0 0 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.faq-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* === Akordiyon === */
+.faq-accordion {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Soru kutusu */
+.faq-item {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.25s ease;
+  border: 1px solid #e0e6ef;
+}
+
+.faq-item:hover {
+  background: #f8fafc;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #0e2b4b;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.faq-icon {
+  font-size: 1.5rem;
+  color: #4154b3;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+}
+
+/* Açıldığında ikon döner */
+.faq-item.open .faq-icon {
+  transform: rotate(180deg);
+}
+
+/* Cevap kısmı */
+.faq-answer {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4a5568;
+  border-top: 1px solid #e0e6ef;
+  padding-top: 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Animasyon */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+  .faq-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .faq-image {
+    flex: none;
+    max-width: 90%;
+  }
+
+  .faq-accordion {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .faq-title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .faq-title {
+    font-size: 1.5rem;
+  }
+
+  .faq-item {
+    padding: 16px 18px;
+  }
+
+  .faq-question {
+    font-size: 0.95rem;
+  }
+}
