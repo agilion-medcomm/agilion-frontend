@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './Main_Page.css';
+import './Main_page.css';
 
 export default function MainPage() {
     const [menuOpen, setMenuOpen] = useState(false);
