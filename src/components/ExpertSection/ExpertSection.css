@@ -1,0 +1,156 @@
+.expert-section {
+  width: 100%;
+  padding: 80px 20px;
+  background: #fff;
+}
+
+.expert-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Sol taraf - Görsel */
+.expert-image {
+  flex: 0 0 auto;
+  max-width: 420px;
+}
+
+.expert-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  object-fit: cover;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Sağ taraf - İçerik */
+.expert-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.expert-content h2 {
+  font-size: 2rem;
+  color: #0e2b4b;
+  margin: 0;
+}
+
+.expert-content p {
+  color: #4a5568;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0;
+}
+
+/* Alt satır (Çağrı + Butonlar) */
+.expert-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: nowrap;
+}
+
+/* Çağrı Kutusu */
+.call-box {
+  background: #0e2b4b;
+  color: #fff;
+  border-radius: 18px;
+  padding: 20px 24px;
+  flex: 0 0 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(14, 43, 75, 0.18);
+}
+
+.call-box h4 {
+  font-size: 1.1rem;
+  margin: 0 0 6px 0;
+  font-weight: 800;
+}
+
+.call-box .subtitle {
+  color: #cfd9e6;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+
+.call-box .phone {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Sağdaki Butonlar */
+.expert-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 0 0 220px;
+  justify-content: center;
+}
+
+.outline-btn {
+  border: 2px solid #0e2b4b;
+  background: #fff;
+  color: #0e2b4b;
+  border-radius: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 18px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.outline-btn:hover {
+  background: #f4f8fc;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(14, 43, 75, 0.12);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .expert-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .expert-image {
+    max-width: 90%;
+  }
+
+  .expert-content {
+    align-items: center;
+  }
+
+  .expert-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .call-box {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .expert-buttons {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .outline-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

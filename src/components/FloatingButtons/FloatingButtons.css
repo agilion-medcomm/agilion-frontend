@@ -1,0 +1,112 @@
+/* Floating Buttons - En Altta Sabit, Daraltılmış */
+.floating-buttons {
+  position: fixed;
+  bottom: 20px; /* 0 → 20px yukarı kaldırıldı */
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 600px;
+  width: calc(100% - 40px);
+  display: flex;
+  gap: 0;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Daha belirgin gölge */
+  border-radius: 16px; /* Tüm köşeler yuvarlak */
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.floating-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.floating-btn svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Hızlı Randevu - Mavi */
+.floating-btn--appointment {
+  background: linear-gradient(135deg, #4a90a4 0%, #357d91 100%);
+  color: white;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px 0 0 16px; /* Sol taraf yuvarlak */
+}
+
+.floating-btn--appointment:hover {
+  background: linear-gradient(135deg, #5ba3b7 0%, #4a90a4 100%);
+  transform: translateY(-2px);
+}
+
+/* İletişim - Yeşil */
+.floating-btn--contact {
+  background: linear-gradient(135deg, #5cb85c 0%, #449d44 100%);
+  color: white;
+  border-radius: 0 16px 16px 0; /* Sağ taraf yuvarlak */
+}
+
+.floating-btn--contact:hover {
+  background: linear-gradient(135deg, #6fc96f 0%, #5cb85c 100%);
+  transform: translateY(-2px);
+}
+
+.floating-btn:active {
+  transform: translateY(0);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .floating-buttons {
+    bottom: 16px; /* Mobilde biraz daha az */
+    max-width: 500px;
+    width: calc(100% - 32px);
+  }
+
+  .floating-btn {
+    padding: 12px 14px;
+    font-size: 13px;
+  }
+}
+
+/* Mobil */
+@media (max-width: 480px) {
+  .floating-buttons {
+    bottom: 12px;
+    max-width: 400px;
+    width: calc(100% - 24px);
+  }
+
+  .floating-btn {
+    padding: 11px 12px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .floating-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Çok küçük ekranlar */
+@media (max-width: 380px) {
+  .floating-buttons {
+    bottom: 10px;
+    width: calc(100% - 16px);
+  }
+
+  .floating-btn {
+    padding: 10px;
+    font-size: 11px;
+  }
+}
