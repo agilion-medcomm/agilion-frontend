@@ -1,3 +1,5 @@
+/* src/components/Menü/Menü.css (SON HALİ) */
+
 /* ====== CSS Variables ====== */
 :root {
   --topbar-h: 52px;
@@ -90,6 +92,9 @@
   color: #fff;
   cursor: pointer;
   transition: background 0.3s ease;
+  font-family: inherit; /* Butonların varsayılan fontunu düzeltir */
+  font-size: 14px; /* Font boyutunu belirginleştirir */
+  font-weight: 600; /* Font ağırlığını belirginleştirir */
 }
 
 .ghost-btn:hover {
@@ -444,8 +449,6 @@
   background: #555;
 }
 
-
-
 /* ====== RESPONSIVE ====== */
 @media (max-width: 1100px) {
   .nav {
@@ -520,4 +523,34 @@
   height: 100%;
   gap: 24px;
   padding: 0 20px;
+}
+
+/* ====== YENİ EKLENEN KOD (Adım 14) ====== */
+
+/* "Çıkış Yap" ve Avatarı yan yana tutan sarmalayıcı */
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Senin referans görselindeki gibi yuvarlak avatar */
+.user-avatar {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Tam yuvarlak yapar */
+  background-color: #fff;
+  color: #c93434; /* Kırmızımsı bir renk */
+  border: 2px solid #c93434;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* .ghost-btn'e eklemeler (varsa) */
+.ghost-btn {
+  /* ... (yukarıdaki mevcut stiller) ... */
+  text-decoration: none; /* Link olarak kullanıldığında alt çigiyi kaldırır */
 }
