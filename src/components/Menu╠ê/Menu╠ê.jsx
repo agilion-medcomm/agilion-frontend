@@ -1,9 +1,16 @@
+// src/components/Menü/Menü.jsx (SON HALİ)
+
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // Auth Context'i import et
 import "./Menü.css";
 
 export default function Menü() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+  
+  // Kasadan 'user' (kullanıcı) ve 'logout' (çıkış) bilgilerini çek
+  const { user, logout } = useAuth();
 
   // Menüyü 'Escape' tuşu ile kapat
   useEffect(() => {
@@ -53,6 +60,12 @@ export default function Menü() {
     setMenuOpen(false);
   }
 
+  // Çıkış yap fonksiyonu (hem mobilde hem desktop'ta kullanılabilir)
+  function handleLogout() {
+    closeMenu(); // Mobil menüyü kapat
+    logout();    // Auth Context'ten çıkış yap
+  }
+
   return (
     <>
       {/* Topbar */}
@@ -71,7 +84,26 @@ export default function Menü() {
             <a className="social" href="#" aria-label="Facebook"><FbIcon /></a>
             <a className="social" href="#" aria-label="Instagram"><IgIcon /></a>
             <span className="lang">TR</span>
-            <button className="ghost-btn">Giriş Yap</button>
+
+            {/* --- KİMLİK KONTROL BÖLGESİ --- */}
+            {user ? (
+              // Kullanıcı giriş yapmışsa:
+              <div className="user-menu">
+                <button onClick={handleLogout} className="ghost-btn">
+                  Çıkış Yap
+                </button>
+                <div className="user-avatar" aria-label={`Kullanıcı: ${user.name}`}>
+                  {user.initials}
+                </div>
+              </div>
+            ) : (
+              // Kullanıcı giriş yapmamışsa:
+              <Link to="/login" className="ghost-btn">
+                Giriş Yap
+              </Link>
+            )}
+            {/* --- KONTROL BİTTİ --- */}
+
           </div>
         </div>
       </div>
@@ -152,9 +184,19 @@ export default function Menü() {
           </div>
 
           <div className="mobile-menu__section">
-            <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={closeMenu}>
-              <span>Personel Girişi</span>
-            </a>
+            {/* --- MOBİL KİMLİK KONTROLÜ --- */}
+            {user ? (
+              // Kullanıcı giriş yapmışsa:
+              <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={handleLogout}>
+                <span>Çıkış Yap</span>
+              </a>
+            ) : (
+              // Kullanıcı giriş yapmamışsa (Personel Girişi linki burada kalabilir):
+              <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={closeMenu}>
+                <span>Personel Girişi</span>
+              </a>
+            )}
+            {/* --- KONTROL BİTTİ --- */}
           </div>
         </div>
       </div>
@@ -172,6 +214,7 @@ export default function Menü() {
 }
 
 /* --- İkonlar --- */
+// (Burada değişiklik yok, orijinal ikon fonksiyonları olduğu gibi kalıyor)
 function MailIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
