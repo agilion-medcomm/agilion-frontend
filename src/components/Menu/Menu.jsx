@@ -1,18 +1,18 @@
-// src/components/Menü/Menü.jsx (SON HALİ)
+// src/components/Menu/Menu.jsx (SON HALİ)
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext'; // Auth Context'i import et
-import "./Menü.css";
+import "./Menu.css";
 
-export default function Menü() {
+export default function Menu() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   
   // Kasadan 'user' (kullanıcı) ve 'logout' (çıkış) bilgilerini çek
   const { user, logout } = useAuth();
 
-  // Menüyü 'Escape' tuşu ile kapat
+  // Menu'yu 'Escape' tuşu ile kapat
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') setMenuOpen(false);
@@ -21,7 +21,7 @@ export default function Menü() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Menü dışına tıklandığında kapat (hamburger butonu hariç)
+  // Menu dışına tıklandığında kapat (hamburger butonu hariç)
   useEffect(() => {
     function onDocClick(e) {
       if (!menuOpen) return;
@@ -40,7 +40,7 @@ export default function Menü() {
     return () => document.removeEventListener('mousedown', onDocClick);
   }, [menuOpen]);
 
-  // Menü açıkken sayfanın kaymasını engelle
+  // Menu açıkken sayfanın kaymasını engelle
   useEffect(() => {
     if (menuOpen) {
       document.body.style.overflow = 'hidden';
@@ -62,7 +62,7 @@ export default function Menü() {
 
   // Çıkış yap fonksiyonu (hem mobilde hem desktop'ta kullanılabilir)
   function handleLogout() {
-    closeMenu(); // Mobil menüyü kapat
+    closeMenu(); // Mobil menuyu kapat
     logout();    // Auth Context'ten çıkış yap
   }
 
