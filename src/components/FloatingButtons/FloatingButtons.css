@@ -1,7 +1,7 @@
 /* Floating Buttons - En Altta Sabit, Daraltılmış */
 .floating-buttons {
   position: fixed;
-  bottom: 20px; /* 0 → 20px yukarı kaldırıldı */
+  bottom: 10px; /* 0 → 20px yukarı kaldırıldı */
   left: 50%;
   transform: translateX(-50%);
   max-width: 600px;
@@ -20,10 +20,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 14px 16px;
+  gap: 10px;
+  padding: 16px 16px;
   border: none;
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -44,8 +44,7 @@
 }
 
 .floating-btn--appointment:hover {
-  background: linear-gradient(135deg, #5ba3b7 0%, #4a90a4 100%);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #0f404d 0%, #4a90a4 100%);
 }
 
 /* İletişim - Yeşil */
@@ -56,8 +55,7 @@
 }
 
 .floating-btn--contact:hover {
-  background: linear-gradient(135deg, #6fc96f 0%, #5cb85c 100%);
-  transform: translateY(-2px);
+  background: linear-gradient(135deg, #279127 0%, #118211 100%);
 }
 
 .floating-btn:active {
@@ -109,4 +107,12 @@
     padding: 10px;
     font-size: 11px;
   }
+}
+
+.floating-btn .icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  vertical-align: middle;
+  filter: brightness(0) invert(1);
 }

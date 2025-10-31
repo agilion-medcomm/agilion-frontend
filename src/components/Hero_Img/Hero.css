@@ -31,7 +31,7 @@
 
 .hero__searchbox {
   position: absolute;
-  bottom: 40px;
+  top: 80%;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -41,3 +41,7 @@
   padding: 0 20px;
   box-sizing: border-box;
 }
+
+
+
+

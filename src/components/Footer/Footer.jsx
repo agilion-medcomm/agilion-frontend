@@ -70,7 +70,7 @@ export default function Footer() {
 
         <div className="container footer__row">
             <small>© {new Date().getFullYear()} AgilionMED Tıp Merkezi</small>
-            <a href="#">Aydınlatma Metni</a>
+            <a href="#"> Aydınlatma Metni</a>
           </div>
 
     </footer>
