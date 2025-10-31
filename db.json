@@ -1,0 +1,62 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "tcKimlik": "12345678901",
+      "name": "Alice",
+      "surname": "Johnson",
+      "email": "alice@example.com",
+      "telephone": "123-456-7890",
+      "password": "securepassword"
+    },
+    {
+      "id": 2,
+      "tcKimlik": "10987654321",
+      "name": "Bob",
+      "surname": "Smith",
+      "email": "bob@example.com",
+      "telephone": "098-765-4321",
+      "password": "anotherpassword"
+    },
+    {
+      "id": "655e",
+      "name": "BERKANT",
+      "surname": "CORA",
+      "tcKimlik": "33433791238",
+      "email": "berkantcora@hotmail.com",
+      "telephone": "05442319146",
+      "password": "123456",
+      "birthDate": "1998-04-11"
+    },
+    {
+      "id": "fcfb",
+      "name": "Selim",
+      "surname": "Barut",
+      "tcKimlik": "12345678911",
+      "email": "berkantcora@hotmail.com",
+      "telephone": "05442319",
+      "password": "123456",
+      "birthDate": "1998-10-11"
+    },
+    {
+      "id": "aa78",
+      "name": "BERKANT",
+      "surname": "CORA",
+      "tcKimlik": "33433791238",
+      "email": "berkantcora@hotmail.com",
+      "telephone": "0544231914",
+      "password": "1234567",
+      "birthDate": "1990-10-12"
+    },
+    {
+      "id": "a899",
+      "name": "Yahya",
+      "surname": "Göksever",
+      "tcKimlik": "12345678912",
+      "email": "yahya@hotmail.com",
+      "telephone": "5102508890",
+      "password": "yahya8",
+      "birthDate": "2000-07-08"
+    }
+  ]
+}
