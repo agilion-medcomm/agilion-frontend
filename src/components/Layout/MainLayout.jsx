@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Outlet } from 'react-router-dom'; // 1. Router'ın "placeholder"ı
-import Menu from '../Menu/Menu';           // 2. Menumüz
+import Menu from '../Menu/Menu';           // 2. Menümüz
 import Footer from '../Footer/Footer';     // 3. Footer'ımız
 
 // NOT: Bu component Menu.jsx'i import ettiği için,
