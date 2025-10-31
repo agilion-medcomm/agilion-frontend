@@ -81,16 +81,39 @@
 }
 
 /* Tek sütun (çok dar mobil) */
-@media (max-width: 520px){
-  .stats-container{
+@media (max-width: 520px) {
+  .stats-container {
     grid-template-columns: 1fr;
-    padding:14px 12px;
-    border-radius:18px;
+    padding: 14px 12px;
+    border-radius: 18px;
   }
-  .stat-card{
-    border-right:none;
-    border-bottom:1px solid rgba(255,255,255,.22);
-    padding:16px 6px 18px;
+
+  .stat-card {
+    border-right: none;
+    /* BURADAKİ border-bottom KURALINI SİLİYORUZ */
+    padding: 16px 6px 18px;
   }
-  .stat-card:last-child{ border-bottom:none; }
+
+  /* VE YERİNE BUNU EKLİYORUZ:
+    Bu kural, "sonuncu olmayan" TÜM kartlara alt çizgi ekler.
+    ':not(:last-child)' seçicisi, 900px'lik kuraldaki ':nth-child(3)' kadar 
+    spesifiktir ve tek sütun görünümünde onu düzgünce ezer.
+  */
+  .stat-card:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+  }
+
+  /* BU KURALA ARTIK GEREK YOK (çünkü :not(:last-child) bunu zaten hallediyor)
+  .stat-card:last-child { border-bottom: none; }
+  */
+}
+
+/* Dış blok (sayfayı enine kaplar) */
+.stats-wrap {
+  width: 100%;
+  padding: 40px 20px 60px;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box; /* EKLENDİ - Taşırma sorununu bu çözer */
 }

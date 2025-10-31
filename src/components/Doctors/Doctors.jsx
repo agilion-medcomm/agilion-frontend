@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./Doctors.css";
+// react-transition-group import'larına artık gerek yok.
 
 export default function Doctors() {
   const [currentPage, setCurrentPage] = useState(0);
+  // 1. Sadece animasyon yönünü tutacak bir state ekliyoruz.
+  const [direction, setDirection] = useState("next");
 
   const doctors = [
     { name: "Dr. Andrew Collins", field: "Acil Servis", img: "/doktor1.png" },
@@ -22,11 +25,14 @@ export default function Doctors() {
   const doctorsPerPage = 4;
   const totalPages = Math.ceil(doctors.length / doctorsPerPage);
 
+  // 2. Handler'ları yönü set edecek şekilde güncelliyoruz.
   const handlePrev = () => {
+    setDirection("prev");
     setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
   };
 
   const handleNext = () => {
+    setDirection("next");
     setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
   };
 
@@ -40,8 +46,16 @@ export default function Doctors() {
         <h2>Alanında Uzman Hekimlerimiz</h2>
       </div>
 
-      {/* Doktorlar Listesi */}
-      <div className="doctors-container">
+      {/* 3. Sihir burada:
+           - 'key={currentPage}': React'e "bu sayfa değiştiğinde, eski
+             component'i at ve bunu SIFIRDAN çiz" der.
+           - className: SIFIRDAN çizerken, animasyon sınıfımızı ekleriz.
+      */}
+      <div
+        className={`doctors-container ${direction === "next" ? "slide-in-next" : "slide-in-prev"
+          }`}
+        key={currentPage} 
+      >
         {visibleDoctors.map((doc, i) => (
           <div className="doctor-card" key={i} onClick={() => console.log(`Clicked ${doc.name}`)}>
             <img src={doc.img} alt={doc.name} />
@@ -52,14 +66,14 @@ export default function Doctors() {
       </div>
 
       {/* Navigasyon Butonları */}
-<div className="doctors-navigation">
-  <button onClick={handlePrev} aria-label="Önceki">
-    <img src="/left.svg" alt="Önceki" className="nav-icon" />
-  </button>
-  <button onClick={handleNext} aria-label="Sonraki">
-    <img src="/right.svg" alt="Sonraki" className="nav-icon" />
-  </button>
-</div>
+      <div className="doctors-navigation">
+        <button onClick={handlePrev} aria-label="Önceki">
+          <img src="/back.png" alt="Önceki" className="nav-icon" />
+        </button>
+        <button onClick={handleNext} aria-label="Sonraki">
+          <img src="/next.png" alt="Sonraki" className="nav-icon" />
+        </button>
+      </div>
 
     </section>
   );
