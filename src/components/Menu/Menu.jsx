@@ -1,18 +1,16 @@
-// src/components/Menu/Menu.jsx (SON HALİ)
+// src/components/Menu/Menu.jsx (SCROLL SORUNU ÇÖZÜLMÜŞ)
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // Auth Context'i import et
+import { useAuth } from '../../context/AuthContext';
 import "./Menu.css";
 
 export default function Menu() {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   
-  // Kasadan 'user' (kullanıcı) ve 'logout' (çıkış) bilgilerini çek
   const { user, logout } = useAuth();
 
-  // Menu'yu 'Escape' tuşu ile kapat
   useEffect(() => {
     function onKey(e) {
       if (e.key === 'Escape') setMenuOpen(false);
@@ -21,7 +19,6 @@ export default function Menu() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Menu dışına tıklandığında kapat (hamburger butonu hariç)
   useEffect(() => {
     function onDocClick(e) {
       if (!menuOpen) return;
@@ -40,18 +37,6 @@ export default function Menu() {
     return () => document.removeEventListener('mousedown', onDocClick);
   }, [menuOpen]);
 
-  // Menu açıkken sayfanın kaymasını engelle
-  useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [menuOpen]);
-
   function toggleMenu() {
     setMenuOpen(prev => !prev);
   }
@@ -60,11 +45,16 @@ export default function Menu() {
     setMenuOpen(false);
   }
 
-  // Çıkış yap fonksiyonu (hem mobilde hem desktop'ta kullanılabilir)
   function handleLogout() {
-    closeMenu(); // Mobil menuyu kapat
-    logout();    // Auth Context'ten çıkış yap
+    closeMenu();
+    logout();
   }
+
+  // 🔥 YENİ: Link tıklamalarını engelleyen handler
+  const handleNavClick = (e) => {
+    e.preventDefault();
+    // Burada routing yapılabilir
+  };
 
   return (
     <>
@@ -81,13 +71,16 @@ export default function Menu() {
             </span>
           </div>
           <div className="topbar__right">
-            <a className="social" href="#" aria-label="Facebook"><FbIcon /></a>
-            <a className="social" href="#" aria-label="Instagram"><IgIcon /></a>
+            {/* 🔥 Sosyal medya linklerine preventDefault eklendi */}
+            <a className="social" href="#" aria-label="Facebook" onClick={handleNavClick}>
+              <FbIcon />
+            </a>
+            <a className="social" href="#" aria-label="Instagram" onClick={handleNavClick}>
+              <IgIcon />
+            </a>
             <span className="lang">TR</span>
 
-            {/* --- KİMLİK KONTROL BÖLGESİ --- */}
             {user ? (
-              // Kullanıcı giriş yapmışsa:
               <div className="user-menu">
                 <button onClick={handleLogout} className="ghost-btn">
                   Çıkış Yap
@@ -97,13 +90,10 @@ export default function Menu() {
                 </div>
               </div>
             ) : (
-              // Kullanıcı giriş yapmamışsa:
               <Link to="/login" className="ghost-btn">
                 Giriş Yap
               </Link>
             )}
-            {/* --- KONTROL BİTTİ --- */}
-
           </div>
         </div>
       </div>
@@ -111,17 +101,30 @@ export default function Menu() {
       {/* Menubar */}
       <div className="menubar">
         <div className="container menubar__row">
-          <a className="brand" href="#">
-            <img src="/agilion1.png" alt="AgilionMED Logo" className="logo-img" />
-          </a>
+          <Link className="brand" to="/">
+            <img src="/agicom.png" alt="AgilionMED Logo" className="logo-img" />
+          </Link>
 
           <nav className="nav">
-            <a className="nav__link active" href="#">ANA SAYFA</a>
-            <a className="nav__link" href="#">KURUMSAL</a>
-            <a className="nav__link" href="#">BÖLÜMLERİMİZ</a>
-            <a className="nav__link" href="#">HEKİMLERİMİZ</a>
-            <a className="nav__link" href="#">BİRİMLERİMİZ</a>
-            <a className="nav__link" href="#">EVDE SAĞLIK</a>
+            {/* 🔥 Her linke onClick handler eklendi */}
+            <a className="nav__link active" href="#" onClick={handleNavClick}>
+              ANA SAYFA
+            </a>
+            <a className="nav__link" href="#" onClick={handleNavClick}>
+              KURUMSAL
+            </a>
+            <a className="nav__link" href="#" onClick={handleNavClick}>
+              BÖLÜMLERİMİZ
+            </a>
+            <a className="nav__link" href="#" onClick={handleNavClick}>
+              HEKİMLERİMİZ
+            </a>
+            <a className="nav__link" href="#" onClick={handleNavClick}>
+              BİRİMLERİMİZ
+            </a>
+            <a className="nav__link" href="#" onClick={handleNavClick}>
+              EVDE SAĞLIK
+            </a>
           </nav>
 
           <button
@@ -136,7 +139,7 @@ export default function Menu() {
         </div>
       </div>
 
-      {/* Mobil Menü Paneli */}
+      {/* Mobil Menu Paneli */}
       <div
         ref={menuRef}
         id="mobile-menu"
@@ -144,59 +147,56 @@ export default function Menu() {
         aria-hidden={!menuOpen}
       >
         <div className="mobile-menu__content">
-          <button className="mobile-menu__appointment">
-            Hızlı Randevu Al
+          <button className="mobile-menu__appointment" onClick={closeMenu}>
+            Giriş Yap
             <PlusIcon />
           </button>
 
           <nav className="mobile-menu__nav">
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            {/* 🔥 Mobil linklere preventDefault eklendi */}
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>Ana Sayfa</span>
               <ChevronIcon />
             </a>
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>Kurumsal</span>
               <ChevronIcon />
             </a>
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>Bölümlerimiz</span>
               <ChevronIcon />
             </a>
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>Hekimlerimiz</span>
               <ChevronIcon />
             </a>
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>Birimlerimiz</span>
               <ChevronIcon />
             </a>
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>Evde Sağlık</span>
               <ChevronIcon />
             </a>
           </nav>
 
           <div className="mobile-menu__section">
-            <a className="mobile-menu__link" href="#" onClick={closeMenu}>
+            <a className="mobile-menu__link" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
               <span>İletişim</span>
               <ChevronIcon />
             </a>
           </div>
 
           <div className="mobile-menu__section">
-            {/* --- MOBİL KİMLİK KONTROLÜ --- */}
             {user ? (
-              // Kullanıcı giriş yapmışsa:
-              <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={handleLogout}>
+              <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={(e) => { e.preventDefault(); handleLogout(); }}>
                 <span>Çıkış Yap</span>
               </a>
             ) : (
-              // Kullanıcı giriş yapmamışsa (Personel Girişi linki burada kalabilir):
-              <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={closeMenu}>
+              <a className="mobile-menu__link mobile-menu__link--login" href="#" onClick={(e) => { e.preventDefault(); closeMenu(); }}>
                 <span>Personel Girişi</span>
               </a>
             )}
-            {/* --- KONTROL BİTTİ --- */}
           </div>
         </div>
       </div>
@@ -214,7 +214,6 @@ export default function Menu() {
 }
 
 /* --- İkonlar --- */
-// (Burada değişiklik yok, orijinal ikon fonksiyonları olduğu gibi kalıyor)
 function MailIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -251,12 +250,28 @@ function IgIcon() {
 }
 
 function HamburgerIcon({ isOpen }) {
+  if (isOpen) {
+    return (
+      <img 
+        src="/xmark1.svg" 
+        alt="Menüyü kapat" 
+        className="xmark-icon"
+        width="28" 
+        height="28" 
+        style={{ display: 'block' }}
+      />
+    );
+  }
+
   return (
-    <svg className={`hamburger-icon ${isOpen ? 'open' : ''}`} width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
-      <path className="line line1" d="M3 6h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path className="line line2" d="M3 12h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path className="line line3" d="M3 18h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-    </svg>
+    <img 
+      src="/bars.svg" 
+      alt="Menüyü aç" 
+      className="bars-icon"
+      width="28" 
+      height="28" 
+      style={{ display: 'block' }}
+    />
   );
 }
 
