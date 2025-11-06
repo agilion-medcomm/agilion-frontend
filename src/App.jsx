@@ -6,7 +6,9 @@ import MainPage from './Main_Page';
 // Sayfalarımızı import ediyoruz
 // (Senin klasör yapına göre import yolu)
 import LoginPage from './components/pages/LoginPage'; 
-import RegisterPage from './components/pages/RegisterPage'; // <-- YENİ EKLENEN SATIR
+import RegisterPage from './components/pages/RegisterPage'; 
+import ContactPage from './components/pages/ContactPage';
+import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
 
 // Ana yerleşim (Layout) component'imizi import ediyoruz
 import MainLayout from './components/Layout/MainLayout'; 
@@ -28,7 +30,13 @@ export default function App() {
         
         {/* Kayıt Ol Rotası */}
         <Route path="register" element={<RegisterPage />} /> 
-        
+
+        {/* İletişim Rotası */}
+        <Route path="contact" element={<ContactPage />} />
+
+        {/* Evde Sağlık Rotası */}
+        <Route path="evde-saglik" element={<EvdeSaglikPage />} />
+
         {/* Gelecekte eklenecek "Hekimlerimiz", "Bölümlerimiz" gibi
             tüm yeni sayfalar da buraya eklenecek */}
         

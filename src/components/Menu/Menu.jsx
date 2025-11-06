@@ -56,6 +56,8 @@ export default function Menu() {
     // Burada routing yapılabilir
   };
 
+  console.log('Mevcut kullanıcı:', user);
+
   return (
     <>
       {/* Topbar */}
@@ -80,14 +82,23 @@ export default function Menu() {
             </a>
             <span className="lang">TR</span>
 
-            {user ? (
+       {user ? (
               <div className="user-menu">
                 <button onClick={handleLogout} className="ghost-btn">
                   Çıkış Yap
                 </button>
-                <div className="user-avatar" aria-label={`Kullanıcı: ${user.name}`}>
-                  {user.initials}
+                
+                {/* 
+                  Doğrudan baş harfleri oluşturuyoruz.
+                  Eğer user nesnesi varsa ama içinde firstName/lastName yoksa bile 
+                  kod patlamaz, sadece boş bir div oluşturur (ama bizde olduğunu biliyoruz).
+                  En güvenli ve basit yol budur.
+                */}
+                <div className="user-avatar" aria-label={`Kullanıcı: ${user.firstName} ${user.lastName}`}>
+                  {user.firstName?.charAt(0).toUpperCase()}
+                  {user.lastName?.charAt(0).toUpperCase()}
                 </div>
+
               </div>
             ) : (
               <Link to="/login" className="ghost-btn">
@@ -122,9 +133,9 @@ export default function Menu() {
             <a className="nav__link" href="#" onClick={handleNavClick}>
               BİRİMLERİMİZ
             </a>
-            <a className="nav__link" href="#" onClick={handleNavClick}>
+           <Link to="/evde-saglik" className="nav__link">
               EVDE SAĞLIK
-            </a>
+            </Link>
           </nav>
 
           <button

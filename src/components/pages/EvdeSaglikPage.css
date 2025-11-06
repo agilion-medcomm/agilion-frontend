@@ -1,0 +1,145 @@
+.evde-saglik-page .page-section {
+  padding: 60px 0;
+}
+
+.evde-saglik-page .container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.evde-saglik-page .bg-light {
+  background-color: #f8f9fa;
+}
+
+/* Banner Stilleri */
+.page-banner {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  color: white;
+}
+.page-banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+.page-banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-banner-title {
+  font-size: 3rem;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Hizmet Kartları Stilleri */
+.service-card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+.service-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  padding: 30px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+.service-card-icon {
+  color: #0d6efd; /* Ana mavi renk */
+  margin-bottom: 15px;
+}
+.service-card-title {
+  font-size: 1.25rem;
+  color: #343a40;
+  margin-bottom: 20px;
+  min-height: 50px; /* Başlıkların aynı hizada durması için */
+}
+.service-card-button {
+  background-color: transparent;
+  border: 1px solid #ced4da;
+  color: #6c757d;
+  padding: 8px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.service-card-button:hover {
+  background-color: #0d6efd;
+  color: white;
+  border-color: #0d6efd;
+}
+
+/* İçerik Stilleri */
+.content-container {
+  max-width: 800px;
+}
+.content-section {
+  margin-bottom: 50px;
+}
+.content-section h2 {
+  font-size: 2rem;
+  color: #0d3d6a; /* Koyu mavi */
+  margin-bottom: 20px;
+  border-left: 4px solid #0d6efd;
+  padding-left: 15px;
+}
+.content-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.content-section p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+/* Hizmet Etiketleri (Pills) Stilleri */
+.pills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+.pill {
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s;
+}
+
+/* Mobil Uyum (Responsiveness) */
+@media (max-width: 992px) {
+  .service-card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  .service-card-grid {
+    grid-template-columns: 1fr;
+  }
+  .page-banner-title {
+    font-size: 2.2rem;
+  }
+  .content-section h2 {
+    font-size: 1.7rem;
+  }
+}
