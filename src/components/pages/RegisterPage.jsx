@@ -1,27 +1,24 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext'; // useAuth'u tekrar dahil ediyoruz
 import axios from 'axios';
-import './LoginPage.css';
+import './LoginPage.css'; // Stil dosyasını import ediyoruz
 
-const BaseURL = "http://localhost:3000";
+// API adresimiz
+const BaseURL = 'http://localhost:3000/api';
 
-// --- YENİ ---
-// E-posta formatını kontrol eden yardımcı fonksiyon (RegEx ile)
+// E-posta ve telefon doğrulama fonksiyonları
 function isValidEmail(email) {
-  // Basit bir regex: [karakterler]@[karakterler].[karakterler]
   const emailRegex = /\S+@\S+\.\S+/;
   return emailRegex.test(email);
 }
-
-// Telefon formatını kontrol eden yardımcı fonksiyon
 function isValidPhone(phone) {
-  // Sadece rakamları al ve uzunluğunu kontrol et (10 veya 11 haneli, ör: 5xxxxxxxxx veya 05xxxxxxxxx)
   const digitsOnly = phone.replace(/\D/g, '');
   return digitsOnly.length >= 10 && digitsOnly.length <= 11;
 }
-// --- YENİ BİTTİ ---
 
 export default function RegisterPage() {
+  // State tanımlamaları
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -34,53 +31,52 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: ''
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
+  // Gerekli hook'lar
   const navigate = useNavigate();
+  const { login } = useAuth(); // LoginPage'de olduğu gibi, useAuth'u güvenle kullanabiliriz.
 
+  // Form elemanlarının değerini güncelleyen fonksiyon
   function handleChange(e) {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
   }
 
+  // Doğum tarihi select kutularını güncelleyen fonksiyon
   function handleDateChange(e) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
+  // Form gönderildiğinde çalışacak ana fonksiyon
   async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // --- GÜNCELLENDİ ---
-    // 1. Şifre Kontrolü
+    // 1. Form Doğrulama
     if (formData.password !== formData.confirmPassword) {
       setError('Şifreler uyuşmuyor.');
       setLoading(false);
       return;
     }
-
-    // 2. E-posta Format Kontrolü
     if (!isValidEmail(formData.email)) {
       setError('Lütfen geçerli bir e-posta adresi girin.');
       setLoading(false);
       return;
     }
-
-    // 3. Telefon Format Kontrolü (eğer girilmişse)
     if (formData.phone && !isValidPhone(formData.phone)) {
       setError('Lütfen geçerli bir telefon numarası girin (10 veya 11 haneli).');
       setLoading(false);
       return;
     }
-    // --- GÜNCELLEME BİTTİ ---
-
+    
+    // 2. Backend'e Gönderilecek Veriyi Hazırlama
     const newUser = {
-      name: formData.firstName,
-      surname: formData.lastName,
+      firstName: formData.firstName, 
+      lastName: formData.lastName, 
       tcKimlik: formData.tc,
       email: formData.email,
       telephone: formData.phone,
@@ -89,34 +85,37 @@ export default function RegisterPage() {
     };
 
     try {
-      console.log('Backend\'e kayıt isteği gönderiliyor:', newUser);
+      // 3. KAYIT İŞLEMİ
+      await axios.post(`${BaseURL}/users`, newUser);
       
-      const response = await axios.post(`${BaseURL}/users`, newUser);
-     
-      console.log('Kayıt başarılı, dönen veri:', response.data);
-      setLoading(false);
+      // 4. OTOMATİK GİRİŞ İŞLEMİ
+      const loginResponse = await axios.post(`${BaseURL}/auth/login`, {
+        tcKimlik: formData.tc,
+        password: formData.password
+      });
+
+      // 5. OTURUMU BAŞLATMA
+      login(loginResponse.data);
       
-      alert('Kayıt başarılı! Lütfen giriş yapın.');
-      navigate('/login');
+      // 6. ANASAYFAYA YÖNLENDİRME
+      navigate('/');
 
     } catch (err) {
-      console.error('Kayıt hatası:', err);
-      if (axios.isAxiosError(err)) {
-        if (err.response) {
-          setError(err.response.data?.message || `Sunucu hatası: ${err.response.status}`);
-        } else if (err.request) {
-          setError('Sunucuya ulaşılamıyor. Lütfen bağlantınızı kontrol edin.');
-        } else {
-          setError('Beklenmedik bir hata oluştu.');
-        }
+      // Hata Yönetimi
+      console.error('Kayıt veya otomatik giriş hatası:', err);
+      if (err.response) {
+        setError(err.response.data?.message || `Sunucu hatası: ${err.response.status}`);
+      } else if (err.request) {
+        setError('Sunucuya ulaşılamıyor. Lütfen bağlantınızı kontrol edin.');
       } else {
-        setError('Bilinmeyen bir hata oluştu.');
+        setError('Beklenmedik bir hata oluştu.');
       }
+    } finally {
       setLoading(false);
     }
   }
 
-  // --- Doğum Tarihi için Yardımcı Diziler (değişiklik yok) ---
+  // --- Doğum Tarihi için Yardımcı Diziler ---
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     { value: 1, name: 'Ocak' }, { value: 2, name: 'Şubat' }, { value: 3, name: 'Mart' },
@@ -125,34 +124,38 @@ export default function RegisterPage() {
     { value: 10, name: 'Ekim' }, { value: 11, name: 'Kasım' }, { value: 12, name: 'Aralık' }
   ];
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - i);
+  const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i); // Reşit olma kontrolü eklendi
 
+  // --- JSX (HTML) KISMI ---
   return (
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '500px' }}>
         <h2 className="login-title">Kayıt Ol</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
+          
           <div className="form-group-row">
             <div className="form-group" style={{ flex: 1 }}>
               <label htmlFor="firstName">Ad</label>
-              <input type="text" id="firstName" className="form-input" placeholder="Adınız" value={formData.firstName} onChange={handleChange} disabled={loading} required />
+              <input type="text" id="firstName" className="form-input" value={formData.firstName} onChange={handleChange} disabled={loading} required />
             </div>
             <div className="form-group" style={{ flex: 1 }}>
               <label htmlFor="lastName">Soyad</label>
-              <input type="text" id="lastName" className="form-input" placeholder="Soyadınız" value={formData.lastName} onChange={handleChange} disabled={loading} required />
+              <input type="text" id="lastName" className="form-input" value={formData.lastName} onChange={handleChange} disabled={loading} required />
             </div>
           </div>
+
           <div className="form-group">
             <label htmlFor="tc">TC Kimlik Numarası</label>
-            <input type="text" id="tc" className="form-input" placeholder="TC No girin" value={formData.tc} onChange={handleChange} disabled={loading} required pattern="\d{11}" title="TC Kimlik 11 haneli olmalıdır." />
+            <input type="text" id="tc" className="form-input" value={formData.tc} onChange={handleChange} disabled={loading} required pattern="\d{11}" title="TC Kimlik 11 haneli olmalıdır." />
           </div>
+
           <div className="form-group">
             <label>Doğum Tarihi</label>
             <div className="dob-group">
               <select name="day" className="form-input" value={formData.day} onChange={handleDateChange} disabled={loading} required>
                 <option value="" disabled>Gün</option>
-                {days.map(day => <option key={day} value={day}>{day}</option>)}
+                {days.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
               <select name="month" className="form-input" value={formData.month} onChange={handleDateChange} disabled={loading} required>
                 <option value="" disabled>Ay</option>
@@ -164,26 +167,32 @@ export default function RegisterPage() {
               </select>
             </div>
           </div>
+
           <div className="form-group">
             <label htmlFor="email">E-posta</label>
-            <input type="email" id="email" className="form-input" placeholder="E-posta adresiniz" value={formData.email} onChange={handleChange} disabled={loading} required />
+            <input type="email" id="email" className="form-input" value={formData.email} onChange={handleChange} disabled={loading} required />
           </div>
+
           <div className="form-group">
-            <label htmlFor="phone">Telefon Numarası</label>
-            <input type="tel" id="phone" className="form-input" placeholder="5xx xxx xx xx" value={formData.phone} onChange={handleChange} disabled={loading} />
+            <label htmlFor="phone">Telefon Numarası (İsteğe Bağlı)</label>
+            <input type="tel" id="phone" className="form-input" value={formData.phone} onChange={handleChange} disabled={loading} />
           </div>
+
           <div className="form-group">
             <label htmlFor="password">Şifre</label>
-            <input type="password" id="password" className="form-input" placeholder="Şifrenizi oluşturun" value={formData.password} onChange={handleChange} disabled={loading} required minLength="6" />
+            <input type="password" id="password" className="form-input" value={formData.password} onChange={handleChange} disabled={loading} required minLength="6" />
           </div>
+
           <div className="form-group">
             <label htmlFor="confirmPassword">Şifre Tekrarı</label>
-            <input type="password" id="confirmPassword" className="form-input" placeholder="Şifrenizi tekrar girin" value={formData.confirmPassword} onChange={handleChange} disabled={loading} required />
+            <input type="password" id="confirmPassword" className="form-input" value={formData.confirmPassword} onChange={handleChange} disabled={loading} required />
           </div>
+
           <button type="submit" className="login-button" disabled={loading}>
             {loading ? 'Kayıt Olunuyor...' : 'Kayıt Ol'}
           </button>
         </form>
+
         <div className="register-footer-link">
           Zaten hesabınız var mı? <Link to="/login" className="login-link">Giriş Yap</Link>
         </div>
