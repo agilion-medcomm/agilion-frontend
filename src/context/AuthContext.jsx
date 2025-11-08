@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import axios from 'axios';
 
 const AuthContext = createContext(null);
 
@@ -13,25 +14,45 @@ export function AuthProvider({ children }) {
   });
 
   // 🔥🔥 DAHA AKILLI LOGIN FONKSİYONU 🔥🔥
-  const login = (loginData) => {
-    // 1. Gelen verinin içinde bir "user" anahtarı var mı diye kontrol et.
-    //    (Örnek: { user: { firstName: ... }, token: ... })
-    //    Eğer varsa, asıl kullanıcı bilgisi odur.
-    const userToStore = loginData.user ? loginData.user : loginData;
-    const tokenToStore = loginData.token ? loginData.token : localStorage.getItem('token'); // Token yoksa eskisini koru
+  const login = async (loginDataOrToken) => {
+    // If a token string is passed, store it and fetch profile from /auth/me
+    let token = null;
 
-    // 2. Gereksiz veya hatalı bir veri gelmediğinden emin ol.
-    if (userToStore && typeof userToStore === 'object' && Object.keys(userToStore).length > 0) {
-      
-      // 3. Hafızaya ve state'e doğru veriyi kaydet.
-      localStorage.setItem('user', JSON.stringify(userToStore));
-      if (tokenToStore) {
-        localStorage.setItem('token', tokenToStore);
+    if (typeof loginDataOrToken === 'string') {
+      token = loginDataOrToken;
+      localStorage.setItem('token', token);
+
+      try {
+        const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+        const API_PREFIX = '/api/v1';
+        const meUrl = `${API_BASE}${API_PREFIX}/auth/me`;
+        const resp = await axios.get(meUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const profile = resp.data?.data || resp.data;
+        localStorage.setItem('user', JSON.stringify(profile));
+        setUser(profile);
+      } catch (err) {
+        console.error('Profil alınamadı:', err);
+        // token invalid -> remove
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
+        throw err;
       }
-      
-      setUser(userToStore); // State'i güncelle
+      return;
+    }
+
+    // Otherwise accept object form (backwards compat). Could be { token, user } or user object
+    const userToStore = loginDataOrToken?.user ? loginDataOrToken.user : loginDataOrToken;
+    token = loginDataOrToken?.token || localStorage.getItem('token');
+
+    if (token) localStorage.setItem('token', token);
+    if (userToStore && typeof userToStore === 'object') {
+      localStorage.setItem('user', JSON.stringify(userToStore));
+      setUser(userToStore);
     } else {
-      console.error("Login fonksiyonuna geçersiz kullanıcı verisi geldi:", loginData);
+      console.error('Login fonksiyonuna geçersiz kullanıcı verisi geldi:', loginDataOrToken);
     }
   };
 

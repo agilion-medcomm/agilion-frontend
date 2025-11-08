@@ -4,7 +4,11 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios'; // axios import edildi
 import './LoginPage.css';
 
-const BaseURL = 'http://localhost:3000';
+// API base (env ile kolayca değiştirilebilir)
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+// Backend mounts routes under /api/v1
+const API_PREFIX = '/api/v1';
+const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 export default function LoginPage() {
   const [tcKimlik, setTcKimlik] = useState('');
@@ -27,8 +31,15 @@ export default function LoginPage() {
     event.preventDefault();
     setError('');
 
-    if (!tcKimlik || !password) {
-      setError('TC No ve şifre gerekli.');
+    // Normalize and validate TCKN: only digits, length 11
+    const normalizedTckn = (tcKimlik || '').replace(/\D/g, '');
+    if (!normalizedTckn || normalizedTckn.length !== 11) {
+      setError('Lütfen 11 haneli geçerli bir TC kimlik numarası girin. (Sadece rakamlar)');
+      return;
+    }
+
+    if (!password || password.length < 8) {
+      setError('Lütfen en az 8 karakterli bir şifre girin.');
       return;
     }
 
@@ -36,18 +47,22 @@ export default function LoginPage() {
 
     try {
       // 1. ÖNCELİKLİ YOL: /api/auth/login endpoint'ine POST isteği dene
-      console.log('Gönderilen (POST):', { tcKimlik, password });
-      const response = await axios.post(`${BaseURL}/api/auth/login`, { tcKimlik, password });
+  console.log('Gönderilen (POST):', { tcKimlik, password });
+  // backend expects `tckn` field (11 digits). Use normalized value.
+  const payload = { tckn: normalizedTckn, password };
+  console.log('Login payload:', payload);
+  const response = await axios.post(`${BaseURL}/auth/login`, payload);
 
       console.log('Login başarılı (POST), response:', response.data);
 
-      // Sunucudan dönen { token, user } verisini işle
-      const { token, user } = response.data;
-      if (!token || !user) {
-        throw new Error('Sunucudan beklenen token/user verisi gelmedi.');
+      // Backend returns { status, message, data: { token, user } }
+      const token = response.data?.data?.token || response.data?.token;
+      if (!token) {
+        throw new Error('Sunucudan token gelmedi.');
       }
-      
-      login({ token, user: withoutPassword(user) });
+
+      // Use token-only path: store token and let AuthContext fetch profile
+      await login(token);
       navigate('/');
 
     } catch (err) {
@@ -60,9 +75,9 @@ export default function LoginPage() {
             const usersResponse = await axios.get(`${BaseURL}/users`);
             const users = usersResponse.data;
 
-            // Farklı olası alan adlarını kontrol et (tcKimlik, identy_number, vb.)
+            // Fallback: match backend field `tckn` or older `tcKimlik`
             const user = users.find(u =>
-                (u.tcKimlik === tcKimlik || u.identy_number === tcKimlik) && u.password === password
+                (u.tckn === tcKimlik || u.tcKimlik === tcKimlik || u.identy_number === tcKimlik) && u.password === password
             );
 
             if (user) {
@@ -80,7 +95,13 @@ export default function LoginPage() {
         } else if (err.response) {
           // 2b. DİĞER API HATALARI: 401 (yetkisiz), 400 (hatalı istek) vb.
           console.error('API Hatası:', err.response.status, err.response.data);
-          setError(err.response.data?.message || `Sunucu hatası: ${err.response.status}`);
+          // If validation errors array exists, show first message
+          const respData = err.response.data;
+          if (respData && respData.errors && Array.isArray(respData.errors) && respData.errors.length) {
+            setError(respData.errors.map(e => e.message).join('; '));
+          } else {
+            setError(respData?.message || `Sunucu hatası: ${err.response.status}`);
+          }
         } else if (err.request) {
           // 2c. NETWORK HATASI: Sunucuya ulaşılamadı
           console.error('Network Hatası:', err.request);
