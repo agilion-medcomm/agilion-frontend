@@ -4,8 +4,11 @@ import { useAuth } from '../../context/AuthContext'; // useAuth'u tekrar dahil e
 import axios from 'axios';
 import './LoginPage.css'; // Stil dosyasını import ediyoruz
 
-// API adresimiz
-const BaseURL = 'http://localhost:3000/api';
+// API base (env ile kolayca değiştirilebilir)
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+// Backend mounts routes under /api/v1
+const API_PREFIX = '/api/v1';
+const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 // E-posta ve telefon doğrulama fonksiyonları
 function isValidEmail(email) {
@@ -75,28 +78,36 @@ export default function RegisterPage() {
     
     // 2. Backend'e Gönderilecek Veriyi Hazırlama
     const newUser = {
-      firstName: formData.firstName, 
-      lastName: formData.lastName, 
-      tcKimlik: formData.tc,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      // backend expects `tckn` (11 digits)
+      tckn: formData.tc,
       email: formData.email,
-      telephone: formData.phone,
+      // backend expects `phoneNumber`
+      phoneNumber: formData.phone,
       password: formData.password,
-      birthDate: `${formData.year}-${formData.month.toString().padStart(2, '0')}-${formData.day.toString().padStart(2, '0')}`
+      // backend expects `dateOfBirth` in ISO (YYYY-MM-DD)
+      dateOfBirth: `${formData.year}-${formData.month.toString().padStart(2, '0')}-${formData.day.toString().padStart(2, '0')}`
     };
 
     try {
-      // 3. KAYIT İŞLEMİ
-      await axios.post(`${BaseURL}/users`, newUser);
-      
-      // 4. OTOMATİK GİRİŞ İŞLEMİ
-      const loginResponse = await axios.post(`${BaseURL}/auth/login`, {
-        tcKimlik: formData.tc,
-        password: formData.password
-      });
+      // 3. KAYIT İŞLEMİ -> correct endpoint: /auth/register
+      console.log('Register payload:', newUser);
+      await axios.post(`${BaseURL}/auth/register`, newUser);
 
-      // 5. OTURUMU BAŞLATMA
-      login(loginResponse.data);
-      
+      // 4. OTOMATİK GİRİŞ İŞLEMİ -> login returns token (wrapped in data)
+      // Use canonical `tckn` field and normalized digits to avoid legacy mismatch
+      const normalizedTckn = (formData.tc || '').replace(/\D/g, '');
+      const loginPayload = { tckn: normalizedTckn, password: formData.password };
+      console.log('Auto-login payload:', loginPayload);
+      const loginResponse = await axios.post(`${BaseURL}/auth/login`, loginPayload);
+
+      const token = loginResponse.data?.data?.token || loginResponse.data?.token;
+      if (!token) throw new Error('Giriş tokenı alınamadı.');
+
+      // 5. OTURUMU BAŞLATMA (token-only)
+      await login(token);
+
       // 6. ANASAYFAYA YÖNLENDİRME
       navigate('/');
 
@@ -104,7 +115,12 @@ export default function RegisterPage() {
       // Hata Yönetimi
       console.error('Kayıt veya otomatik giriş hatası:', err);
       if (err.response) {
-        setError(err.response.data?.message || `Sunucu hatası: ${err.response.status}`);
+        const resp = err.response.data;
+        if (resp && resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
+          setError(resp.errors.map(e => e.message).join('; '));
+        } else {
+          setError(resp?.message || `Sunucu hatası: ${err.response.status}`);
+        }
       } else if (err.request) {
         setError('Sunucuya ulaşılamıyor. Lütfen bağlantınızı kontrol edin.');
       } else {
@@ -180,7 +196,7 @@ export default function RegisterPage() {
 
           <div className="form-group">
             <label htmlFor="password">Şifre</label>
-            <input type="password" id="password" className="form-input" value={formData.password} onChange={handleChange} disabled={loading} required minLength="6" />
+            <input type="password" id="password" className="form-input" value={formData.password} onChange={handleChange} disabled={loading} required minLength="8" />
           </div>
 
           <div className="form-group">
