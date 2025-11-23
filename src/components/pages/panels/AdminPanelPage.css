@@ -1,0 +1,504 @@
+/* ... Mevcut stiller (Admin Wrapper, Top Section vb.) AYNEN KALIYOR ... */
+
+.admin-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", "Ubuntu", "Roboto", "Arial", sans-serif;
+}
+
+.admin-inner-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-top-section {
+  background-color: #c1272d;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  color: white;
+}
+
+.panel-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.admin-panel-title {
+  font-size: 2.2rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 700;
+}
+
+.logout-btn {
+  background: #ffffff;
+  color: #c1272d;
+  font-weight: 600;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.logout-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* PROFİL KARTI */
+.admin-profile-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #333;
+}
+
+.profile-header-strip {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.profile-content {
+  display: flex;
+  padding: 24px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.profile-details-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-item .label {
+  width: 90px;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+  font-weight: 600;
+}
+
+.value-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-item .value-box {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  color: #111;
+  border-radius: 6px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-item .value-box.readonly {
+  background: #f3f4f6;
+  color: #555;
+  border-color: #e5e7eb;
+}
+
+.edit-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+.edit-icon-btn:hover { color: #c1272d; }
+
+/* --- AVATAR ALANI --- */
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 140px;
+}
+
+.avatar-placeholder {
+  width: 120px;
+  height: 140px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #9ca3af;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* 🔥 YENİ: GERÇEK RESİM GELDİĞİNDE ÇALIŞACAK STİL */
+.avatar-img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover; /* Resmi kutuya sığdırır, taşmaları kırpar */
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.avatar-label {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+
+/* --- ALT BÖLÜM --- */
+.admin-bottom-section {
+  background-color: #fff;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  flex: 1;
+}
+
+.staff-section-wrapper {
+  margin-bottom: 10px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  padding: 10px 0;
+}
+
+.section-header:hover {
+  opacity: 0.8;
+}
+
+.section-header h3 {
+  color: #111827;
+  border-left: 5px solid #c1272d;
+  padding-left: 12px;
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.toggle-arrow {
+  transition: transform 0.3s ease;
+}
+
+.toggle-arrow.open {
+  transform: rotate(180deg);
+}
+
+.section-content-anim {
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.staff-add-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  align-items: end;
+  background: #f9fafb;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.staff-add-form input,
+.staff-add-form select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+}
+
+.staff-add-form input:focus,
+.staff-add-form select:focus {
+  outline: none;
+  border-color: #c1272d;
+  box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+}
+
+.staff-add-form button {
+  background: #c1272d;
+  color: white;
+  border: none;
+  padding: 10px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.staff-add-form button:hover { background: #a01b20; }
+
+.divider {
+  border: 0;
+  border-top: 1px solid #e5e5e5;
+  margin: 40px 0;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.staff-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.staff-table th {
+  background: #f9fafb;
+  color: #374151;
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.staff-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.staff-table tr:last-child td { border-bottom: none; }
+
+.status-message { margin-top: 12px; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; }
+.error-message { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.success-message { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column; /* Avatar üstte kalır */
+    align-items: center;
+  }
+  .profile-details-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .profile-item .label {
+    width: auto;
+    min-width: 80px;
+    text-align: left;
+  }
+}
+/* AdminPanelPage.css içine ekleyebilirsin */
+.form-group-full {
+  grid-column: 1 / -1; /* Tüm genişliği kapla */
+  margin-bottom: 10px;
+}
+
+/* ... Mevcut kodlar ... */
+
+/* --- MODAL STİLLERİ (YENİ) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); /* Yarı saydam siyah */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 24px;
+  position: relative;
+  animation: slideInModal 0.2s ease;
+}
+
+@keyframes slideInModal {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+.modal-close-btn:hover { color: #333; }
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.modal-field input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-field input:focus {
+  border-color: #c1272d;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(193,39,45,0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  background: #f3f4f6;
+  color: #444;
+  border: 1px solid #e5e7eb;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.cancel-btn:hover { background: #e5e7eb; }
+
+.save-btn {
+  background: #c1272d;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.save-btn:hover { background: #a01b20; }
+
+.modal-error {
+  color: #c1272d;
+  font-size: 0.9rem;
+  background: #fff0f0;
+  padding: 8px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* ... Mevcut stiller (aynı kalacak) ... */
+
+/* YENİ: Silme Butonu */
+.delete-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.delete-icon-btn:hover {
+  background-color: #fee2e2;
+  color: #c1272d;
+}
+
+/* YENİ: Silme Modalı İçerik */
+.delete-info-box {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.delete-info-box p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.delete-confirm-btn {
+  background: #c1272d; /* Kırmızı */
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.delete-confirm-btn:hover {
+  background: #a01b20;
+}
