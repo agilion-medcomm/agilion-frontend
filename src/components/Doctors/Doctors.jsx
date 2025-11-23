@@ -1,80 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Doctors.css";
 // react-transition-group import'larına artık gerek yok.
 
 export default function Doctors() {
-  const [currentPage, setCurrentPage] = useState(0);
-  // 1. Sadece animasyon yönünü tutacak bir state ekliyoruz.
-  const [direction, setDirection] = useState("next");
+  const [doctors, setDoctors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const doctors = [
-    { name: "Dr. Andrew Collins", field: "Acil Servis", img: "/doktor1.png" },
-    { name: "Dr. Michael Thompson", field: "Acil Servis", img: "/doktor2.png" },
-    { name: "Dr. Sophia Ramirez", field: "Göz Sağlığı", img: "/doktor3.png" },
-    { name: "Dr. Olivia Novak", field: "Dermatoloji", img: "/doktor4.png" },
-    { name: "Dr. Emma Johansson", field: "Kadın & Doğum", img: "/doktor5.png" },
-    { name: "Dr. Luca Moretti", field: "Göz Sağlığı", img: "/doktor6.png" },
-    { name: "Dr. Daniel Chen", field: "Genel Cerrahi", img: "/doktor7.png" },
-    { name: "Dr. Emily Carter", field: "Ağız ve Diş Sağlığı", img: "/doktor8.png" },
-    { name: "Dr. Ethan Müller", field: "Ağız ve Diş Sağlığı", img: "/doktor9.png" },
-    { name: "Dr. Noah Becker", field: "Beslenme & Diyet", img: "/doktor10.png" },
-    { name: "Dr. Anna Petrova", field: "Beslenme & Diyet", img: "/doktor11.png" },
-    { name: "Dr. Lucas Bernard", field: "Başhekim", img: "/doktor12.png" },
-  ];
+  useEffect(() => {
+    setLoading(true);
+    fetch('http://localhost:3000/api/v1/doctors')
+      .then(res => {
+        if (!res.ok) throw new Error('Sunucu hatası');
+        return res.json();
+      })
+      .then(data => {
+        setDoctors(data.data || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
-  const doctorsPerPage = 4;
-  const totalPages = Math.ceil(doctors.length / doctorsPerPage);
 
-  // 2. Handler'ları yönü set edecek şekilde güncelliyoruz.
-  const handlePrev = () => {
-    setDirection("prev");
-    setCurrentPage((prev) => (prev === 0 ? totalPages - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setDirection("next");
-    setCurrentPage((prev) => (prev === totalPages - 1 ? 0 : prev + 1));
-  };
-
-  const start = currentPage * doctorsPerPage;
-  const visibleDoctors = doctors.slice(start, start + doctorsPerPage);
+  // Tüm doktorları tek seferde göster
 
   return (
-    <section className="doctors-section">
-      {/* Başlık Bloğu */}
+    <section className="doctors-section" id="hekimlerimiz">
       <div className="doctors-header">
         <h2>Alanında Uzman Hekimlerimiz</h2>
       </div>
 
-      {/* 3. Sihir burada:
-           - 'key={currentPage}': React'e "bu sayfa değiştiğinde, eski
-             component'i at ve bunu SIFIRDAN çiz" der.
-           - className: SIFIRDAN çizerken, animasyon sınıfımızı ekleriz.
-      */}
-      <div
-        className={`doctors-container ${direction === "next" ? "slide-in-next" : "slide-in-prev"
-          }`}
-        key={currentPage} 
-      >
-        {visibleDoctors.map((doc, i) => (
-          <div className="doctor-card" key={i} onClick={() => console.log(`Clicked ${doc.name}`)}>
-            <img src={doc.img} alt={doc.name} />
-            <h3>{doc.name}</h3>
-            <p>{doc.field}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Navigasyon Butonları */}
-      <div className="doctors-navigation">
-        <button onClick={handlePrev} aria-label="Önceki">
-          <img src="/back.png" alt="Önceki" className="nav-icon" />
-        </button>
-        <button onClick={handleNext} aria-label="Sonraki">
-          <img src="/next.png" alt="Sonraki" className="nav-icon" />
-        </button>
-      </div>
-
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: 32 }}>Yükleniyor...</div>
+      ) : error ? (
+        <div style={{ color: 'red', textAlign: 'center', padding: 32 }}>{error}</div>
+      ) : (
+        <div className="doctors-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', justifyContent: 'center' }}>
+          {doctors.map((doc, i) => (
+            <div className="doctor-card" key={doc.id || i} style={{ minWidth: 220, maxWidth: 260, flex: '1 1 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#fff', borderRadius: 16, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 18, marginBottom: 8 }}>
+              {doc.img ? (
+                <img src={doc.img} alt={doc.firstName + ' ' + doc.lastName} style={{ width: 90, height: 90, objectFit: 'cover', borderRadius: '50%', marginBottom: 12, background: '#f3f6fa' }} />
+              ) : (
+                <div style={{
+                  width: 90,
+                  height: 90,
+                  borderRadius: '50%',
+                  background: '#e3eaf2',
+                  color: '#357d91',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 32,
+                  fontWeight: 700,
+                  marginBottom: 12,
+                  userSelect: 'none',
+                  letterSpacing: 2
+                }}>
+                  {`${doc.firstName?.[0] || ''}${doc.lastName?.[0] || ''}`.toUpperCase()}
+                </div>
+              )}
+              <h3 style={{ fontSize: 18, fontWeight: 700, margin: '8px 0 2px 0', color: '#1a4d5f' }}>{doc.firstName} {doc.lastName}</h3>
+              <p style={{ fontSize: 15, color: '#357d91', margin: 0 }}>{doc.specialization || doc.role || ''}</p>
+              {/* Telefon ekranda gösterilmiyor */}
+              {/* E-posta ekranda gösterilmiyor */}
+              <button
+                style={{
+                  marginTop: 16,
+                  background: '#ff6600',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: 8,
+                  padding: '10px 18px',
+                  fontWeight: 600,
+                  fontSize: 15,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(255,102,0,0.10)',
+                  transition: 'background 0.2s',
+                }}
+                onClick={() => { /* Randevu al tıklama */ }}
+              >
+                Hızlı Randevu al
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

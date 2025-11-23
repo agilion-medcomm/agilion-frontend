@@ -1,45 +1,56 @@
-// App.jsx (SON HALİ)
+// src/App.jsx (SON VE GÜNCEL HALİ - DÜZLEŞTİRİLMİŞ YAPI)
 
 import { Routes, Route } from 'react-router-dom';
-import MainPage from './Main_Page';
+import MainPage from './MainPage';
+import DoctorsPage from './components/pages/DoctorsPage';
+import KurumsalPage from './components/pages/KurumsalPage';
+import BolumlerimizPage from './components/pages/BolumlerimizPage';
+import BirimlerimizPage from './components/pages/BirimlerimizPage';
 
-// Sayfalarımızı import ediyoruz
-// (Senin klasör yapına göre import yolu)
+// Sayfalar
 import LoginPage from './components/pages/LoginPage'; 
 import RegisterPage from './components/pages/RegisterPage'; 
 import ContactPage from './components/pages/ContactPage';
 import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
+import PersonelLoginPage from './components/pages/PersonelLoginPage'; 
 
-// Ana yerleşim (Layout) component'imizi import ediyoruz
+// Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout'; 
+import ProtectedStaffRoute from './components/Layout/ProtectedStaffRoute'; 
+
+// Paneller
+import AdminPanel from './components/pages/panels/AdminPanel';
+import DoctorPanel from './components/pages/panels/DoctorPanel';
+import LabPanel from './components/pages/panels/LabPanel';
+import CashierPanel from './components/pages/panels/CashierPanel';
+import CleanerPanel from './components/pages/panels/CleanerPanel';
 
 export default function App() {
   return (
     <Routes>
-      {/* Ana Layout Rotası:
-        Bu rota, MainLayout'u (Menü + Footer) render eder.
-        içindeki diğer rotalar, bu layout'un <Outlet />'ine yerleşir.
-      */}
+      {/* 1. Standart Sayfalar (Menü + Footer Var) */}
       <Route path="/" element={<MainLayout />}>
-
-        {/* Anasayfa Rotası */}
         <Route index element={<MainPage />} /> 
-        
-        {/* Login Rotası */}
         <Route path="login" element={<LoginPage />} />
-        
-        {/* Kayıt Ol Rotası */}
         <Route path="register" element={<RegisterPage />} /> 
-
-        {/* İletişim Rotası */}
         <Route path="contact" element={<ContactPage />} />
-
-        {/* Evde Sağlık Rotası */}
         <Route path="evde-saglik" element={<EvdeSaglikPage />} />
+        <Route path="hekimlerimiz" element={<DoctorsPage />} />
+        <Route path="kurumsal" element={<KurumsalPage />} />
+        <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
+        <Route path="birimlerimiz" element={<BirimlerimizPage />} />
+      </Route>
 
-        {/* Gelecekte eklenecek "Hekimlerimiz", "Bölümlerimiz" gibi
-            tüm yeni sayfalar da buraya eklenecek */}
-        
+      {/* 2. Personel Login Sayfası (Bağımsız - Layout Yok) */}
+      <Route path="/personelLogin" element={<PersonelLoginPage />} />
+
+      {/* 3. Personel Panelleri (Korumalı ve Bağımsız) */}
+      <Route element={<ProtectedStaffRoute />}>
+        <Route path="/personelLogin/admin-panel" element={<AdminPanel />} />
+        <Route path="/personelLogin/doctor-panel" element={<DoctorPanel />} />
+        <Route path="/personelLogin/lab-panel" element={<LabPanel />} />
+        <Route path="/personelLogin/cashier-panel" element={<CashierPanel />} />
+        <Route path="/personelLogin/cleaner-panel" element={<CleanerPanel />} />
       </Route>
     </Routes>
   );

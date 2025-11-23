@@ -1,22 +1,51 @@
-// Main_Page.jsx (YENİ KOD - SADELEŞTİRİLMİŞ)
+// src/Main_Page.jsx (SON VE GÜNCEL HALİ)
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useStaffAuth } from './context/StaffAuthContext'; // Personel kontrolü için
 import './Main_Page.css';
+
 import ExpertSection from "./components/ExpertSection/ExpertSection";
 import Bolumler from "./components/Bolumler/Bolumler";
 import FAQ from "./components/FAQ/FAQ";
 import Doctors from "./components/Doctors/Doctors";
 import Stats from "./components/Stats/Stats";
-// Footer import'u vardıysa sil
-// Menü import'u vardıysa sil
 import Hero from './components/Hero_Img/Hero';
 import FloatingButtons from './components/FloatingButtons/FloatingButtons';
 
 export default function MainPage() {
+  const { user: staffUser } = useStaffAuth(); // Giriş yapmış personel var mı?
+  const navigate = useNavigate();
+
+  // 🔥 PERSONEL KONTROLÜ VE YÖNLENDİRME 🔥
+  useEffect(() => {
+    if (staffUser) {
+      // Eğer personel giriş yapmışsa, onu ana sayfada tutma, paneline gönder.
+      switch (staffUser.role) {
+        case 'ADMIN':
+          navigate('/personelLogin/admin-panel', { replace: true });
+          break;
+        case 'DOCTOR':
+          navigate('/personelLogin/doctor-panel', { replace: true });
+          break;
+        case 'LAB_TECHNICIAN':
+          navigate('/personelLogin/lab-panel', { replace: true });
+          break;
+        case 'CASHIER':
+          navigate('/personelLogin/cashier-panel', { replace: true });
+          break;
+        case 'CLEANER':
+          navigate('/personelLogin/cleaner-panel', { replace: true });
+          break;
+        default:
+          // Bilinmeyen rol ise bir şey yapma
+          break;
+      }
+    }
+  }, [staffUser, navigate]);
+
+  // Eğer personel DEĞİLSE (Hasta veya Ziyaretçi), normal ana sayfayı göster.
   return (
-    // Menü, Footer ve sarmalayıcı div'ler (site, main-page)
-    // artık MainLayout.jsx tarafından sağlanıyor.
-    // Sadece anasayfaya özel içeriği buraya koyuyoruz.
     <>
       <Hero />
       <ExpertSection />
