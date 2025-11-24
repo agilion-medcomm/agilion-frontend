@@ -1,21 +1,42 @@
+// src/components/FloatingButtons/FloatingButtons.jsx
+
 import React from "react";
-import { Link } from "react-router-dom"; // 1. Adım: Link bileşenini import edin
+import { Link, useNavigate } from "react-router-dom"; 
+import { useAuth } from '../../context/AuthContext'; 
 import "./FloatingButtons.css";
-import calendarIcon from "./calendar.svg";
-import phoneIcon from "./phone.svg";
 
 export default function FloatingButtons() {
+  const { user: patientUser } = useAuth(); 
+  const navigate = useNavigate();
+
+  const handleHizliRandevuClick = () => {
+    // 1. Kural: Kullanıcı login değilse, login sayfasına yönlendir.
+    if (!patientUser) {
+      alert("Randevu alabilmek için önce giriş yapınız.");
+      navigate('/login'); 
+      return;
+    }
+    
+    // 2. Kural: Kullanıcı login ise, DOKTOR SEÇME sayfasına yönlendir.
+    // (Modal açmak yerine yeni sisteme bağlıyoruz)
+    navigate('/doktor-sec');
+  };
+
   return (
     <div className="floating-buttons">
-      {/* Bu buton şimdilik bir yere gitmiyor, bir modal açabilir veya başka bir işlem yapabilir */}
-      <button className="floating-btn floating-btn--appointment">
-        <img src={calendarIcon} alt="Takvim ikonu" className="icon" />
+      
+      {/* Hızlı Randevu Butonu */}
+      <button 
+        className="floating-btn floating-btn--appointment"
+        onClick={handleHizliRandevuClick}
+      >
+        <span className="icon">📅</span> 
         <span>Hızlı Randevu</span>
       </button>
 
-      {/* 2. Adım: <button> etiketini <Link> ile değiştirin */}
+      {/* İletişim Butonu */}
       <Link to="/contact" className="floating-btn floating-btn--contact">
-        <img src={phoneIcon} alt="Telefon ikonu" className="icon" />
+        <span className="icon">📞</span> 
         <span>İletişim</span>
       </Link>
     </div>

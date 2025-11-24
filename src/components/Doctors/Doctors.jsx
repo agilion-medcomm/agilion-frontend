@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
-import "./Doctors.css";
-// react-transition-group import'larına artık gerek yok.
+import { useNavigate } from "react-router-dom"; 
+import { useAuth } from "../../context/AuthContext"; 
+import "./Doctors.css"; 
 
 export default function Doctors() {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const navigate = useNavigate();
+  const { user: patientUser } = useAuth(); // Hasta kullanıcısını çek
 
   useEffect(() => {
     setLoading(true);
-    fetch('http://localhost:3000/api/v1/doctors')
+    // API'den doktorları çek
+    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+    fetch(`${API_BASE}/api/v1/doctors`)
       .then(res => {
         if (!res.ok) throw new Error('Sunucu hatası');
         return res.json();
@@ -24,8 +30,20 @@ export default function Doctors() {
       });
   }, []);
 
+  // Doktor kartına (veya içindeki butona) tıklayınca çalışacak fonksiyon
+  const handleDoctorCardClick = (doc) => {
+    console.log('Seçilen Doktor:', doc);
+    
+    // 1. Giriş kontrolü
+    if (!patientUser) {
+      alert('Randevu almak için önce giriş yapınız.');
+      navigate('/login');
+      return;
+    }
 
-  // Tüm doktorları tek seferde göster
+    // 2. Doktor verisiyle randevu sayfasına git
+    navigate('/randevu', { state: { doctor: doc } });
+  };
 
   return (
     <section className="doctors-section" id="hekimlerimiz">
@@ -40,7 +58,13 @@ export default function Doctors() {
       ) : (
         <div className="doctors-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '24px', justifyContent: 'center' }}>
           {doctors.map((doc, i) => (
-            <div className="doctor-card" key={doc.id || i} style={{ minWidth: 220, maxWidth: 260, flex: '1 1 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#fff', borderRadius: 16, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 18, marginBottom: 8 }}>
+            <div
+              className="doctor-card"
+              key={doc.id || i}
+              style={{ minWidth: 220, maxWidth: 260, flex: '1 1 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#fff', borderRadius: 16, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 18, marginBottom: 8, cursor: 'pointer' }}
+              // Kartın herhangi bir yerine tıklanınca da git
+              onClick={() => handleDoctorCardClick(doc)}
+            >
               {doc.img ? (
                 <img src={doc.img} alt={doc.firstName + ' ' + doc.lastName} style={{ width: 90, height: 90, objectFit: 'cover', borderRadius: '50%', marginBottom: 12, background: '#f3f6fa' }} />
               ) : (
@@ -64,8 +88,8 @@ export default function Doctors() {
               )}
               <h3 style={{ fontSize: 18, fontWeight: 700, margin: '8px 0 2px 0', color: '#1a4d5f' }}>{doc.firstName} {doc.lastName}</h3>
               <p style={{ fontSize: 15, color: '#357d91', margin: 0 }}>{doc.specialization || doc.role || ''}</p>
-              {/* Telefon ekranda gösterilmiyor */}
-              {/* E-posta ekranda gösterilmiyor */}
+              
+              {/* DÜZELTME BURADA YAPILDI: Butona tıklayınca artık doğrudan o doktoru seçip gidiyor */}
               <button
                 style={{
                   marginTop: 16,
@@ -80,7 +104,10 @@ export default function Doctors() {
                   boxShadow: '0 2px 8px rgba(255,102,0,0.10)',
                   transition: 'background 0.2s',
                 }}
-                onClick={() => { /* Randevu al tıklama */ }}
+                onClick={(e) => { 
+                  e.stopPropagation(); // Kartın tıklama olayını engelle (çift tetiklenmesin)
+                  handleDoctorCardClick(doc); // Doğru doktoru gönder
+                }}
               >
                 Hızlı Randevu al
               </button>

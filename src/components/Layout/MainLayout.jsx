@@ -1,28 +1,34 @@
-// src/components/Layout/MainLayout.jsx (YENİ DOSYA)
+// src/components/Layout/MainLayout.jsx
 
 import React from 'react';
-import { Outlet } from 'react-router-dom'; // 1. Router'ın "placeholder"ı
-import Menu from '../Menu/Menu';           // 2. Menumüz
-import Footer from '../Footer/Footer';     // 3. Footer'ımız
-
-// NOT: Bu component Menu.jsx'i import ettiği için,
-// Menu.css dosyası da otomatik olarak yüklenecek.
-// .site ve .main class'ları Menu.css içinde tanımlı,
-// bu yüzden ekstra CSS importuna gerek yok.
+import { Outlet } from 'react-router-dom';
+import Menu from '../Menu/Menu';           
+import Footer from '../Footer/Footer';
+import FloatingButtons from '../FloatingButtons/FloatingButtons';
+import { useStaffAuth } from '../../context/StaffAuthContext'; 
 
 export default function MainLayout() {
-  return (
-    <div className="main-page"> {/* Main_Page.jsx'teki ana sarmalayıcı */}
-      <div className="site">      {/* Ana layout sarmalayıcısı */}
-        <Menu />
+  const { user: staffUser } = useStaffAuth(); 
 
-        <main className="main">
-          {/* <Outlet />: "Hangi sayfadaysak (MainPage, LoginPage)
-              onun içeriğini buraya bas" demektir. */}
+  // Mantık: CSS yapısını (.site, .main) asla bozma.
+  // Sadece içindeki bileşenleri (Menu, Footer) koşullu olarak göster.
+  
+  return (
+    <div className="main-page"> 
+      <div className="site">
+        
+        {/* Personel DEĞİLSE Menüyü göster */}
+        {!staffUser && <Menu />}
+
+        {/* İçerik her zaman .main içinde olmalı ki CSS bozulmasın */}
+        <main className="main" style={staffUser ? { paddingTop: 0 } : {}}>
           <Outlet />
         </main>
 
-        <Footer />
+        {/* Personel DEĞİLSE Footer ve Butonları göster */}
+        {!staffUser && <Footer />}
+        {!staffUser && <FloatingButtons />}
+        
       </div>
     </div>
   );

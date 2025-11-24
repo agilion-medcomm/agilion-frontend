@@ -1,3 +1,5 @@
+// src/components/Appointment/AppointmentV2Modal.jsx (GÜNCEL TASARIM VE MANTIK)
+
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs').promises;
@@ -9,12 +11,12 @@ const PORT = 3000;
 // DİKKAT: Burada artık patients.json ve staff.json kullanıyorsun.
 const DB_PATH = path.join(__dirname, 'patients.json');
 const STAFF_DB_PATH = path.join(__dirname, 'staff.json');
+const APPOINTMENTS_DB_PATH = path.join(__dirname, 'appointments.json');
 console.log('__dirname:', __dirname);
 console.log('STAFF_DB_PATH:', STAFF_DB_PATH);
 
 app.use(express.json());
 app.use(cors());
-
 // === YARDIMCI FONKSİYONLAR ===
 async function readDb() {
   try {
@@ -45,6 +47,18 @@ async function writeStaffDb(data) {
   await fs.writeFile(STAFF_DB_PATH, JSON.stringify(data, null, 2));
 }
 
+async function readAppointmentsDb() {
+  try {
+    const data = await fs.readFile(APPOINTMENTS_DB_PATH, 'utf-8');
+    return JSON.parse(data);
+  } catch (err) {
+    return { appointments: [] };
+  }
+}
+async function writeAppointmentsDb(data) {
+  await fs.writeFile(APPOINTMENTS_DB_PATH, JSON.stringify(data, null, 2));
+}
+
 // === PUBLIC DOCTORS ENDPOINT ===
 app.get('/api/v1/doctors', async (req, res) => {
   try {
@@ -66,7 +80,6 @@ app.get('/api/v1/doctors', async (req, res) => {
     res.status(500).json({ message: 'Doktorlar alınamadı: ' + error.message });
   }
 });
-
 // === ADMIN GİRİŞİ (login) ===
 app.post('/api/v1/auth/admin-login', async (req, res) => {
   const { tckn, password } = req.body;
@@ -114,7 +127,9 @@ app.post('/api/v1/staff', async (req, res) => {
       return res.status(401).json({ message: 'Sadece yönetici personel ekleyebilir.' });
     }
 
-    const { tckn, firstName, lastName, password, role, phoneNumber } = req.body;
+    // 🔥 KRİTİK DÜZELTME: specialization eklendi
+    const { tckn, firstName, lastName, password, role, phoneNumber, email, dateOfBirth, specialization } = req.body;
+    
     if (!tckn || !firstName || !lastName || !password || !role) {
       return res.status(400).json({ message: 'Personel bilgileri eksik.' });
     }
@@ -122,6 +137,8 @@ app.post('/api/v1/staff', async (req, res) => {
     if (staffDb.personnel.some(u => String(u.tckn) === String(tckn))) {
       return res.status(409).json({ message: 'TC Kimlik zaten kayıtlı.' });
     }
+    
+    // 🔥 KRİTİK DÜZELTME: specialization objeye eklendi
     const newStaff = {
       id: Date.now(),
       tckn,
@@ -129,8 +146,12 @@ app.post('/api/v1/staff', async (req, res) => {
       lastName,
       password,
       role,
-      phoneNumber: phoneNumber || ""
+      phoneNumber: phoneNumber || "",
+      email: email || "", // email eklendi
+      dateOfBirth: dateOfBirth || null, // dateOfBirth eklendi
+      specialization: specialization || "" // specialization eklendi
     };
+    
     staffDb.personnel.push(newStaff);
     await writeStaffDb(staffDb);
     res.status(201).json({ status: 'success', message: 'Personel eklendi', data: newStaff });
@@ -138,7 +159,6 @@ app.post('/api/v1/staff', async (req, res) => {
     res.status(500).json({ message: 'Personel kaydedilemedi: ' + error.message });
   }
 });
-
 // === TÜM PERSONELLERİ LİSTELE (admin yetkili) ===
 app.get('/api/v1/staff', async (req, res) => {
   const authHeader = req.headers.authorization || '';
@@ -176,7 +196,6 @@ app.get('/api/v1/staff', async (req, res) => {
   const list = staffDb.personnel.map(({ password, ...rest }) => rest);
   res.json({ data: list });
 });
-
 // === PERSONEL GİRİŞİ ===
 app.post('/api/v1/auth/staff-login', async (req, res) => {
   try {
@@ -199,7 +218,6 @@ app.post('/api/v1/auth/staff-login', async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
-
 // === HASTA GİRİŞİ (KULLANICI = USER olarak DÖNÜYOR) ===
 app.post('/api/v1/auth/patient-login', async (req, res) => {
   try {
@@ -212,7 +230,8 @@ app.post('/api/v1/auth/patient-login', async (req, res) => {
       return res.status(401).json({ message: 'TC Kimlik veya şifre hatalı (Hasta bulunamadı).' });
     }
     const mockToken = `patient-token-${user.id}-${Date.now()}`;
-    const { password: _, ...userObj } = user;
+    const { password: _, 
+    ...userObj } = user;
     res.status(200).json({
       status: 'success',
       data: {
@@ -224,7 +243,6 @@ app.post('/api/v1/auth/patient-login', async (req, res) => {
     res.status(500).json({ message: 'Sunucu hatası: ' + error.message });
   }
 });
-
 // === PROFİL SORGULAMA ===
 app.get('/api/v1/auth/me', async (req, res) => {
   const authHeader = req.headers.authorization;
@@ -298,12 +316,85 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ Mock Sunucu Hazır: http://localhost:${PORT}`);
+// === RANDEVU OLUŞTURMA ===
+app.post('/api/v1/appointments', async (req, res) => {
+  try {
+    // patientName yerine patientFirstName ve patientLastName alıyoruz
+    const { doctorId, doctorName, patientId, patientFirstName, patientLastName, date, time, status } = req.body;
+
+    if (!doctorId || !patientId || !date || !time) {
+      return res.status(400).json({ message: 'Eksik randevu bilgileri.' });
+    }
+
+    const db = await readAppointmentsDb();
+    
+    // Çakışma Kontrolü
+    const conflict = db.appointments.find(a => 
+      a.doctorId === doctorId && 
+      a.date === date && 
+      a.time === time &&
+      a.status !== 'CANCELLED'
+    );
+
+    if (conflict) {
+      return res.status(409).json({ message: 'Bu saatte doktor dolu. Lütfen başka bir saat seçiniz.' });
+    }
+
+    const newAppointment = {
+      id: Date.now(),
+      doctorId,
+      doctorName,
+      patientId,
+      patientFirstName, // Ayrı alan
+      patientLastName,  // Ayrı alan
+      date,
+      time,
+      status: status || 'PENDING',
+      createdAt: new Date().toISOString()
+    };
+
+    db.appointments.push(newAppointment);
+    await writeAppointmentsDb(db);
+
+    res.status(201).json({ 
+      status: 'success', 
+      message: 'Randevu oluşturuldu', 
+      data: newAppointment 
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Randevu oluşturulamadı: ' + error.message });
+  }
+});
+
+// === DOKTORA AİT DOLU SAATLERİ GETİR (Opsiyonel ama gerekli) ===
+app.get('/api/v1/appointments', async (req, res) => {
+    try {
+        const { doctorId, date } = req.query;
+        const db = await readAppointmentsDb();
+        
+        let filtered = db.appointments;
+        
+        // Eğer doktor ve tarih filtresi varsa uygula
+        if (doctorId && date) {
+            filtered = filtered.filter(a => 
+                String(a.doctorId) === String(doctorId) && 
+                a.date === date && 
+                a.status !== 'CANCELLED'
+            );
+        }
+        
+        res.json({ status: 'success', data: filtered });
+    } catch (error) {
+        res.status(500).json({ message: 'Randevular alınamadı.' });
+    }
 });
 
 
 
+app.listen(PORT, () => {
+  console.log(`✅ Mock Sunucu Hazır: http://localhost:${PORT}`);
+});
 // === PERSONEL GÜNCELLEME (PUT) ===
 app.put('/api/v1/staff/:id', async (req, res) => {
   try {
@@ -319,7 +410,7 @@ app.put('/api/v1/staff/:id', async (req, res) => {
 
     // Mevcut kullanıcıyı al, güncellemeleri üstüne yaz
     const updatedUser = { ...staffDb.personnel[userIndex], ...updates };
-    
+   
     // Listeyi güncelle
     staffDb.personnel[userIndex] = updatedUser;
     
@@ -337,7 +428,8 @@ app.put('/api/v1/staff/:id', async (req, res) => {
     });
 
   } catch (error) {
-    res.status(500).json({ message: 'Güncelleme hatası: ' + error.message });
+    res.status(500).json({ message: 'Güncelleme hatası: ' 
+    + error.message });
   }
 });
 

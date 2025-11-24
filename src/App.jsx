@@ -1,11 +1,13 @@
-// src/App.jsx (SON VE GÜNCEL HALİ - DÜZLEŞTİRİLMİŞ YAPI)
+// src/App.jsx (SON VE GÜNCEL HALİ - DÜZLEŞTİRİLMİŞ ROTALAR)
 
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './MainPage';
 import DoctorsPage from './components/pages/DoctorsPage';
+import AppointmentPage from './components/pages/AppointmentPage';
 import KurumsalPage from './components/pages/KurumsalPage';
 import BolumlerimizPage from './components/pages/BolumlerimizPage';
 import BirimlerimizPage from './components/pages/BirimlerimizPage';
+import SelectDoctorPage from './components/pages/SelectDoctorPage';
 
 // Sayfalar
 import LoginPage from './components/pages/LoginPage'; 
@@ -36,21 +38,23 @@ export default function App() {
         <Route path="contact" element={<ContactPage />} />
         <Route path="evde-saglik" element={<EvdeSaglikPage />} />
         <Route path="hekimlerimiz" element={<DoctorsPage />} />
+        <Route path="doktor-sec" element={<SelectDoctorPage />} />
+        <Route path="randevu" element={<AppointmentPage />} />
         <Route path="kurumsal" element={<KurumsalPage />} />
         <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
         <Route path="birimlerimiz" element={<BirimlerimizPage />} />
       </Route>
 
-      {/* 2. Personel Login Sayfası (Bağımsız - Layout Yok) */}
+      {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
       <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
-      {/* 3. Personel Panelleri (Korumalı ve Bağımsız) */}
+      {/* 3. Personel Panelleri (Korumalı ve Bağımsız - KISA YOLLAR) */}
       <Route element={<ProtectedStaffRoute />}>
-        <Route path="/personelLogin/admin-panel" element={<AdminPanel />} />
-        <Route path="/personelLogin/doctor-panel" element={<DoctorPanel />} />
-        <Route path="/personelLogin/lab-panel" element={<LabPanel />} />
-        <Route path="/personelLogin/cashier-panel" element={<CashierPanel />} />
-        <Route path="/personelLogin/cleaner-panel" element={<CleanerPanel />} />
+        <Route path="/admin-panel" element={<AdminPanel />} />
+        <Route path="/doctor-panel" element={<DoctorPanel />} />
+        <Route path="/lab-panel" element={<LabPanel />} />
+        <Route path="/cashier-panel" element={<CashierPanel />} />
+        <Route path="/cleaner-panel" element={<CleanerPanel />} />
       </Route>
     </Routes>
   );
