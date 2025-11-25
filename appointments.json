@@ -1,0 +1,40 @@
+{
+  "appointments": [
+    {
+      "id": 1764012434602,
+      "doctorId": 1763753067310,
+      "doctorName": "Berkant Çora",
+      "patientId": 1,
+      "patientFirstName": "Ahmet",
+      "patientLastName": "Demir",
+      "date": "25.11.2025",
+      "time": "10:00",
+      "status": "PENDING",
+      "createdAt": "2025-11-24T19:27:14.603Z"
+    },
+    {
+      "id": 1764012466544,
+      "doctorId": 1763753067310,
+      "doctorName": "Berkant Çora",
+      "patientId": 2,
+      "patientFirstName": "Ayşe",
+      "patientLastName": "Kaya",
+      "date": "25.11.2025",
+      "time": "09:30",
+      "status": "PENDING",
+      "createdAt": "2025-11-24T19:27:46.544Z"
+    },
+    {
+      "id": 1764012916788,
+      "doctorId": 1763753067310,
+      "doctorName": "Berkant Çora",
+      "patientId": 4,
+      "patientFirstName": "Zeynep",
+      "patientLastName": "Çetin",
+      "date": "25.11.2025",
+      "time": "10:30",
+      "status": "PENDING",
+      "createdAt": "2025-11-24T19:35:16.788Z"
+    }
+  ]
+}

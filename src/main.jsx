@@ -1,21 +1,21 @@
-// src/main.jsx (SON VE GÜNCEL HALİ)
+// src/main.jsx
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
-import { StaffAuthProvider } from './context/StaffAuthContext' // <-- YENİ IMPORT
+import { StaffAuthProvider } from './context/StaffAuthContext' // <-- BU SATIR ÖNEMLİ
 import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <StaffAuthProvider> {/* <-- Personel Context'i dışarıya sarar */}
+    <StaffAuthProvider> 
         <AuthProvider> 
             <BrowserRouter>
                 <App />
             </BrowserRouter>
         </AuthProvider>
-    </StaffAuthProvider> {/* <-- Kapatıldı */}
+    </StaffAuthProvider>
   </StrictMode>,
 )

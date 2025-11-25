@@ -1,4 +1,4 @@
-// src/components/pages/PersonelLoginPage.jsx (GEÇMİŞİ KORUYAN VERSİYON)
+// src/components/pages/PersonelLoginPage.jsx
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -17,17 +17,12 @@ export default function PersonelLoginPage() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  // logoutStaff fonksiyonunu da çekiyoruz
-  const { loginStaff, logoutStaff, user: staffUser } = useStaffAuth();
+  const { loginStaff, logoutStaff } = useStaffAuth();
 
-  // 🔥 GÜVENLİK (AUTO-LOGOUT): 
-  // Eğer kullanıcı Panel'den "Geri" tuşuna basarak bu sayfaya düşerse,
-  // sistem onu yakalayıp çıkışını yapar.
+  // Sayfa yüklendiğinde (veya geri gelindiğinde) oturumu kapat
   useEffect(() => {
-    if (staffUser) {
-      logoutStaff(); 
-    }
-  }, []); // Sadece sayfa ilk açıldığında çalışır
+    logoutStaff();
+  }, []); 
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -52,25 +47,26 @@ export default function PersonelLoginPage() {
       
       if (!data || !data.token) throw new Error('Token alınamadı.');
 
-      await loginStaff(data.token);
+      await loginStaff(data.token, data.user);
       
-      // 🔥 DÜZELTME BURADA: replace: true KALDIRILDI 🔥
-      // Artık tarayıcı geçmişi şöyle olacak: [Login Sayfası] -> [Panel]
-      // Geri tuşuna bastığında [Login Sayfası]'na dönebileceksin.
       const role = data.user?.role || data.role;
+      
+      // 🔥 DÜZELTME BURADA: { replace: true } KALDIRILDI.
+      // Artık "Geri" tuşuyla tekrar bu sayfaya dönülebilir.
       switch (role) {
-        case 'ADMIN': navigate('/personelLogin/admin-panel'); break;
-        case 'DOCTOR': navigate('/personelLogin/doctor-panel'); break;
-        case 'LAB_TECHNICIAN': navigate('/personelLogin/lab-panel'); break;
-        case 'CASHIER': navigate('/personelLogin/cashier-panel'); break;
-        case 'CLEANER': navigate('/personelLogin/cleaner-panel'); break;
-        default: setError('Yetkisiz giriş.');
+        case 'ADMIN': navigate('/admin-panel'); break;
+        case 'DOCTOR': navigate('/doctor-panel'); break;
+        case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
+        case 'CASHIER': navigate('/cashier-panel'); break;
+        case 'CLEANER': navigate('/cleaner-panel'); break;
+        default: setError('Yetkisiz giriş: Rol tanımlı değil.');
       }
 
     } catch (err) {
       console.error('Giriş Hatası:', err);
       if (err.response) setError(err.response.data?.message || 'Giriş başarısız.');
-      else setError('Bir hata oluştu.');
+      else setError('Sunucuya bağlanılamadı.');
+      logoutStaff();
     } finally {
       setLoading(false);
     }
@@ -87,11 +83,27 @@ export default function PersonelLoginPage() {
           {error && <div className="error-message" role="alert">{error}</div>}
           <div className="form-group">
             <label htmlFor="tckn">TC Kimlik No</label>
-            <input type="text" id="tckn" className="form-input" value={tckn} onChange={(e) => setTckn(e.target.value)} disabled={loading} />
+            <input 
+              type="text" 
+              id="tckn" 
+              className="form-input" 
+              value={tckn} 
+              onChange={(e) => setTckn(e.target.value)} 
+              disabled={loading}
+              maxLength={11}
+              placeholder="11 haneli TCKN"
+            />
           </div>
           <div className="form-group">
             <label htmlFor="password">Şifre</label>
-            <input type="password" id="password" className="form-input" value={password} onChange={(e) => setPassword(e.target.value)} disabled={loading} />
+            <input 
+              type="password" 
+              id="password" 
+              className="form-input" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              disabled={loading} 
+            />
           </div>
           <button type="submit" className="login-button" disabled={loading} style={{ backgroundColor: '#c1272d' }}>
             {loading ? 'Giriş Yapılıyor...' : 'Personel Girişi Yap'}

@@ -23,8 +23,8 @@ export default function ProtectedStaffRoute() {
   }
 
   if (!user) {
-    // Login sayfasına geri at ve geçmişi sil.
-    return <Navigate to="/login" replace />;
+    // DÜZELTME: Personel oturumu yoksa, personel giriş sayfasına yönlendir.
+    return <Navigate to="/personelLogin" replace />;
   }
 
   return <Outlet />;

@@ -29,15 +29,6 @@
       "phoneNumber": ""
     },
     {
-      "id": 1763844773502,
-      "tckn": "22222222222",
-      "firstName": "furkan",
-      "lastName": "frukan",
-      "password": "1234furkan",
-      "role": "DOCTOR",
-      "phoneNumber": "weq"
-    },
-    {
       "id": 1763844815622,
       "tckn": "44444444444",
       "firstName": "Ayşe",
@@ -67,6 +58,36 @@
       "password": "admin1234",
       "role": "CLEANER",
       "phoneNumber": ""
+    },
+    {
+      "id": 1764005563542,
+      "tckn": "11111111113",
+      "firstName": "doktor ",
+      "lastName": "1",
+      "password": "password123",
+      "role": "DOCTOR",
+      "phoneNumber": ""
+    },
+    {
+      "id": 1764005669932,
+      "tckn": "11111111114",
+      "firstName": "doktor",
+      "lastName": "2",
+      "password": "password123",
+      "role": "DOCTOR",
+      "phoneNumber": ""
+    },
+    {
+      "id": 1764005849677,
+      "tckn": "11111111115",
+      "firstName": "doktor",
+      "lastName": "5",
+      "password": "password123",
+      "role": "DOCTOR",
+      "phoneNumber": "",
+      "email": "",
+      "dateOfBirth": null,
+      "specialization": "KALP"
     }
   ]
 }

@@ -1,9 +1,10 @@
-// src/components/Menu/Menu.jsx (SON VE TAM HALİ)
+// src/components/Menu/Menu.jsx (SON VE TAM HALİ - HIZLI RANDEVU EKLEMESİ YAPILDI)
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext'; 
 import { useStaffAuth } from '../../context/StaffAuthContext'; 
+// Appointment modals removed — randevu sayfası kullanılacak
 import "./Menu.css";
 
 export default function Menu() {
@@ -11,14 +12,8 @@ export default function Menu() {
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  // Ekran genişliği masaüstüne çıkınca menüyü kapat (isteğe bağlı, UX için iyi)
-  useEffect(() => {
-    function handleResize() {
-      if (window.innerWidth > 990) setMenuOpen(false);
-    }
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+
+  
 
   const { user: patientUser, logout: patientLogout } = useAuth(); 
   const { user: staffUser, logout: staffLogout } = useStaffAuth(); 
@@ -32,7 +27,7 @@ export default function Menu() {
     
     if (isStaff) {
       staffLogout();
-      // 🔥 Personel çıkış yapınca kendi giriş ekranına dönsün
+      // Personel çıkış yapınca kendi giriş ekranına dönsün
       navigate('/personelLogin', { replace: true });
     } else if (patientUser) {
       patientLogout(); 
@@ -46,11 +41,11 @@ export default function Menu() {
       closeMenu();
       if (isStaff) {
         switch (staffUser.role) {
-          case 'ADMIN': navigate('/personelLogin/admin-panel'); break;
-          case 'DOCTOR': navigate('/personelLogin/doctor-panel'); break;
-          case 'LAB_TECHNICIAN': navigate('/personelLogin/lab-panel'); break;
-          case 'CASHIER': navigate('/personelLogin/cashier-panel'); break;
-          case 'CLEANER': navigate('/personelLogin/cleaner-panel'); break;
+          case 'ADMIN': navigate('/admin-panel'); break;
+          case 'DOCTOR': navigate('/doctor-panel'); break;
+          case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
+          case 'CASHIER': navigate('/cashier-panel'); break;
+          case 'CLEANER': navigate('/cleaner-panel'); break;
           default: navigate('/'); break;
         }
       } else if (patientUser) {
@@ -58,11 +53,25 @@ export default function Menu() {
       }
     }
   }
-
-  // ... (Geri kalan useEffect, toggleMenu, JSX ve ikonlar AYNI) ...
-  // Kodun uzun olmaması için alt kısımları aynı şekilde koruyabilirsin.
-  // Sadece handleLogout mantığı değişti.
   
+  // 🔥 HAMBURGER BUTON İŞLEVİ
+  const handleHizliRandevuClick = (e) => {
+    e.preventDefault(); // Varsayılan link davranışını engelle
+    closeMenu(); // Menüyü kapat
+
+    // 1. Kural: Kullanıcı login değilse, login sayfasına yönlendir.
+    if (!patientUser) {
+      alert("Randevu alabilmek için önce giriş yapınız.");
+      navigate('/login'); 
+      return;
+    }
+      // 2. Kural: Kullanıcı login ise, randevu sayfasına yönlendir.
+      navigate('/randevu');
+  };
+  
+  // artık modal state'leri yok
+
+
   useEffect(() => {
     function onKey(e) { if (e.key === 'Escape') setMenuOpen(false); }
     window.addEventListener('keydown', onKey);
@@ -100,7 +109,10 @@ export default function Menu() {
 
   function toggleMenu() { setMenuOpen(prev => !prev); }
   function closeMenu() { setMenuOpen(false); }
-  const handleNavClick = (e) => { };
+  
+  // Not: FloatingButtons.jsx'teki ikon placeholder'ları buraya taşındı (Empty SVG'ler yerine)
+  const CalendarIconPlaceholder = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+
 
   return (
     <>
@@ -154,7 +166,11 @@ export default function Menu() {
         <>
           <div ref={menuRef} id="mobile-menu" className={`mobile-menu mobile-menu--open`}> 
             <div className="mobile-menu__content">
-              <button className="mobile-menu__appointment" onClick={closeMenu}>Hızlı Randevu Al <PlusIcon /></button>
+              {/* 🔥 HAMBURGER MENÜ BUTON DÜZELTMESİ */}
+              <button className="mobile-menu__appointment" onClick={handleHizliRandevuClick}>
+                Hızlı Randevu Al <CalendarIconPlaceholder />
+              </button>
+              
               <nav className="mobile-menu__nav">
                 <Link className="mobile-menu__link" to="/" onClick={closeMenu}><span>Ana Sayfa</span> <ChevronIcon /></Link>
                 <Link className="mobile-menu__link" to="/kurumsal" onClick={closeMenu}><span>Kurumsal</span> <ChevronIcon /></Link>
@@ -180,15 +196,21 @@ export default function Menu() {
           <div className="mobile-menu-overlay active" onClick={closeMenu} />
         </>
       )}
+
+      {/* Randevu artık ayrı sayfada yönetiliyor ("/randevu") */}
     </>
   );
 }
 
-// --- İKONLAR AYNEN KALIYOR (Kopyala yapıştır yapabilirsin) ---
+// --- İKONLAR ---
 function MailIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" strokeWidth="1.6" /><path d="M4 7l8 6 8-6" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>; }
 function PhoneIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 3l3 3-2 2a14 14 0 007 7l2-2 3 3-2 3c-6 1-14-7-13-13L6 3z" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>; }
 function FbIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M13 22v-9h3l1-4h-4V7c0-1.1.9-2 2-2h2V1h-3a5 5 0 00-5 5v3H6v4h3v9h4z" /></svg>; }
 function IgIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="none" /><circle cx="12" cy="12" r="4" stroke="currentColor" fill="none" /><circle cx="17" cy="7" r="1.2" fill="currentColor" /></svg>; }
 function HamburgerIcon({ isOpen }) { return isOpen ? <img src="/xmark1.svg" className="xmark-icon" width="28" height="28" /> : <img src="/bars.svg" className="bars-icon" width="28" height="28" />; }
-function PlusIcon() { return <svg width="24" height="24" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" /></svg>; }
 function ChevronIcon() { return <svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }
+
+// Footer'daki gibi boş SVG'ler yerine placeholder ikon kullanıldı.
+// Bu, Menu.jsx içindeki CalendarIconPlaceholder fonksiyonu ile aynıdır.
+// (AppointmentV2Modal'da da bu kodun olmaması gerekiyordu, ancak kod tekrarını önlemek için buraya ekledim.)
+function CalendarIconPlaceholder() { return <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }

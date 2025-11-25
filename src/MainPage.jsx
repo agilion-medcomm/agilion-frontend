@@ -1,56 +1,58 @@
+// src/MainPage.jsx (GÜNCEL VE TAM KOD)
+
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStaffAuth } from './context/StaffAuthContext'; // Personel kontrolü için
+import { useStaffAuth } from './context/StaffAuthContext'; 
 import './MainPage.css';
 
 import ExpertSection from "./components/ExpertSection/ExpertSection";
 import Bolumler from "./components/Bolumler/Bolumler";
 import FAQ from "./components/FAQ/FAQ";
+import Doctors from "./components/Doctors/Doctors"; // 🔥 SİLİNECEK: Artık sadece DoctorSlider kullanılıyor
 import Stats from "./components/Stats/Stats";
 import Hero from './components/Hero_Img/Hero';
-import FloatingButtons from './components/FloatingButtons/FloatingButtons';
+import DoctorSlider from './components/DoctorSlider/DoctorSlider'; 
 
 export default function MainPage() {
-	const { user: staffUser } = useStaffAuth(); // Giriş yapmış personel var mı?
+	const { user: staffUser } = useStaffAuth(); 
 	const navigate = useNavigate();
 
-	// 🔥 PERSONEL KONTROLÜ VE YÖNLENDİRME 🔥
+	// PERSONEL KONTROLÜ VE YÖNLENDİRME (Aynı kalır)
 	useEffect(() => {
 		   if (staffUser) {
-			   // Eğer personel giriş yapmışsa, onu ana sayfada tutma, paneline gönder.
 			   switch (staffUser.role) {
 				   case 'ADMIN':
-					   navigate('/personelLogin/admin-panel', { replace: true });
+					   navigate('/admin-panel', { replace: true });
 					   break;
 				   case 'DOCTOR':
-					   navigate('/personelLogin/doctor-panel', { replace: true });
+					   navigate('/doctor-panel', { replace: true });
 					   break;
 				   case 'LAB_TECHNICIAN':
-					   navigate('/personelLogin/lab-panel', { replace: true });
+					   navigate('/lab-panel', { replace: true });
 					   break;
 				   case 'CASHIER':
-					   navigate('/personelLogin/cashier-panel', { replace: true });
+					   navigate('/cashier-panel', { replace: true });
 					   break;
 				   case 'CLEANER':
-					   navigate('/personelLogin/cleaner-panel', { replace: true });
+					   navigate('/cleaner-panel', { replace: true });
 					   break;
 				   default:
-					   // Bilinmeyen rol ise bir şey yapma
 					   break;
 			   }
 		   }
 	}, [staffUser, navigate]);
 
-	// Eğer personel DEĞİLSE (Hasta veya Ziyaretçi), normal ana sayfayı göster.
 	return (
 		<>
 			<Hero />
 			<ExpertSection />
 			<Bolumler />
 			<FAQ />
-			{/* <Doctors /> kaldırıldı, ayrı sayfa oldu */}
+			{/* 🔥 ESKİ DOCTOR LISTESİ KALDIRILDI: Mükerrer listeyi önler */}
+			{/* <Doctors /> */}
 			<Stats />
-			<FloatingButtons />
+			{/* 🔥 YENİ DOKTOR SLIDER: Sadece bu kalır */}
+			<DoctorSlider /> 
 		</>
 	);
 }
