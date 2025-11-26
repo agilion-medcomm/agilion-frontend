@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // src/App.jsx (DÜZELTİLMİŞ)
+=======
+// src/App.jsx (SON VE GÜNCEL HALİ - DÜZLEŞTİRİLMİŞ ROTALAR)
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './MainPage';
@@ -50,8 +54,12 @@ export default function App() {
       <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
       {/* 3. Personel Panelleri (Korumalı ve Bağımsız - KISA YOLLAR) */}
+<<<<<<< HEAD
       {/* DÜZELTME BURADA: ProtectedPersonnelRoute kullanıldı */}
       <Route element={<ProtectedPersonnelRoute />}>
+=======
+      <Route element={<ProtectedStaffRoute />}>
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
         <Route path="/admin-panel" element={<AdminPanel />} />
         <Route path="/doctor-panel" element={<DoctorPanel />} />
         <Route path="/lab-panel" element={<LabPanel />} />

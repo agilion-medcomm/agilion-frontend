@@ -47,7 +47,11 @@
 .modal-close:hover { color: #c1272d; }
 
 /* ===================================================================== */
+<<<<<<< HEAD
 /* 2. Aşama: RANDEVU PLANLAMA MODAL STİLLERİ (Appointment) */
+=======
+/* 2. Aşama: RANDEVU PLANLAMA MODAL STİLLERİ (AppointmentV2Modal) */
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 /* ===================================================================== */
 
 /* Ana Grid Yapısı (Doktor Sol, Takvim Sağ) */

@@ -8,7 +8,11 @@ import '../Appointment/Appointment.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 
+<<<<<<< HEAD
 // --- Yardımcı Fonksiyonlar ---
+=======
+// --- Helper Functions ---
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 const SLOT_START = 9;
 const SLOT_END = 17;
 const MAX_DAYS = 90;
@@ -38,6 +42,10 @@ const generateTimeSlots = (date, bookedSlots = []) => {
             const timeStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
             
             const isPast = isToday && slotTime.getTime() < now.getTime();
+<<<<<<< HEAD
+=======
+            // Backend'den gelen dolu saatler burada kontrol ediliyor
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
             const isBooked = bookedSlots.includes(timeStr); 
 
             slots.push({
@@ -70,19 +78,41 @@ export default function AppointmentPage() {
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [weekStartIndex, setWeekStartIndex] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
+<<<<<<< HEAD
   const [bookedSlots, setBookedSlots] = useState([]);
 
   useEffect(() => {
       if (!doctor) return;
       const dateStr = selectedDate.toLocaleDateString('tr-TR');
       
+=======
+  
+  // O günün dolu saatlerini tutacak state
+  const [bookedSlots, setBookedSlots] = useState([]);
+
+  // Tarih değişince o günün dolu randevularını çek
+  useEffect(() => {
+      if (!doctor) return;
+
+      const dateStr = selectedDate.toLocaleDateString('tr-TR'); // Örn: 24.11.2025
+      // URL parametrelerinde tarih formatı encoding gerektirebilir ama basitçe query atıyoruz
+      // Backend'deki tarih formatıyla buradaki aynı olmalı (Locale string sunucu/client farkı yaratabilir, dikkat)
+      // En garantisi YYYY-MM-DD kullanmaktır ama şimdilik mevcut yapıyı koruyorum.
+      
+      // Basit fetch:
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
       fetch(`${API_BASE}/api/v1/appointments?doctorId=${doctor.id}&date=${dateStr}`)
         .then(res => res.json())
         .then(res => {
             if(res.status === 'success') {
+<<<<<<< HEAD
                 // Backend'den gelen veriyi al (dizi mi obje mi kontrol et)
                 const slots = Array.isArray(res.data) ? res.data.map(a=>a.time) : (res.data.bookedTimes || []);
                 setBookedSlots(slots);
+=======
+                // Gelen randevuların saatlerini alıp listeye koyuyoruz
+                setBookedSlots(res.data.map(a => a.time));
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
             }
         })
         .catch(err => console.error("Dolu saatler çekilemedi:", err));
@@ -91,7 +121,11 @@ export default function AppointmentPage() {
 
   const currentTimeSlots = useMemo(() => {
       return generateTimeSlots(selectedDate, bookedSlots);
+<<<<<<< HEAD
   }, [selectedDate, bookedSlots]); 
+=======
+  }, [selectedDate, bookedSlots]); // bookedSlots değişince yeniden hesapla
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 
   const visibleWeekDays = allDays.slice(weekStartIndex, weekStartIndex + 5);
 
@@ -140,6 +174,10 @@ export default function AppointmentPage() {
 
       setIsSubmitting(true);
 
+<<<<<<< HEAD
+=======
+      // 🔥 GÜNCELLEME: İsim ve Soyisim ayrı gönderiliyor
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
       const appointmentPayload = {
           doctorId: doctor.id,
           doctorName: `${doctor.firstName} ${doctor.lastName}`,
@@ -148,8 +186,12 @@ export default function AppointmentPage() {
           patientLastName: user.lastName || "Hasta",
           date: selectedDate.toLocaleDateString('tr-TR'), 
           time: selectedSlot,
+<<<<<<< HEAD
           // 🔥 GÜNCELLEME: Doğrudan onaylı gönderiyoruz
           status: 'APPROVED' 
+=======
+          status: 'PENDING'
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
       };
 
       try {
@@ -166,11 +208,20 @@ export default function AppointmentPage() {
           }
           
           if (data.status === 'success') {
+<<<<<<< HEAD
               alert(`🎉 Randevunuz Başarıyla Oluşturuldu!\n\nSayın ${appointmentPayload.patientFirstName} ${appointmentPayload.patientLastName},\n${doctor.firstName} ${doctor.lastName} ile randevunuz ONAYLANMIŞTIR.`);
+=======
+              // Mesaj gösterirken birleştiriyoruz
+              alert(`🎉 Randevunuz Başarıyla Kaydedildi!\n\nSayın ${appointmentPayload.patientFirstName} ${appointmentPayload.patientLastName},\n${doctor.firstName} ${doctor.lastName} ile randevunuz onaylanmıştır.`);
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
               navigate('/'); 
           }
       } catch (error) {
           alert("Hata: " + error.message);
+<<<<<<< HEAD
+=======
+          setSelectedSlot(null);
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
       } finally {
           setIsSubmitting(false);
       }
