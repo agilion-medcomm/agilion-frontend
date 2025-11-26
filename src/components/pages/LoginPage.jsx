@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useStaffAuth } from '../../context/StaffAuthContext';
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import axios from 'axios';
 import './LoginPage.css';
 
@@ -18,11 +18,11 @@ export default function LoginPage() {
 
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { user: staffUser } = useStaffAuth();
+  const { user: personnelUser } = usePersonnelAuth();
 
   useEffect(() => {
-    if (staffUser) {
-      switch (staffUser.role) {
+    if (personnelUser) {
+      switch (personnelUser.role) {
         case 'ADMIN': navigate('/personelLogin/admin-panel', { replace: true }); break;
         case 'DOCTOR': navigate('/personelLogin/doctor-panel', { replace: true }); break;
         case 'LAB_TECHNICIAN': navigate('/personelLogin/lab-panel', { replace: true }); break;
@@ -31,7 +31,7 @@ export default function LoginPage() {
         default: break;
       }
     }
-  }, [staffUser, navigate]);
+  }, [personnelUser, navigate]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -48,7 +48,7 @@ export default function LoginPage() {
     try {
       // tckn olarak gönder
       const payload = { tckn: normalizedTckn, password };
-      const response = await axios.post(`${BaseURL}/auth/patient-login`, payload);
+      const response = await axios.post(`${BaseURL}/auth/patient/login`, payload);
       const data = response.data?.data;
       if (!data?.token || !data?.user) throw new Error('Sunucudan token veya user gelmedi.');
 
@@ -63,7 +63,7 @@ export default function LoginPage() {
     }
   }
 
-  if (staffUser) return null;
+  if (personnelUser) return null;
 
   return (
     <div className="login-container">

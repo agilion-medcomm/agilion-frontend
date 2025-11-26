@@ -15,7 +15,7 @@
       "tckn": "11111111112",
       "firstName": "Berkant",
       "lastName": "Çora",
-      "password": "12345678",
+      "password": "password123",
       "role": "DOCTOR",
       "phoneNumber": ""
     },
@@ -88,6 +88,21 @@
       "email": "",
       "dateOfBirth": null,
       "specialization": "KALP"
+<<<<<<< HEAD:personnel.json
+    },
+    {
+      "id": 1764099959078,
+      "tckn": "12345678915",
+      "firstName": "Mehmet",
+      "lastName": "Çavuş",
+      "password": "12345678",
+      "role": "DOCTOR",
+      "phoneNumber": "05434587458",
+      "email": "mehet@hotmail.com",
+      "dateOfBirth": "1986-10-25",
+      "specialization": "Kalp"
+=======
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc:staff.json
     }
   ]
 }

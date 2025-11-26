@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStaffAuth } from '../../../context/StaffAuthContext';
+import { usePersonnelAuth } from '../../../context/PersonnelAuthContext';
 
 export default function CleanerPanel() {
-  const { logoutStaff } = useStaffAuth();
+  const { logoutPersonnel } = usePersonnelAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logoutStaff();
+    logoutPersonnel();
     navigate('/personelLogin', { replace: true });
   };
 

@@ -2,7 +2,11 @@
 
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+<<<<<<< HEAD
+import { usePersonnelAuth } from './context/PersonnelAuthContext'; 
+=======
 import { useStaffAuth } from './context/StaffAuthContext'; 
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 import './MainPage.css';
 
 import ExpertSection from "./components/ExpertSection/ExpertSection";
@@ -14,13 +18,22 @@ import Hero from './components/Hero_Img/Hero';
 import DoctorSlider from './components/DoctorSlider/DoctorSlider'; 
 
 export default function MainPage() {
+<<<<<<< HEAD
+	const { user: personnelUser } = usePersonnelAuth(); 
+=======
 	const { user: staffUser } = useStaffAuth(); 
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 	const navigate = useNavigate();
 
 	// PERSONEL KONTROLÜ VE YÖNLENDİRME (Aynı kalır)
 	useEffect(() => {
+<<<<<<< HEAD
+		   if (personnelUser) {
+			   switch (personnelUser.role) {
+=======
 		   if (staffUser) {
 			   switch (staffUser.role) {
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 				   case 'ADMIN':
 					   navigate('/admin-panel', { replace: true });
 					   break;
@@ -40,7 +53,7 @@ export default function MainPage() {
 					   break;
 			   }
 		   }
-	}, [staffUser, navigate]);
+	}, [personnelUser, navigate]);
 
 	return (
 		<>
@@ -48,11 +61,17 @@ export default function MainPage() {
 			<ExpertSection />
 			<Bolumler />
 			<FAQ />
+<<<<<<< HEAD
+			<DoctorSlider /> 
+			<Stats />
+			
+=======
 			{/* 🔥 ESKİ DOCTOR LISTESİ KALDIRILDI: Mükerrer listeyi önler */}
 			{/* <Doctors /> */}
 			<Stats />
 			{/* 🔥 YENİ DOKTOR SLIDER: Sadece bu kalır */}
 			<DoctorSlider /> 
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 		</>
 	);
 }

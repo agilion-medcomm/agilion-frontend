@@ -1,9 +1,13 @@
+<<<<<<< HEAD
+// src/components/pages/panels/AdminPanel.jsx (NİHAİ VE TAM KOD)
+=======
 // src/components/pages/panels/AdminPanel.jsx (GÜNCEL VE TAM KOD)
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-import { useStaffAuth } from '../../../context/StaffAuthContext';
+import { usePersonnelAuth } from '../../../context/PersonnelAuthContext';
 import "./AdminPanelPage.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
@@ -40,15 +44,24 @@ const TrashIcon = () => (
 
 export default function AdminPanelPage() {
   const navigate = useNavigate();
-  const { user, logoutStaff, loginStaff } = useStaffAuth();
-  const [staffList, setStaffList] = useState([]);
+  const { user, logoutPersonnel, loginPersonnel } = usePersonnelAuth();
+  const [personnelList, setPersonnelList] = useState([]);
   
   // --- AKORDİYON STATE'LERİ ---
   const [showAddForm, setShowAddForm] = useState(false);
+<<<<<<< HEAD
+  const [showPersonnelList, setShowPersonnelList] = useState(false);
+=======
   const [showStaffList, setShowStaffList] = useState(false);
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   const [showContactForms, setShowContactForms] = useState(false);
-  const [showLeaveRequests, setShowLeaveRequests] = useState(false);
+  const [showLeaveRequests, setShowLeaveRequests] = useState(false); 
   const [showCleaningChecks, setShowCleaningChecks] = useState(false);
+
+  // 🔥 İZİN TALEPLERİ STATE'LERİ
+  const [leaveRequests, setLeaveRequests] = useState([]);
+  const [isLeaveRequestsLoading, setIsLeaveRequestsLoading] = useState(false);
+
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,7 +71,7 @@ export default function AdminPanelPage() {
 
   // Silme Modal State
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [staffToDelete, setStaffToDelete] = useState(null);
+  const [personnelToDelete, setPersonnelToDelete] = useState(null);
 
   const [form, setForm] = useState({
     tckn: "", firstName: "", lastName: "", password: "", role: "DOCTOR",
@@ -68,7 +81,11 @@ export default function AdminPanelPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+<<<<<<< HEAD
+  // 🔥 YÜKLEME KONTROLÜ
+=======
   // 🔥 YÜKLEME DÜZELTMESİ: Kullanıcı bilgisi gelene kadar bekle
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   if (user === undefined) { 
     return <div style={{textAlign: 'center', padding: '100px', fontSize: '20px'}}>Kullanıcı Bilgileri Yükleniyor...</div>
   }
@@ -77,6 +94,11 @@ export default function AdminPanelPage() {
   if (!user || user.role !== 'ADMIN') {
     return (
       <div style={{textAlign: 'center', padding: '100px', fontSize: '20px', color: '#c1272d', fontWeight: 'bold'}}>
+<<<<<<< HEAD
+        Yetkiniz yok. Lütfen doğru rol ile <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
+      </div>
+    );
+=======
         Yetkiniz yok veya oturum sona erdi. Lütfen tekrar <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
       </div>
     );
@@ -97,22 +119,92 @@ export default function AdminPanelPage() {
       });
       setStaffList(Array.isArray(res.data.data) ? res.data.data : []);
     } catch (err) { console.error(err); }
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   }
 
+  // Yalnızca user yüklendikten sonra listeleri çek
+  useEffect(() => { 
+    if (user && user.role === 'ADMIN') {
+        fetchPersonnel(); 
+        fetchLeaveRequests(); 
+    }
+  }, [user]);
+
+  async function fetchPersonnel() {
+    const token = localStorage.getItem('personnelToken');
+    if (!token) return;
+    try {
+      const res = await axios.get(`${BaseURL}/personnel`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setPersonnelList(Array.isArray(res.data.data) ? res.data.data : []);
+    } catch (err) { console.error(err); }
+  }
+  
+  // 🔥 İZİN TALEPLERİNİ ÇEKME İŞLEVİ
+  async function fetchLeaveRequests() {
+    const token = localStorage.getItem('personnelToken');
+    if (!token) return;
+    setIsLeaveRequestsLoading(true);
+    try {
+      const res = await axios.get(`${BaseURL}/leave-requests`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const sortedRequests = Array.isArray(res.data.data) 
+        ? res.data.data.sort((a, b) => new Date(b.requestedAt) - new Date(a.requestedAt)) 
+        : [];
+        
+      setLeaveRequests(sortedRequests);
+    } catch (err) { 
+      console.error("İzin talepleri çekilemedi:", err); 
+      setLeaveRequests(null); 
+    } finally {
+      setIsLeaveRequestsLoading(false);
+    }
+  }
+
+  // 🔥 YENİ: İZİN TALEBİNİ ONAYLAMA İŞLEVİ
+  async function handleApprove(requestId) {
+    const token = localStorage.getItem('personnelToken');
+    if (!token) return;
+    
+    // UI'da hemen bekleme durumu göster
+    const originalRequests = [...leaveRequests];
+    setLeaveRequests(originalRequests.map(req => 
+        req.id === requestId ? { ...req, status: 'PROCESSING' } : req
+    ));
+
+    try {
+        await axios.put(`${BaseURL}/leave-requests/${requestId}/status`, { status: 'APPROVED' }, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        
+        // Başarıyla onaylandıktan sonra listeyi yeniden çek
+        fetchLeaveRequests(); 
+        setMessage("İzin talebi başarıyla onaylandı ve doktor takvimi bloke edildi.");
+        setTimeout(() => setMessage(""), 5000);
+    } catch (err) {
+        // Hata durumunda listeyi orijinal haline geri yükle
+        setLeaveRequests(originalRequests); 
+        alert(err.response?.data?.message || "Onaylama işlemi başarısız.");
+    }
+  }
+
+  // Admin personel ekleme formu submit işlevi (Aynı kalır)
   async function handleSubmit(e) {
     e.preventDefault();
     setError(""); setMessage("");
-    const token = localStorage.getItem('staffToken');
+    const token = localStorage.getItem('personnelToken');
     if (!token) return;
     
     const dataToSend = { ...form };
     if (dataToSend.role !== 'DOCTOR') dataToSend.specialization = "";
 
     try {
-      await axios.post(`${BaseURL}/staff`, dataToSend, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`${BaseURL}/personnel`, dataToSend, { headers: { Authorization: `Bearer ${token}` } });
       setMessage("Başarıyla eklendi.");
       setForm({ tckn: "", firstName: "", lastName: "", password: "", role: "DOCTOR", phoneNumber: "", email: "", dateOfBirth: "", specialization: "" });
-      fetchStaff();
+      fetchPersonnel();
     } catch (err) { setError(err.response?.data?.message || "Bir hata oluştu."); }
   }
 
@@ -122,11 +214,11 @@ export default function AdminPanelPage() {
   }
 
   function handleLogout() {
-    logoutStaff();
+    logoutPersonnel();
     navigate('/personelLogin', { replace: true });
   }
 
-  // --- DÜZENLEME ---
+  // --- PROFİL DÜZENLEME MANTIĞI ---
   const openEditModal = (field) => {
     setEditField(field);
     setEditValue("");
@@ -143,7 +235,7 @@ export default function AdminPanelPage() {
   const handleUpdateSubmit = async (e) => {
     e.preventDefault();
     setError("");
-    const token = localStorage.getItem('staffToken');
+    const token = localStorage.getItem('personnelToken');
 
     if (editField === 'password') {
       if (editValue.length < 8) return setError("Şifre en az 8 karakter olmalıdır.");
@@ -156,10 +248,10 @@ export default function AdminPanelPage() {
     if (editField === 'password') updateData.password = editValue;
 
     try {
-      await axios.put(`${BaseURL}/staff/${user.id}`, updateData, {
+      await axios.put(`${BaseURL}/personnel/${user.id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      await loginStaff(token); 
+      await loginPersonnel(token); 
       alert("Bilgiler başarıyla güncellendi!");
       closeEditModal();
     } catch (err) {
@@ -176,33 +268,40 @@ export default function AdminPanelPage() {
     }
   };
 
-  // --- SİLME ---
-  const handleDeleteClick = (staffMember) => {
-    if (staffMember.id === user.id) {
+  // --- SİLME MANTIĞI (Aynı kalır) ---
+  const handleDeleteClick = (personnelMember) => {
+    if (personnelMember.id === user.id) {
       alert("Kendi hesabınızı buradan silemezsiniz!");
       return;
     }
-    setStaffToDelete(staffMember);
+    setPersonnelToDelete(personnelMember);
     setIsDeleteModalOpen(true);
   };
 
   const confirmDelete = async () => {
-    if (!staffToDelete) return;
-    const token = localStorage.getItem('staffToken');
+    if (!personnelToDelete) return;
+    const token = localStorage.getItem('personnelToken');
 
     try {
-      await axios.delete(`${BaseURL}/staff/${staffToDelete.id}`, {
+      await axios.delete(`${BaseURL}/personnel/${personnelToDelete.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      fetchStaff();
+      fetchPersonnel();
       setIsDeleteModalOpen(false);
-      setStaffToDelete(null);
+      setPersonnelToDelete(null);
       setMessage("Personel başarıyla silindi.");
       setTimeout(() => setMessage(""), 3000);
     } catch (err) {
       alert(err.response?.data?.message || "Silme işlemi başarısız.");
     }
   };
+
+  const formatDateTime = (date, time) => {
+    if (!date) return '-';
+    // Basit tarih formatlama
+    return `${new Date(date).toLocaleDateString('tr-TR')} @ ${time}`;
+  }
+
 
   return (
     <div className="admin-page-wrapper">
@@ -255,16 +354,16 @@ export default function AdminPanelPage() {
         </div>
       )}
 
-      {isDeleteModalOpen && staffToDelete && (
+      {isDeleteModalOpen && personnelToDelete && (
         <div className="modal-overlay">
           <div className="modal-box" style={{maxWidth: '450px'}}>
             <div className="modal-header"><h3 style={{color: '#c1272d'}}>Personel Silinecek</h3><button onClick={() => setIsDeleteModalOpen(false)} className="modal-close-btn"><CloseIcon /></button></div>
             <div className="delete-modal-content">
               <p>Aşağıdaki personeli silmek üzeresiniz. Bu işlem geri alınamaz.</p>
               <div className="delete-info-box">
-                <p><strong>Ad Soyad:</strong> {staffToDelete.firstName} {staffToDelete.lastName}</p>
-                <p><strong>Görevi:</strong> {staffToDelete.role}</p>
-                <p><strong>TCKN:</strong> {staffToDelete.tckn}</p>
+                <p><strong>Ad Soyad:</strong> {personnelToDelete.firstName} {personnelToDelete.lastName}</p>
+                <p><strong>Görevi:</strong> {personnelToDelete.role}</p>
+                <p><strong>TCKN:</strong> {personnelToDelete.tckn}</p>
               </div>
               <p style={{marginTop: '15px', fontSize: '0.9rem'}}>Onaylıyor musunuz?</p>
             </div>
@@ -276,15 +375,15 @@ export default function AdminPanelPage() {
       <div className="admin-bottom-section">
         <div className="admin-inner-container">
           
-          {/* 1. YENİ PERSONEL EKLE */}
-          <section className="staff-section-wrapper">
+          {/* 1. YENİ PERSONEL EKLE (Aynı kalır) */}
+          <section className="personnel-section-wrapper">
             <div className="section-header" onClick={() => setShowAddForm(!showAddForm)}>
-              <h3>Yeni Personel Ekle</h3>
+              <h3>1. Yeni Personel Ekle</h3>
               <BlueArrowIcon isOpen={showAddForm} />
             </div>
             {showAddForm && (
               <div className="section-content-anim">
-                <form className="staff-add-form" onSubmit={handleSubmit}>
+                <form className="personnel-add-form" onSubmit={handleSubmit}>
                    <div className="form-group-full">
                     <label style={{fontSize:'0.9rem', fontWeight:'600', color:'#444', marginBottom:'4px', display:'block'}}>Personel Türü</label>
                     <select name="role" value={form.role} onChange={handleChange} style={{fontWeight:'bold', color:'#c1272d'}}>
@@ -309,40 +408,40 @@ export default function AdminPanelPage() {
 
           <hr className="divider"/>
 
-          {/* 2. MEVCUT PERSONELLER */}
-          <section className="staff-section-wrapper">
-             <div className="section-header" onClick={() => setShowStaffList(!showStaffList)}>
-              <h3>Mevcut Personeller</h3>
-              <BlueArrowIcon isOpen={showStaffList} />
+          {/* 2. MEVCUT PERSONELLER (Aynı kalır) */}
+          <section className="personnel-section-wrapper">
+             <div className="section-header" onClick={() => setShowPersonnelList(!showPersonnelList)}>
+              <h3>2. Mevcut Personeller</h3>
+              <BlueArrowIcon isOpen={showPersonnelList} />
             </div>
-            {showStaffList && (
+            {showPersonnelList && (
               <div className="section-content-anim">
                 <div className="table-responsive">
-                  <table className="staff-table">
+                  <table className="personnel-table">
                     <thead>
                       <tr><th>TCKN</th><th>Ad</th><th>Soyad</th><th>Rol</th><th>Telefon</th><th>E-posta</th><th style={{textAlign:'center'}}>İşlemler</th></tr>
                     </thead>
                     <tbody>
-                      {staffList.map((staff) => (
-                        <tr key={staff.id}>
-                          <td>{staff.tckn}</td><td>{staff.firstName}</td><td>{staff.lastName}</td><td>{staff.role}</td><td>{staff.phoneNumber || '-'}</td><td>{staff.email || '-'}</td>
-                          <td style={{textAlign:'center'}}><button className="delete-icon-btn" onClick={() => handleDeleteClick(staff)}><TrashIcon /></button></td>
+                      {personnelList.map((personnel) => (
+                        <tr key={personnel.id}>
+                          <td>{personnel.tckn}</td><td>{personnel.firstName}</td><td>{personnel.lastName}</td><td>{personnel.role}</td><td>{personnel.phoneNumber || '-'}</td><td>{personnel.email || '-'}</td>
+                          <td style={{textAlign:'center'}}><button className="delete-icon-btn" onClick={() => handleDeleteClick(personnel)}><TrashIcon /></button></td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                {staffList.length === 0 && <div style={{marginTop:'10px', color:'#666'}}>Henüz personel yok.</div>}
+                {personnelList.length === 0 && <div style={{marginTop:'10px', color:'#666'}}>Henüz personel yok.</div>}
               </div>
             )}
           </section>
 
           <hr className="divider"/>
 
-          {/* 3. İLETİŞİM FORMLARINI GÖRÜNTÜLEME (YENİ) */}
-          <section className="staff-section-wrapper">
+          {/* 3. İLETİŞİM FORMLARINI GÖRÜNTÜLEME (Aynı kalır) */}
+          <section className="personnel-section-wrapper">
              <div className="section-header" onClick={() => setShowContactForms(!showContactForms)}>
-              <h3>İletişim Formlarını Görüntüleme</h3>
+              <h3>3. İletişim Formlarını Görüntüleme</h3>
               <BlueArrowIcon isOpen={showContactForms} />
             </div>
             {showContactForms && (
@@ -356,27 +455,69 @@ export default function AdminPanelPage() {
 
           <hr className="divider"/>
 
-          {/* 4. İZİN TALEPLERİ (YENİ) */}
-          <section className="staff-section-wrapper">
+          {/* 4. İZİN TALEPLERİ (ONAY BUTONU EKLENDİ) */}
+          <section className="personnel-section-wrapper">
              <div className="section-header" onClick={() => setShowLeaveRequests(!showLeaveRequests)}>
-              <h3>İzin Talepleri</h3>
+              <h3>4. İzin Talepleri</h3>
               <BlueArrowIcon isOpen={showLeaveRequests} />
             </div>
             {showLeaveRequests && (
               <div className="section-content-anim">
-                <p style={{ color: '#666', padding: '10px', background: '#f9fafb', borderRadius:'8px' }}>
-                  <i>Bu özellik henüz aktif değil. (Personel izin talepleri burada yönetilecek)</i>
-                </p>
+                {isLeaveRequestsLoading ? (
+                    <p className="action-info-box">İzin Talepleri Yükleniyor...</p>
+                ) : leaveRequests && leaveRequests.length > 0 ? (
+                    <div className="table-responsive">
+                        <table className="personnel-table" style={{width: '100%'}}>
+                            <thead>
+                                <tr><th>Personel</th><th>Tarih Aralığı</th><th>Talep Nedeni</th><th style={{textAlign:'center'}}>Durum</th><th style={{textAlign:'center'}}>İşlem</th></tr>
+                            </thead>
+                            <tbody>
+                                {leaveRequests.map((req) => (
+                                    <tr key={req.id} style={{ opacity: req.status === 'PENDING' ? 1 : 0.6 }}>
+                                        <td>{req.personnelFirstName} {req.personnelLastName} ({req.personnelRole})</td>
+                                        <td>{formatDateTime(req.startDate, req.startTime)} - {formatDateTime(req.endDate, req.endTime)}</td>
+                                        <td>{req.reason}</td>
+                                        <td style={{fontWeight: 'bold', textAlign:'center', color: req.status === 'PENDING' ? '#ff6600' : (req.status === 'APPROVED' ? '#4ab43f' : '#c1272d')}}>
+                                            {req.status}
+                                        </td>
+                                        <td style={{textAlign:'center'}}>
+                                            {/* 🔥 ONAY BUTONU */}
+                                            {req.status === 'PENDING' && (
+                                                <button 
+                                                    onClick={() => handleApprove(req.id)}
+                                                    style={{background: '#4ab43f', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontWeight: 600}}
+                                                    disabled={req.status === 'PROCESSING'}
+                                                >
+                                                    {req.status === 'PROCESSING' ? 'İşleniyor...' : 'APPROVE'}
+                                                </button>
+                                            )}
+                                            {req.status === 'PROCESSING' && (
+                                                <span style={{color: '#4ab43f'}}>İşleniyor...</span>
+                                            )}
+                                            {(req.status === 'APPROVED' || req.status === 'REJECTED') && (
+                                                <span style={{color: '#999'}}>İşlendi</span>
+                                            )}
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <p className="action-info-box">
+                      {leaveRequests === null ? 'Hata oluştu, talepler yüklenemedi.' : 'Henüz bekleyen veya geçmiş izin talebi yok.'}
+                    </p>
+                )}
               </div>
             )}
           </section>
 
           <hr className="divider"/>
 
-          {/* 5. TEMİZLİK KONTROLÜ (YENİ) */}
-          <section className="staff-section-wrapper">
+          {/* 5. TEMİZLİK KONTROLÜ (Aynı kalır) */}
+          <section className="personnel-section-wrapper">
              <div className="section-header" onClick={() => setShowCleaningChecks(!showCleaningChecks)}>
-              <h3>Temizlik Kontrolü</h3>
+              <h3>5. Temizlik Kontrolü</h3>
               <BlueArrowIcon isOpen={showCleaningChecks} />
             </div>
             {showCleaningChecks && (

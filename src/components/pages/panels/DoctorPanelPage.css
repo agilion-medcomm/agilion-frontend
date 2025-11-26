@@ -1,0 +1,387 @@
+/* src/components/pages/panels/DoctorPanelPage.css */
+
+.doctor-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Segoe UI", "Ubuntu", "Roboto", "Arial", sans-serif;
+}
+
+.doctor-inner-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.doctor-top-section {
+  background-color: #45b5c4; /* Tıbbi Teal Renk */
+  padding-top: 40px;
+  padding-bottom: 60px;
+  color: white;
+}
+
+.panel-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.doctor-panel-title {
+  font-size: 2.2rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 700;
+}
+
+.logout-btn {
+  background: #ffffff;
+  color: #c1272d; /* Kırmızı logout butonu aynı kalsın */
+  font-weight: 600;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.logout-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+/* PROFİL KARTI STİLLERİ (AdminPanelPage.css'ten kopyalandı) */
+.doctor-profile-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #333;
+}
+
+.profile-header-strip {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-bottom: 1px solid #d1d5db;
+}
+
+.profile-content {
+  display: flex;
+  padding: 24px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.profile-details-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 24px;
+}
+
+.profile-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-item .label {
+  width: 90px;
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+  font-weight: 600;
+}
+
+.value-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile-item .value-box {
+  flex: 1;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  color: #111;
+  border-radius: 6px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-item .value-box.readonly {
+  background: #f3f4f6;
+  color: #555;
+  border-color: #e5e7eb;
+}
+
+.edit-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  transition: color 0.2s;
+}
+.edit-icon-btn:hover { color: #45b5c4; } /* Teal renk ile değiştirildi */
+
+/* --- AVATAR ALANI --- */
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 140px;
+}
+
+.avatar-placeholder {
+  width: 120px;
+  height: 140px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #9ca3af;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.avatar-img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover; 
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.avatar-label {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+
+/* --- ALT BÖLÜM STİLLERİ --- */
+.doctor-bottom-section {
+  background-color: #fff;
+  padding-top: 40px;
+  padding-bottom: 60px;
+  flex: 1;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e5e5; /* Başlık altı çizgi eklendi */
+}
+
+.section-header:hover {
+  opacity: 0.8;
+}
+
+.section-header h3 {
+  color: #111827;
+  border-left: 5px solid #45b5c4; /* Teal renkli çizgi */
+  padding-left: 12px;
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.toggle-arrow {
+  transition: transform 0.3s ease;
+}
+
+.toggle-arrow.open {
+  transform: rotate(180deg);
+}
+
+.section-content-anim {
+  margin-top: 20px;
+  animation: fadeIn 0.3s ease-in-out;
+  padding: 15px;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.action-info-box {
+  color: #666; 
+  padding: 10px; 
+  background: #f9fafb; 
+  border-radius:8px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Modal Stilleri (AdminPanelPage.css'ten kopyalandı) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-box {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 24px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #999;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-field label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.modal-field input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.modal-field input:focus {
+  border-color: #45b5c4; /* Teal focus */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(69, 181, 196, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cancel-btn {
+  background: #f3f4f6;
+  color: #444;
+  border: 1px solid #e5e7eb;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.save-btn {
+  background: #45b5c4; /* Teal save */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.save-btn:hover { background: #3c9fae; }
+
+/* Mobil Uyum */
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column; 
+    align-items: center;
+  }
+  .profile-details-grid {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+  .profile-item .label {
+    width: auto;
+    min-width: 80px;
+    text-align: left;
+  }
+}
+
+/* src/components/pages/panels/DoctorPanelPage.css (Yeni Stiller) */
+
+/* Hasta Arama Formu Stili */
+.patient-search-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.patient-search-form input:focus {
+    border-color: #45b5c4 !important;
+}
+
+@media (max-width: 600px) {
+    .patient-search-form {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .patient-search-form input {
+        width: 100%;
+        margin-bottom: 0 !important;
+    }
+    .patient-search-form button {
+        width: 100%;
+    }
+}
