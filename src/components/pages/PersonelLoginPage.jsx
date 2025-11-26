@@ -1,8 +1,7 @@
-// src/components/pages/PersonelLoginPage.jsx (GEÇMİŞİ KORUYAN VERSİYON)
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStaffAuth } from '../../context/StaffAuthContext'; 
+// Context import yolunuzun doğru olduğundan emin olun
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext'; 
 import axios from 'axios';
 import './LoginPage.css';
 
@@ -17,60 +16,61 @@ export default function PersonelLoginPage() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  // logoutStaff fonksiyonunu da çekiyoruz
-  const { loginStaff, logoutStaff, user: staffUser } = useStaffAuth();
+  
+  // Context'ten fonksiyonları alıyoruz (Harf duyarlılığına dikkat!)
+  const { loginPersonnel, logoutPersonnel } = usePersonnelAuth();
 
-  // 🔥 GÜVENLİK (AUTO-LOGOUT): 
-  // Eğer kullanıcı Panel'den "Geri" tuşuna basarak bu sayfaya düşerse,
-  // sistem onu yakalayıp çıkışını yapar.
-  useEffect(() => {
-    if (staffUser) {
-      logoutStaff(); 
+  // Sayfa açıldığında eski oturumu temizle
+  useEffect(() => { 
+    if (logoutPersonnel) {
+      logoutPersonnel(); 
     }
-  }, []); // Sadece sayfa ilk açıldığında çalışır
+  }, []); 
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError('');
-
-    const normalizedTckn = (tckn || '').replace(/\D/g, '');
-    if (!normalizedTckn || normalizedTckn.length !== 11) {
-      setError('Lütfen 11 haneli geçerli bir TC kimlik numarası girin.');
-      return;
-    }
-    if (!password || password.length < 8) {
-      setError('Lütfen en az 8 karakterli bir şifre girin.');
-      return;
-    }
-
     setLoading(true);
 
     try {
-      const payload = { tckn: normalizedTckn, password };
-      const response = await axios.post(`${BaseURL}/auth/staff-login`, payload);
+      // 1. Backend'e Giriş İsteği (Endpoint ismine dikkat)
+      const response = await axios.post(`${BaseURL}/auth/personnel/login`, { 
+        tckn: tckn.replace(/\D/g, ''), 
+        password 
+      });
+      
       const data = response.data?.data; 
-      
-      if (!data || !data.token) throw new Error('Token alınamadı.');
 
-      await loginStaff(data.token);
+      // 2. Context'e Giriş Yap (Token 'personnelToken' olarak kaydedilir)
+      await loginPersonnel(data.token, data.user);
       
-      // 🔥 DÜZELTME BURADA: replace: true KALDIRILDI 🔥
-      // Artık tarayıcı geçmişi şöyle olacak: [Login Sayfası] -> [Panel]
-      // Geri tuşuna bastığında [Login Sayfası]'na dönebileceksin.
-      const role = data.user?.role || data.role;
-      switch (role) {
-        case 'ADMIN': navigate('/personelLogin/admin-panel'); break;
-        case 'DOCTOR': navigate('/personelLogin/doctor-panel'); break;
-        case 'LAB_TECHNICIAN': navigate('/personelLogin/lab-panel'); break;
-        case 'CASHIER': navigate('/personelLogin/cashier-panel'); break;
-        case 'CLEANER': navigate('/personelLogin/cleaner-panel'); break;
-        default: setError('Yetkisiz giriş.');
+      // 3. Rolüne göre yönlendir
+      const userRole = data.role; 
+
+      switch (userRole) {
+        case 'ADMIN': 
+          navigate('/admin-panel'); 
+          break;
+        case 'DOCTOR': 
+          navigate('/doctor-panel'); 
+          break;
+        case 'LAB_TECHNICIAN': 
+          navigate('/lab-panel'); 
+          break;
+        case 'CASHIER': 
+          navigate('/cashier-panel'); 
+          break;
+        case 'CLEANER': 
+          navigate('/cleaner-panel'); 
+          break;
+        default: 
+          setError('Rol tanımlı değil, lütfen yöneticiye başvurun.');
+          if(logoutPersonnel) logoutPersonnel();
       }
 
     } catch (err) {
       console.error('Giriş Hatası:', err);
-      if (err.response) setError(err.response.data?.message || 'Giriş başarısız.');
-      else setError('Bir hata oluştu.');
+      setError(err.response?.data?.message || 'Giriş başarısız. Bilgilerinizi kontrol edin.');
     } finally {
       setLoading(false);
     }
@@ -80,21 +80,40 @@ export default function PersonelLoginPage() {
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '440px', borderTop: '4px solid #c1272d' }}> 
         <h2 className="login-title">Personel Girişi</h2>
-        <p style={{textAlign:'center', color:'#666', marginBottom:'20px', fontSize:'0.9rem'}}>
-          Yetkili personel giriş ekranıdır.
+        <p style={{textAlign:'center', color:'#666', fontSize:'0.9rem', marginBottom:'20px'}}>
+          Doktor, Yönetici ve Diğer Personel Girişi
         </p>
+        
         <form className="login-form" onSubmit={handleSubmit}>
-          {error && <div className="error-message" role="alert">{error}</div>}
+          {error && <div className="error-message">{error}</div>}
+          
           <div className="form-group">
-            <label htmlFor="tckn">TC Kimlik No</label>
-            <input type="text" id="tckn" className="form-input" value={tckn} onChange={(e) => setTckn(e.target.value)} disabled={loading} />
+            <label>TC Kimlik No</label>
+            <input 
+              type="text" 
+              className="form-input" 
+              value={tckn} 
+              onChange={(e) => setTckn(e.target.value)} 
+              maxLength={11} 
+              required 
+              placeholder="11 haneli TCKN"
+            />
           </div>
+          
           <div className="form-group">
-            <label htmlFor="password">Şifre</label>
-            <input type="password" id="password" className="form-input" value={password} onChange={(e) => setPassword(e.target.value)} disabled={loading} />
+            <label>Şifre</label>
+            <input 
+              type="password" 
+              className="form-input" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+              placeholder="Şifreniz"
+            />
           </div>
+          
           <button type="submit" className="login-button" disabled={loading} style={{ backgroundColor: '#c1272d' }}>
-            {loading ? 'Giriş Yapılıyor...' : 'Personel Girişi Yap'}
+            {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </button>
         </form>
       </div>

@@ -60,36 +60,36 @@ export function useAuth() {
   return context;
 }
 
-const StaffAuthContext = createContext(null);
+const PersonnelAuthContext = createContext(null);
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 /**
- * StaffAuthProvider Context: Sadece gerekli personel bilgileriyle oturum yönetimi
+ * PersonnelAuthProvider Context: Sadece gerekli personel bilgileriyle oturum yönetimi
  * phoneNumber ve tckn dışındaki gereksiz alanlar kaldırıldı.
  */
-export function StaffAuthProvider({ children }) {
+export function PersonnelAuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const storedUser = localStorage.getItem('staffUser');
+      const storedUser = localStorage.getItem('personnelUser');
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (error) { return null; }
   });
 
   const [token, setToken] = useState(() => {
     try {
-      return localStorage.getItem('staffToken') || null;
+      return localStorage.getItem('personnelToken') || null;
     } catch (error) { return null; }
   });
 
   /**
-   * loginStaff fonksiyonu: yalnızca personel için giriş işlemi yapar.
+   * loginPersonnel fonksiyonu: yalnızca personel için giriş işlemi yapar.
    * Hem token+user obje hem sadece token ile çalışır.
    * Gereksiz property kalmadı.
    */
-  const loginStaff = async (tokenOrObj, userObj) => {
+  const loginPersonnel = async (tokenOrObj, userObj) => {
     if (typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
       // Yalnızca gerekli property'ler alınır
       const slimUser = {
@@ -99,23 +99,23 @@ export function StaffAuthProvider({ children }) {
         role: userObj.role,
         phoneNumber: userObj.phoneNumber
       };
-      localStorage.setItem('staffToken', tokenOrObj);
-      localStorage.setItem('staffUser', JSON.stringify(slimUser));
+      localStorage.setItem('personnelToken', tokenOrObj);
+      localStorage.setItem('personnelUser', JSON.stringify(slimUser));
       setToken(tokenOrObj);
       setUser(slimUser);
       return;
     }
 
-    // loginStaff(token): sadece token ile çağrılırsa
+    // loginPersonnel(token): sadece token ile çağrılırsa
     let tokenString = null, userToStore = null;
     if (typeof tokenOrObj === "string") {
       tokenString = tokenOrObj;
     } else if (typeof tokenOrObj === "object" && tokenOrObj !== null) {
-      tokenString = tokenOrObj.token || localStorage.getItem('staffToken');
+      tokenString = tokenOrObj.token || localStorage.getItem('personnelToken');
       userToStore = tokenOrObj.user || tokenOrObj;
     }
 
-    if (tokenString) localStorage.setItem('staffToken', tokenString);
+    if (tokenString) localStorage.setItem('personnelToken', tokenString);
 
     if (userToStore && typeof userToStore === "object" && !Array.isArray(userToStore)) {
       // Sadece gerekli alanlar alınıyor
@@ -126,7 +126,7 @@ export function StaffAuthProvider({ children }) {
         role: userToStore.role,
         phoneNumber: userToStore.phoneNumber
       };
-      localStorage.setItem('staffUser', JSON.stringify(slimUser));
+      localStorage.setItem('personnelUser', JSON.stringify(slimUser));
       setUser(slimUser);
       setToken(tokenString);
     } else if (tokenString) {
@@ -146,34 +146,34 @@ export function StaffAuthProvider({ children }) {
           role: profile.role,
           phoneNumber: profile.phoneNumber
         };
-        localStorage.setItem('staffUser', JSON.stringify(slimUser));
+        localStorage.setItem('personnelUser', JSON.stringify(slimUser));
         setUser(slimUser);
         setToken(tokenString);
       } catch (err) {
-        logoutStaff();
+        logoutPersonnel();
         throw err;
       }
     }
   };
 
-  const logoutStaff = () => {
-    localStorage.removeItem('staffUser');
-    localStorage.removeItem('staffToken');
+  const logoutPersonnel = () => {
+    localStorage.removeItem('personnelUser');
+    localStorage.removeItem('personnelToken');
     setToken(null);
     setUser(null);
   };
 
-  const value = { user, token, loginStaff, logoutStaff };
+  const value = { user, token, loginPersonnel, logoutPersonnel };
 
   return (
-    <StaffAuthContext.Provider value={value}>
+    <PersonnelAuthContext.Provider value={value}>
       {children}
-    </StaffAuthContext.Provider>
+    </PersonnelAuthContext.Provider>
   );
 }
 
-export function useStaffAuth() {
-  const context = useContext(StaffAuthContext);
-  if (!context) throw new Error('useStaffAuth context hatası');
+export function usePersonnelAuth() {
+  const context = useContext(PersonnelAuthContext);
+  if (!context) throw new Error('usePersonnelAuth context hatası');
   return context;
 }
