@@ -57,19 +57,19 @@ export default function ContactPage() {
         <div className="contact-info-grid">
           <div className="contact-info-item">
             <PhoneIcon />
-            <span>+90 (212) 665 70 10</span>
+            <span>+90 (212) 000 00 00</span>
           </div>
           <div className="contact-info-item">
             <MailIcon />
-            <span>info@zeytinburnumutipmerkezi.com.tr</span>
+            <span>info@agiliontipmerkezi.com.tr</span>
           </div>
           <div className="contact-info-item">
             <PhoneIcon />
-            <span>+90 (212) 558 40 52</span>
+            <span>+90 (212) 000 00 00</span>
           </div>
           <div className="contact-info-item">
             <LocationIcon />
-            <span>Yenidoğan Mah. 50 Sk. No:22 Zeytinburnu/İstanbul</span>
+            <span>Cumhuriyet, 2254. Sk. No:2, 41420 Gebze/Kocaeli</span>
           </div>
         </div>
 
@@ -99,8 +99,11 @@ export default function ContactPage() {
       {/* Harita */}
       <div className="contact-map">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.396785679901!2d28.89943467664871!3d40.99478161989417!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cabd0b8a341399%3A0x808568475f4581c1!2sYenido%C4%9Fan%2C%2050.%20Sk.%20No%3A22%2C%2034020%20Zeytinburnu%2F%C4%B0stanbul!5e0!3m2!1str!2str!4v1730906800000!5m2!1str!2str"
-          width="100%"
+
+src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1759.6603115191679!2d29.356883807666723!3d40.80714894885567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cade5b10c31be7%3A0xba23b0e884a7e655!2sGebze%20Technical%20University%20Computer%20Engineering!5e0!3m2!1str!2str!4v1763457692285!5m2!1str!2str"
+
+        
+           width="100%"
           height="450"
           style={{ border: 0 }}
           allowFullScreen=""

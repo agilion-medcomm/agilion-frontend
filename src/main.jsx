@@ -1,18 +1,21 @@
-// main.jsx (YENİ KOD)
+// src/main.jsx
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext' // <-- 1. Import et
+import { AuthProvider } from './context/AuthContext'
+import { PersonnelAuthProvider } from './context/PersonnelAuthContext' 
 import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <AuthProvider> {/* <-- 2. En dışa AuthProvider'ı ekle */}
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </AuthProvider> {/* <-- 3. Kapat */}
+    <PersonnelAuthProvider> 
+        <AuthProvider> 
+            <BrowserRouter>
+                <App />
+            </BrowserRouter>
+        </AuthProvider>
+    </PersonnelAuthProvider>
   </StrictMode>,
 )
