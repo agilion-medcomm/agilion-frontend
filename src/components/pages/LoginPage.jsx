@@ -1,58 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import axios from 'axios'; // axios import edildi
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import axios from 'axios';
 import './LoginPage.css';
 
-// API base (env ile kolayca değiştirilebilir)
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
-// Backend mounts routes under /api/v1
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 export default function LoginPage() {
-  const [tcKimlik, setTcKimlik] = useState('');
+  // tckn dışında tcKimlik kullanılmaz!
+  const [tckn, setTckn] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { user: personnelUser } = usePersonnelAuth();
 
-  // Kullanıcı objesinden parola alanını kaldıran yardımcı fonksiyon
-  function withoutPassword(user) {
-    if (!user || typeof user !== 'object') return user;
-    // eslint-disable-next-line no-unused-vars
-    const { password: pw, ...userWithoutPass } = user;
-    return userWithoutPass;
-  }
+  useEffect(() => {
+    if (personnelUser) {
+      switch (personnelUser.role) {
+        case 'ADMIN': navigate('/personelLogin/admin-panel', { replace: true }); break;
+        case 'DOCTOR': navigate('/personelLogin/doctor-panel', { replace: true }); break;
+        case 'LAB_TECHNICIAN': navigate('/personelLogin/lab-panel', { replace: true }); break;
+        case 'CASHIER': navigate('/personelLogin/cashier-panel', { replace: true }); break;
+        case 'CLEANER': navigate('/personelLogin/cleaner-panel', { replace: true }); break;
+        default: break;
+      }
+    }
+  }, [personnelUser, navigate]);
 
   async function handleSubmit(event) {
     event.preventDefault();
     setError('');
 
-    // Normalize and validate TCKN: only digits, length 11
-    const normalizedTckn = (tcKimlik || '').replace(/\D/g, '');
+    const normalizedTckn = (tckn || '').replace(/\D/g, '');
     if (!normalizedTckn || normalizedTckn.length !== 11) {
-      setError('Lütfen 11 haneli geçerli bir TC kimlik numarası girin. (Sadece rakamlar)');
-      return;
-    }
-
-    if (!password || password.length < 8) {
-      setError('Lütfen en az 8 karakterli bir şifre girin.');
+      setError('Lütfen 11 haneli geçerli bir TC kimlik numarası girin.');
       return;
     }
 
     setLoading(true);
 
     try {
-      // 1. ÖNCELİKLİ YOL: /api/auth/login endpoint'ine POST isteği dene
-  console.log('Gönderilen (POST):', { tcKimlik, password });
-  // backend expects `tckn` field (11 digits). Use normalized value.
-  const payload = { tckn: normalizedTckn, password };
-  console.log('Login payload:', payload);
-  const response = await axios.post(`${BaseURL}/auth/login`, payload);
+      // tckn olarak gönder
+      const payload = { tckn: normalizedTckn, password };
+      const response = await axios.post(`${BaseURL}/auth/patient/login`, payload);
+      const data = response.data?.data;
+      if (!data?.token || !data?.user) throw new Error('Sunucudan token veya user gelmedi.');
 
+<<<<<<< HEAD
       console.log('Login başarılı (POST), response:', response.data);
 
       // Backend returns { status, message, data: { token, user } }
@@ -64,9 +64,12 @@ export default function LoginPage() {
 
       // Use token and user directly
       await login({ token, user });
+=======
+      await login(data.token, data.user);
+>>>>>>> 5584bb8d6b5d740a61a9ed2c5d97fa376afa9c6a
       navigate('/');
-
     } catch (err) {
+<<<<<<< HEAD
       // 2. HATA YÖNETİMİ: axios hatası mı kontrol et
       if (axios.isAxiosError(err)) {
         // 2a. FALLBACK YOLU: Eğer 404 hatası alındıysa (endpoint yoksa), /users ile client-side doğrulamayı dene
@@ -117,28 +120,37 @@ export default function LoginPage() {
         console.error('Genel Hata:', err);
         setError(err.message || 'Bilinmeyen bir hata oluştu.');
       }
+=======
+      if (err.response) setError(err.response.data?.message || 'Giriş başarısız.');
+      else if (err.request) setError('Sunucuya ulaşılamıyor.');
+      else setError('Bir hata oluştu.');
+>>>>>>> 5584bb8d6b5d740a61a9ed2c5d97fa376afa9c6a
     } finally {
       setLoading(false);
     }
   }
 
+  if (personnelUser) return null;
+
   return (
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '440px' }}>
-        <h2 className="login-title">Giriş Yap</h2>
+        <h2 className="login-title">Hasta Girişi</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message" role="alert">{error}</div>}
           <div className="form-group">
-            <label htmlFor="tcKimlik">Kullanıcı Adı (TC No)</label>
+            <label htmlFor="tckn">TC Kimlik No</label>
             <input
               type="text"
-              id="tcKimlik"
+              id="tckn"
               className="form-input"
-              placeholder="TC No girin"
-              value={tcKimlik}
-              onChange={(e) => setTcKimlik(e.target.value)}
+              value={tckn}
+              maxLength={11}
+              minLength={11}
+              onChange={(e) => setTckn(e.target.value)}
               disabled={loading}
-              autoComplete="username"
+              pattern="\d{11}"
+              required
             />
           </div>
           <div className="form-group">
@@ -147,11 +159,10 @@ export default function LoginPage() {
               type="password"
               id="password"
               className="form-input"
-              placeholder="Şifre girin"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
-              autoComplete="current-password"
+              required
             />
           </div>
           <button type="submit" className="login-button" disabled={loading}>

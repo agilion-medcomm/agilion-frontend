@@ -399,7 +399,10 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   right: 0;
   left: auto;
   width: 340px;
+<<<<<<< HEAD
   min-width: 280px;
+=======
+>>>>>>> 5584bb8d6b5d740a61a9ed2c5d97fa376afa9c6a
   max-width: 92vw;
   margin-right: 16px;
   height: auto;
