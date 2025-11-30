@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 // src/components/pages/panels/AdminPanel.jsx (NİHAİ VE TAM KOD)
+=======
+<<<<<<< HEAD
+// src/components/pages/panels/AdminPanel.jsx (NİHAİ VE TAM KOD)
+=======
+// src/components/pages/panels/AdminPanel.jsx (GÜNCEL VE TAM KOD)
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
+>>>>>>> main
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -10,7 +18,11 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
+<<<<<<< HEAD
 // İkonlar
+=======
+// İkonlar (Daha kısa olması için atlanmıştır, orijinal kodunuzdaki gibi kalmalıdır)
+>>>>>>> main
 const EditIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
@@ -45,7 +57,15 @@ export default function AdminPanelPage() {
   
   // --- AKORDİYON STATE'LERİ ---
   const [showAddForm, setShowAddForm] = useState(false);
+<<<<<<< HEAD
   const [showPersonnelList, setShowPersonnelList] = useState(false);
+=======
+<<<<<<< HEAD
+  const [showPersonnelList, setShowPersonnelList] = useState(false);
+=======
+  const [showStaffList, setShowStaffList] = useState(false);
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
+>>>>>>> main
   const [showContactForms, setShowContactForms] = useState(false);
   const [showLeaveRequests, setShowLeaveRequests] = useState(false); 
   const [showCleaningChecks, setShowCleaningChecks] = useState(false);
@@ -73,7 +93,15 @@ export default function AdminPanelPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+<<<<<<< HEAD
   // 🔥 YÜKLEME KONTROLÜ
+=======
+<<<<<<< HEAD
+  // 🔥 YÜKLEME KONTROLÜ
+=======
+  // 🔥 YÜKLEME DÜZELTMESİ: Kullanıcı bilgisi gelene kadar bekle
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
+>>>>>>> main
   if (user === undefined) { 
     return <div style={{textAlign: 'center', padding: '100px', fontSize: '20px'}}>Kullanıcı Bilgileri Yükleniyor...</div>
   }
@@ -82,9 +110,38 @@ export default function AdminPanelPage() {
   if (!user || user.role !== 'ADMIN') {
     return (
       <div style={{textAlign: 'center', padding: '100px', fontSize: '20px', color: '#c1272d', fontWeight: 'bold'}}>
+<<<<<<< HEAD
         Yetkiniz yok. Lütfen doğru rol ile <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
       </div>
     );
+=======
+<<<<<<< HEAD
+        Yetkiniz yok. Lütfen doğru rol ile <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
+      </div>
+    );
+=======
+        Yetkiniz yok veya oturum sona erdi. Lütfen tekrar <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
+      </div>
+    );
+  }
+
+  useEffect(() => { 
+    if (user && user.role === 'ADMIN') {
+        fetchStaff(); 
+    }
+  }, [user]);
+
+  async function fetchStaff() {
+    const token = localStorage.getItem('staffToken');
+    if (!token) return;
+    try {
+      const res = await axios.get(`${BaseURL}/staff`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setStaffList(Array.isArray(res.data.data) ? res.data.data : []);
+    } catch (err) { console.error(err); }
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
+>>>>>>> main
   }
 
   // Yalnızca user yüklendikten sonra listeleri çek

@@ -454,12 +454,16 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   right: 0;
   left: auto;
   width: 340px;
+<<<<<<< HEAD
   min-width: 280px;
+=======
+>>>>>>> main
   max-width: 92vw;
   margin-right: 16px;
   height: auto;
   min-height: 320px;
   max-height: calc(100vh - var(--topbar-h) - var(--menubar-h) - 20px);
+<<<<<<< HEAD
   background: white;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -469,6 +473,14 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   z-index: 1000;
   overflow-y: auto;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+=======
+  background: rgb(255, 255, 255);
+  box-shadow: -2px 0 16px rgba(0, 0, 0, 0.18);
+  border-radius: 24px;
+  z-index: 1000;
+  overflow-y: auto;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+>>>>>>> main
   pointer-events: none;
   cursor: default;
   -webkit-overflow-scrolling: touch;
@@ -479,8 +491,11 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 }
 
 .mobile-menu--open {
+<<<<<<< HEAD
   opacity: 1;
   transform: translateY(0) scale(1);
+=======
+>>>>>>> main
   right: 0;
   pointer-events: auto;
 }

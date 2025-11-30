@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* src/components/Appointment/Appointment.css (KONSOLİDE EDİLMİŞ VERSİYON) */
 
 /* === BİLEŞEN KAPLAYICISI === */
@@ -209,10 +210,131 @@
 }
 
 /* Tarih Kartları Listesi */
+=======
+/* src/components/Appointment/Appointment.css (NİHAİ STİL DOSYASI) */
+
+/* ===================================================================== */
+/* GENEL MODAL YAPISI */
+/* ===================================================================== */
+.appointment-modal-overlay,
+.doctor-select-modal-overlay {
+    position: fixed; 
+    top: 0; left: 0; right: 0; bottom: 0; 
+    background: rgba(0,0,0,0.75);
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    z-index: 2000;
+}
+.doctor-select-modal-overlay {
+    z-index: 3000; /* Doktor seçim modalini en üste alır */
+}
+
+.appointment-modal,
+.doctor-select-modal {
+    background: white; 
+    border-radius: 16px; 
+    padding: 30px; 
+    max-width: 900px; 
+    width: 95%; 
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+.doctor-select-modal {
+    max-width: 650px;
+}
+
+/* Kapatma Butonu */
+.modal-close { 
+    position: absolute; 
+    top: 10px; right: 10px; 
+    background: none; 
+    border: none; 
+    font-size: 28px; 
+    cursor: pointer; 
+    color: #999;
+    z-index: 10;
+}
+.modal-close:hover { color: #c1272d; }
+
+/* ===================================================================== */
+<<<<<<< HEAD
+/* 2. Aşama: RANDEVU PLANLAMA MODAL STİLLERİ (Appointment) */
+=======
+/* 2. Aşama: RANDEVU PLANLAMA MODAL STİLLERİ (AppointmentV2Modal) */
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
+/* ===================================================================== */
+
+/* Ana Grid Yapısı (Doktor Sol, Takvim Sağ) */
+.modal-content-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* SOL PANEL: Doktor Bilgileri */
+.doctor-panel-left {
+    padding: 20px 0;
+    text-align: left; 
+    border-right: 1px solid #eee; 
+    padding-right: 40px;
+}
+.doctor-specialization { color: #4a5568; font-size: 1.05rem; margin: 0 0 8px 0; font-weight: 600; }
+.doctor-name { color: #1a4d5f; font-size: 1.8rem; margin: 0 0 20px 0; font-weight: 700; }
+.doctor-modal-img, 
+.doctor-modal-avatar-placeholder { 
+    width: 180px; 
+    height: 180px; 
+    border-radius: 50%; 
+    margin: 30px 0; 
+    background: #f0f8ff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 50px; 
+    color: #1a4d5f; 
+    font-weight: 700; 
+    object-fit: cover; 
+    border: 4px solid #5a9fb8;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    user-select: none;
+}
+.randevu-onay-wrap { margin-top: 40px; }
+.confirm-appointment-btn { 
+    width: 100%; 
+    background: #4ab43f; 
+    color: white; 
+    border: none; 
+    padding: 16px 20px; 
+    border-radius: 12px; 
+    font-size: 1.1rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: background 0.2s;
+    box-shadow: 0 4px 10px rgba(74, 180, 63, 0.3);
+}
+.confirm-appointment-btn:hover:not(:disabled) { background: #399131; }
+
+
+/* SAĞ PANEL: TAKVİM VE SLOTLAR */
+.calendar-panel-right { padding: 20px 0; }
+.date-navigation-container { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px;
+    margin-bottom: 25px; 
+    padding-bottom: 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+>>>>>>> main
 .date-list {
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
+<<<<<<< HEAD
     gap: 10px; 
 }
 
@@ -264,12 +386,61 @@
     font-weight: 600;
     cursor: pointer;
     font-size: 1.2rem;
+=======
+    gap: 8px; 
+}
+
+/* Navigasyon Okları */
+.date-navigation-container > button {
+    background: white; 
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 10px 12px; 
+    cursor: pointer; 
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+/* Haftalık Kartlar (5 gün) */
+.date-card { 
+    padding: 8px 0; 
+    border: 1px solid #d1d5db; 
+    border-radius: 10px; 
+    text-align: center; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+    flex: 1; 
+    min-width: 65px;
+}
+.date-card.active { border-color: #1a4d5f; background: #1a4d5f; }
+.date-card.active .day-name, .date-card.active .date-number { color: white; }
+.day-name { font-size: 0.8rem; color: #4a5568; font-weight: 600; }
+.date-number { font-size: 1.1rem; font-weight: 800; color: #1a202c; margin: 2px 0; }
+
+/* Tarih Seçme Butonu ve Pop-up */
+.custom-date-selector { position: relative; flex-shrink: 0; }
+.date-select-btn {
+    background: #1a4d5f;
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+>>>>>>> main
 }
 .calendar-popup {
     position: absolute;
     top: 100%; 
     right: 0;
     margin-top: 10px;
+<<<<<<< HEAD
     z-index: 50;
     background: white;
     border-radius: 12px;
@@ -370,4 +541,126 @@
     .nav-btn { flex: 1; }
     .custom-date-selector { flex: 2; text-align: center; }
     .date-select-btn { width: 100%; }
+=======
+    z-index: 200;
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Saat Slotları */
+.time-slots-grid { 
+    display: grid; 
+    grid-template-columns: repeat(6, 1fr); 
+    gap: 10px; 
+}
+.time-slot { 
+    padding: 10px 5px; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    font-size: 0.95rem;
+    border: 1px solid #d1d5db; 
+    background: white;
+    color: #4a5568;
+    transition: all 0.2s;
+}
+.time-slot.available { color: #0e2b4b; border: 1px solid #5a9fb8; cursor: pointer; }
+.time-slot.available:hover { border-color: #4ab43f; color: #4ab43f; background: #f0fff0; }
+.time-slot.selected { background: #5a9fb8; color: white; border-color: #5a9fb8; }
+.time-slot.unavailable { background: #f0f0f0; color: #aaa; border: 1px solid #e0e0e0; cursor: not-allowed; }
+
+/* ===================================================================== */
+/* DOKTOR SEÇİM MODALI STİLLERİ (DoctorSelectModal.jsx) */
+/* ===================================================================== */
+
+.doctor-selection-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: #fdfdff;
+}
+
+.doctor-selection-card:hover {
+    border-color: #5a9fb8;
+    box-shadow: 0 4px 10px rgba(90, 159, 184, 0.1);
+    transform: translateY(-2px);
+}
+
+.doctor-avatar-small {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #e6f7ff;
+    color: #1a4d5f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.doctor-selection-card .info {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.doctor-selection-card .name {
+    font-weight: 700;
+    color: #1a4d5f;
+    font-size: 1rem;
+}
+
+.doctor-selection-card .specialization {
+    color: #5a9fb8;
+    font-size: 0.85rem;
+}
+
+.select-btn {
+    background: #5a9fb8;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* ===================================================================== */
+/* RESPONSIVE KURALLAR (TÜM MODALLAR İÇİN) */
+/* ===================================================================== */
+@media (max-width: 900px) {
+    .modal-content-grid {
+        grid-template-columns: 1fr; 
+        gap: 20px;
+    }
+    .doctor-panel-left {
+        order: -1; 
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 20px;
+        text-align: center;
+    }
+    .doctor-modal-img, 
+    .doctor-modal-avatar-placeholder { 
+        margin: 20px auto; 
+    }
+    .time-slots-grid { 
+        grid-template-columns: repeat(4, 1fr); 
+    }
+}
+
+@media (max-width: 480px) {
+    .time-slots-grid { 
+        grid-template-columns: repeat(3, 1fr); 
+    }
+>>>>>>> main
 }

@@ -84,11 +84,19 @@ export default function DoctorPanel() {
 
   // --- RANDEVULARI ÇEKME FONKSİYONU ---
   const fetchAppointments = async () => {
+<<<<<<< HEAD
       if (!user || !user.doctorId) return;
       setAppLoading(true);
       try {
           const res = await axios.get(`${BaseURL}/appointments`, {
               params: { list: 'true', doctorId: user.doctorId }
+=======
+      if (!user || !user.id) return;
+      setAppLoading(true);
+      try {
+          const res = await axios.get(`${BaseURL}/appointments`, {
+              params: { list: 'true', doctorId: user.id }
+>>>>>>> main
           });
           setAppointments(res.data.data || []);
       } catch (err) {
@@ -169,6 +177,7 @@ export default function DoctorPanel() {
     const token = localStorage.getItem('personnelToken');
     if (!token) return setLeaveMessage('Oturum süreniz doldu, lütfen tekrar giriş yapın.');
 
+<<<<<<< HEAD
     if (!user.doctorId) {
         setLeaveMessage('Doktor bilgisi bulunamadı.');
         setLeaveStatus('error');
@@ -177,6 +186,10 @@ export default function DoctorPanel() {
 
     const payload = {
         personnelId: user.doctorId, // Use doctorId from Doctor table, not user.id
+=======
+    const payload = {
+        personnelId: user.id,
+>>>>>>> main
         personnelFirstName: user.firstName,
         personnelLastName: user.lastName,
         personnelRole: user.role,

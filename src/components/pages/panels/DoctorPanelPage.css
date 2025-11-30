@@ -17,6 +17,7 @@
 }
 
 .doctor-top-section {
+<<<<<<< HEAD
   background: linear-gradient(135deg, #45b5c4 0%, #3c9fae 70%, #357d91 100%);
   padding-top: 50px;
   padding-bottom: 70px;
@@ -31,6 +32,12 @@
   inset: 0;
   background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
   pointer-events: none;
+=======
+  background-color: #45b5c4; /* Tıbbi Teal Renk */
+  padding-top: 40px;
+  padding-bottom: 60px;
+  color: white;
+>>>>>>> main
 }
 
 .panel-top-header {
@@ -41,6 +48,7 @@
 }
 
 .doctor-panel-title {
+<<<<<<< HEAD
   font-size: clamp(1.8rem, 4vw, 2.4rem);
   letter-spacing: -0.02em;
   color: #ffffff;
@@ -76,10 +84,34 @@
 
 .logout-btn:active {
   transform: translateY(0);
+=======
+  font-size: 2.2rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  margin: 0;
+  font-weight: 700;
+}
+
+.logout-btn {
+  background: #ffffff;
+  color: #c1272d; /* Kırmızı logout butonu aynı kalsın */
+  font-weight: 600;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.logout-btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-2px);
+>>>>>>> main
 }
 
 /* PROFİL KARTI STİLLERİ (AdminPanelPage.css'ten kopyalandı) */
 .doctor-profile-card {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -112,6 +144,22 @@
   font-size: 1.05rem;
   border-bottom: 2px solid #bae6fd;
   letter-spacing: 0.01em;
+=======
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  color: #333;
+}
+
+.profile-header-strip {
+  background: #e5e7eb;
+  color: #374151;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-bottom: 1px solid #d1d5db;
+>>>>>>> main
 }
 
 .profile-content {
@@ -151,6 +199,7 @@
 
 .profile-item .value-box {
   flex: 1;
+<<<<<<< HEAD
   border: 2px solid #e5e7eb;
   background: #fff;
   padding: 8px 12px;
@@ -173,6 +222,22 @@
 .profile-item .value-box.readonly {
   background: #f9fafb;
   color: #6b7280;
+=======
+  border: 1px solid #d1d5db;
+  background: #fff;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  color: #111;
+  border-radius: 6px;
+  min-height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-item .value-box.readonly {
+  background: #f3f4f6;
+  color: #555;
+>>>>>>> main
   border-color: #e5e7eb;
 }
 
@@ -200,6 +265,7 @@
 }
 
 .avatar-placeholder {
+<<<<<<< HEAD
   width: 130px;
   height: 150px;
   background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
@@ -228,6 +294,28 @@
 
 .avatar-img:hover {
   transform: scale(1.05);
+=======
+  width: 120px;
+  height: 140px;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: #9ca3af;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+.avatar-img {
+  width: 120px;
+  height: 140px;
+  object-fit: cover; 
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+>>>>>>> main
 }
 
 .avatar-label {
@@ -260,6 +348,7 @@
 }
 
 .section-header h3 {
+<<<<<<< HEAD
   background: linear-gradient(135deg, #0e2b4b 0%, #45b5c4 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -271,6 +360,13 @@
   font-size: 1.5rem;
   font-weight: 800;
   letter-spacing: -0.01em;
+=======
+  color: #111827;
+  border-left: 5px solid #45b5c4; /* Teal renkli çizgi */
+  padding-left: 12px;
+  margin: 0;
+  font-size: 1.4rem;
+>>>>>>> main
 }
 
 .toggle-arrow {
@@ -316,6 +412,7 @@
 }
 
 .modal-box {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -339,6 +436,15 @@
     opacity: 1;
     transform: scale(1);
   }
+=======
+  background: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  padding: 24px;
+  position: relative;
+>>>>>>> main
 }
 
 .modal-header {
@@ -412,6 +518,7 @@
 }
 
 .save-btn {
+<<<<<<< HEAD
   background: linear-gradient(135deg, #45b5c4 0%, #3c9fae 100%);
   color: white;
   border: none;
@@ -432,6 +539,17 @@
 .save-btn:active {
   transform: translateY(0);
 }
+=======
+  background: #45b5c4; /* Teal save */
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.save-btn:hover { background: #3c9fae; }
+>>>>>>> main
 
 /* Mobil Uyum */
 @media (max-width: 768px) {

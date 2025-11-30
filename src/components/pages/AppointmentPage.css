@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* src/components/pages/AppointmentPage.css (SADELEŞTİRİLMİŞ) */
 
 .appointment-page-wrapper {
@@ -38,3 +39,393 @@
     height: 20px;
 }
    
+=======
+/* src/components/pages/AppointmentPage.css (SON HALİ) */
+
+.appointment-page {
+    padding: 40px 20px;
+    max-width: 1100px; /* Daha geniş alan */
+    margin: 0 auto;
+    min-height: calc(100vh - 122px); 
+}
+
+.back-link {
+    font-size: 1rem;
+    color: #0e2b4b;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    transition: color 0.2s;
+}
+
+.back-link:hover {
+    color: #4a63d1;
+}
+
+/* Ana Randevu Kartı */
+.appointment-card-wrapper {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Hafif gölge */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Doktor Bilgisi ve Saat Seçimi Ana Konteyneri */
+.appointment-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Sol Blok: Doktor Adı, Avatar ve Randevu Butonu */
+.doctor-info-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 250px; /* Sabit genişlik */
+    padding: 20px;
+    /* Ekran görüntüsündeki gibi ayrım çizgisi yok, arka planı beyaz bırakıyoruz */
+}
+
+.doctor-info-block h2 {
+    margin: 0 0 5px 0;
+    font-size: 1.8rem; /* Daha büyük başlık */
+    color: #111827;
+}
+
+.doctor-info-block p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 1rem;
+}
+
+.doctor-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #e3eaf2; /* Açık mavi arka plan */
+    color: #0e2b4b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem; /* Daha büyük baş harfler */
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-bottom: 20px;
+}
+
+/* Randevuyu Tamamla Butonu */
+.complete-appointment-btn {
+    margin-top: 30px;
+    background: #5cb85c;
+    color: white;
+    border: none;
+    padding: 14px 28px; /* Daha büyük buton */
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(92, 184, 92, 0.3);
+}
+.complete-appointment-btn:hover:not(:disabled) {
+    background: #449d44;
+    transform: translateY(-1px);
+}
+.complete-appointment-btn:disabled {
+    background-color: #9ca3af;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+/* === Sağ Blok: Tarih ve Saat Seçimi === */
+.schedule-block {
+    flex-grow: 1;
+    padding-left: 20px;
+    border-left: 1px solid #e5e7eb;
+}
+
+.time-header-label {
+    font-size: 1rem;
+    color: #111827;
+    margin: 0 0 15px 0;
+    font-weight: 600;
+}
+
+/* Tarih Seçici Üst Bölüm (Navigasyon + Tarih Seç Butonu) */
+.date-selector-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f5f5;
+    padding: 10px 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.date-nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.date-tab-container {
+    display: flex;
+    gap: 8px;
+    overflow-x: hidden;
+}
+
+.date-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    min-width: 60px; 
+    user-select: none;
+}
+
+.date-tab .day-name {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.date-tab .date-num {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.date-tab.active {
+    background-color: #0e2b4b;
+    color: white;
+    border-color: #0e2b4b;
+}
+
+.date-tab:not(.active) {
+    background-color: white;
+    color: #555;
+}
+.date-tab:not(.active):hover {
+    background-color: #f0f0f0;
+}
+
+/* Tarih Seç Butonu Stili */
+.date-picker-btn {
+    background: #0e2b4b;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display:flex; 
+    align-items:center; 
+    gap: 5px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+/* Saat Gridi */
+.time-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    max-width: 650px;
+}
+
+.time-slot {
+    background-color: #d1f7d1;
+    color: #1a4d1a;
+    border: 1px solid #a6e8a6;
+    padding: 12px 5px; 
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.time-slot.busy {
+    background-color: #f3f4f6; 
+    color: #9ca3af;
+    cursor: not-allowed;
+    border-color: #e5e7eb;
+    text-decoration: line-through;
+}
+
+.time-slot.selected {
+    background-color: #1a4d1a;
+    color: white;
+    box-shadow: 0 0 0 2px #5cb85c;
+}
+
+/* --- MODAL VE TAKVİM STİLLERİ --- */
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.calendar-modal {
+    background: white;
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-header h2 {
+    font-size: 1.2rem;
+    color: #0e2b4b;
+    margin: 0;
+}
+
+.calendar-header button {
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #0e2b4b;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.calendar-weekday {
+    font-weight: 700;
+    color: #4a5568;
+    padding-bottom: 8px;
+}
+
+.calendar-day {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    border-radius: 4px;
+    font-weight: 500;
+    border: none;
+    background: #f9fafb;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.calendar-day.selectable:hover {
+    background: #e3eaf2;
+}
+
+.calendar-day.today {
+    border: 2px solid #0e2b4b;
+}
+
+.calendar-day.disabled {
+    background: #fff;
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+.calendar-close-btn {
+    width: 100%;
+    margin-top: 20px;
+    background: #c1272d;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive Düzenleme (Aynı kaldı) */
+@media (max-width: 990px) {
+    .appointment-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .doctor-info-block {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #f3f4f6;
+        padding-bottom: 30px;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .doctor-info-block > h2, 
+    .doctor-info-block > p {
+        text-align: left;
+        margin-left: 20px;
+    }
+    .doctor-info-block > h2 {
+        font-size: 1.6rem;
+    }
+
+    .schedule-block {
+        padding-left: 0;
+        border-left: none;
+    }
+    .complete-appointment-btn {
+        width: 100%;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .time-grid {
+        max-width: 100%;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    }
+}
+@media (max-width: 600px) {
+    .doctor-info-block {
+        flex-direction: column;
+        text-align: center;
+    }
+    .doctor-info-block > h2, 
+    .doctor-info-block > p {
+        text-align: center;
+        margin-left: 0;
+    }
+    .doctor-info-block {
+        padding: 10px;
+    }
+    .time-grid {
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+>>>>>>> main

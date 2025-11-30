@@ -88,6 +88,10 @@
       "email": "",
       "dateOfBirth": null,
       "specialization": "KALP"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:personnel.json
+>>>>>>> main
     },
     {
       "id": 1764099959078,
@@ -100,6 +104,11 @@
       "email": "mehet@hotmail.com",
       "dateOfBirth": "1986-10-25",
       "specialization": "Kalp"
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc:staff.json
+>>>>>>> main
     }
   ]
 }
