@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-// server.cjs (TAM VE DÜZELTİLMİŞ VERSİYON)
-// server.cjs (TAM VE DÜZELTİLMİŞ VERSİYON)
-=======
 // src/components/Appointment/AppointmentV2Modal.jsx (GÜNCEL TASARIM VE MANTIK)
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 
 const express = require('express');
 const cors = require('cors');
@@ -15,7 +10,6 @@ const PORT = 3000;
 
 // VERİ TABANI YOLLARI
 const DB_PATH = path.join(__dirname, 'patients.json');
-<<<<<<< HEAD
 const personnel_DB_PATH = path.join(__dirname, 'personnel.json');
 const APPOINTMENTS_DB_PATH = path.join(__dirname, 'appointments.json');
 const LEAVE_REQUESTS_DB_PATH = path.join(__dirname, 'leaveRequests.json');
@@ -35,7 +29,6 @@ app.use(express.json());
 app.use(cors());
 
 // === YARDIMCI OKUMA/YAZMA FONKSİYONLARI ===
-=======
 const STAFF_DB_PATH = path.join(__dirname, 'staff.json');
 const APPOINTMENTS_DB_PATH = path.join(__dirname, 'appointments.json');
 console.log('__dirname:', __dirname);
@@ -44,7 +37,6 @@ console.log('STAFF_DB_PATH:', STAFF_DB_PATH);
 app.use(express.json());
 app.use(cors());
 // === YARDIMCI FONKSİYONLAR ===
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 async function readDb() {
   try {
     const data = await fs.readFile(DB_PATH, 'utf-8');
@@ -69,119 +61,15 @@ async function readAppointmentsDb() {
   try {
     const data = await fs.readFile(APPOINTMENTS_DB_PATH, 'utf-8');
     return JSON.parse(data);
-<<<<<<< HEAD
-  } catch (err) { return { appointments: [] }; }
-=======
   } catch (err) {
     return { appointments: [] };
   }
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 }
 async function writeAppointmentsDb(data) {
   await fs.writeFile(APPOINTMENTS_DB_PATH, JSON.stringify(data, null, 2));
 }
 
-<<<<<<< HEAD
-async function readLeaveRequestsDb() {
-  try {
-    const data = await fs.readFile(LEAVE_REQUESTS_DB_PATH, 'utf-8');
-    return JSON.parse(data);
-  } catch (err) { return { requests: [] }; }
-}
-async function writeLeaveRequestsDb(data) {
-  await fs.writeFile(LEAVE_REQUESTS_DB_PATH, JSON.stringify(data, null, 2));
-}
-
-// GÜNLÜK SLOTLARI OLUŞTURMA (09:00 - 17:00)
-function getDailySlots() {
-    const slots = [];
-    for (let h = 9; h <= 17; h++) {
-        for (let m of [0, 30]) {
-            if (h === 17 && m > 0) continue;
-            slots.push(`${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`);
-        }
-    }
-    return slots;
-}
-
-// RANDEVU İŞLEMLERİ
-app.get('/api/v1/appointments', async (req, res) => {
-    try {
-        const { doctorId, date, list } = req.query;
-        const appDb = await readAppointmentsDb();
-        const leaveDb = await readLeaveRequestsDb(); // İzinleri oku
-        
-        // İptal edilmemiş randevuları al
-        let activeAppointments = appDb.appointments.filter(a => a.status !== 'CANCELLED');
-
-        // A) DOKTOR PANELİ İÇİN LİSTE İSTENİYORSA
-        if (list === 'true') {
-            let resultList = activeAppointments;
-            if (doctorId) {
-                resultList = resultList.filter(a => String(a.doctorId) === String(doctorId));
-            }
-            // Tarihe göre sırala (Yeniden eskiye)
-            resultList.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            return res.json({ status: 'success', data: resultList });
-        }
-
-        // B) RANDEVU ALMA EKRANI İÇİN DOLU SAATLER (SLOTLAR) İSTENİYORSA
-        // Onaylanmış izinleri filtrele
-        const approvedLeaves = leaveDb.requests.filter(r => r.status === 'APPROVED');
-        
-        if (doctorId && date) {
-            // 1. Mevcut Randevulardan gelen dolu saatler
-            const appointmentsForDay = activeAppointments.filter(a => 
-                String(a.doctorId) === String(doctorId) && 
-                a.date === date
-            );
-            let bookedTimes = appointmentsForDay.map(a => a.time);
-
-            // 2. İzinlerden kaynaklı dolu saatleri hesapla
-            // Gelen tarih formatı "DD.MM.YYYY" (Örn: 25.11.2025) -> Bunu parse etmeliyiz
-            const [day, month, year] = date.split('.');
-            // Sorgulanan günün başlangıcı ve bitişi (09:00 - 17:00 arası kontrol edeceğiz)
-            
-            // O günün tüm slotlarını tek tek kontrol et: İzinle çakışıyor mu?
-            const dailySlots = getDailySlots(); // ["09:00", "09:30", ...]
-
-            dailySlots.forEach(slot => {
-                // Bu slotun tam tarih/saat değeri
-                const [h, m] = slot.split(':');
-                const slotDate = new Date(year, month - 1, day, h, m); // Ay 0-indexlidir
-
-                // Bu slot herhangi bir onaylı iznin aralığına giriyor mu?
-                const isBlockedByLeave = approvedLeaves.some(leave => {
-                    // Doktor ID kontrolü
-                    if (String(leave.personnelId) !== String(doctorId)) return false;
-
-                    // İzin başlangıç ve bitişini Date objesine çevir
-                    const leaveStart = new Date(`${leave.startDate}T${leave.startTime}`);
-                    const leaveEnd = new Date(`${leave.endDate}T${leave.endTime}`);
-
-                    // Slot bu aralıkta mı?
-                    return slotDate >= leaveStart && slotDate < leaveEnd;
-                });
-
-                if (isBlockedByLeave && !bookedTimes.includes(slot)) {
-                    bookedTimes.push(slot);
-                }
-            });
-
-            return res.json({ status: 'success', data: { bookedTimes: bookedTimes } });
-        }
-        
-        return res.json({ status: 'success', data: { bookedTimes: [] } });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Veri alınamadı: ' + error.message });
-    }
-});
-
-=======
 // === PUBLIC DOCTORS ENDPOINT ===
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 app.get('/api/v1/doctors', async (req, res) => {
   try {
     const personnelDb = await readpersonnelDb();
@@ -196,9 +84,6 @@ app.get('/api/v1/doctors', async (req, res) => {
       role: u.role
     }));
     res.json({ data: publicDoctors });
-<<<<<<< HEAD
-  } catch (error) { res.status(500).json({ message: error.message }); }
-=======
   } catch (error) {
     res.status(500).json({ message: 'Doktorlar alınamadı: ' + error.message });
   }
@@ -363,7 +248,7 @@ app.post('/api/v1/auth/patient-login', async (req, res) => {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: 'Sunucu hatası: ' + error.message });
+    res.status(500).json({ message: 'Kayıt sırasında hata oluştu: ' + error.message });
   }
 });
 // === PROFİL SORGULAMA ===
@@ -406,7 +291,6 @@ app.get('/api/v1/auth/me', async (req, res) => {
     }
   }
   return res.status(404).json({ message: 'User not found' });
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 });
 
 // === HASTA KAYIT (dateOfBirth ve phoneNumber alanı zorunlu) ===
@@ -513,15 +397,12 @@ app.get('/api/v1/appointments', async (req, res) => {
         res.status(500).json({ message: 'Randevular alınamadı.' });
     }
 });
-<<<<<<< HEAD
-=======
 
 
 
 app.listen(PORT, () => {
   console.log(`✅ Mock Sunucu Hazır: http://localhost:${PORT}`);
 });
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 // === PERSONEL GÜNCELLEME (PUT) ===
 app.put('/api/v1/personnel/:id', async (req, res) => {
   try {
@@ -536,11 +417,7 @@ app.put('/api/v1/personnel/:id', async (req, res) => {
     }
 
     // Mevcut kullanıcıyı al, güncellemeleri üstüne yaz
-<<<<<<< HEAD
-    const updatedUser = { ...personnelDb.personnel[userIndex], ...updates };
-=======
     const updatedUser = { ...staffDb.personnel[userIndex], ...updates };
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
    
     // Listeyi güncelle
     personnelDb.personnel[userIndex] = updatedUser;

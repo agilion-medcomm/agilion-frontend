@@ -634,37 +634,40 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 /* src/components/Menu/Menu.css dosyasının en sonuna ekle */
 
 /* ====== MOBİL MENU MODAL GÖRÜNÜMÜ (900px altı) ====== */
+/* 1300px ve altı ekranlarda menüyü sağ üstte küçük bir kutu olarak tutar */
 @media (max-width: 1300px) {
   
   .mobile-menu {
-    /* 1. Genişlik: Tam genişlik + sağ/sol boşluk */
-    left: 10px;
-    right: 10px;
-    width: auto; /* 'width: 320px' kuralını ezer */
-
-    /* 2. Dikey Boşluklar */
-    top: calc(var(--topbar-h) + var(--menubar-h) + 10px); /* Üst boşluk */
-    bottom: 90px; /* Alttaki (floating) butonlar için boşluk */
-    height: auto; /* 'height: calc(...)' kuralını ezer */
-    max-height: calc(100vh - var(--topbar-h) - var(--menubar-h) - 110px);
-
-    /* 3. Animasyon: Sağdan kayma yerine belirme (fade/pop) */
-    opacity: 0;
-    transform: scale(0.98);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    /* 1. KONUMLANDIRMA: Sola yapışmasını ENGELLE */
+    left: auto !important;
+    right: 20px !important; /* Sağdan biraz boşluk */
     
-    /* Eski 'right: -320px' kuralını sıfırla */
-    right: 10px; 
+    /* 2. GENİŞLİK: Tüm sayfayı kaplamasını ENGELLE */
+    width: 320px !important; 
+    max-width: 90vw; /* Çok küçük ekranlarda taşmasın */
+
+    /* 3. YÜKSEKLİK: Ekranın altına kadar uzamasını ENGELLE */
+    top: calc(var(--topbar-h) + var(--menubar-h) + 15px) !important;
+    bottom: auto !important; 
+    height: auto !important;
+    max-height: 70vh; /* Çok uzun olursa içinde scroll çıksın */
+
+    /* 4. GÖRÜNÜM */
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    
+    /* Animasyon */
+    transform-origin: top right;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
+  /* Açıldığında */
   .mobile-menu--open {
-    /* 'right: 12px' kuralını ezer */
-    right: 10px; 
-    
-    /* Animasyonu çalıştır */
     opacity: 1;
     transform: scale(1);
+    pointer-events: auto;
   }
+}
 
   /* 4. İçerik Hizalama: Sola */
   .mobile-menu__link {

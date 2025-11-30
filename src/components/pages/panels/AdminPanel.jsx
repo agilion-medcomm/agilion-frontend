@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-// src/components/pages/panels/AdminPanel.jsx (NİHAİ VE TAM KOD)
-=======
 // src/components/pages/panels/AdminPanel.jsx (GÜNCEL VE TAM KOD)
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -49,11 +45,7 @@ export default function AdminPanelPage() {
   
   // --- AKORDİYON STATE'LERİ ---
   const [showAddForm, setShowAddForm] = useState(false);
-<<<<<<< HEAD
-  const [showPersonnelList, setShowPersonnelList] = useState(false);
-=======
   const [showStaffList, setShowStaffList] = useState(false);
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   const [showContactForms, setShowContactForms] = useState(false);
   const [showLeaveRequests, setShowLeaveRequests] = useState(false); 
   const [showCleaningChecks, setShowCleaningChecks] = useState(false);
@@ -81,11 +73,7 @@ export default function AdminPanelPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-<<<<<<< HEAD
-  // 🔥 YÜKLEME KONTROLÜ
-=======
   // 🔥 YÜKLEME DÜZELTMESİ: Kullanıcı bilgisi gelene kadar bekle
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   if (user === undefined) { 
     return <div style={{textAlign: 'center', padding: '100px', fontSize: '20px'}}>Kullanıcı Bilgileri Yükleniyor...</div>
   }
@@ -94,11 +82,6 @@ export default function AdminPanelPage() {
   if (!user || user.role !== 'ADMIN') {
     return (
       <div style={{textAlign: 'center', padding: '100px', fontSize: '20px', color: '#c1272d', fontWeight: 'bold'}}>
-<<<<<<< HEAD
-        Yetkiniz yok. Lütfen doğru rol ile <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
-      </div>
-    );
-=======
         Yetkiniz yok veya oturum sona erdi. Lütfen tekrar <a href="/personelLogin" style={{color: '#0e2b4b'}}>giriş yapın</a>.
       </div>
     );
@@ -119,7 +102,6 @@ export default function AdminPanelPage() {
       });
       setStaffList(Array.isArray(res.data.data) ? res.data.data : []);
     } catch (err) { console.error(err); }
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   }
 
   // Yalnızca user yüklendikten sonra listeleri çek

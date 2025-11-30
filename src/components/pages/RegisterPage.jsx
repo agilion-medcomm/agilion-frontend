@@ -9,7 +9,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// E-posta ve telefon doğrulama fonksiyonları
+// E-posta ve telefon doğrulama yardımcı fonksiyonları
 function isValidEmail(email) {
   const emailRegex = /\S+@\S+\.\S+/;
   return emailRegex.test(email);
@@ -33,6 +33,7 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: ''
   });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -105,6 +106,7 @@ export default function RegisterPage() {
     } catch (err) {
       console.error('Kayıt veya otomatik giriş hatası:', err);
       if (err.response) {
+        // Backend'den gelen hata mesajını göster
         const resp = err.response.data;
         if (resp && resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
           setError(resp.errors.map(e => e.message).join('; '));
@@ -275,7 +277,7 @@ export default function RegisterPage() {
           </div>
 
           <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Kayıt Olunuyor...' : 'Kayıt Ol'}
+            {loading ? 'Kaydediliyor...' : 'Kayıt Ol'}
           </button>
         </form>
 

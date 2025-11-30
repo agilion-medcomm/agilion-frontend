@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-=======
 // src/components/pages/PersonelLoginPage.jsx
 
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Context import yolunuzun doğru olduğundan emin olun
@@ -21,7 +18,6 @@ export default function PersonelLoginPage() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-<<<<<<< HEAD
   
   // Context'ten fonksiyonları alıyoruz (Harf duyarlılığına dikkat!)
   const { loginPersonnel, logoutPersonnel } = usePersonnelAuth();
@@ -31,13 +27,11 @@ export default function PersonelLoginPage() {
     if (logoutPersonnel) {
       logoutPersonnel(); 
     }
-=======
   const { loginStaff, logoutStaff } = useStaffAuth();
 
   // Sayfa yüklendiğinde (veya geri gelindiğinde) oturumu kapat
   useEffect(() => {
     logoutStaff();
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
   }, []); 
 
   async function handleSubmit(event) {
@@ -54,7 +48,6 @@ export default function PersonelLoginPage() {
       
       const data = response.data?.data; 
 
-<<<<<<< HEAD
       // 2. Context'e Giriş Yap (Token 'personnelToken' olarak kaydedilir)
       await loginPersonnel(data.token, data.user);
       
@@ -80,7 +73,6 @@ export default function PersonelLoginPage() {
         default: 
           setError('Rol tanımlı değil, lütfen yöneticiye başvurun.');
           if(logoutPersonnel) logoutPersonnel();
-=======
       await loginStaff(data.token, data.user);
       
       const role = data.user?.role || data.role;
@@ -94,18 +86,13 @@ export default function PersonelLoginPage() {
         case 'CASHIER': navigate('/cashier-panel'); break;
         case 'CLEANER': navigate('/cleaner-panel'); break;
         default: setError('Yetkisiz giriş: Rol tanımlı değil.');
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
       }
 
     } catch (err) {
       console.error('Giriş Hatası:', err);
-<<<<<<< HEAD
-      setError(err.response?.data?.message || 'Giriş başarısız. Bilgilerinizi kontrol edin.');
-=======
       if (err.response) setError(err.response.data?.message || 'Giriş başarısız.');
       else setError('Sunucuya bağlanılamadı.');
       logoutStaff();
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
     } finally {
       setLoading(false);
     }
@@ -123,7 +110,6 @@ export default function PersonelLoginPage() {
           {error && <div className="error-message">{error}</div>}
           
           <div className="form-group">
-<<<<<<< HEAD
             <label>TC Kimlik No</label>
             <input 
               type="text" 
@@ -132,7 +118,6 @@ export default function PersonelLoginPage() {
               onChange={(e) => setTckn(e.target.value)} 
               maxLength={11} 
               required 
-=======
             <label htmlFor="tckn">TC Kimlik No</label>
             <input 
               type="text" 
@@ -142,13 +127,11 @@ export default function PersonelLoginPage() {
               onChange={(e) => setTckn(e.target.value)} 
               disabled={loading}
               maxLength={11}
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
               placeholder="11 haneli TCKN"
             />
           </div>
           
           <div className="form-group">
-<<<<<<< HEAD
             <label>Şifre</label>
             <input 
               type="password" 
@@ -157,7 +140,6 @@ export default function PersonelLoginPage() {
               onChange={(e) => setPassword(e.target.value)} 
               required 
               placeholder="Şifreniz"
-=======
             <label htmlFor="password">Şifre</label>
             <input 
               type="password" 
@@ -166,7 +148,6 @@ export default function PersonelLoginPage() {
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               disabled={loading} 
->>>>>>> 1da83ba77b9c43c3aa8eebe771eb59e430f255bc
             />
           </div>
           
