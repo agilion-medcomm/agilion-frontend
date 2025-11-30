@@ -36,7 +36,7 @@ export default function Menu() {
     }
   }
 
- function handleAvatarClick() {
+function handleAvatarClick() {
     if (loggedInUser) {
       closeMenu();
       
@@ -44,8 +44,8 @@ export default function Menu() {
         // Personel -> Dashboard
         navigate('/dashboard'); 
       } else if (patientUser) {
-        // ✅ DÜZELTME: Hasta -> Yeni Hasta Paneli Rotası
-        navigate('/hasta-paneli'); 
+        // ✅ DÜZELTME: App.jsx'teki rota '/profile' olduğu için burası da '/profile' olmalı.
+        navigate('/profile'); 
       }
     }
   }

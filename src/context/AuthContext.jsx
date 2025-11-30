@@ -17,25 +17,38 @@ export function AuthProvider({ children }) {
 
   // Hasta login fonksiyonu (token ve user ile)
   const login = async (tokenOrObj, userObj) => {
-    if (typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
-      localStorage.setItem('token', tokenOrObj);
-      localStorage.setItem('user', JSON.stringify(userObj));
-      setToken(tokenOrObj);
-      setUser(userObj);
-      return;
-    }
-    let tokenString = null, userToStore = null;
+    let tokenString = null;
     if (typeof tokenOrObj === "string") {
       tokenString = tokenOrObj;
     } else if (typeof tokenOrObj === "object" && tokenOrObj !== null) {
       tokenString = tokenOrObj.token || localStorage.getItem('token');
-      userToStore = tokenOrObj.user || tokenOrObj;
+    }
+    if (!tokenString && typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
+      tokenString = tokenOrObj;
     }
     if (tokenString) localStorage.setItem('token', tokenString);
-    if (userToStore && typeof userToStore === "object" && !Array.isArray(userToStore)) {
-      localStorage.setItem('user', JSON.stringify(userToStore));
-      setUser(userToStore);
+
+    // Her zaman /auth/me ile güncel user bilgisini çek
+    try {
+      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+      const API_PREFIX = '/api/v1';
+      const BaseURL = `${API_BASE}${API_PREFIX}`;
+      const meResp = await fetch(`${BaseURL}/auth/me`, {
+        headers: { Authorization: `Bearer ${tokenString}` }
+      });
+      if (!meResp.ok) throw new Error('Profil alınamadı');
+      const meData = await meResp.json();
+      const userData = meData.data || meData;
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
       setToken(tokenString);
+    } catch (err) {
+      // Eğer /auth/me başarısız olursa, fallback olarak eski userObj'yi kullan
+      if (userObj && typeof userObj === "object") {
+        localStorage.setItem('user', JSON.stringify(userObj));
+        setUser(userObj);
+        setToken(tokenString);
+      }
     }
   };
 
@@ -62,7 +75,7 @@ export function useAuth() {
 
 const PersonnelAuthContext = createContext(null);
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 

@@ -1,4 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+
+// Ana Sayfa ve Alt Sayfalar
 import MainPage from './MainPage';
 import DoctorsPage from './components/pages/DoctorsPage';
 import AppointmentPage from './components/pages/AppointmentPage';
@@ -7,7 +10,7 @@ import BolumlerimizPage from './components/pages/BolumlerimizPage';
 import BirimlerimizPage from './components/pages/BirimlerimizPage';
 import SelectDoctorPage from './components/pages/SelectDoctorPage';
 
-// Sayfalar
+// Kimlik Doğrulama ve İletişim Sayfaları
 import LoginPage from './components/pages/LoginPage'; 
 import RegisterPage from './components/pages/RegisterPage'; 
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
@@ -16,13 +19,16 @@ import ContactPage from './components/pages/ContactPage';
 import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
 import PersonelLoginPage from './components/pages/PersonelLoginPage'; 
 import VerifyEmailPage from './components/pages/VerifyEmailPage';
-import PatientProfilePage from './components/pages/PatientProfilePage'; // Hasta Profili
 
 // Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout'; 
 import ProtectedPersonnelRoute from './components/Layout/ProtectedPersonnelRoute'; 
 
-// --- DASHBOARD BİLEŞENLERİ ---
+// Contextler
+import { usePersonnelAuth } from './context/PersonnelAuthContext';
+import { useAuth } from './context/AuthContext';
+
+// Dashboard Bileşenleri
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import DashboardHome from './components/Dashboard/DashboardHome';
 import PersonnelPage from './components/Dashboard/PersonnelPage';
@@ -41,6 +47,8 @@ import AdminNotificationSender from './components/Dashboard/AdminNotificationSen
 import ProfilePage from './components/Dashboard/ProfilePage';
 
 export default function App() {
+  const { user: patientUser } = useAuth(); // Hasta kullanıcısı
+
   return (
     <Routes>
       {/* 1. Standart Sayfalar (Menü + Footer Var) */}
@@ -59,20 +67,23 @@ export default function App() {
         <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
         <Route path="birimlerimiz" element={<BirimlerimizPage />} />
         <Route path="verify-email" element={<VerifyEmailPage />} />
-        <Route path="hasta-paneli" element={<PatientDashboard />} />
+        
+        {/* ✅ Profil Rotası: Hasta ise PatientDashboard, değilse ProfilePage */}
+        <Route 
+          path="profile" 
+          element={patientUser ? <PatientDashboard /> : <ProfilePage />} 
+        />
       </Route>
 
-      {/* 2. Personel Giriş Sayfası */}
+      {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
       <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
-      {/* 3. Personel Paneli (Dashboard) */}
+      {/* 3. Dashboard Sistemi (Personel Korumalı) */}
       <Route element={<ProtectedPersonnelRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           
-          <Route path="profile" element={<ProfilePage />} />
-          
-          {/* Diğer Rotalar */}
+          {/* Admin Routes */}
           <Route path="personnel" element={<PersonnelPage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="patients" element={<PatientsPage />} />
@@ -81,9 +92,19 @@ export default function App() {
           <Route path="lab-results" element={<LabResultsPage />} />
           <Route path="cleaning" element={<CleaningManagementPage />} />
           <Route path="notifications-sender" element={<AdminNotificationSender />} />
+          
+          {/* Role Based Dashboards */}
           <Route path="cleaner" element={<CleanerDashboard />} />
           <Route path="payments" element={<CashierDashboard />} />
           <Route path="lab-tests" element={<LabTechDashboard />} />
+          
+          {/* Hasta Paneli (Dashboard içinden erişim gerekirse) */}
+          <Route path="my-appointments" element={<PatientDashboard />} />
+          
+          {/* Personel Profil Sayfası */}
+          <Route path="profile" element={<ProfilePage />} />
+
+          {/* Bildirimler */}
           <Route path="notifications" element={<NotificationsPage />} />
         </Route>
       </Route>

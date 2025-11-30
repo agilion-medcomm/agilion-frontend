@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../../context/AuthContext'; // ✅ AUTH CONTEXT EKLENDİ
-import './SharedDashboard.css';
-
-const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import './SharedDashboard.css'; 
 
 export default function PatientDashboard() {
-  const { user } = useAuth(); // ✅ GİRİŞ YAPAN KULLANICI BİLGİSİNİ ALIYORUZ
+  // ✅ Vite uyumlu API adresi
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+  const BaseURL = `${API_BASE}/api/v1`;
 
-  const [activeTab, setActiveTab] = useState('appointments'); 
+  const { user } = useAuth(); 
+  const location = useLocation();
+
+  // URL'e göre başlangıç sekmesi
+  const [activeTab, setActiveTab] = useState(() => {
+    if (location.pathname.includes('/profile')) return 'settings';
+    return 'appointments';
+  });
   
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
   const [timeFilter, setTimeFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState({ type: '', text: '' });
+
+  // Modal ve Form State'leri
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [review, setReview] = useState({ rating: 5, comment: '' });
 
-  // Profil verilerini başlangıçta boş bırakıyoruz
   const [profileData, setProfileData] = useState({
     email: '',
     phoneNumber: '',
@@ -31,10 +42,7 @@ export default function PatientDashboard() {
     confirmPassword: ''
   });
 
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState({ type: '', text: '' });
-
-  // ✅ KULLANICI VERİSİNİ STATE'E AKTARMA
+  // Kullanıcı verisi gelince state'i doldur
   useEffect(() => {
     if (user) {
       setProfileData({
@@ -43,81 +51,85 @@ export default function PatientDashboard() {
         email: user.email || '',
         phoneNumber: user.phoneNumber || ''
       });
+      
+      fetchAppointments();
+      fetchLabResults();
     }
   }, [user]);
 
+  // Sekme yönetimi
   useEffect(() => {
-    fetchAppointments();
-    fetchLabResults();
-  }, [timeFilter]);
+    if (location.pathname.includes('/profile')) {
+      setActiveTab('settings');
+    } else if (location.pathname.includes('/my-appointments')) {
+      setActiveTab('appointments');
+    }
+  }, [location.pathname]);
 
-  // Randevuları Çek (Mock Data)
+  // --- API İSTEKLERİ ---
+
+  // ✅ ARTIK EN TEMİZ YÖNTEMİ KULLANIYORUZ
   const fetchAppointments = async () => {
+    setLoading(true);
     try {
-      const mockAppointments = [
-        {
-          id: 1,
-          doctorName: 'Dr. Sarah Johnson',
-          department: 'Kardiyoloji',
-          date: new Date(Date.now() + 86400000 * 2).toISOString(),
-          time: '10:00',
-          status: 'CONFIRMED',
-          hasReview: false
-        },
-        {
-          id: 2,
-          doctorName: 'Dr. Michael Smith',
-          department: 'Dahiliye',
-          date: new Date(Date.now() - 86400000 * 5).toISOString(),
-          time: '14:30',
-          status: 'COMPLETED',
-          hasReview: true,
-          reviewRating: 5
-        },
-      ];
-      setAppointments(mockAppointments);
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      
+      if (!token) throw new Error("Oturum anahtarı bulunamadı.");
+
+      // Backend sorunu çözüldüğü için artık doğrudan bu endpoint'i kullanabiliriz.
+      // Bu, ID'yi URL'de açıkça göndermekten çok daha güvenlidir.
+      const response = await axios.get(`${BaseURL}/appointments/my-appointments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const data = response.data.data || response.data;
+      setAppointments(Array.isArray(data) ? data : []);
+      
     } catch (error) {
-      console.error('Error fetching appointments:', error);
+      console.error('Randevular alınamadı:', error);
+      // Hata durumunda listeyi temiz tutuyoruz
+      setAppointments([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Sonuçları Çek (Mock Data)
   const fetchLabResults = async () => {
-    try {
-      const mockLabResults = [
-        {
-          id: 1,
-          testName: 'Tam Kan Sayımı (Hemogram)',
-          date: new Date(Date.now() - 86400000 * 3).toISOString(),
-          status: 'COMPLETED',
-          doctorName: 'Dr. Johnson',
-          hasFile: true
-        },
-      ];
-      setLabResults(mockLabResults);
-    } catch (error) {
-      console.error('Error fetching lab results:', error);
-    }
+    // Mock Data (İleride backend'e bağlanabilir)
+    const mockLabResults = [
+      {
+        id: 1,
+        testName: 'Tam Kan Sayımı (Hemogram)',
+        date: new Date(Date.now() - 86400000 * 3).toISOString(),
+        status: 'COMPLETED',
+        doctorName: 'Dr. Ahmet Yılmaz',
+        hasFile: true
+      },
+    ];
+    setLabResults(mockLabResults);
   };
 
-  // Profil Güncelleme
+  // --- FORM İŞLEMLERİ ---
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage({ type: '', text: '' });
 
     try {
-      // Backend entegrasyonu yapılana kadar simülasyon
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const token = localStorage.getItem('token');
+      await axios.put(`${BaseURL}/users/profile`, profileData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
       setMessage({ type: 'success', text: 'Profil bilgileriniz başarıyla güncellendi.' });
     } catch (error) {
-      setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + error.message });
+      setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + (error.response?.data?.message || 'Hata oluştu') });
     } finally {
       setLoading(false);
     }
   };
 
-  // Şifre Güncelleme
   const handleUpdatePassword = async (e) => {
     e.preventDefault();
     setMessage({ type: '', text: '' });
@@ -126,7 +138,6 @@ export default function PatientDashboard() {
       setMessage({ type: 'error', text: 'Yeni şifreler birbiriyle uyuşmuyor.' });
       return;
     }
-
     if (passwordData.newPassword.length < 6) {
         setMessage({ type: 'error', text: 'Şifre en az 6 karakter olmalıdır.' });
         return;
@@ -134,47 +145,72 @@ export default function PatientDashboard() {
 
     setLoading(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const token = localStorage.getItem('token');
+      await axios.put(`${BaseURL}/auth/change-password`, {
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
       setMessage({ type: 'success', text: 'Şifreniz başarıyla değiştirildi.' });
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error) {
-      setMessage({ type: 'error', text: 'Şifre değiştirilemedi.' });
+      setMessage({ type: 'error', text: error.response?.data?.message || 'Şifre değiştirilemedi.' });
     } finally {
       setLoading(false);
     }
   };
 
-  // Değerlendirme Gönderme
   const handleSubmitReview = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
+    
     try {
+      await axios.post(`${BaseURL}/appointments/${selectedAppointment.id}/review`, {
+        rating: review.rating,
+        comment: review.comment
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
       alert('Yorumunuz başarıyla gönderildi!');
       setShowReviewModal(false);
       setSelectedAppointment(null);
       setReview({ rating: 5, comment: '' });
       fetchAppointments();
     } catch (error) {
-      alert('Hata: ' + error.message);
+      alert('Yorum gönderilemedi: ' + (error.response?.data?.message || error.message));
     }
   };
 
   const handleDownloadReport = (labResult) => {
-    alert(`${labResult.testName} raporu indiriliyor...`);
+    alert(`${labResult.testName} raporu indiriliyor... (Demo)`);
   };
 
+  // Randevuları filtreleme (Geçmiş / Gelecek)
   const filteredAppointments = appointments.filter(apt => {
-    const aptDate = new Date(apt.date);
+    const dateStr = apt.date || apt.startTime || apt.createdAt;
+    let aptDate = new Date();
+    
+    // Tarih formatını kontrol et ve parse et
+    if (dateStr && dateStr.includes('.')) {
+        const parts = dateStr.split('.');
+        aptDate = new Date(parts[2], parts[1]-1, parts[0]);
+    } else if (dateStr) {
+        aptDate = new Date(dateStr);
+    }
+
     const now = new Date();
     if (timeFilter === 'past') return aptDate < now;
     if (timeFilter === 'future') return aptDate >= now;
     return true;
   });
 
-  if (!user) return <div style={{padding:'40px', textAlign:'center'}}>Yükleniyor...</div>;
+  if (!user) return <div className="dashboard-loading"><div className="spinner"></div><p>Yükleniyor...</p></div>;
 
   return (
     <div className="dashboard-page">
-      {/* 🟢 BAŞLIK ALANI: Gerçek Kullanıcı İsmi */}
       <div className="page-header">
         <div>
           <h1 style={{ marginBottom: '5px' }}>
@@ -185,19 +221,21 @@ export default function PatientDashboard() {
       </div>
 
       {message.text && (
-        <div className={`alert ${message.type === 'error' ? 'alert-danger' : 'alert-success'}`} style={{
-            padding: '12px', 
-            borderRadius: '8px', 
-            marginBottom: '20px',
-            backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
-            color: message.type === 'error' ? '#991b1b' : '#166534',
-            border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
-            fontWeight: '500'
-        }}>
+        <div className={`alert ${message.type === 'error' ? 'alert-error' : 'alert-success'}`} 
+             style={{
+                padding: '12px', 
+                borderRadius: '8px', 
+                marginBottom: '20px',
+                backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
+                color: message.type === 'error' ? '#991b1b' : '#166534',
+                border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
+                fontWeight: '500'
+             }}>
             {message.text}
         </div>
       )}
 
+      {/* SEKMELER */}
       <div className="tabs-container">
         <button 
           className={`tab-button ${activeTab === 'appointments' ? 'active' : ''}`}
@@ -230,7 +268,6 @@ export default function PatientDashboard() {
         <>
           <div className="filters-bar">
             <div className="filter-group">
-              <label>Göster:</label>
               <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)}>
                 <option value="all">Tüm Randevular</option>
                 <option value="future">Gelecek Randevular</option>
@@ -240,24 +277,25 @@ export default function PatientDashboard() {
           </div>
 
           <div className="appointments-grid">
-            {filteredAppointments.length === 0 ? (
-              <p style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-                Kayıtlı randevu bulunamadı.
-              </p>
+            {loading ? (
+               <p>Yükleniyor...</p>
+            ) : filteredAppointments.length === 0 ? (
+              <p className="no-data">Kayıtlı randevu bulunamadı.</p>
             ) : (
               filteredAppointments.map((apt) => (
                 <div key={apt.id} className="appointment-card">
                   <div className="appointment-header">
-                    <h3>{apt.doctorName}</h3>
-                    <span className={`badge badge-${apt.status.toLowerCase()}`}>
+                    <h3>{apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Doktor Belirtilmedi')}</h3>
+                    <span className={`badge badge-${apt.status?.toLowerCase() || 'pending'}`}>
                       {apt.status}
                     </span>
                   </div>
                   <div className="appointment-details">
-                    <p><strong>Bölüm:</strong> {apt.department}</p>
-                    <p><strong>Tarih:</strong> {new Date(apt.date).toLocaleDateString('tr-TR')}</p>
-                    <p><strong>Saat:</strong> {apt.time}</p>
+                    <p><strong>Bölüm:</strong> {apt.departmentName || (apt.department && apt.department.name) || 'Genel'}</p>
+                    <p><strong>Tarih:</strong> {apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'))}</p>
+                    <p><strong>Saat:</strong> {apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}))}</p>
                   </div>
+                  
                   {apt.status === 'COMPLETED' && !apt.hasReview && (
                     <button 
                       className="btn-primary"
@@ -278,7 +316,7 @@ export default function PatientDashboard() {
 
       {/* 2. TAHLİL SONUÇLARI SEKMESİ */}
       {activeTab === 'lab-results' && (
-        <div className="data-table-container">
+        <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
@@ -291,16 +329,16 @@ export default function PatientDashboard() {
             </thead>
             <tbody>
               {labResults.length === 0 ? (
-                <tr><td colSpan="5" style={{ textAlign: 'center' }}>Sonuç bulunamadı.</td></tr>
+                <tr><td colSpan="5" className="no-data">Sonuç bulunamadı.</td></tr>
               ) : (
                 labResults.map((result) => (
                   <tr key={result.id}>
                     <td><strong>{result.testName}</strong></td>
                     <td>{new Date(result.date).toLocaleDateString('tr-TR')}</td>
                     <td>{result.doctorName}</td>
-                    <td><span className="badge badge-success">{result.status}</span></td>
+                    <td><span className="badge badge-completed">{result.status}</span></td>
                     <td>
-                      <button className="btn-small btn-primary" onClick={() => handleDownloadReport(result)}>
+                      <button className="btn-sm btn-secondary" onClick={() => handleDownloadReport(result)}>
                         📥 İndir
                       </button>
                     </td>
@@ -316,9 +354,7 @@ export default function PatientDashboard() {
       {activeTab === 'reviews' && (
         <div className="reviews-container">
           {appointments.filter(apt => apt.hasReview).length === 0 ? (
-            <p style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-              Henüz bir değerlendirme yapmadınız.
-            </p>
+            <p className="no-data">Henüz bir değerlendirme yapmadınız.</p>
           ) : (
             appointments.filter(apt => apt.hasReview).map((apt) => (
               <div key={apt.id} className="review-card">
@@ -333,14 +369,11 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 4. AYARLAR SEKMESİ (GÜZELLEŞTİRİLMİŞ) */}
+      {/* 4. AYARLAR SEKMESİ */}
       {activeTab === 'settings' && (
         <div className="settings-container">
-          
-          {/* KART 1: Profil Bilgileri */}
           <div className="settings-card">
             <div className="settings-header">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
               <h3>Kişisel Bilgiler</h3>
             </div>
             
@@ -348,23 +381,23 @@ export default function PatientDashboard() {
               <div className="form-row">
                   <div className="settings-form-group">
                     <label className="form-label">Ad</label>
-                    <input type="text" className="form-input" value={profileData.firstName} disabled />
+                    <input type="text" className="form-input" 
+                           value={profileData.firstName} 
+                           onChange={(e) => setProfileData({...profileData, firstName: e.target.value})} 
+                    />
                   </div>
                   <div className="settings-form-group">
                     <label className="form-label">Soyad</label>
-                    <input type="text" className="form-input" value={profileData.lastName} disabled />
+                    <input type="text" className="form-input" 
+                           value={profileData.lastName} 
+                           onChange={(e) => setProfileData({...profileData, lastName: e.target.value})} 
+                    />
                   </div>
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">E-Posta Adresi</label>
-                <input 
-                  type="email" 
-                  className="form-input"
-                  value={profileData.email}
-                  onChange={(e) => setProfileData({...profileData, email: e.target.value})}
-                  placeholder="ornek@email.com"
-                />
+                <input type="email" className="form-input" value={profileData.email} disabled />
               </div>
 
               <div className="settings-form-group">
@@ -374,20 +407,17 @@ export default function PatientDashboard() {
                   className="form-input"
                   value={profileData.phoneNumber}
                   onChange={(e) => setProfileData({...profileData, phoneNumber: e.target.value})}
-                  placeholder="0555..."
                 />
               </div>
 
-              <button type="submit" className="btn-save btn-primary-action" disabled={loading}>
+              <button type="submit" className="btn-save" style={{background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: 'white'}} disabled={loading}>
                   {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
               </button>
             </form>
           </div>
 
-          {/* KART 2: Güvenlik */}
           <div className="settings-card">
             <div className="settings-header">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
               <h3>Güvenlik & Şifre</h3>
             </div>
 
@@ -399,7 +429,6 @@ export default function PatientDashboard() {
                   className="form-input"
                   value={passwordData.currentPassword}
                   onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
-                  placeholder="••••••••"
                 />
               </div>
 
@@ -410,7 +439,6 @@ export default function PatientDashboard() {
                   className="form-input"
                   value={passwordData.newPassword}
                   onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
-                  placeholder="En az 6 karakter"
                 />
               </div>
 
@@ -421,11 +449,10 @@ export default function PatientDashboard() {
                   className="form-input"
                   value={passwordData.confirmPassword}
                   onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
-                  placeholder="••••••••"
                 />
               </div>
 
-              <button type="submit" className="btn-save btn-danger-action" disabled={loading}>
+              <button type="submit" className="btn-save btn-danger-action" style={{background: 'white', color: '#ef4444', border: '1px solid #fecaca'}} disabled={loading}>
                  {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
               </button>
             </form>
@@ -433,7 +460,6 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* Review Modal */}
       {showReviewModal && (
         <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -443,7 +469,6 @@ export default function PatientDashboard() {
             </div>
             <div className="appointment-info">
               <p><strong>Doktor:</strong> {selectedAppointment?.doctorName}</p>
-              <p><strong>Tarih:</strong> {new Date(selectedAppointment?.date).toLocaleDateString('tr-TR')}</p>
             </div>
             <form onSubmit={handleSubmitReview}>
               <div className="form-group">
@@ -462,7 +487,7 @@ export default function PatientDashboard() {
                 </div>
               </div>
               <div className="form-group">
-                <label>Yorumunuz (İsteğe bağlı)</label>
+                <label>Yorumunuz</label>
                 <textarea
                   value={review.comment}
                   onChange={(e) => setReview({...review, comment: e.target.value})}
