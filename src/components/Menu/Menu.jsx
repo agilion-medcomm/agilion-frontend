@@ -36,16 +36,20 @@ export default function Menu() {
     }
   }
 
-function handleAvatarClick() {
+  function handleAvatarClick() {
     if (loggedInUser) {
       closeMenu();
-      
       if (isPersonnel) {
-        // Personel -> Dashboard
-        navigate('/dashboard'); 
+        switch (personnelUser.role) {
+          case 'ADMIN': navigate('/admin-panel'); break;
+          case 'DOCTOR': navigate('/doctor-panel'); break;
+          case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
+          case 'CASHIER': navigate('/cashier-panel'); break;
+          case 'CLEANER': navigate('/cleaner-panel'); break;
+          default: navigate('/'); break;
+        }
       } else if (patientUser) {
-        // ✅ DÜZELTME: App.jsx'teki rota '/profile' olduğu için burası da '/profile' olmalı.
-        navigate('/profile'); 
+        navigate('/patient-profile');
       }
     }
   }
@@ -167,21 +171,8 @@ function handleAvatarClick() {
                 Hızlı Randevu Al <CalendarIconPlaceholder />
               </button>
 
-              {/* 780px ve altı için Topbar İçerikleri */}
-              <div className="mobile-menu__topbar-items">
-                <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
-                  <MailIcon /> agilion@medcomm.com.tr
-                </a>
-                <a href="tel:2120000000" className="mobile-menu__info-item">
-                  <PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong>
-                </a>
-
-                <div className="mobile-menu__socials-row">
-                  <a className="social" href="#"><FbIcon /></a>
-                  <a className="social" href="#"><IgIcon /></a>
-                  <span className="lang">TR</span>
-                </div>
-
+              {/* Giriş Yap / User Actions - Moved Here */}
+              <div className="mobile-menu__auth-section" style={{ marginBottom: '20px' }}>
                 {isLoggedIn ? (
                   <div className="mobile-menu__user-actions">
                     <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer', margin: '0 auto' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
@@ -208,6 +199,7 @@ function handleAvatarClick() {
                 <Link className="mobile-menu__link" to="/evde-saglik" onClick={closeMenu}><span>Evde Sağlık</span> <ChevronIcon /></Link>
                 <Link className="mobile-menu__link" to="/contact" onClick={closeMenu}><span>İletişim</span> <ChevronIcon /></Link>
               </nav>
+
               {isLoggedIn ? (
                 <div style={{ borderTop: '1px solid #eee', marginTop: 16, paddingTop: 8 }}>
                   <a className="mobile-menu__link mobile-menu__link--login" href="#" style={{ color: '#d32f2f', fontWeight: 600 }} onClick={(e) => { e.preventDefault(); handleLogout(); }}>
@@ -219,6 +211,22 @@ function handleAvatarClick() {
                   <Link to="/personelLogin" className="mobile-menu__link mobile-menu__link--login" onClick={closeMenu}><span>Personel Girişi</span></Link>
                 </div>
               )}
+
+              {/* 780px ve altı için Topbar İçerikleri - Moved to Bottom */}
+              <div className="mobile-menu__topbar-items">
+                <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
+                  <MailIcon /> agilion@medcomm.com.tr
+                </a>
+                <a href="tel:2120000000" className="mobile-menu__info-item">
+                  <PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong>
+                </a>
+
+                <div className="mobile-menu__socials-row">
+                  <a className="social" href="#"><FbIcon /></a>
+                  <a className="social" href="#"><IgIcon /></a>
+                  <span className="lang">TR</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="mobile-menu-overlay active" onClick={closeMenu} />

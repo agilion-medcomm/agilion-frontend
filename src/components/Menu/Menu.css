@@ -814,8 +814,9 @@ input[type="button"] {
 
 /* ====== 780px ve Altı İçin Düzenlemeler ====== */
 
-/* Varsayılan olarak mobil topbar içeriklerini gizle */
-.mobile-menu__topbar-items {
+/* Varsayılan olarak mobil topbar içeriklerini ve auth bölümünü gizle */
+.mobile-menu__topbar-items,
+.mobile-menu__auth-section {
   display: none;
 }
 
@@ -836,14 +837,18 @@ input[type="button"] {
     padding-top: var(--menubar-h);
   }
 
-  /* 4. Mobile Menu içindeki topbar öğelerini göster */
-  .mobile-menu__topbar-items {
+  /* 4. Mobile Menu içindeki topbar öğelerini ve auth bölümünü göster */
+  .mobile-menu__topbar-items,
+  .mobile-menu__auth-section {
     display: flex;
     flex-direction: column;
+  }
+
+  .mobile-menu__topbar-items {
     gap: 12px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
   }
 
   .mobile-menu__info-item {
