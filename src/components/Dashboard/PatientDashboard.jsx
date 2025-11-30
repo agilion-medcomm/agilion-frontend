@@ -1,217 +1,311 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './SharedDashboard.css';
-
-const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import './SharedDashboard.css'; 
 
 export default function PatientDashboard() {
-  const [activeTab, setActiveTab] = useState('appointments'); // appointments, lab-results, reviews
+  // ✅ Vite uyumlu API adresi
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+  const BaseURL = `${API_BASE}/api/v1`;
+
+  const { user } = useAuth(); 
+  const location = useLocation();
+
+  // URL'e göre başlangıç sekmesi
+  const [activeTab, setActiveTab] = useState(() => {
+    if (location.pathname.includes('/profile')) return 'settings';
+    return 'appointments';
+  });
+  
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
-  const [timeFilter, setTimeFilter] = useState('all'); // past, future, all
+  const [timeFilter, setTimeFilter] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState({ type: '', text: '' });
+
+  // Modal ve Form State'leri
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [review, setReview] = useState({ rating: 5, comment: '' });
 
+  const [profileData, setProfileData] = useState({
+    email: '',
+    phoneNumber: '',
+    firstName: '',
+    lastName: ''
+  });
+  
+  const [passwordData, setPasswordData] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
+  // Kullanıcı verisi gelince state'i doldur
   useEffect(() => {
-    fetchAppointments();
-    fetchLabResults();
-  }, [timeFilter]);
-
-  const fetchAppointments = async () => {
-    try {
-      // TODO: Replace with real API call
-      // const response = await axios.get(`${BaseURL}/api/v1/patients/me/appointments`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      //   params: { status: timeFilter }
-      // });
+    if (user) {
+      setProfileData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+        phoneNumber: user.phoneNumber || ''
+      });
       
-      // Mock data
-      const mockAppointments = [
-        {
-          id: 1,
-          doctorName: 'Dr. Sarah Johnson',
-          department: 'Cardiology',
-          date: new Date(Date.now() + 86400000 * 2).toISOString(),
-          time: '10:00',
-          status: 'CONFIRMED',
-          hasReview: false
-        },
-        {
-          id: 2,
-          doctorName: 'Dr. Michael Smith',
-          department: 'General Medicine',
-          date: new Date(Date.now() - 86400000 * 5).toISOString(),
-          time: '14:30',
-          status: 'COMPLETED',
-          hasReview: true,
-          reviewRating: 5
-        },
-        {
-          id: 3,
-          doctorName: 'Dr. Emily Williams',
-          department: 'Dermatology',
-          date: new Date(Date.now() - 86400000 * 10).toISOString(),
-          time: '11:00',
-          status: 'COMPLETED',
-          hasReview: false
-        },
-      ];
+      fetchAppointments();
+      fetchLabResults();
+    }
+  }, [user]);
 
-      setAppointments(mockAppointments);
+  // Sekme yönetimi
+  useEffect(() => {
+    if (location.pathname.includes('/profile')) {
+      setActiveTab('settings');
+    } else if (location.pathname.includes('/my-appointments')) {
+      setActiveTab('appointments');
+    }
+  }, [location.pathname]);
+
+  // --- API İSTEKLERİ ---
+
+  // ✅ ARTIK EN TEMİZ YÖNTEMİ KULLANIYORUZ
+  const fetchAppointments = async () => {
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      
+      if (!token) throw new Error("Oturum anahtarı bulunamadı.");
+
+      // Backend sorunu çözüldüğü için artık doğrudan bu endpoint'i kullanabiliriz.
+      // Bu, ID'yi URL'de açıkça göndermekten çok daha güvenlidir.
+      const response = await axios.get(`${BaseURL}/appointments/my-appointments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const data = response.data.data || response.data;
+      setAppointments(Array.isArray(data) ? data : []);
+      
     } catch (error) {
-      console.error('Error fetching appointments:', error);
+      console.error('Randevular alınamadı:', error);
+      // Hata durumunda listeyi temiz tutuyoruz
+      setAppointments([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const fetchLabResults = async () => {
-    try {
-      // TODO: Replace with real API call
-      // const response = await axios.get(`${BaseURL}/api/v1/patients/me/lab-results`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
-      
-      // Mock data
-      const mockLabResults = [
-        {
-          id: 1,
-          testName: 'Complete Blood Count',
-          date: new Date(Date.now() - 86400000 * 3).toISOString(),
-          status: 'COMPLETED',
-          doctorName: 'Dr. Johnson',
-          hasFile: true
-        },
-        {
-          id: 2,
-          testName: 'Lipid Panel',
-          date: new Date(Date.now() - 86400000 * 15).toISOString(),
-          status: 'COMPLETED',
-          doctorName: 'Dr. Smith',
-          hasFile: true
-        },
-      ];
+    // Mock Data (İleride backend'e bağlanabilir)
+    const mockLabResults = [
+      {
+        id: 1,
+        testName: 'Tam Kan Sayımı (Hemogram)',
+        date: new Date(Date.now() - 86400000 * 3).toISOString(),
+        status: 'COMPLETED',
+        doctorName: 'Dr. Ahmet Yılmaz',
+        hasFile: true
+      },
+    ];
+    setLabResults(mockLabResults);
+  };
 
-      setLabResults(mockLabResults);
+  // --- FORM İŞLEMLERİ ---
+
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage({ type: '', text: '' });
+
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(`${BaseURL}/users/profile`, profileData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setMessage({ type: 'success', text: 'Profil bilgileriniz başarıyla güncellendi.' });
     } catch (error) {
-      console.error('Error fetching lab results:', error);
+      setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + (error.response?.data?.message || 'Hata oluştu') });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    setMessage({ type: '', text: '' });
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setMessage({ type: 'error', text: 'Yeni şifreler birbiriyle uyuşmuyor.' });
+      return;
+    }
+    if (passwordData.newPassword.length < 6) {
+        setMessage({ type: 'error', text: 'Şifre en az 6 karakter olmalıdır.' });
+        return;
+    }
+
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(`${BaseURL}/auth/change-password`, {
+        currentPassword: passwordData.currentPassword,
+        newPassword: passwordData.newPassword
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setMessage({ type: 'success', text: 'Şifreniz başarıyla değiştirildi.' });
+      setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error.response?.data?.message || 'Şifre değiştirilemedi.' });
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
     
     try {
-      // TODO: Replace with real API call
-      // await axios.post(`${BaseURL}/api/v1/appointments/${selectedAppointment.id}/review`, review, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
-      
-      alert('Review submitted successfully!');
+      await axios.post(`${BaseURL}/appointments/${selectedAppointment.id}/review`, {
+        rating: review.rating,
+        comment: review.comment
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      alert('Yorumunuz başarıyla gönderildi!');
       setShowReviewModal(false);
       setSelectedAppointment(null);
       setReview({ rating: 5, comment: '' });
       fetchAppointments();
     } catch (error) {
-      alert('Error submitting review: ' + error.message);
+      alert('Yorum gönderilemedi: ' + (error.response?.data?.message || error.message));
     }
   };
 
   const handleDownloadReport = (labResult) => {
-    // In real implementation, this would download the PDF
-    alert(`Downloading report for ${labResult.testName}`);
+    alert(`${labResult.testName} raporu indiriliyor... (Demo)`);
   };
 
+  // Randevuları filtreleme (Geçmiş / Gelecek)
   const filteredAppointments = appointments.filter(apt => {
-    const aptDate = new Date(apt.date);
-    const now = new Date();
+    const dateStr = apt.date || apt.startTime || apt.createdAt;
+    let aptDate = new Date();
     
+    // Tarih formatını kontrol et ve parse et
+    if (dateStr && dateStr.includes('.')) {
+        const parts = dateStr.split('.');
+        aptDate = new Date(parts[2], parts[1]-1, parts[0]);
+    } else if (dateStr) {
+        aptDate = new Date(dateStr);
+    }
+
+    const now = new Date();
     if (timeFilter === 'past') return aptDate < now;
     if (timeFilter === 'future') return aptDate >= now;
     return true;
   });
 
+  if (!user) return <div className="dashboard-loading"><div className="spinner"></div><p>Yükleniyor...</p></div>;
+
   return (
     <div className="dashboard-page">
       <div className="page-header">
         <div>
-          <h1>My Health Dashboard</h1>
-          <p>Manage your appointments, view lab results, and provide feedback</p>
+          <h1 style={{ marginBottom: '5px' }}>
+             {profileData.firstName} {profileData.lastName}
+          </h1>
+          <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Hasta Paneli</p>
         </div>
       </div>
 
-      {/* Tabs */}
+      {message.text && (
+        <div className={`alert ${message.type === 'error' ? 'alert-error' : 'alert-success'}`} 
+             style={{
+                padding: '12px', 
+                borderRadius: '8px', 
+                marginBottom: '20px',
+                backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
+                color: message.type === 'error' ? '#991b1b' : '#166534',
+                border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
+                fontWeight: '500'
+             }}>
+            {message.text}
+        </div>
+      )}
+
+      {/* SEKMELER */}
       <div className="tabs-container">
         <button 
           className={`tab-button ${activeTab === 'appointments' ? 'active' : ''}`}
           onClick={() => setActiveTab('appointments')}
         >
-          📅 My Appointments
+          📅 Randevularım
         </button>
         <button 
           className={`tab-button ${activeTab === 'lab-results' ? 'active' : ''}`}
           onClick={() => setActiveTab('lab-results')}
         >
-          🧪 Lab Results
+          🧪 Tahlil Sonuçları
         </button>
         <button 
           className={`tab-button ${activeTab === 'reviews' ? 'active' : ''}`}
           onClick={() => setActiveTab('reviews')}
         >
-          ⭐ My Reviews
+          ⭐ Değerlendirmelerim
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
+          onClick={() => setActiveTab('settings')}
+        >
+          ⚙️ Profil Ayarları
         </button>
       </div>
 
-      {/* Appointments Tab */}
+      {/* 1. RANDEVULAR SEKMESİ */}
       {activeTab === 'appointments' && (
         <>
           <div className="filters-bar">
             <div className="filter-group">
-              <label>Show:</label>
               <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)}>
-                <option value="all">All Appointments</option>
-                <option value="future">Upcoming</option>
-                <option value="past">Past</option>
+                <option value="all">Tüm Randevular</option>
+                <option value="future">Gelecek Randevular</option>
+                <option value="past">Geçmiş Randevular</option>
               </select>
             </div>
           </div>
 
           <div className="appointments-grid">
-            {filteredAppointments.length === 0 ? (
-              <p style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-                No appointments found
-              </p>
+            {loading ? (
+               <p>Yükleniyor...</p>
+            ) : filteredAppointments.length === 0 ? (
+              <p className="no-data">Kayıtlı randevu bulunamadı.</p>
             ) : (
               filteredAppointments.map((apt) => (
                 <div key={apt.id} className="appointment-card">
                   <div className="appointment-header">
-                    <h3>{apt.doctorName}</h3>
-                    <span className={`badge badge-${apt.status.toLowerCase()}`}>
+                    <h3>{apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Doktor Belirtilmedi')}</h3>
+                    <span className={`badge badge-${apt.status?.toLowerCase() || 'pending'}`}>
                       {apt.status}
                     </span>
                   </div>
-                  
                   <div className="appointment-details">
-                    <p><strong>Department:</strong> {apt.department}</p>
-                    <p><strong>Date:</strong> {new Date(apt.date).toLocaleDateString()}</p>
-                    <p><strong>Time:</strong> {apt.time}</p>
+                    <p><strong>Bölüm:</strong> {apt.departmentName || (apt.department && apt.department.name) || 'Genel'}</p>
+                    <p><strong>Tarih:</strong> {apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'))}</p>
+                    <p><strong>Saat:</strong> {apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}))}</p>
                   </div>
-
+                  
                   {apt.status === 'COMPLETED' && !apt.hasReview && (
                     <button 
                       className="btn-primary"
-                      onClick={() => {
-                        setSelectedAppointment(apt);
-                        setShowReviewModal(true);
-                      }}
+                      onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}
                     >
-                      Leave a Review
+                      Değerlendir
                     </button>
                   )}
-
                   {apt.hasReview && (
-                    <div className="review-indicator">
-                      ⭐ You rated this {apt.reviewRating}/5
-                    </div>
+                    <div className="review-indicator">⭐ Puanınız: {apt.reviewRating}/5</div>
                   )}
                 </div>
               ))
@@ -220,39 +314,32 @@ export default function PatientDashboard() {
         </>
       )}
 
-      {/* Lab Results Tab */}
+      {/* 2. TAHLİL SONUÇLARI SEKMESİ */}
       {activeTab === 'lab-results' && (
-        <div className="data-table-container">
+        <div className="table-container">
           <table className="data-table">
             <thead>
               <tr>
-                <th>Test Name</th>
-                <th>Date</th>
-                <th>Ordered By</th>
-                <th>Status</th>
-                <th>Actions</th>
+                <th>Test Adı</th>
+                <th>Tarih</th>
+                <th>Doktor</th>
+                <th>Durum</th>
+                <th>İşlem</th>
               </tr>
             </thead>
             <tbody>
               {labResults.length === 0 ? (
-                <tr>
-                  <td colSpan="5" style={{ textAlign: 'center' }}>No lab results found</td>
-                </tr>
+                <tr><td colSpan="5" className="no-data">Sonuç bulunamadı.</td></tr>
               ) : (
                 labResults.map((result) => (
                   <tr key={result.id}>
                     <td><strong>{result.testName}</strong></td>
-                    <td>{new Date(result.date).toLocaleDateString()}</td>
+                    <td>{new Date(result.date).toLocaleDateString('tr-TR')}</td>
                     <td>{result.doctorName}</td>
+                    <td><span className="badge badge-completed">{result.status}</span></td>
                     <td>
-                      <span className="badge badge-success">{result.status}</span>
-                    </td>
-                    <td>
-                      <button 
-                        className="btn-small btn-primary"
-                        onClick={() => handleDownloadReport(result)}
-                      >
-                        📥 Download Report
+                      <button className="btn-sm btn-secondary" onClick={() => handleDownloadReport(result)}>
+                        📥 İndir
                       </button>
                     </td>
                   </tr>
@@ -263,47 +350,129 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* Reviews Tab */}
+      {/* 3. DEĞERLENDİRMELER SEKMESİ */}
       {activeTab === 'reviews' && (
         <div className="reviews-container">
           {appointments.filter(apt => apt.hasReview).length === 0 ? (
-            <p style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-              You haven't left any reviews yet
-            </p>
+            <p className="no-data">Henüz bir değerlendirme yapmadınız.</p>
           ) : (
             appointments.filter(apt => apt.hasReview).map((apt) => (
               <div key={apt.id} className="review-card">
                 <div className="review-header">
                   <h3>{apt.doctorName}</h3>
-                  <div className="rating-stars">
-                    {'⭐'.repeat(apt.reviewRating)}
-                  </div>
+                  <div className="rating-stars">{'⭐'.repeat(apt.reviewRating)}</div>
                 </div>
-                <p className="review-date">{new Date(apt.date).toLocaleDateString()}</p>
+                <p className="review-date">{new Date(apt.date).toLocaleDateString('tr-TR')}</p>
               </div>
             ))
           )}
         </div>
       )}
 
-      {/* Review Modal */}
+      {/* 4. AYARLAR SEKMESİ */}
+      {activeTab === 'settings' && (
+        <div className="settings-container">
+          <div className="settings-card">
+            <div className="settings-header">
+              <h3>Kişisel Bilgiler</h3>
+            </div>
+            
+            <form onSubmit={handleUpdateProfile}>
+              <div className="form-row">
+                  <div className="settings-form-group">
+                    <label className="form-label">Ad</label>
+                    <input type="text" className="form-input" 
+                           value={profileData.firstName} 
+                           onChange={(e) => setProfileData({...profileData, firstName: e.target.value})} 
+                    />
+                  </div>
+                  <div className="settings-form-group">
+                    <label className="form-label">Soyad</label>
+                    <input type="text" className="form-input" 
+                           value={profileData.lastName} 
+                           onChange={(e) => setProfileData({...profileData, lastName: e.target.value})} 
+                    />
+                  </div>
+              </div>
+
+              <div className="settings-form-group">
+                <label className="form-label">E-Posta Adresi</label>
+                <input type="email" className="form-input" value={profileData.email} disabled />
+              </div>
+
+              <div className="settings-form-group">
+                <label className="form-label">Telefon Numarası</label>
+                <input 
+                  type="text" 
+                  className="form-input"
+                  value={profileData.phoneNumber}
+                  onChange={(e) => setProfileData({...profileData, phoneNumber: e.target.value})}
+                />
+              </div>
+
+              <button type="submit" className="btn-save" style={{background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: 'white'}} disabled={loading}>
+                  {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+              </button>
+            </form>
+          </div>
+
+          <div className="settings-card">
+            <div className="settings-header">
+              <h3>Güvenlik & Şifre</h3>
+            </div>
+
+            <form onSubmit={handleUpdatePassword}>
+              <div className="settings-form-group">
+                <label className="form-label">Mevcut Şifre</label>
+                <input 
+                  type="password" 
+                  className="form-input"
+                  value={passwordData.currentPassword}
+                  onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                />
+              </div>
+
+              <div className="settings-form-group">
+                <label className="form-label">Yeni Şifre</label>
+                <input 
+                  type="password" 
+                  className="form-input"
+                  value={passwordData.newPassword}
+                  onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                />
+              </div>
+
+              <div className="settings-form-group">
+                <label className="form-label">Yeni Şifre (Tekrar)</label>
+                <input 
+                  type="password" 
+                  className="form-input"
+                  value={passwordData.confirmPassword}
+                  onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                />
+              </div>
+
+              <button type="submit" className="btn-save btn-danger-action" style={{background: 'white', color: '#ef4444', border: '1px solid #fecaca'}} disabled={loading}>
+                 {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
       {showReviewModal && (
         <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Leave a Review</h2>
+              <h2>Değerlendir</h2>
               <button className="modal-close" onClick={() => setShowReviewModal(false)}>×</button>
             </div>
-
             <div className="appointment-info">
-              <p><strong>Doctor:</strong> {selectedAppointment?.doctorName}</p>
-              <p><strong>Department:</strong> {selectedAppointment?.department}</p>
-              <p><strong>Date:</strong> {new Date(selectedAppointment?.date).toLocaleDateString()}</p>
+              <p><strong>Doktor:</strong> {selectedAppointment?.doctorName}</p>
             </div>
-
             <form onSubmit={handleSubmitReview}>
               <div className="form-group">
-                <label>Rating</label>
+                <label>Puanınız</label>
                 <div className="rating-input">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
@@ -317,41 +486,22 @@ export default function PatientDashboard() {
                   ))}
                 </div>
               </div>
-
               <div className="form-group">
-                <label>Your Review (Optional)</label>
+                <label>Yorumunuz</label>
                 <textarea
                   value={review.comment}
                   onChange={(e) => setReview({...review, comment: e.target.value})}
-                  placeholder="Share your experience..."
                   rows="4"
                 />
               </div>
-
               <div className="modal-actions">
-                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn-primary">
-                  Submit Review
-                </button>
+                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>İptal</button>
+                <button type="submit" className="btn-primary">Gönder</button>
               </div>
             </form>
           </div>
         </div>
       )}
-
-      {/* API Notice */}
-      <div className="api-notice">
-        <p><strong>⚠️ Backend API Required:</strong></p>
-        <ul>
-          <li>GET /api/v1/patients/me/appointments - Get patient's appointments</li>
-          <li>GET /api/v1/patients/me/lab-results - Get patient's lab results</li>
-          <li>POST /api/v1/appointments/:id/review - Submit appointment review</li>
-          <li>GET /api/v1/lab-results/:id/download - Download lab report PDF</li>
-        </ul>
-        <p>See IMPLEMENTATION_CHECKLIST.md for database schema</p>
-      </div>
     </div>
   );
 }

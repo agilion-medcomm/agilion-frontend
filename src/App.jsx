@@ -1,6 +1,7 @@
-// src/App.jsx (DÜZELTİLMİŞ)
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { Routes, Route } from 'react-router-dom';
+// Ana Sayfa ve Alt Sayfalar
 import MainPage from './MainPage';
 import DoctorsPage from './components/pages/DoctorsPage';
 import AppointmentPage from './components/pages/AppointmentPage';
@@ -9,7 +10,7 @@ import BolumlerimizPage from './components/pages/BolumlerimizPage';
 import BirimlerimizPage from './components/pages/BirimlerimizPage';
 import SelectDoctorPage from './components/pages/SelectDoctorPage';
 
-// Sayfalar
+// Kimlik Doğrulama ve İletişim Sayfaları
 import LoginPage from './components/pages/LoginPage'; 
 import RegisterPage from './components/pages/RegisterPage'; 
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
@@ -21,10 +22,13 @@ import VerifyEmailPage from './components/pages/VerifyEmailPage';
 
 // Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout'; 
-// DÜZELTME BURADA: Dosya adı ProtectedPersonnelRoute olduğu için importu düzelttik
 import ProtectedPersonnelRoute from './components/Layout/ProtectedPersonnelRoute'; 
 
-// New Dashboard System
+// Contextler
+import { usePersonnelAuth } from './context/PersonnelAuthContext';
+import { useAuth } from './context/AuthContext';
+
+// Dashboard Bileşenleri
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import DashboardHome from './components/Dashboard/DashboardHome';
 import PersonnelPage from './components/Dashboard/PersonnelPage';
@@ -41,9 +45,10 @@ import PatientDashboard from './components/Dashboard/PatientDashboard';
 import NotificationsPage from './components/Dashboard/NotificationsPage';
 import AdminNotificationSender from './components/Dashboard/AdminNotificationSender';
 import ProfilePage from './components/Dashboard/ProfilePage';
-import PatientProfilePage from './components/pages/PatientProfilePage';
 
 export default function App() {
+  const { user: patientUser } = useAuth(); // Hasta kullanıcısı
+
   return (
     <Routes>
       {/* 1. Standart Sayfalar (Menü + Footer Var) */}
@@ -63,16 +68,17 @@ export default function App() {
         <Route path="birimlerimiz" element={<BirimlerimizPage />} />
         <Route path="verify-email" element={<VerifyEmailPage />} />
         
+        {/* ✅ Profil Rotası: Hasta ise PatientDashboard, değilse ProfilePage */}
+        <Route 
+          path="profile" 
+          element={patientUser ? <PatientDashboard /> : <ProfilePage />} 
+        />
       </Route>
-
 
       {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
       <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
-      {/* 2.5 Hasta Profil Sayfası (Bağımsız - Layout Yok) */}
-      <Route path="/patient-profile" element={<PatientProfilePage />} />
-
-      {/* 3. New Dashboard System (Protected Routes) */}
+      {/* 3. Dashboard Sistemi (Personel Korumalı) */}
       <Route element={<ProtectedPersonnelRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
@@ -86,22 +92,19 @@ export default function App() {
           <Route path="lab-results" element={<LabResultsPage />} />
           <Route path="cleaning" element={<CleaningManagementPage />} />
           <Route path="notifications-sender" element={<AdminNotificationSender />} />
-          <Route path="profile" element={<ProfilePage />} />
           
-          {/* Cleaner Routes */}
+          {/* Role Based Dashboards */}
           <Route path="cleaner" element={<CleanerDashboard />} />
-          
-          {/* Cashier Routes */}
           <Route path="payments" element={<CashierDashboard />} />
-          
-          {/* Lab Tech Routes */}
           <Route path="lab-tests" element={<LabTechDashboard />} />
           
-          {/* Patient Routes */}
+          {/* Hasta Paneli (Dashboard içinden erişim gerekirse) */}
           <Route path="my-appointments" element={<PatientDashboard />} />
-          {/* Profile Page Route */}
+          
+          {/* Personel Profil Sayfası */}
           <Route path="profile" element={<ProfilePage />} />
-          {/* Shared Routes */}
+
+          {/* Bildirimler */}
           <Route path="notifications" element={<NotificationsPage />} />
         </Route>
       </Route>

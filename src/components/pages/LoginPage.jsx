@@ -128,7 +128,7 @@ export default function LoginPage() {
         <h2 className="login-title">Giriş Yap</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message" role="alert">{error}</div>}
-          <div className="form-group">
+       <div className="form-group">
             <label htmlFor="tcKimlik">Kullanıcı Adı (TC No)</label>
             <input
               type="text"
@@ -136,7 +136,15 @@ export default function LoginPage() {
               className="form-input"
               placeholder="TC No girin"
               value={tcKimlik}
-              onChange={(e) => setTcKimlik(e.target.value)}
+              
+              maxLength={11} // 11 karakter sınırı (HTML tarafı)
+              onChange={(e) => {
+                // Sadece rakamları kabul et ve 11 haneyi geçirme (State tarafı)
+                const val = e.target.value.replace(/\D/g, ''); 
+                if (val.length <= 11) {
+                  setTcKimlik(val);
+                }
+              }}
               disabled={loading}
               autoComplete="username"
             />
