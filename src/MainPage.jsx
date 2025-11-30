@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useStaffAuth } from './context/StaffAuthContext'; 
+import { usePersonnelAuth } from './context/PersonnelAuthContext'; 
 import './MainPage.css';
 
 import ExpertSection from "./components/ExpertSection/ExpertSection";
@@ -14,13 +14,13 @@ import Hero from './components/Hero_Img/Hero';
 import DoctorSlider from './components/DoctorSlider/DoctorSlider'; 
 
 export default function MainPage() {
-	const { user: staffUser } = useStaffAuth(); 
+	const { user: personnelUser } = usePersonnelAuth(); 
 	const navigate = useNavigate();
 
 	// PERSONEL KONTROLÜ VE YÖNLENDİRME (Aynı kalır)
 	useEffect(() => {
-		   if (staffUser) {
-			   switch (staffUser.role) {
+		   if (personnelUser) {
+			   switch (personnelUser.role) {
 				   case 'ADMIN':
 					   navigate('/admin-panel', { replace: true });
 					   break;
@@ -48,11 +48,9 @@ export default function MainPage() {
 			<ExpertSection />
 			<Bolumler />
 			<FAQ />
-			{/* 🔥 ESKİ DOCTOR LISTESİ KALDIRILDI: Mükerrer listeyi önler */}
-			{/* <Doctors /> */}
-			<Stats />
-			{/* 🔥 YENİ DOKTOR SLIDER: Sadece bu kalır */}
 			<DoctorSlider /> 
+			<Stats />
+			
 		</>
 	);
 }

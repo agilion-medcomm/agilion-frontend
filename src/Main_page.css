@@ -1,0 +1,33 @@
+/* ====== CSS Variables ====== */
+:root {
+  --topbar-h: 52px;
+  --menubar-h: 70px;
+  --brand-600: #5a9fb8;
+  --brand-800: #2d6b7f;
+  --brand-900: #1a4d5f;
+  --text-700: #4a5568;
+  --text-900: #1a202c;
+}
+
+/* ====== Site Container ====== */
+.site {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.main {
+  flex: 1;
+  padding-top: calc(var(--topbar-h) + var(--menubar-h));
+}
+

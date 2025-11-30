@@ -3,7 +3,7 @@ import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './ProfilePage.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
 const BaseURL = `${API_BASE}/api/v1`;
 
 // --- İKONLAR ---

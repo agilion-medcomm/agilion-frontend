@@ -49,13 +49,13 @@
 
 /* İletişim - Fenerbahçe Yellow */
 .floating-btn--contact {
-  background: linear-gradient(135deg, #FFED00 0%, #FFD700 100%);
+  background: linear-gradient(135deg, #00ff08 0%, #09ff00 100%);
   color: #001C54;
   border-radius: 0 16px 16px 0; /* Sağ taraf yuvarlak */
 }
 
 .floating-btn--contact:hover {
-  background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+  background: linear-gradient(135deg, #00ff08 0%, hsl(126, 100%, 50%) 100%);
 }
 
 .floating-btn:active {

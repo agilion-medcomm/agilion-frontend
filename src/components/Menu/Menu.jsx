@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext'; 
-import { useStaffAuth } from '../../context/StaffAuthContext'; 
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext'; 
 // Appointment modals removed — randevu sayfası kullanılacak
 import "./Menu.css";
 
@@ -25,8 +25,8 @@ export default function Menu() {
   function handleLogout() {
     closeMenu();
     
-    if (isStaff) {
-      staffLogout();
+    if (isPersonnel) {
+      personnelLogout();
       // Personel çıkış yapınca kendi giriş ekranına dönsün
       navigate('/personelLogin', { replace: true });
     } else if (patientUser) {
@@ -39,8 +39,8 @@ export default function Menu() {
   function handleAvatarClick() {
     if (loggedInUser) {
       closeMenu();
-      if (isStaff) {
-        switch (staffUser.role) {
+      if (isPersonnel) {
+        switch (personnelUser.role) {
           case 'ADMIN': navigate('/admin-panel'); break;
           case 'DOCTOR': navigate('/doctor-panel'); break;
           case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
@@ -49,7 +49,7 @@ export default function Menu() {
           default: navigate('/'); break;
         }
       } else if (patientUser) {
-        navigate('/'); 
+        navigate('/patient-profile');
       }
     }
   }
@@ -120,7 +120,7 @@ export default function Menu() {
       <div className="topbar">
         <div className="container topbar__row">
           <div className="topbar__left">
-            <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">info@medcommercial.com.tr</a></span>
+            <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">canım@fenerbahcem.com.tr</a></span>
             <span className="topbar__item"><PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong></span>
           </div>
           <div className="topbar__right">
@@ -212,5 +212,5 @@ function ChevronIcon() { return <svg width="20" height="20" viewBox="0 0 24 24">
 
 // Footer'daki gibi boş SVG'ler yerine placeholder ikon kullanıldı.
 // Bu, Menu.jsx içindeki CalendarIconPlaceholder fonksiyonu ile aynıdır.
-// (AppointmentV2Modal'da da bu kodun olmaması gerekiyordu, ancak kod tekrarını önlemek için buraya ekledim.)
+// (Appointment'da da bu kodun olmaması gerekiyordu, ancak kod tekrarını önlemek için buraya ekledim.)
 function CalendarIconPlaceholder() { return <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }
