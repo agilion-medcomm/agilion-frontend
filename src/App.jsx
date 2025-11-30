@@ -1,4 +1,4 @@
-// src/App.jsx (DÜZELTİLMİŞ)
+// src/App.jsx (SON VE GÜNCEL HALİ - DÜZLEŞTİRİLMİŞ ROTALAR)
 
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './MainPage';
@@ -17,7 +17,6 @@ import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import ContactPage from './components/pages/ContactPage';
 import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
 import PersonelLoginPage from './components/pages/PersonelLoginPage'; 
-import VerifyEmailPage from './components/pages/VerifyEmailPage';
 
 // Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout'; 
@@ -39,8 +38,6 @@ export default function App() {
         <Route index element={<MainPage />} /> 
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} /> 
-        <Route path="forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="reset-password" element={<ResetPasswordPage />} />
         <Route path="contact" element={<ContactPage />} />
         <Route path="evde-saglik" element={<EvdeSaglikPage />} />
         <Route path="hekimlerimiz" element={<DoctorsPage />} />
@@ -49,15 +46,13 @@ export default function App() {
         <Route path="kurumsal" element={<KurumsalPage />} />
         <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
         <Route path="birimlerimiz" element={<BirimlerimizPage />} />
-        <Route path="verify-email" element={<VerifyEmailPage />} />
       </Route>
 
       {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
       <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
       {/* 3. Personel Panelleri (Korumalı ve Bağımsız - KISA YOLLAR) */}
-      {/* DÜZELTME BURADA: ProtectedPersonnelRoute kullanıldı */}
-      <Route element={<ProtectedPersonnelRoute />}>
+      <Route element={<ProtectedStaffRoute />}>
         <Route path="/admin-panel" element={<AdminPanel />} />
         <Route path="/doctor-panel" element={<DoctorPanel />} />
         <Route path="/lab-panel" element={<LabPanel />} />

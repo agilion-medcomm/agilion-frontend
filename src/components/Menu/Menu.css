@@ -399,7 +399,6 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   right: 0;
   left: auto;
   width: 340px;
-  min-width: 280px;
   max-width: 92vw;
   margin-right: 16px;
   height: auto;

@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import './Appointment.css'; // Ortak stil dosyası
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
-
 export default function DoctorSelectModal({ onClose, onDoctorSelect }) {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +10,8 @@ export default function DoctorSelectModal({ onClose, onDoctorSelect }) {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`${API_BASE}/api/v1/doctors`)
+    // Tüm doktorları çekmek için mock API çağrısı
+    fetch('http://localhost:3000/api/v1/doctors')
       .then(res => {
         if (!res.ok) throw new Error('Doktorlar yüklenemedi.');
         return res.json();

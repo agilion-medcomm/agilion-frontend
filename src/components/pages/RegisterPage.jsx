@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import './LoginPage.css';
 
-// API Ayarları
+// API setup
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
@@ -13,31 +14,31 @@ function isValidEmail(email) {
   const emailRegex = /\S+@\S+\.\S+/;
   return emailRegex.test(email);
 }
-
 function isValidPhoneNumber(phoneNumber) {
-  // Sadece rakamları al
   const digitsOnly = phoneNumber.replace(/\D/g, '');
-  // 10 veya 11 hane kontrolü (Başında 0 olup olmamasına göre)
   return digitsOnly.length >= 10 && digitsOnly.length <= 11;
 }
 
 export default function RegisterPage() {
+  // DATALARDA sadece tckn ve phoneNumber’a göre state tutuluyor
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    tckn: '',
+    tckn: '',               // tc yerine tckn
     day: '',
     month: '',
     year: '',
     email: '',
-    phoneNumber: '',
+    phoneNumber: '',        // phone yerine phoneNumber
     password: '',
     confirmPassword: ''
   });
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false); // Başarı durumu
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   function handleChange(e) {
     const { id, value } = e.target;
@@ -54,7 +55,7 @@ export default function RegisterPage() {
     setLoading(true);
     setError('');
 
-    // --- İstemci Tarafı Doğrulamaları ---
+    // Doğrulamalar
     if (formData.password !== formData.confirmPassword) {
       setError('Şifreler uyuşmuyor.');
       setLoading(false);
@@ -66,44 +67,44 @@ export default function RegisterPage() {
       return;
     }
     if (formData.phoneNumber && !isValidPhoneNumber(formData.phoneNumber)) {
-      setError('Lütfen geçerli bir telefon numarası girin.');
+      setError('Lütfen geçerli bir telefon numarası girin (10 veya 11 haneli).');
       setLoading(false);
       return;
     }
-    // Tarih kontrolü
-    if (!formData.day || !formData.month || !formData.year) {
-        setError('Lütfen doğum tarihinizi eksiksiz girin.');
-        setLoading(false);
-        return;
-    }
 
-    // Backend'e gönderilecek veri formatı
+    // YENİ KULLANICI DATASI: sadece gerekli alanlarla ve tckn + phoneNumber ile
     const newUser = {
       firstName: formData.firstName,
       lastName: formData.lastName,
-      tckn: formData.tckn.replace(/\D/g, ''), // Sadece rakamlar
+      tckn: formData.tckn.replace(/\D/g, ''),
       email: formData.email,
       phoneNumber: formData.phoneNumber,
       password: formData.password,
-      // Tarih formatı: YYYY-MM-DD
       dateOfBirth: `${formData.year}-${formData.month.toString().padStart(2, '0')}-${formData.day.toString().padStart(2, '0')}`
     };
 
     try {
-      // 1. Kayıt İsteği Gönder
+      // KAYIT OL
       await axios.post(`${BaseURL}/auth/register`, newUser);
 
-      // 2. Başarılı ise Success ekranına geç
-      setSuccess(true);
-      
-      // Formu temizle (Güvenlik ve temizlik için)
-      setFormData({
-        firstName: '', lastName: '', tckn: '', day: '', month: '', year: '',
-        email: '', phoneNumber: '', password: '', confirmPassword: ''
-      });
+      // OTO-GİRİŞ
+      const loginPayload = { tckn: newUser.tckn, password: formData.password };
+      const loginResponse = await axios.post(`${BaseURL}/auth/login`, loginPayload);
 
+      // Token ve (tercihen) user objesi alınır (user destekli ise kullan)
+      const { token, user } = loginResponse.data?.data || {};
+      if (!token) throw new Error('Giriş tokenı alınamadı.');
+
+      // login fonksiyonun token ve user destekliyorsa:
+      if (user) {
+        await login(token, user);
+      } else {
+        await login(token);
+      }
+
+      navigate('/');
     } catch (err) {
-      console.error('Kayıt hatası:', err);
+      console.error('Kayıt veya otomatik giriş hatası:', err);
       if (err.response) {
         // Backend'den gelen hata mesajını göster
         const resp = err.response.data;
@@ -122,7 +123,7 @@ export default function RegisterPage() {
     }
   }
 
-  // Doğum Tarihi dropdownları için yardımcı diziler
+  // Doğum Tarihi için yardımcı diziler
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     { value: 1, name: 'Ocak' }, { value: 2, name: 'Şubat' }, { value: 3, name: 'Mart' },
@@ -131,34 +132,8 @@ export default function RegisterPage() {
     { value: 10, name: 'Ekim' }, { value: 11, name: 'Kasım' }, { value: 12, name: 'Aralık' }
   ];
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i); // 18 yaşından büyükler için
+  const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i);
 
-  // --- RENDERING ---
-
-  // Eğer kayıt başarılıysa bu ekranı göster
-  if (success) {
-    return (
-      <div className="login-container">
-        <div className="login-box" style={{ maxWidth: '500px', textAlign: 'center', padding: '50px 30px' }}>
-          <div style={{ fontSize: '64px', marginBottom: '20px', color: '#4ab43f' }}>📧</div>
-          <h2 className="login-title" style={{ marginBottom: '20px', color: '#0e2b4b' }}>Kayıt Başarılı!</h2>
-          
-          <p style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.6', marginBottom: '30px' }}>
-            Aramıza hoş geldiniz. Kaydınız başarıyla alındı.<br />
-            Hesabınızı aktifleştirmek ve giriş yapabilmek için lütfen <strong>e-posta adresinize</strong> gönderdiğimiz doğrulama bağlantısına tıklayın.
-          </p>
-          
-          <div className="login-footer-link">
-            <Link to="/login" className="login-button" style={{ display: 'inline-block', textDecoration: 'none', padding: '12px 30px', backgroundColor: '#0e2b4b' }}>
-              Giriş Sayfasına Dön
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  // Normal Kayıt Formu
   return (
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '500px' }}>
@@ -166,7 +141,7 @@ export default function RegisterPage() {
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
 
-          <div className="form-group-row" style={{ display: 'flex', gap: '15px' }}>
+          <div className="form-group-row">
             <div className="form-group" style={{ flex: 1 }}>
               <label htmlFor="firstName">Ad</label>
               <input
@@ -207,13 +182,12 @@ export default function RegisterPage() {
               title="TC Kimlik 11 haneli olmalıdır."
               maxLength={11}
               minLength={11}
-              placeholder="11 haneli TC kimlik no"
             />
           </div>
 
           <div className="form-group">
             <label>Doğum Tarihi</label>
-            <div className="dob-group" style={{ display: 'flex', gap: '10px' }}>
+            <div className="dob-group">
               <select
                 name="day"
                 className="form-input"
@@ -221,7 +195,6 @@ export default function RegisterPage() {
                 onChange={handleDateChange}
                 disabled={loading}
                 required
-                style={{ flex: 1 }}
               >
                 <option value="" disabled>Gün</option>
                 {days.map(d => <option key={d} value={d}>{d}</option>)}
@@ -233,7 +206,6 @@ export default function RegisterPage() {
                 onChange={handleDateChange}
                 disabled={loading}
                 required
-                style={{ flex: 1 }}
               >
                 <option value="" disabled>Ay</option>
                 {months.map(m => <option key={m.value} value={m.value}>{m.name}</option>)}
@@ -245,7 +217,6 @@ export default function RegisterPage() {
                 onChange={handleDateChange}
                 disabled={loading}
                 required
-                style={{ flex: 1 }}
               >
                 <option value="" disabled>Yıl</option>
                 {years.map(y => <option key={y} value={y}>{y}</option>)}
@@ -263,12 +234,11 @@ export default function RegisterPage() {
               onChange={handleChange}
               disabled={loading}
               required
-              placeholder="ornek@email.com"
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="phoneNumber">Telefon Numarası</label>
+            <label htmlFor="phoneNumber">Telefon Numarası (İsteğe Bağlı)</label>
             <input
               type="tel"
               id="phoneNumber"
@@ -276,7 +246,6 @@ export default function RegisterPage() {
               value={formData.phoneNumber}
               onChange={handleChange}
               disabled={loading}
-              placeholder="05XX XXX XX XX"
             />
           </div>
 
@@ -291,7 +260,6 @@ export default function RegisterPage() {
               disabled={loading}
               required
               minLength="8"
-              placeholder="En az 8 karakter"
             />
           </div>
 
@@ -305,7 +273,6 @@ export default function RegisterPage() {
               onChange={handleChange}
               disabled={loading}
               required
-              placeholder="Şifrenizi tekrar girin"
             />
           </div>
 

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext'; 
-import { usePersonnelAuth } from '../../context/PersonnelAuthContext'; 
+import { useStaffAuth } from '../../context/StaffAuthContext'; 
 // Appointment modals removed — randevu sayfası kullanılacak
 import "./Menu.css";
 
@@ -25,8 +25,8 @@ export default function Menu() {
   function handleLogout() {
     closeMenu();
     
-    if (isPersonnel) {
-      personnelLogout();
+    if (isStaff) {
+      staffLogout();
       // Personel çıkış yapınca kendi giriş ekranına dönsün
       navigate('/personelLogin', { replace: true });
     } else if (patientUser) {
@@ -39,8 +39,8 @@ export default function Menu() {
   function handleAvatarClick() {
     if (loggedInUser) {
       closeMenu();
-      if (isPersonnel) {
-        switch (personnelUser.role) {
+      if (isStaff) {
+        switch (staffUser.role) {
           case 'ADMIN': navigate('/admin-panel'); break;
           case 'DOCTOR': navigate('/doctor-panel'); break;
           case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
@@ -212,5 +212,5 @@ function ChevronIcon() { return <svg width="20" height="20" viewBox="0 0 24 24">
 
 // Footer'daki gibi boş SVG'ler yerine placeholder ikon kullanıldı.
 // Bu, Menu.jsx içindeki CalendarIconPlaceholder fonksiyonu ile aynıdır.
-// (Appointment'da da bu kodun olmaması gerekiyordu, ancak kod tekrarını önlemek için buraya ekledim.)
+// (AppointmentV2Modal'da da bu kodun olmaması gerekiyordu, ancak kod tekrarını önlemek için buraya ekledim.)
 function CalendarIconPlaceholder() { return <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }
