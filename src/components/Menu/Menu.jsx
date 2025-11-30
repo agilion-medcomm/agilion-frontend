@@ -36,20 +36,16 @@ export default function Menu() {
     }
   }
 
-  function handleAvatarClick() {
+ function handleAvatarClick() {
     if (loggedInUser) {
       closeMenu();
+      
       if (isPersonnel) {
-        switch (personnelUser.role) {
-          case 'ADMIN': navigate('/admin-panel'); break;
-          case 'DOCTOR': navigate('/doctor-panel'); break;
-          case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
-          case 'CASHIER': navigate('/cashier-panel'); break;
-          case 'CLEANER': navigate('/cleaner-panel'); break;
-          default: navigate('/'); break;
-        }
+        // Personel -> Dashboard
+        navigate('/dashboard'); 
       } else if (patientUser) {
-        navigate('/patient-profile');
+        // ✅ DÜZELTME: Hasta -> Yeni Hasta Paneli Rotası
+        navigate('/hasta-paneli'); 
       }
     }
   }

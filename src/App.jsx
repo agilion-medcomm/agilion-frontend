@@ -1,5 +1,3 @@
-// src/App.jsx (DÜZELTİLMİŞ)
-
 import { Routes, Route } from 'react-router-dom';
 import MainPage from './MainPage';
 import DoctorsPage from './components/pages/DoctorsPage';
@@ -18,13 +16,13 @@ import ContactPage from './components/pages/ContactPage';
 import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
 import PersonelLoginPage from './components/pages/PersonelLoginPage'; 
 import VerifyEmailPage from './components/pages/VerifyEmailPage';
+import PatientProfilePage from './components/pages/PatientProfilePage'; // Hasta Profili
 
 // Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout'; 
-// DÜZELTME BURADA: Dosya adı ProtectedPersonnelRoute olduğu için importu düzelttik
 import ProtectedPersonnelRoute from './components/Layout/ProtectedPersonnelRoute'; 
 
-// New Dashboard System
+// --- DASHBOARD BİLEŞENLERİ ---
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import DashboardHome from './components/Dashboard/DashboardHome';
 import PersonnelPage from './components/Dashboard/PersonnelPage';
@@ -41,7 +39,6 @@ import PatientDashboard from './components/Dashboard/PatientDashboard';
 import NotificationsPage from './components/Dashboard/NotificationsPage';
 import AdminNotificationSender from './components/Dashboard/AdminNotificationSender';
 import ProfilePage from './components/Dashboard/ProfilePage';
-import PatientProfilePage from './components/pages/PatientProfilePage';
 
 export default function App() {
   return (
@@ -62,22 +59,20 @@ export default function App() {
         <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
         <Route path="birimlerimiz" element={<BirimlerimizPage />} />
         <Route path="verify-email" element={<VerifyEmailPage />} />
-        
+        <Route path="hasta-paneli" element={<PatientDashboard />} />
       </Route>
 
-
-      {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
+      {/* 2. Personel Giriş Sayfası */}
       <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
-      {/* 2.5 Hasta Profil Sayfası (Bağımsız - Layout Yok) */}
-      <Route path="/patient-profile" element={<PatientProfilePage />} />
-
-      {/* 3. New Dashboard System (Protected Routes) */}
+      {/* 3. Personel Paneli (Dashboard) */}
       <Route element={<ProtectedPersonnelRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<DashboardHome />} />
           
-          {/* Admin Routes */}
+          <Route path="profile" element={<ProfilePage />} />
+          
+          {/* Diğer Rotalar */}
           <Route path="personnel" element={<PersonnelPage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="patients" element={<PatientsPage />} />
@@ -86,22 +81,9 @@ export default function App() {
           <Route path="lab-results" element={<LabResultsPage />} />
           <Route path="cleaning" element={<CleaningManagementPage />} />
           <Route path="notifications-sender" element={<AdminNotificationSender />} />
-          <Route path="profile" element={<ProfilePage />} />
-          
-          {/* Cleaner Routes */}
           <Route path="cleaner" element={<CleanerDashboard />} />
-          
-          {/* Cashier Routes */}
           <Route path="payments" element={<CashierDashboard />} />
-          
-          {/* Lab Tech Routes */}
           <Route path="lab-tests" element={<LabTechDashboard />} />
-          
-          {/* Patient Routes */}
-          <Route path="my-appointments" element={<PatientDashboard />} />
-          {/* Profile Page Route */}
-          <Route path="profile" element={<ProfilePage />} />
-          {/* Shared Routes */}
           <Route path="notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
