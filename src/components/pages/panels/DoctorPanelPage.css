@@ -17,10 +17,20 @@
 }
 
 .doctor-top-section {
-  background-color: #45b5c4; /* Tıbbi Teal Renk */
-  padding-top: 40px;
-  padding-bottom: 60px;
+  background: linear-gradient(135deg, #45b5c4 0%, #3c9fae 70%, #357d91 100%);
+  padding-top: 50px;
+  padding-bottom: 70px;
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.doctor-top-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .panel-top-header {
@@ -31,45 +41,77 @@
 }
 
 .doctor-panel-title {
-  font-size: 2.2rem;
-  letter-spacing: 0.5px;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  letter-spacing: -0.02em;
   color: #ffffff;
   margin: 0;
-  font-weight: 700;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 1;
 }
 
 .logout-btn {
-  background: #ffffff;
-  color: #c1272d; /* Kırmızı logout butonu aynı kalsın */
-  font-weight: 600;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #dc2626;
+  font-weight: 700;
+  border: 2px solid rgba(220, 38, 38, 0.2);
+  padding: 12px 28px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 1;
 }
+
 .logout-btn:hover {
-  background: #f0f0f0;
+  background: #ffffff;
+  border-color: #dc2626;
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+}
+
+.logout-btn:active {
+  transform: translateY(0);
 }
 
 /* PROFİL KARTI STİLLERİ (AdminPanelPage.css'ten kopyalandı) */
 .doctor-profile-card {
-  background: #fff;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  color: #333;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12),
+              0 8px 24px rgba(0,0,0,0.08),
+              0 0 0 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #1f2937;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .profile-header-strip {
-  background: #e5e7eb;
-  color: #374151;
-  padding: 10px 20px;
-  font-weight: 700;
-  font-size: 1rem;
-  border-bottom: 1px solid #d1d5db;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  color: #0e2b4b;
+  padding: 14px 24px;
+  font-weight: 800;
+  font-size: 1.05rem;
+  border-bottom: 2px solid #bae6fd;
+  letter-spacing: 0.01em;
 }
 
 .profile-content {
@@ -109,20 +151,28 @@
 
 .profile-item .value-box {
   flex: 1;
-  border: 1px solid #d1d5db;
+  border: 2px solid #e5e7eb;
   background: #fff;
-  padding: 6px 10px;
+  padding: 8px 12px;
   font-size: 0.95rem;
-  color: #111;
-  border-radius: 6px;
-  min-height: 24px;
+  color: #1f2937;
+  border-radius: 8px;
+  min-height: 28px;
   display: flex;
   align-items: center;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.profile-item .value-box:focus {
+  border-color: #45b5c4;
+  box-shadow: 0 0 0 3px rgba(69, 181, 196, 0.1);
+  outline: none;
 }
 
 .profile-item .value-box.readonly {
-  background: #f3f4f6;
-  color: #555;
+  background: #f9fafb;
+  color: #6b7280;
   border-color: #e5e7eb;
 }
 
@@ -150,26 +200,34 @@
 }
 
 .avatar-placeholder {
-  width: 120px;
-  height: 140px;
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  width: 130px;
+  height: 150px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+  border: 3px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  color: #9ca3af;
-  font-weight: bold;
-  border-radius: 8px;
+  font-size: 3.5rem;
+  color: #0e2b4b;
+  font-weight: 800;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12),
+              inset 0 2px 4px rgba(255,255,255,0.5);
 }
 
 .avatar-img {
-  width: 120px;
-  height: 140px;
+  width: 130px;
+  height: 150px;
   object-fit: cover; 
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  border: 3px solid white;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12),
+              0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.avatar-img:hover {
+  transform: scale(1.05);
 }
 
 .avatar-label {
@@ -202,11 +260,17 @@
 }
 
 .section-header h3 {
-  color: #111827;
-  border-left: 5px solid #45b5c4; /* Teal renkli çizgi */
-  padding-left: 12px;
+  background: linear-gradient(135deg, #0e2b4b 0%, #45b5c4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  border-left: 5px solid;
+  border-image: linear-gradient(180deg, #45b5c4 0%, #4a63d1 100%) 1;
+  padding-left: 16px;
   margin: 0;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 
 .toggle-arrow {
@@ -252,13 +316,29 @@
 }
 
 .modal-box {
-  background: white;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   width: 100%;
-  max-width: 400px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  padding: 24px;
+  max-width: 440px;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3),
+              0 8px 24px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 32px;
   position: relative;
+  animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .modal-header {
@@ -332,15 +412,26 @@
 }
 
 .save-btn {
-  background: #45b5c4; /* Teal save */
+  background: linear-gradient(135deg, #45b5c4 0%, #3c9fae 100%);
   color: white;
   border: none;
-  padding: 8px 20px;
-  border-radius: 6px;
+  padding: 12px 28px;
+  border-radius: 10px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(69, 181, 196, 0.3);
 }
-.save-btn:hover { background: #3c9fae; }
+
+.save-btn:hover { 
+  background: linear-gradient(135deg, #50c0cf 0%, #47aab9 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(69, 181, 196, 0.4);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
 
 /* Mobil Uyum */
 @media (max-width: 768px) {

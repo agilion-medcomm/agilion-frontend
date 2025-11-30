@@ -454,17 +454,21 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   right: 0;
   left: auto;
   width: 340px;
+  min-width: 280px;
   max-width: 92vw;
   margin-right: 16px;
   height: auto;
   min-height: 320px;
   max-height: calc(100vh - var(--topbar-h) - var(--menubar-h) - 20px);
-  background: rgb(255, 255, 255);
-  box-shadow: -2px 0 16px rgba(0, 0, 0, 0.18);
-  border-radius: 24px;
+  background: white;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
   z-index: 1000;
   overflow-y: auto;
-  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
   cursor: default;
   -webkit-overflow-scrolling: touch;
@@ -475,6 +479,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 }
 
 .mobile-menu--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
   right: 0;
   pointer-events: auto;
 }
@@ -745,7 +751,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
     justify-content: flex-start; /* 'space-between'i ezer */
     gap: 12px;
   }
-}
+
 
 
 

@@ -1,5 +1,3 @@
-// src/components/pages/PersonelLoginPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Context import yolunuzun doğru olduğundan emin olun
@@ -27,11 +25,6 @@ export default function PersonelLoginPage() {
     if (logoutPersonnel) {
       logoutPersonnel(); 
     }
-  const { loginStaff, logoutStaff } = useStaffAuth();
-
-  // Sayfa yüklendiğinde (veya geri gelindiğinde) oturumu kapat
-  useEffect(() => {
-    logoutStaff();
   }, []); 
 
   async function handleSubmit(event) {
@@ -51,48 +44,12 @@ export default function PersonelLoginPage() {
       // 2. Context'e Giriş Yap (Token 'personnelToken' olarak kaydedilir)
       await loginPersonnel(data.token, data.user);
       
-      // 3. Rolüne göre yönlendir
-      const userRole = data.role; 
-
-      switch (userRole) {
-        case 'ADMIN': 
-          navigate('/admin-panel'); 
-          break;
-        case 'DOCTOR': 
-          navigate('/doctor-panel'); 
-          break;
-        case 'LAB_TECHNICIAN': 
-          navigate('/lab-panel'); 
-          break;
-        case 'CASHIER': 
-          navigate('/cashier-panel'); 
-          break;
-        case 'CLEANER': 
-          navigate('/cleaner-panel'); 
-          break;
-        default: 
-          setError('Rol tanımlı değil, lütfen yöneticiye başvurun.');
-          if(logoutPersonnel) logoutPersonnel();
-      await loginStaff(data.token, data.user);
-      
-      const role = data.user?.role || data.role;
-      
-      // 🔥 DÜZELTME BURADA: { replace: true } KALDIRILDI.
-      // Artık "Geri" tuşuyla tekrar bu sayfaya dönülebilir.
-      switch (role) {
-        case 'ADMIN': navigate('/admin-panel'); break;
-        case 'DOCTOR': navigate('/doctor-panel'); break;
-        case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
-        case 'CASHIER': navigate('/cashier-panel'); break;
-        case 'CLEANER': navigate('/cleaner-panel'); break;
-        default: setError('Yetkisiz giriş: Rol tanımlı değil.');
-      }
+      // 3. Redirect to new dashboard system
+      navigate('/dashboard');
 
     } catch (err) {
       console.error('Giriş Hatası:', err);
-      if (err.response) setError(err.response.data?.message || 'Giriş başarısız.');
-      else setError('Sunucuya bağlanılamadı.');
-      logoutStaff();
+      setError(err.response?.data?.message || 'Giriş başarısız. Bilgilerinizi kontrol edin.');
     } finally {
       setLoading(false);
     }
@@ -118,15 +75,6 @@ export default function PersonelLoginPage() {
               onChange={(e) => setTckn(e.target.value)} 
               maxLength={11} 
               required 
-            <label htmlFor="tckn">TC Kimlik No</label>
-            <input 
-              type="text" 
-              id="tckn" 
-              className="form-input" 
-              value={tckn} 
-              onChange={(e) => setTckn(e.target.value)} 
-              disabled={loading}
-              maxLength={11}
               placeholder="11 haneli TCKN"
             />
           </div>
@@ -140,14 +88,6 @@ export default function PersonelLoginPage() {
               onChange={(e) => setPassword(e.target.value)} 
               required 
               placeholder="Şifreniz"
-            <label htmlFor="password">Şifre</label>
-            <input 
-              type="password" 
-              id="password" 
-              className="form-input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              disabled={loading} 
             />
           </div>
           

@@ -1,3 +1,9 @@
+const UserIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <circle cx="12" cy="8" r="4"></circle>
+    <path d="M4 20v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path>
+  </svg>
+);
 import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
@@ -11,9 +17,6 @@ const HomeIcon = () => (
     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
     <polyline points="9 22 9 12 15 12 15 22"></polyline>
   </svg>
-);
-const UserIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
 );
 
 const PeopleIcon = () => (
@@ -106,7 +109,6 @@ export default function DashboardLayout() {
 
     const baseNav = [
       { path: '/dashboard', icon: <HomeIcon />, label: 'Dashboard' },
-      { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profilim' },
     ];
 
     if (isAdmin) {
@@ -117,6 +119,7 @@ export default function DashboardLayout() {
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
         { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
         { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Cleaning' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications-sender', icon: <FileTextIcon />, label: 'Send Alerts' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
@@ -129,6 +132,7 @@ export default function DashboardLayout() {
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
         { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
         { path: '/dashboard/lab-results', icon: <ActivityIcon />, label: 'Lab Results' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
     }
@@ -138,6 +142,7 @@ export default function DashboardLayout() {
       return [
         ...baseNav,
         { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'My Assignments' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
     }
@@ -147,6 +152,7 @@ export default function DashboardLayout() {
       return [
         ...baseNav,
         { path: '/dashboard/payments', icon: <CalendarIcon />, label: 'Payments' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
     }
@@ -156,6 +162,7 @@ export default function DashboardLayout() {
       return [
         ...baseNav,
         { path: '/dashboard/lab-tests', icon: <ActivityIcon />, label: 'Lab Tests' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
     }
@@ -166,6 +173,7 @@ export default function DashboardLayout() {
         ...baseNav,
         { path: '/dashboard/my-appointments', icon: <CalendarIcon />, label: 'My Appointments' },
         { path: '/dashboard/lab-results', icon: <ActivityIcon />, label: 'Lab Results' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
     }
@@ -219,7 +227,7 @@ export default function DashboardLayout() {
         </div>
 
         <div className="sidebar-user">
-          <div className="user-avatar">
+          <div className="user-avatar" style={{cursor:'pointer'}} onClick={() => navigate('/dashboard/profile')} title="Profilim">
             {user.photoUrl ? (
               <img src={user.photoUrl} alt={user.firstName} />
             ) : (
