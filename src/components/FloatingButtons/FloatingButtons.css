@@ -35,27 +35,27 @@
   flex-shrink: 0;
 }
 
-/* Hızlı Randevu - Mavi */
+/* Hızlı Randevu - Fenerbahçe Navy Blue */
 .floating-btn--appointment {
-  background: linear-gradient(135deg, #4a90a4 0%, #357d91 100%);
+  background: linear-gradient(135deg, #001C54 0%, #002D7A 100%);
   color: white;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px 0 0 16px; /* Sol taraf yuvarlak */
 }
 
 .floating-btn--appointment:hover {
-  background: linear-gradient(135deg, #0f404d 0%, #4a90a4 100%);
+  background: linear-gradient(135deg, #000F2F 0%, #001C54 100%);
 }
 
-/* İletişim - Yeşil */
+/* İletişim - Fenerbahçe Yellow */
 .floating-btn--contact {
-  background: linear-gradient(135deg, #5cb85c 0%, #449d44 100%);
-  color: white;
+  background: linear-gradient(135deg, #FFED00 0%, #FFD700 100%);
+  color: #001C54;
   border-radius: 0 16px 16px 0; /* Sağ taraf yuvarlak */
 }
 
 .floating-btn--contact:hover {
-  background: linear-gradient(135deg, #279127 0%, #118211 100%);
+  background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
 }
 
 .floating-btn:active {

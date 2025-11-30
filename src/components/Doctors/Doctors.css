@@ -1,22 +1,46 @@
 /* === GENEL BLOK === */
 .doctors-section {
   width: 100%;
-  background: #f9fafc;
-  padding-bottom: 60px;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #e5e7eb 100%);
+  padding-bottom: 80px;
+  position: relative;
+}
+
+.doctors-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(74, 99, 209, 0.03) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 30%, rgba(69, 181, 196, 0.03) 0%, transparent 50%);
+  pointer-events: none;
 }
 
 /* === ÜST BAŞLIK BLOĞU === */
 .doctors-header {
-  background: #45b5c4; /* turkuaz */
+  background: linear-gradient(135deg, #45b5c4 0%, #3c9fae 50%, #357d91 100%);
   text-align: center;
-  padding: 60px 20px;
+  padding: 70px 20px;
   color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.doctors-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+  pointer-events: none;
 }
 
 .doctors-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 800;
   margin: 0;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 1;
 }
 
 @media (max-width: 700px) {
@@ -31,69 +55,128 @@
   margin: 50px auto 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 28px;
   padding: 0 20px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 /* === DOKTOR KART === */
 .doctor-card {
-  background: white;
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06),
+              0 4px 12px rgba(0, 0, 0, 0.04),
+              0 0 0 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   text-align: center;
-  padding: 20px 10px 26px;
+  padding: 24px 16px 30px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.doctor-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4a63d1 0%, #45b5c4 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
 }
 
 .doctor-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12),
+              0 8px 20px rgba(0, 0, 0, 0.08),
+              0 0 0 1px rgba(74, 99, 209, 0.2);
+}
+
+.doctor-card:hover::before {
+  transform: scaleX(1);
 }
 
 .doctor-card img {
   width: 100%;
-  height: 220px;
+  height: 240px;
   object-fit: contain;
-  border-radius: 14px;
-  background: linear-gradient(180deg, #a6dff1, #c7f0fa);
+  border-radius: 16px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 50%, #dbeafe 100%);
+  padding: 12px;
+  transition: transform 0.3s ease;
+}
+
+.doctor-card:hover img {
+  transform: scale(1.05);
 }
 
 .doctor-card h3 {
-  font-size: 1.05rem;
-  color: #0e2b4b;
-  font-weight: 700;
-  margin-top: 14px;
+  font-size: 1.15rem;
+  background: linear-gradient(135deg, #0e2b4b 0%, #4a63d1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  margin-top: 16px;
+  letter-spacing: -0.01em;
 }
 
 .doctor-card p {
-  color: #4a5568;
-  font-size: 0.9rem;
-  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-top: 8px;
+  font-weight: 500;
 }
 
 /* === NAVİGASYON BUTONLARI === */
 .doctors-navigation {
   display: flex;
   justify-content: center;
-  gap: 30px;
-  margin-top: 10px;
+  gap: 16px;
+  margin-top: 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .doctors-navigation button {
-  color: white;
-  border: none;
-  font-size: 1.8rem;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(74, 99, 209, 0.2);
   border-radius: 50%;
-  width: 104px;
-  height: 54px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  color: #4a63d1;
 }
 
 .doctors-navigation button:hover {
-  transform: scale(1.1);
+  background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
+  border-color: #4a63d1;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 99, 209, 0.3);
+  color: white;
+}
+
+.doctors-navigation button:active {
+  transform: scale(1.05);
+}
+
+.doctors-navigation button:focus {
+  outline: 2px solid #4a63d1;
+  outline-offset: 2px;
 }
 
 /* === RESPONSIVE === */
@@ -225,64 +308,89 @@
 .doctors-navigation {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 16px;
+  margin-top: 20px;
 }
 
 .doctors-navigation button {
-  background: transparent; /* Removed soft blue */
-  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(74, 99, 209, 0.2);
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 56px;
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  color: #4a63d1;
 }
 
 .doctors-navigation button:hover {
-  background: transparent; /* No color on hover */
-  transform: scale(1.1);
+  background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
+  border-color: #4a63d1;
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 99, 209, 0.3);
+  color: white;
+}
+
+.doctors-navigation button:active {
+  transform: scale(1.05);
 }
 
 /* === RESPONSIVE === */
 @media (max-width: 1024px) {
   .doctors-container {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
 @media (max-width: 560px) {
   .doctors-container {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .doctors-header {
+    padding: 50px 20px;
   }
 
   .doctors-navigation {
-    gap: 8px;
+    gap: 12px;
   }
 
   .doctors-navigation button {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
+  }
+  
+  .nav-icon {
+    width: 24px;
+    height: 24px;
   }
 }
 
 /* PNG ikonlar için */
 .nav-icon {
-  width: 48px;
-  height: 48px;
+  width: 28px;
+  height: 28px;
   pointer-events: none;
-  transition: transform 0.2s ease;
+  transition: all 0.3s ease;
+  filter: brightness(0) saturate(100%) invert(37%) sepia(74%) saturate(1089%) hue-rotate(207deg) brightness(93%) contrast(88%);
 }
 
 .doctors-navigation button:hover .nav-icon {
-  transform: scale(1.05);
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7500%) hue-rotate(351deg) brightness(103%) contrast(103%);
+  transform: scale(1.1);
 }
 
 .doctors-navigation button:focus {
-  outline: none;
+  outline: 2px solid #4a63d1;
+  outline-offset: 2px;
 }
 
 /* === EFEKT İÇİN YENİ STİLLER === */
