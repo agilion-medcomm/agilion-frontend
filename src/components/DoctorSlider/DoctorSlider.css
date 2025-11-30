@@ -1,0 +1,211 @@
+/* src/components/DoctorSlider/DoctorSlider.css (YENİ DOSYA) */
+
+.doctor-slider-section {
+    padding: 60px 0;
+    background-color: #f3f6fa; /* Hafif arka plan rengi */
+}
+
+.doctor-slider-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.doctor-slider-header h2 {
+    font-size: 32px;
+    color: #1a4d5f;
+    margin-bottom: 10px;
+}
+
+.doctor-slider-header p {
+    font-size: 18px;
+    color: #4a5568;
+}
+
+.doctor-slider-wrapper {
+    position: relative;
+    max-width: 1200px; 
+    margin: 0 auto;
+    padding: 0 40px; /* Oklar için boşluk */
+}
+
+.doctor-slider-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 sütunlu düzen */
+    gap: 24px;
+    justify-content: center;
+    overflow: hidden; 
+    padding: 0;
+}
+
+/* Doktor Kartı Stilleri */
+.slider-doctor-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 24px 16px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.slider-doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.slider-doctor-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid #5a9fb8;
+}
+
+.slider-doctor-initials {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #e3eaf2;
+    color: #357d91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 auto 15px;
+    user-select: none;
+}
+
+.slider-doctor-name {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: #1a4d5f;
+}
+
+.slider-doctor-specialization {
+    font-size: 15px;
+    color: #5a9fb8;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.slider-appointment-button {
+    background: #ff6600;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.slider-appointment-button:hover {
+    background: #e65c00;
+    box-shadow: 0 4px 10px rgba(255,102,0,0.3);
+}
+
+
+/* === SLIDER NAVİGASYON OKLARI === */
+.slider-navigation {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; 
+    z-index: 10;
+}
+
+.slider-nav-btn {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    padding: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    pointer-events: all; /* Butonlara tıklamaya izin ver */
+}
+
+.slider-nav-btn:hover:not(:disabled) {
+  background: #f0f0f0;
+  border-color: #5a9fb8;
+  transform: scale(1.05);
+}
+
+.slider-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.slider-nav-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.slider-nav-btn.prev {
+    position: absolute;
+    left: 0;
+}
+
+.slider-nav-btn.next {
+    position: absolute;
+    right: 0;
+}
+
+.slider-pagination-info {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1rem;
+    color: #4a5568;
+    font-weight: 600;
+}
+
+
+/* --- Responsive Düzenlemeler --- */
+@media (max-width: 1024px) {
+    .doctor-slider-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .doctor-slider-wrapper {
+        padding: 0 20px;
+    }
+    .slider-nav-btn.prev { left: -10px; }
+    .slider-nav-btn.next { right: -10px; }
+    .slider-navigation {
+      width: calc(100% - 40px);
+      left: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .doctor-slider-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .slider-doctor-card {
+        padding: 20px 10px;
+    }
+    .doctor-slider-wrapper {
+        padding: 0;
+    }
+    .slider-navigation {
+      width: 100%;
+      left: 0;
+    }
+    .slider-nav-btn {
+      width: 40px;
+      height: 40px;
+    }
+}

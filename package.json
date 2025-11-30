@@ -16,9 +16,10 @@
     "json-server": "^1.0.0-beta.3",
     "node": "^25.1.0",
     "react": "^19.1.1",
+    "react-calendar": "^6.0.0",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.5",
-    "react-router-dom": "^7.9.5",
+    "react-router-dom": "^7.9.6",
     "server.js": "^1.0.0"
   },
   "devDependencies": {

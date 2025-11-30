@@ -11,31 +11,61 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 20px; /* Üstten alttan bolca boşluk */
-  background-color: #f9fafb; /* Tasarımdaki gibi çok hafif bir gri */
-  
-  /* Formun Menü ve Footer arasında ortalanması için: */
-  /* Toplam ekran yüksekliğinden Menü ve Footer yüksekliklerini çıkar */
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f9fafb 100%);
+  position: relative;
   min-height: calc(100vh - var(--topbar-h) - var(--menubar-h));
   box-sizing: border-box;
 }
 
+/* Add subtle pattern background */
+.login-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 25% 25%, rgba(74, 99, 209, 0.04) 0%, transparent 50%),
+                    radial-gradient(circle at 75% 75%, rgba(69, 181, 196, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+}
+
 .login-box {
   width: 100%;
-  max-width: 480px; /* Kayıt formuna sığması için */
-  padding: 40px;
-  background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 10px rgba(0, 0, 0, 0.02);
-  border: 1px solid #e5e7eb;
+  max-width: 500px;
+  padding: 48px 44px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08),
+              0 8px 24px rgba(0, 0, 0, 0.04),
+              0 0 0 1px rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  position: relative;
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .login-title {
-  font-size: 30px; /* "Giriş Yap" / "Kayıt Ol" başlığı */
-  font-weight: 700;
-  color: #111827; /* Koyu metin */
+  font-size: clamp(26px, 5vw, 32px);
+  font-weight: 800;
+  background: linear-gradient(135deg, #0e2b4b 0%, #4a63d1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
 .login-form {
@@ -58,37 +88,75 @@
 
 .form-input {
   font-size: 16px;
-  padding: 14px 16px;
-  border: 1px solid #d1d5db; /* Gri border */
-  border-radius: 8px;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  -webkit-appearance: none; /* iOS'taki çirkin varsayılan stili kaldırır */
+  padding: 14px 18px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  background-color: #fff; /* Select'ler için arkaplanı zorla */
+  background-color: #fff;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+  font-weight: 400;
+}
+
+.form-input:hover {
+  border-color: #d1d5db;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #0e2b4b; /* Koyu mavi (temadan) */
-  box-shadow: 0 0 0 3px rgba(14, 43, 75, 0.1);
+  border-color: #4a63d1;
+  box-shadow: 0 0 0 4px rgba(74, 99, 209, 0.1),
+              0 4px 12px rgba(74, 99, 209, 0.08);
+  transform: translateY(-1px);
 }
 
 .login-button {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   color: #fff;
-  background-color: #0e2b4b; /* Tasarımdaki koyu mavi/siyah buton */
+  background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
   border: none;
-  padding: 16px;
-  border-radius: 8px;
+  padding: 16px 24px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  margin-top: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 16px;
+  box-shadow: 0 4px 12px rgba(74, 99, 209, 0.3),
+              0 2px 4px rgba(74, 99, 209, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #1a4d5f; /* Temadan bir başka koyu renk */
+  background: linear-gradient(135deg, #5570d8 0%, #7491ef 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 99, 209, 0.4),
+              0 3px 8px rgba(74, 99, 209, 0.25);
+}
+
+.login-button:hover::before {
+  opacity: 1;
+}
+
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(74, 99, 209, 0.3);
 }
 
 /* Login sayfası alt link ("Hesabınız yok mu?") */
@@ -140,22 +208,57 @@
 
 /* --- Hata ve Yüklenme Stilleri (Değişiklik yok) --- */
 .error-message {
-  background-color: #ffebe9;
-  color: #c93434;
-  border: 1px solid #f5c0ba;
-  border-radius: 8px;
-  padding: 12px 16px;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  color: #dc2626;
+  border: 1.5px solid #fca5a5;
+  border-radius: 12px;
+  padding: 14px 18px;
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
   text-align: center;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.success-message {
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+  color: #047857;
+  border: 1.5px solid #6ee7b7;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(4, 120, 87, 0.1);
+  animation: slideDown 0.3s ease-out;
 }
 
 .login-button:disabled {
-  background-color: #9ca3af; /* Kilitliyken gri */
+  background: #d1d5db;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.login-button:disabled::before {
+  display: none;
 }
 
 .form-input:disabled {
-  background-color: #f3f4f6;
+  background-color: #f9fafb;
   color: #9ca3af;
+  border-color: #e5e7eb;
+  cursor: not-allowed;
 }

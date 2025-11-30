@@ -5,7 +5,7 @@ import axios from 'axios'; // axios import edildi
 import './LoginPage.css';
 
 // API base (env ile kolayca değiştirilebilir)
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 // Backend mounts routes under /api/v1
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
@@ -56,13 +56,14 @@ export default function LoginPage() {
       console.log('Login başarılı (POST), response:', response.data);
 
       // Backend returns { status, message, data: { token, user } }
-      const token = response.data?.data?.token || response.data?.token;
+      const { token, user } = response.data?.data || response.data;
+      
       if (!token) {
         throw new Error('Sunucudan token gelmedi.');
       }
 
-      // Use token-only path: store token and let AuthContext fetch profile
-      await login(token);
+      // Use token and user directly
+      await login({ token, user });
       navigate('/');
 
     } catch (err) {
@@ -70,10 +71,10 @@ export default function LoginPage() {
       if (axios.isAxiosError(err)) {
         // 2a. FALLBACK YOLU: Eğer 404 hatası alındıysa (endpoint yoksa), /users ile client-side doğrulamayı dene
         if (err.response && err.response.status === 404) {
-          console.warn('/api/auth/login 404 verdi. Fallback: /users üzerinden client-side doğrulama deneniyor...');
+          console.warn('/api/auth/login 404 verdi. Fallback: /api/v1/patients üzerinden client-side doğrulama deneniyor...');
           try {
-            const usersResponse = await axios.get(`${BaseURL}/users`);
-            const users = usersResponse.data;
+            const usersResponse = await axios.get(`${BaseURL}/patients`);
+            const users = usersResponse.data && usersResponse.data.users ? usersResponse.data.users : usersResponse.data;
 
             // Fallback: match backend field `tckn` or older `tcKimlik`
             const user = users.find(u =>
@@ -89,7 +90,7 @@ export default function LoginPage() {
               setError('TC veya şifre yanlış.');
             }
           } catch (fallbackErr) {
-            console.error('Fallback GET /users hatası:', fallbackErr);
+            console.error('Fallback GET /patients hatası:', fallbackErr);
             setError('Kullanıcı listesi alınamadı veya bir hata oluştu.');
           }
         } else if (err.response) {

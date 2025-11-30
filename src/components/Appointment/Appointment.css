@@ -1,0 +1,373 @@
+/* src/components/Appointment/Appointment.css (KONSOLİDE EDİLMİŞ VERSİYON) */
+
+/* === BİLEŞEN KAPLAYICISI === */
+.appointment-component-container {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1),
+                0 8px 24px rgba(0,0,0,0.06),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* === IZGARA YAPISI (SOL: DOKTOR, SAĞ: TAKVİM) === */
+.modal-content-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 0; /* Aradaki çizgiyi border ile yapacağız */
+    align-items: stretch;
+    min-height: 450px;
+}
+
+/* === SOL PANEL: DOKTOR BİLGİLERİ === */
+.doctor-panel-left {
+    padding: 36px 24px;
+    text-align: center;
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.doctor-panel-left::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #4a63d1 0%, #45b5c4 100%);
+}
+
+.doctor-name {
+    background: linear-gradient(135deg, #0e2b4b 0%, #1a4d5f 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.doctor-specialization {
+    color: #45b5c4;
+    font-size: 1rem;
+    margin: 0 0 24px 0;
+    font-weight: 600;
+}
+
+/* Doktor Avatarı */
+.doctor-modal-img, 
+.doctor-modal-avatar-placeholder { 
+    width: 150px; 
+    height: 150px; 
+    border-radius: 50%; 
+    margin-bottom: 28px;
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 48px; 
+    color: #0e2b4b; 
+    font-weight: 700; 
+    object-fit: cover; 
+    border: 5px solid white;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08),
+                0 4px 12px rgba(0,0,0,0.04),
+                inset 0 2px 4px rgba(255,255,255,0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.doctor-modal-img:hover,
+.doctor-modal-avatar-placeholder:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.12),
+                0 6px 16px rgba(0,0,0,0.06);
+}
+
+/* Onay Butonu Alanı */
+.randevu-onay-wrap {
+    margin-top: auto; /* En alta iter */
+    width: 100%;
+}
+
+.confirm-appointment-btn { 
+    width: 100%; 
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white; 
+    border: none; 
+    padding: 16px 20px; 
+    border-radius: 14px; 
+    font-size: 1.05rem; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3),
+                0 2px 6px rgba(16, 185, 129, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.confirm-appointment-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.confirm-appointment-btn:hover:not(:disabled) { 
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4),
+                0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.confirm-appointment-btn:hover:not(:disabled)::before {
+    opacity: 1;
+}
+
+.confirm-appointment-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.confirm-appointment-btn:disabled {
+    background: #d1d5db;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+/* === SAĞ PANEL: TAKvİM VE SLOTLAR === */
+.calendar-panel-right { 
+    padding: 36px; 
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+}
+
+/* Navigasyon (Oklar ve Kartlar) */
+.date-navigation-container { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+    margin-bottom: 25px; 
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.nav-btn {
+    background: white; 
+    color: #4a63d1;
+    border: 2px solid #e5e7eb;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+.nav-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-color: #4a63d1;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(74, 99, 209, 0.15);
+}
+.nav-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+.nav-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background: #f9fafb;
+}
+
+/* Tarih Kartları Listesi */
+.date-list {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    gap: 10px; 
+}
+
+.date-card { 
+    flex: 1; 
+    padding: 12px 8px; 
+    border: 2px solid #e5e7eb; 
+    border-radius: 12px; 
+    text-align: center; 
+    cursor: pointer; 
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.date-card:hover { 
+    border-color: #4a63d1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 99, 209, 0.12);
+}
+
+.date-card.active { 
+    border-color: #4a63d1; 
+    background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
+    box-shadow: 0 6px 16px rgba(74, 99, 209, 0.3),
+                0 3px 8px rgba(74, 99, 209, 0.2);
+    transform: translateY(-3px);
+}
+
+.date-card.active .day-name, 
+.date-card.active .date-number { color: white; font-weight: 700; }
+
+.day-name { font-size: 0.75rem; color: #6b7280; font-weight: 600; text-transform: uppercase; margin-top: 4px;}
+.date-number { font-size: 1.2rem; font-weight: 800; color: #1f2937; }
+
+/* Takvim Açılır Pencere */
+.custom-date-selector { position: relative; }
+.date-select-btn {
+    background: #f0f9ff;
+    color: #0e2b4b;
+    border: 1px solid #bae6fd;
+    padding: 0 16px;
+    height: 40px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+.calendar-popup {
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    margin-top: 10px;
+    z-index: 50;
+    background: white;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border: 1px solid #e5e7eb;
+}
+
+/* Saat Slotları Alanı */
+.time-slots-grid-wrap {
+    flex-grow: 1;
+}
+
+.selected-date-label {
+    font-size: 1rem;
+    color: #374151;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.time-slots-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); 
+    gap: 12px; 
+}
+
+.time-slot { 
+    padding: 12px 8px; 
+    border-radius: 10px; 
+    font-weight: 600; 
+    font-size: 0.95rem;
+    border: 2px solid #e5e7eb; 
+    background: white;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.time-slot.available:hover { 
+    border-color: #10b981; 
+    color: #047857; 
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+}
+
+.time-slot.selected { 
+    background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
+    color: white; 
+    border-color: #4a63d1; 
+    box-shadow: 0 0 0 3px rgba(74, 99, 209, 0.2),
+                0 4px 12px rgba(74, 99, 209, 0.3);
+    transform: scale(1.05);
+    font-weight: 700;
+}
+
+.time-slot.unavailable { 
+    background: #f9fafb; 
+    color: #d1d5db; 
+    border-color: #f3f4f6; 
+    text-decoration: line-through;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+    .modal-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .doctor-panel-left {
+        flex-direction: row;
+        text-align: left;
+        padding: 20px;
+        border-right: none;
+        border-bottom: 1px solid #e5e7eb;
+    }
+    .doctor-modal-img, .doctor-modal-avatar-placeholder {
+        width: 80px; height: 80px; font-size: 24px; margin-bottom: 0; margin-right: 20px;
+    }
+    .doctor-info-text { flex: 1; } /* İsim ve uzmanlık için kapsayıcı gerekebilir */
+    .randevu-onay-wrap { display: none; } /* Mobilde butonu aşağıya alırız veya gizleriz */
+    
+    /* Mobilde onayı aşağıya almak için JS tarafında buton yerini değiştirmek veya CSS ile order oynamak gerekir. 
+       Şimdilik basit tutuyoruz. */
+}
+
+@media (max-width: 600px) {
+    .doctor-panel-left {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    .doctor-modal-img { margin-right: 0; margin-bottom: 10px; }
+    .date-navigation-container { flex-wrap: wrap; }
+    .date-list { order: 3; width: 100%; margin-top: 10px; }
+    .nav-btn { flex: 1; }
+    .custom-date-selector { flex: 2; text-align: center; }
+    .date-select-btn { width: 100%; }
+}

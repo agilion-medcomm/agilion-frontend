@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "tckn": "66666666666",
+      "firstName": "Ahmet",
+      "lastName": "Demir",
+      "password": "password123",
+      "email": "ahmet.demir@example.com",
+      "phoneNumber": "+905551112233",
+      "dateOfBirth": "1985-03-12",
+      "role": "PATIENT"
+    },
+    {
+      "id": 2,
+      "tckn": "77777777777",
+      "firstName": "Ayşe",
+      "lastName": "Kaya",
+      "password": "password123",
+      "email": "ayse.kaya@example.com",
+      "phoneNumber": "+905551114455",
+      "dateOfBirth": "1990-07-01",
+      "role": "PATIENT"
+    },
+    {
+      "id": 3,
+      "tckn": "88888888888",
+      "firstName": "Mehmet",
+      "lastName": "Yılmaz",
+      "password": "password123",
+      "email": "mehmet.yilmaz@example.com",
+      "phoneNumber": "+905551116677",
+      "dateOfBirth": "1978-11-23",
+      "role": "PATIENT"
+    },
+    {
+      "id": 4,
+      "tckn": "99999999999",
+      "firstName": "Zeynep",
+      "lastName": "Çetin",
+      "password": "password123",
+      "email": "zeynep.cetin@example.com",
+      "phoneNumber": "+905551118899",
+      "dateOfBirth": "2000-02-14",
+      "role": "PATIENT"
+    },
+    {
+      "id": 5,
+      "tckn": "10101010101",
+      "firstName": "Fatma",
+      "lastName": "Arslan",
+      "password": "password123",
+      "email": "fatma.arslan@example.com",
+      "phoneNumber": "+905551110011",
+      "dateOfBirth": "1995-09-30",
+      "role": "PATIENT"
+    }
+  ]
+}

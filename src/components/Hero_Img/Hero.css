@@ -2,10 +2,11 @@
 .hero {
   position: relative;
   width: 100vw;
-  height: 560px;
+  height: 600px;
   margin-left: calc(-50vw + 50%);
   left: 0;
   overflow: hidden;
+  animation: fadeIn 0.8s ease-out;
 }
 
 .hero__image {
@@ -20,12 +21,36 @@
   height: 100%;
   object-fit: cover;
   object-position: 20% center;
+  animation: kenburns 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenburns {
+  0% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1.0);
+  }
 }
 
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.35) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(14, 43, 75, 0.15) 0%,
+    rgba(14, 43, 75, 0.35) 50%,
+    rgba(14, 43, 75, 0.6) 100%
+  );
+  pointer-events: none;
+}
+
+/* Add subtle pattern overlay for depth */
+.hero__overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 50%, rgba(74, 99, 209, 0.1) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -40,6 +65,22 @@
   z-index: 10;
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 500px;
+  }
+  
+  .hero__searchbox {
+    top: 50%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    height: 450px;
+  }
 }
 
 
