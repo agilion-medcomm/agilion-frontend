@@ -1,0 +1,169 @@
+/* Birimlerimiz Page Styles */
+.birimlerimiz-page {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+/* Header Section */
+.birimlerimiz-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.birimlerimiz-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0044cc;
+    margin-bottom: 20px;
+}
+
+/* Grid Layout */
+.birimlerimiz-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* Default: 4 columns */
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+/* Card Styles */
+.birim-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    min-height: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.birim-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.birim-card__icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.birim-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0052cc;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+/* Button inside card */
+.birim-card__btn {
+    background: white;
+    border: 1px solid #0052cc;
+    color: #0052cc;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    width: 100%;
+    max-width: 120px;
+    transition: all 0.2s;
+}
+
+/* Selected State */
+.birim-card.selected {
+    background-color: #eef4ff;
+    border-color: #0052cc;
+}
+
+.birim-card.selected .birim-card__btn {
+    background-color: #0052cc;
+    color: white;
+}
+
+/* Content Section */
+.birim-content-section {
+    background: white;
+    padding: 40px 20px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 10;
+}
+
+.birim-content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.birim-content-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.birim-content-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0052cc;
+    margin-bottom: 20px;
+}
+
+.birim-content-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Tags (Maddeler) */
+.birim-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.birim-tags span {
+    background-color: #eef4ff;
+    color: #0052cc;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 82, 204, 0.1);
+}
+
+/* Responsive Grid Logic */
+/* Desktop (default): 4 cols. 9 items -> 4, 4, 1 */
+
+/* Tablet: 3 cols. 9 items -> 3, 3, 3 */
+@media (max-width: 1024px) {
+    .birimlerimiz-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Mobile: 2 cols. 9 items -> 2, 2, 2, 2, 1 */
+@media (max-width: 600px) {
+    .birimlerimiz-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .birim-card {
+        min-height: 140px;
+        padding: 15px 8px;
+    }
+
+    .birim-card__title {
+        font-size: 1rem;
+    }
+}

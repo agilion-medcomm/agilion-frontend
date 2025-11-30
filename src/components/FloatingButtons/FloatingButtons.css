@@ -44,23 +44,22 @@
   color: white;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 16px 0 0 16px;
-  /* Sol taraf yuvarlak */
 }
 
 .floating-btn--appointment:hover {
-  background: linear-gradient(135deg, #6b88c7 0%, #506ba1 100%);
+  background: linear-gradient(135deg, #4d6391 0%, #34579e 100%);
 }
 
 
 .floating-btn--contact {
-  background: linear-gradient(135deg, #018905 0%, #07d100 100%);
+  background: linear-gradient(135deg, #076f0b 0%, #0abe04 100%);
   color: white;
   border-radius: 0 16px 16px 0;
   /* Sağ taraf yuvarlak */
 }
 
 .floating-btn--contact:hover {
-  background: linear-gradient(135deg, #017504 0%, hsl(126, 73%, 40%) 100%);
+  background: linear-gradient(135deg, #2c812f 0%, hsl(114, 95%, 32%) 100%);
   color: white;
 }
 

@@ -1,0 +1,277 @@
+/* Bolumlerimiz Page Styles */
+.bolumlerimiz-page {
+    font-family: 'Inter', sans-serif;
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+/* Header Section */
+.bolumlerimiz-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.bolumlerimiz-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0044cc;
+    /* Blue title */
+    margin-bottom: 20px;
+}
+
+/* Grid Layout */
+.bolumlerimiz-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+/* Card Styles */
+.bolum-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+    min-height: 160px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.bolum-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.bolum-card__icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.bolum-card__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0052cc;
+    margin-bottom: 12px;
+    line-height: 1.2;
+}
+
+/* Button inside card */
+.bolum-card__btn {
+    background: white;
+    border: 1px solid #0052cc;
+    color: #0052cc;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    width: 100%;
+    max-width: 120px;
+    transition: all 0.2s;
+}
+
+/* Selected State (Red for Acil, Blue for others - but design shows Acil is special) */
+/* Actually, the design shows Acil has a red background/border theme when selected */
+.bolum-card.selected.is-acil {
+    background-color: #fce8e8;
+    /* Light red bg */
+    border-color: #cc0000;
+}
+
+.bolum-card.selected.is-acil .bolum-card__title {
+    color: #cc0000;
+}
+
+.bolum-card.selected.is-acil .bolum-card__btn {
+    background-color: #cc0000;
+    color: white;
+    border-color: #cc0000;
+}
+
+/* Selected State for others */
+.bolum-card.selected:not(.is-acil) {
+    border-color: #0052cc;
+    background-color: #eef4ff;
+}
+
+.bolum-card.selected:not(.is-acil) .bolum-card__btn {
+    background-color: white;
+    /* Design shows 'İncele' is outlined, maybe 'İnceleniyor' filled? */
+    /* Let's follow the image: Selected ones say "İnceleniyor" and might be filled or just active style */
+    /* For non-acil, let's keep it simple blue outline but maybe thicker border */
+}
+
+
+/* Content Section */
+.bolum-content-section {
+    background: white;
+    padding: 40px 20px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    z-index: 10;
+}
+
+.bolum-content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.bolum-content-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.bolum-content-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #cc0000;
+    /* Red for Acil, dynamic via JS style? */
+    margin-bottom: 20px;
+}
+
+.bolum-content-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.bolum-content-text ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.bolum-content-text li {
+    margin-bottom: 5px;
+}
+
+/* Tags (Maddeler) */
+.bolum-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.bolum-tags span {
+    background-color: #eef4ff;
+    color: #0052cc;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 82, 204, 0.1);
+}
+
+/* Detailed Info Cards */
+.bolum-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 30px;
+}
+
+.bolum-detail-card {
+    background-color: #1c7aff;
+    /* Mavi arka plan */
+    color: #ffffff;
+    /* Beyaz yazı */
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.bolum-detail-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .bolumlerimiz-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .bolumlerimiz-grid {
+        gap: 10px;
+    }
+
+    .bolum-card {
+        min-height: 140px;
+        padding: 15px 8px;
+    }
+
+    .bolum-card__title {
+        font-size: 1rem;
+    }
+}
+
+
+
+
+/* 1. LİSTE CONTAINER (Mavi Alan) */
+.bolum-detail-list {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+
+    background-color: #004098;
+    /* Sayfa mavisi */
+
+    /* İçerik Düzeni */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Kartları sayfanın ortasında tut */
+    gap: 16px;
+
+    padding: 60px 20px;
+    /* Üstten alttan geniş boşluk, yanlardan mobilde yapışmasın diye pay */
+    margin-top: 40px;
+    box-sizing: border-box;
+}
+
+/* 2. KARTLAR (Beyaz Kutucuklar) */
+.bolum-detail-card {
+    width: 100%;
+    max-width: 1000px;
+    /* Kartlar sonsuza kadar uzamasın, üstteki metinle aynı hizada dursun */
+
+    background-color: #e8e8e8;
+    /* Yumurta beyazı */
+    color: #006aff;
+    font-weight: 600;
+    /* Yazılar mavi */
+
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+/* 3. BAŞLIK RENGİ */
+.bolum-detail-title {
+    font-weight: 800;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    display: block;
+    color: #0035a0;
+    /* Başlıklar, metinden bir ton daha koyu mavi olsun */
+}
