@@ -166,8 +166,16 @@ export default function LoginPage() {
             {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </button>
         </form>
-        <div className="login-footer-link">
-          Hesabınız yok mu? <Link to="/register" className="login-link">Kaydol</Link>
+        
+        <div className="login-footer-links">
+          <div className="login-footer-link">
+            <Link to="/forgot-password" className="login-link" style={{ fontSize: '14px', color: '#0d6efd' }}>
+              🔒 Şifremi Unuttum
+            </Link>
+          </div>
+          <div className="login-footer-link">
+            Hesabınız yok mu? <Link to="/register" className="login-link">Kaydol</Link>
+          </div>
         </div>
       </div>
     </div>

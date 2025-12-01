@@ -20,7 +20,9 @@ export default function PatientDashboard() {
   
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
+  // timeFilter: all, future, past, cancelled
   const [timeFilter, setTimeFilter] = useState('all');
+  const [sortBy, setSortBy] = useState('date'); // Sıralama kriteri: 'date' veya 'doctor'
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -68,26 +70,52 @@ export default function PatientDashboard() {
 
   // --- API İSTEKLERİ ---
 
+  // Randevu İptal Etme
+  const handleCancelAppointment = async (appointmentId) => {
+    // Modern onay modalı
+    const confirmCancel = window.confirm(
+      '⚠️ Randevu İptali\n\n' +
+      'Bu randevuyu iptal etmek istediğinize emin misiniz?\n\n' +
+      '• İptal edilen randevular geri alınamaz\n' +
+      '• Yeni randevu için tekrar başvuru yapmanız gerekir\n\n' +
+      'Devam etmek istiyor musunuz?'
+    );
+    
+    if (!confirmCancel) return;
+    
+    setLoading(true);
+    setMessage({ type: '', text: '' });
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      await axios.put(`${BaseURL}/appointments/${appointmentId}/status`, { status: 'CANCELLED' }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMessage({ type: 'success', text: '✅ Randevu başarıyla iptal edildi.' });
+      fetchAppointments();
+    } catch (error) {
+      setMessage({ type: 'error', text: error.response?.data?.message || 'Randevu iptal edilemedi.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // ✅ ARTIK EN TEMİZ YÖNTEMİ KULLANIYORUZ
   const fetchAppointments = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
-      
       if (!token) throw new Error("Oturum anahtarı bulunamadı.");
+      if (!user?.id) throw new Error("Kullanıcı ID'si bulunamadı.");
 
-      // Backend sorunu çözüldüğü için artık doğrudan bu endpoint'i kullanabiliriz.
-      // Bu, ID'yi URL'de açıkça göndermekten çok daha güvenlidir.
-      const response = await axios.get(`${BaseURL}/appointments/my-appointments`, {
+      // Doğru endpoint: /appointments?list=true&patientId=...
+      const response = await axios.get(`${BaseURL}/appointments?list=true&patientId=${user.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       const data = response.data.data || response.data;
       setAppointments(Array.isArray(data) ? data : []);
-      
     } catch (error) {
       console.error('Randevular alınamadı:', error);
-      // Hata durumunda listeyi temiz tutuyoruz
       setAppointments([]);
     } finally {
       setLoading(false);
@@ -118,11 +146,11 @@ export default function PatientDashboard() {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${BaseURL}/users/profile`, profileData, {
+      const response = await axios.put(`${BaseURL}/patients/me/profile`, profileData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       
-      setMessage({ type: 'success', text: 'Profil bilgileriniz başarıyla güncellendi.' });
+      setMessage({ type: 'success', text: response.data?.message || 'Profil bilgileriniz başarıyla güncellendi.' });
     } catch (error) {
       setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + (error.response?.data?.message || 'Hata oluştu') });
     } finally {
@@ -146,14 +174,15 @@ export default function PatientDashboard() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      await axios.put(`${BaseURL}/auth/change-password`, {
+      const response = await axios.put(`${BaseURL}/patients/me/change-password`, {
         currentPassword: passwordData.currentPassword,
-        newPassword: passwordData.newPassword
+        newPassword: passwordData.newPassword,
+        confirmPassword: passwordData.confirmPassword
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      setMessage({ type: 'success', text: 'Şifreniz başarıyla değiştirildi.' });
+      setMessage({ type: 'success', text: response.data?.message || 'Şifreniz başarıyla değiştirildi.' });
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error) {
       setMessage({ type: 'error', text: error.response?.data?.message || 'Şifre değiştirilemedi.' });
@@ -188,24 +217,34 @@ export default function PatientDashboard() {
     alert(`${labResult.testName} raporu indiriliyor... (Demo)`);
   };
 
-  // Randevuları filtreleme (Geçmiş / Gelecek)
-  const filteredAppointments = appointments.filter(apt => {
-    const dateStr = apt.date || apt.startTime || apt.createdAt;
-    let aptDate = new Date();
-    
-    // Tarih formatını kontrol et ve parse et
-    if (dateStr && dateStr.includes('.')) {
+  // Randevuları filtreleme ve sıralama
+  const filteredAppointments = appointments
+    .filter(apt => {
+      const dateStr = apt.date || apt.startTime || apt.createdAt;
+      let aptDate = new Date();
+      if (dateStr && dateStr.includes('.')) {
         const parts = dateStr.split('.');
         aptDate = new Date(parts[2], parts[1]-1, parts[0]);
-    } else if (dateStr) {
+      } else if (dateStr) {
         aptDate = new Date(dateStr);
-    }
-
-    const now = new Date();
-    if (timeFilter === 'past') return aptDate < now;
-    if (timeFilter === 'future') return aptDate >= now;
-    return true;
-  });
+      }
+      const now = new Date();
+      if (timeFilter === 'past') return apt.status !== 'CANCELLED' && aptDate < now;
+      if (timeFilter === 'future') return apt.status !== 'CANCELLED' && aptDate >= now;
+      if (timeFilter === 'cancelled') return apt.status === 'CANCELLED';
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'doctor') {
+        const nameA = (a.doctorName || (a.doctor ? `${a.doctor.firstName} ${a.doctor.lastName}` : '') || '').toLowerCase();
+        const nameB = (b.doctorName || (b.doctor ? `${b.doctor.firstName} ${b.doctor.lastName}` : '') || '').toLowerCase();
+        return nameA.localeCompare(nameB);
+      } else {
+        const dateA = new Date(a.date || a.startTime || a.createdAt);
+        const dateB = new Date(b.date || b.startTime || b.createdAt);
+        return dateA - dateB;
+      }
+    });
 
   if (!user) return <div className="dashboard-loading"><div className="spinner"></div><p>Yükleniyor...</p></div>;
 
@@ -272,43 +311,97 @@ export default function PatientDashboard() {
                 <option value="all">Tüm Randevular</option>
                 <option value="future">Gelecek Randevular</option>
                 <option value="past">Geçmiş Randevular</option>
+                <option value="cancelled">İptal Edilenler</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+                <option value="date">Tarihe Göre Sırala</option>
+                <option value="doctor">Doktor Adına Göre Sırala</option>
               </select>
             </div>
           </div>
 
-          <div className="appointments-grid">
+          <div className="appointments-grid modern-appointments-grid">
             {loading ? (
                <p>Yükleniyor...</p>
             ) : filteredAppointments.length === 0 ? (
               <p className="no-data">Kayıtlı randevu bulunamadı.</p>
             ) : (
-              filteredAppointments.map((apt) => (
-                <div key={apt.id} className="appointment-card">
-                  <div className="appointment-header">
-                    <h3>{apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Doktor Belirtilmedi')}</h3>
-                    <span className={`badge badge-${apt.status?.toLowerCase() || 'pending'}`}>
-                      {apt.status}
-                    </span>
+              filteredAppointments.map((apt) => {
+                const doctorName = apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Doktor Belirtilmedi');
+                const department = apt.departmentName || (apt.department && apt.department.name) || 'Genel';
+                const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'));
+                const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}));
+                const status = apt.status || 'PENDING';
+                // Avatar için ilk harfler
+                const avatar = doctorName.split(' ').map(s=>s[0]).join('').substring(0,2).toUpperCase();
+                // Renkli durum badge'i
+                const statusColors = {
+                  'COMPLETED': '#22c55e',
+                  'CANCELLED': '#ef4444',
+                  'PENDING': '#f59e42',
+                  'APPROVED': '#2563eb',
+                  'WAITING': '#fbbf24',
+                  'DEFAULT': '#64748b'
+                };
+                const badgeColor = statusColors[status] || statusColors['DEFAULT'];
+                return (
+                  <div key={apt.id} className={`appointment-card modern-appointment-card status-${status.toLowerCase()}`}
+                    style={{boxShadow:'0 2px 12px 0 #e0e7ef', borderRadius:16, background:'#fff', marginBottom:24, border:`1.5px solid ${badgeColor}22`}}>
+                    <div className="modern-apt-header" style={{display:'flex',alignItems:'center',gap:16}}>
+                      <div className="doctor-avatar" style={{width:48,height:48,borderRadius:'50%',background:'#e0e7ef',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:22,color:'#2563eb'}} title={doctorName}>{avatar}</div>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:600,fontSize:18,color:'#222'}}>{doctorName}</div>
+                        <div style={{fontSize:14,color:'#64748b'}}>{department}</div>
+                      </div>
+                      <span className="modern-badge" style={{background:badgeColor+'22',color:badgeColor,padding:'6px 14px',borderRadius:12,fontWeight:600,fontSize:14}} title={status}>{status}</span>
+                    </div>
+                    <div className="modern-apt-body" style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:12}}>
+                      <div style={{fontSize:15}}>
+                        <div><strong>Tarih:</strong> {dateStr}</div>
+                        <div><strong>Saat:</strong> {timeStr}</div>
+                      </div>
+                      <div style={{display:'flex',gap:8}}>
+                        {/* İptal butonu */}
+                        {status !== 'CANCELLED' && status !== 'COMPLETED' && (() => {
+                          // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
+                          let aptDate = new Date();
+                          if (apt.date && apt.date.includes('.')) {
+                            const parts = apt.date.split('.');
+                            aptDate = new Date(parts[2], parts[1]-1, parts[0]);
+                          } else if (apt.date) {
+                            aptDate = new Date(apt.date);
+                          } else if (apt.startTime) {
+                            aptDate = new Date(apt.startTime);
+                          }
+                          const now = new Date();
+                          if (aptDate >= now) {
+                            return (
+                              <button className="btn-danger-action modern-btn" style={{background:'#fee2e2',color:'#b91c1c',border:'1px solid #fecaca',borderRadius:8,padding:'6px 14px',fontWeight:600}} onClick={() => handleCancelAppointment(apt.id)}>
+                                İptal Et
+                              </button>
+                            );
+                          }
+                          return null;
+                        })()}
+                        {/* Değerlendir butonu */}
+                        {status === 'COMPLETED' && !apt.hasReview && (
+                          <button className="btn-primary modern-btn" style={{background:'#e0f2fe',color:'#0369a1',border:'1px solid #bae6fd',borderRadius:8,padding:'6px 14px',fontWeight:600}} onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}>
+                            Değerlendir
+                          </button>
+                        )}
+                        {/* Puan gösterge */}
+                        {apt.hasReview && (
+                          <div className="review-indicator" style={{background:'#fef9c3',color:'#b45309',borderRadius:8,padding:'6px 14px',fontWeight:600}}>
+                            ⭐ Puanınız: {apt.reviewRating}/5
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                  <div className="appointment-details">
-                    <p><strong>Bölüm:</strong> {apt.departmentName || (apt.department && apt.department.name) || 'Genel'}</p>
-                    <p><strong>Tarih:</strong> {apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'))}</p>
-                    <p><strong>Saat:</strong> {apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}))}</p>
-                  </div>
-                  
-                  {apt.status === 'COMPLETED' && !apt.hasReview && (
-                    <button 
-                      className="btn-primary"
-                      onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}
-                    >
-                      Değerlendir
-                    </button>
-                  )}
-                  {apt.hasReview && (
-                    <div className="review-indicator">⭐ Puanınız: {apt.reviewRating}/5</div>
-                  )}
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </>
