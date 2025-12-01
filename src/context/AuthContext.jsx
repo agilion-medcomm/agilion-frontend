@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
 
     // Her zaman /auth/me ile güncel user bilgisini çek
     try {
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
       const API_PREFIX = '/api/v1';
       const BaseURL = `${API_BASE}${API_PREFIX}`;
       const meResp = await fetch(`${BaseURL}/auth/me`, {
@@ -75,7 +75,7 @@ export function useAuth() {
 
 const PersonnelAuthContext = createContext(null);
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 

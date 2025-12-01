@@ -49,7 +49,7 @@ export default function Menu() {
           default: navigate('/'); break;
         }
       } else if (patientUser) {
-        navigate('/patient-profile');
+        navigate('/profile');
       }
     }
   }
