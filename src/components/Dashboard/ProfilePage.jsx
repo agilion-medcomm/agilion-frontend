@@ -72,13 +72,14 @@ export default function ProfilePage() {
         setSuccessMsg('');
 
         try {
-
             const token = localStorage.getItem('personnelToken') || localStorage.getItem('token');
-
             if (!token) {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış.");
             }
-            const targetId = user.userId || user.id;
+            // DİKKAT: Burada personel tablosunun id'si kullanılmalı! (ör: doctor.id, admin.id)
+            // user.personnelId, user.doctorId, user.adminId gibi bir alan backend'den gelmeli ve burada kullanılmalı.
+            // Eğer user objesinde personnelId yoksa, backend'den /auth/me veya ilgili endpoint ile bu id'yi çekmelisiniz.
+            const targetId = user.personnelId || user.doctorId || user.adminId || user.id; // Sıralamayı ihtiyaca göre güncelleyin
             await axios.put(`${BaseURL}/personnel/${targetId}`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -91,7 +92,7 @@ export default function ProfilePage() {
 
             setSuccessMsg('Profil bilgileriniz başarıyla güncellendi.');
         } catch (err) {
-            console.error("Profil güncelleme hatası:", err); // Konsola hata basıyoruz
+            console.error("Profil güncelleme hatası:", err);
             setErrorMsg(err.response?.data?.message || err.message || 'Güncelleme başarısız.');
         } finally {
             setLoading(false);
