@@ -12,18 +12,27 @@
 }
 
 /* ====== GENEL SCROLL VE CURSOR DÜZELTMESİ ====== */
-html, body {
-  cursor: default !important; /* Varsayılan ok imleci */
-  overscroll-behavior: auto; /* Normal scroll davranışı */
-  -webkit-overflow-scrolling: touch; /* iOS için smooth scroll */
+html,
+body {
+  cursor: default !important;
+  /* Varsayılan ok imleci */
+  overscroll-behavior: auto;
+  /* Normal scroll davranışı */
+  -webkit-overflow-scrolling: touch;
+  /* iOS için smooth scroll */
 }
 
 * {
-  cursor: inherit; /* Parent'tan cursor'u devral */
+  cursor: inherit;
+  /* Parent'tan cursor'u devral */
 }
 
 /* Sadece gerçek linklerde ve butonlarda pointer */
-a, button, [role="button"], input[type="submit"], input[type="button"] {
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
   cursor: pointer !important;
 }
 
@@ -35,7 +44,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   flex-direction: column;
   background: #fff;
   position: relative;
-  cursor: default; /* Açıkça default cursor */
+  cursor: default;
+  /* Açıkça default cursor */
 }
 
 .container {
@@ -48,7 +58,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 .main {
   flex: 1;
   padding-top: calc(var(--topbar-h) + var(--menubar-h));
-  cursor: default; /* Default cursor */
+  cursor: default;
+  /* Default cursor */
 }
 
 /* ====== TOPBAR ====== */
@@ -114,8 +125,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   align-items: center;
   gap: 6px;
   border-radius: 999px;
-  border: 1.5px solid rgba(255,255,255,.3);
-  background: rgba(255,255,255,.1);
+  border: 1.5px solid rgba(255, 255, 255, .3);
+  background: rgba(255, 255, 255, .1);
   color: #fff;
   cursor: pointer !important;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -128,8 +139,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 }
 
 .ghost-btn:hover {
-  background: rgba(255,255,255,.2);
-  border-color: rgba(255,255,255,.5);
+  background: rgba(255, 255, 255, .2);
+  border-color: rgba(255, 255, 255, .5);
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
@@ -146,7 +157,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 4px 20px rgba(0,0,0,.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .08);
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   z-index: 1001;
   cursor: default;
@@ -175,7 +186,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   flex-shrink: 0;
   padding-left: 0;
   margin-left: 0;
-  cursor: pointer; /* Link cursor */
+  cursor: pointer;
+  /* Link cursor */
 }
 
 .logo-img {
@@ -231,7 +243,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 .nav__link.active {
   color: white;
   font-weight: 700;
-  background: linear-gradient(90deg, rgba(37,99,235,0.9) 0%, rgba(59,130,246,0.9) 100%);
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.9) 0%, rgba(59, 130, 246, 0.9) 100%);
   box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
   padding: 10px 20px;
 }
@@ -266,12 +278,11 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   height: 56px;
   margin-right: 24px;
   border: none;
-  border-radius: 12px;
+  border-radius: 100px;
   background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   color: #fff;
   cursor: pointer !important;
   box-shadow: 0 4px 16px rgba(37, 99, 235, 0.3);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1002;
   position: relative;
   flex-shrink: 0;
@@ -280,7 +291,6 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 
 .hamburger:hover {
   background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-  transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(37, 99, 235, 0.4);
 }
 
@@ -321,7 +331,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   margin-left: calc(-50vw + 50%);
   left: 0;
   overflow: hidden;
-  cursor: default; /* Default cursor */
+  cursor: default;
+  /* Default cursor */
 }
 
 .hero__image {
@@ -341,7 +352,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.35) 100%);
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.35) 100%);
   pointer-events: none;
 }
 
@@ -371,7 +382,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   padding: 12px 16px 12px 32px;
   max-width: 800px;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
   border: 1px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
 }
@@ -623,7 +634,8 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   font-weight: 700;
   font-size: 16px;
   line-height: 1;
-  cursor: default !important; /* Avatar'da pointer olmasın */
+  cursor: default !important;
+  /* Avatar'da pointer olmasın */
 }
 
 /* ====== RESPONSIVE ====== */
@@ -639,22 +651,23 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
     padding: 8px 10px;
     font-weight: 600;
   }
-  
+
   .nav__link.active {
     font-weight: 700;
     padding: 8px 10px;
   }
-  
+
   .nav__link::after {
     left: 10px;
     right: 10px;
     bottom: -6px;
     height: 3px;
   }
+
   .hamburger {
     width: 48px;
     height: 48px;
-   
+
   }
 }
 
@@ -662,7 +675,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   .nav {
     display: none;
   }
-  
+
   .hamburger {
     display: flex;
     width: 48px;
@@ -676,7 +689,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
     --topbar-h: 40px;
     --menubar-h: 66px;
   }
-  
+
   .mobile-menu {
     width: 92vw;
     min-width: 220px;
@@ -684,7 +697,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
     margin-right: 4vw;
     border-radius: 18px;
   }
-  
+
   .search {
     border-radius: 14px;
   }
@@ -695,7 +708,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
     width: calc(100vw - 40px);
     max-width: 260px;
   }
-  
+
   .hamburger {
     width: 46px;
     height: 46px;
@@ -708,26 +721,29 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 /* ====== MOBİL MENU MODAL GÖRÜNÜMÜ (900px altı) ====== */
 /* 1300px ve altı ekranlarda menüyü sağ üstte küçük bir kutu olarak tutar */
 @media (max-width: 1300px) {
-  
+
   .mobile-menu {
     /* 1. KONUMLANDIRMA: Sola yapışmasını ENGELLE */
     left: auto !important;
-    right: 20px !important; /* Sağdan biraz boşluk */
-    
+    right: 20px !important;
+    /* Sağdan biraz boşluk */
+
     /* 2. GENİŞLİK: Tüm sayfayı kaplamasını ENGELLE */
-    width: 320px !important; 
-    max-width: 90vw; /* Çok küçük ekranlarda taşmasın */
+    width: 320px !important;
+    max-width: 90vw;
+    /* Çok küçük ekranlarda taşmasın */
 
     /* 3. YÜKSEKLİK: Ekranın altına kadar uzamasını ENGELLE */
     top: calc(var(--topbar-h) + var(--menubar-h) + 15px) !important;
-    bottom: auto !important; 
+    bottom: auto !important;
     height: auto !important;
-    max-height: 70vh; /* Çok uzun olursa içinde scroll çıksın */
+    max-height: 70vh;
+    /* Çok uzun olursa içinde scroll çıksın */
 
     /* 4. GÖRÜNÜM */
     border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-    
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+
     /* Animasyon */
     transform-origin: top right;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -741,16 +757,18 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   }
 }
 
-  /* 4. İçerik Hizalama: Sola */
-  .mobile-menu__link {
-    justify-content: flex-start; /* 'space-between'i ezer */
-    gap: 12px;
-  }
+/* 4. İçerik Hizalama: Sola */
+.mobile-menu__link {
+  justify-content: flex-start;
+  /* 'space-between'i ezer */
+  gap: 12px;
+}
 
-  .mobile-menu__appointment {
-    justify-content: flex-start; /* 'space-between'i ezer */
-    gap: 12px;
-  }
+.mobile-menu__appointment {
+  justify-content: flex-start;
+  /* 'space-between'i ezer */
+  gap: 12px;
+}
 
 
 
@@ -758,7 +776,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 /* 1. Arama kutusunu yukarı taşıyoruz */
 .hero__searchbox {
   position: absolute;
-  top: 60%;      
+  top: 60%;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -774,7 +792,7 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
   display: grid;
   place-items: center;
   border: none;
-  background: transparent; 
+  background: transparent;
   color: var(--brand-800);
   cursor: pointer !important;
 }
@@ -783,13 +801,169 @@ a, button, [role="button"], input[type="submit"], input[type="button"] {
 .search {
   display: flex;
   align-items: center;
-  gap: 4px; 
+  gap: 4px;
   background: #ffffff;
   color: var(--text-900);
   border-radius: 100px;
   padding: 12px 28px;
   max-width: 640px;
   width: 100%;
-  box-shadow: 0 8px 24px rgba(0,0,0,.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
   height: 48px;
+}
+
+/* ====== 780px ve Altı İçin Düzenlemeler ====== */
+
+/* Varsayılan olarak mobil topbar içeriklerini ve auth bölümünü gizle */
+.mobile-menu__topbar-items,
+.mobile-menu__auth-section {
+  display: none;
+}
+
+@media (max-width: 780px) {
+
+  /* 1. Topbar'ı gizle */
+  .topbar {
+    display: none;
+  }
+
+  /* 2. Menubar'ı en üste taşı */
+  .menubar {
+    top: 0;
+  }
+
+  /* 3. Main padding'i güncelle (topbar yüksekliğini çıkar) */
+  .main {
+    padding-top: var(--menubar-h);
+  }
+
+  /* 4. Mobile Menu içindeki topbar öğelerini ve auth bölümünü göster */
+  .mobile-menu__topbar-items,
+  .mobile-menu__auth-section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-menu__topbar-items {
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .mobile-menu__info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-700);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .mobile-menu__info-item svg {
+    color: var(--brand-600);
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Sosyal Medya İkonları Düzenlemesi */
+  .mobile-menu__socials-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Ortala */
+    gap: 20px;
+    /* Aralarına boşluk */
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .mobile-menu__socials-row .social,
+  .mobile-menu__socials-row .lang {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    /* Çember */
+    border: 1px solid #e2e8f0;
+    /* Kenarlık */
+    color: var(--brand-800);
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .mobile-menu__socials-row .lang {
+    font-weight: 700;
+    font-size: 12px;
+    padding: 0;
+    /* Padding sıfırla */
+  }
+
+  .mobile-menu__socials-row .social:hover,
+  .mobile-menu__socials-row .lang:hover {
+    background-color: #f1f5f9;
+    border-color: var(--brand-600);
+    color: var(--brand-600);
+  }
+
+  .mobile-menu__login-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px;
+    background: linear-gradient(135deg, #0e2b4b 0%, #1a3d5c 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer !important;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-menu__login-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .mobile-menu__user-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  /* Mobile menu pozisyonunu güncelle (topbar olmadığı için) */
+  .mobile-menu {
+    top: calc(var(--menubar-h) + 10px) !important;
+    left: 50% !important;
+    right: auto !important;
+    width: calc(100% - 32px) !important;
+    /* Yanlardan boşluk */
+    max-width: 600px !important;
+
+    /* Floating buttons yüksekliği (~60px) + boşluk (~20px) = ~80px alttan boşluk */
+    max-height: calc(100vh - var(--menubar-h) - 90px) !important;
+
+    /* Animasyon için başlangıç state'i (kapalı) */
+    transform: translate(-50%, -10px) scale(0.95);
+    margin-right: 0;
+  }
+
+  .mobile-menu--open {
+    /* Açık state - X ekseninde ortalı kalmalı */
+    transform: translate(-50%, 0) scale(1) !important;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-menu-overlay {
+    top: var(--menubar-h) !important;
+  }
 }
