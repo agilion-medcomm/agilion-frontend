@@ -127,6 +127,17 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 			return navigate('/login');
 		}
 
+		// Modern onay modalı
+		const confirmBooking = window.confirm(
+			'📅 Randevu Onayı\n\n' +
+			`Doktor: ${doctor.firstName} ${doctor.lastName}\n` +
+			`Tarih: ${selectedDate.toLocaleDateString('tr-TR')}\n` +
+			`Saat: ${selectedSlot}\n\n` +
+			'Randevuyu oluşturmak istediğinize emin misiniz?'
+		);
+		
+		if (!confirmBooking) return;
+
 		setIsSubmitting(true);
 		const payload = {
 			doctorId: doctor.id,
@@ -143,11 +154,11 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 			await axios.post(`${BaseURL}/appointments`, payload, {
 				headers: { Authorization: `Bearer ${token}` }
 			});
-			alert(`Randevunuz başarıyla oluşturuldu!\n${payload.date} - ${payload.time}`);
+			alert(`✅ Randevunuz başarıyla oluşturuldu!\n\n${payload.date} - ${payload.time}`);
 			if (onSuccess) onSuccess(); // Başarı callback'i (örn: sayfayı yenilemek için)
 			if (onClose) onClose();     // Modalı kapat
 		} catch (error) {
-			alert("Hata: " + (error.response?.data?.message || error.message));
+			alert("❌ Hata: " + (error.response?.data?.message || error.message));
 		} finally {
 			setIsSubmitting(false);
 		}

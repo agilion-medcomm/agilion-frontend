@@ -125,9 +125,14 @@ export default function ProfilePage() {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış. Lütfen tekrar giriş yapın.");
             }
 
-            console.log("Şifre güncelleme isteği gönderiliyor...", { userId: user.id });
+            // DİKKAT: Burada da personel tablosunun id'si kullanılmalı! (ör: doctor.id, admin.id)
+            // user.personnelId, user.doctorId, user.adminId gibi bir alan backend'den gelmeli ve burada kullanılmalı.
+            // Eğer user objesinde personnelId yoksa, backend'den /auth/me veya ilgili endpoint ile bu id'yi çekmelisiniz.
+            const targetId = user.personnelId || user.doctorId || user.adminId || user.id; // Sıralamayı ihtiyaca göre güncelleyin
 
-            await axios.put(`${BaseURL}/personnel/${user.id}`, { password: passData.newPassword }, {
+            console.log("Şifre güncelleme isteği gönderiliyor...", { targetId });
+
+            await axios.put(`${BaseURL}/personnel/${targetId}`, { password: passData.newPassword }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
