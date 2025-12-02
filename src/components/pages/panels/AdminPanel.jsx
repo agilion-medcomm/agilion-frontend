@@ -147,7 +147,7 @@ export default function AdminPanelPage() {
         // Başarıyla onaylandıktan sonra listeyi yeniden çek
         fetchLeaveRequests(); 
         setMessage("İzin talebi başarıyla onaylandı ve doktor takvimi bloke edildi.");
-        setTimeout(() => setMessage(""), 5000);
+        setTimeout(() => setMessage(""), 5001);
     } catch (err) {
         // Hata durumunda listeyi orijinal haline geri yükle
         setLeaveRequests(originalRequests); 

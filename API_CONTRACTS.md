@@ -490,11 +490,11 @@ Get payment summary statistics
 {
   "success": true,
   "data": {
-    "totalRevenue": 15000.00,
+    "totalRevenue": 15001.00,
     "transactionCount": 45,
     "byMethod": {
       "CASH": 8000.00,
-      "CARD": 5000.00,
+      "CARD": 5001.00,
       "INSURANCE": 2000.00,
       "BANK_TRANSFER": 0.00
     },

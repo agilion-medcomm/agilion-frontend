@@ -35,7 +35,11 @@ export default function PatientDashboard() {
     email: '',
     phoneNumber: '',
     firstName: '',
-    lastName: ''
+    lastName: '',
+    address: '',
+    emergencyContact: '',
+    bloodType: '',
+    dateOfBirth: ''
   });
   
   const [passwordData, setPasswordData] = useState({
@@ -51,7 +55,11 @@ export default function PatientDashboard() {
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         email: user.email || '',
-        phoneNumber: user.phoneNumber || ''
+        phoneNumber: user.phoneNumber || '',
+        address: user.address || '',
+        emergencyContact: user.emergencyContact || '',
+        bloodType: user.bloodType || '',
+        dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : ''
       });
       
       fetchAppointments();
@@ -476,21 +484,26 @@ export default function PatientDashboard() {
                     <label className="form-label">Ad</label>
                     <input type="text" className="form-input" 
                            value={profileData.firstName} 
-                           onChange={(e) => setProfileData({...profileData, firstName: e.target.value})} 
+                           disabled
                     />
                   </div>
                   <div className="settings-form-group">
                     <label className="form-label">Soyad</label>
                     <input type="text" className="form-input" 
                            value={profileData.lastName} 
-                           onChange={(e) => setProfileData({...profileData, lastName: e.target.value})} 
+                           disabled
                     />
                   </div>
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">E-Posta Adresi</label>
-                <input type="email" className="form-input" value={profileData.email} disabled />
+                <input 
+                  type="email" 
+                  className="form-input" 
+                  value={profileData.email}
+                  onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                />
               </div>
 
               <div className="settings-form-group">
@@ -500,6 +513,58 @@ export default function PatientDashboard() {
                   className="form-input"
                   value={profileData.phoneNumber}
                   onChange={(e) => setProfileData({...profileData, phoneNumber: e.target.value})}
+                />
+              </div>
+
+              <div className="form-row">
+                <div className="settings-form-group">
+                  <label className="form-label">Doğum Tarihi</label>
+                  <input 
+                    type="date" 
+                    className="form-input"
+                    value={profileData.dateOfBirth}
+                    onChange={(e) => setProfileData({...profileData, dateOfBirth: e.target.value})}
+                  />
+                </div>
+                <div className="settings-form-group">
+                  <label className="form-label">Kan Grubu</label>
+                  <select 
+                    className="form-input"
+                    value={profileData.bloodType}
+                    onChange={(e) => setProfileData({...profileData, bloodType: e.target.value})}
+                  >
+                    <option value="">Seçiniz</option>
+                    <option value="A+">A Rh+</option>
+                    <option value="A-">A Rh-</option>
+                    <option value="B+">B Rh+</option>
+                    <option value="B-">B Rh-</option>
+                    <option value="AB+">AB Rh+</option>
+                    <option value="AB-">AB Rh-</option>
+                    <option value="0+">0 Rh+</option>
+                    <option value="0-">0 Rh-</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="settings-form-group">
+                <label className="form-label">Adres</label>
+                <textarea 
+                  className="form-input"
+                  rows="3"
+                  value={profileData.address}
+                  onChange={(e) => setProfileData({...profileData, address: e.target.value})}
+                  placeholder="İl, ilçe, mahalle, sokak..."
+                />
+              </div>
+
+              <div className="settings-form-group">
+                <label className="form-label">Acil Durum İletişim</label>
+                <input 
+                  type="text" 
+                  className="form-input"
+                  value={profileData.emergencyContact}
+                  onChange={(e) => setProfileData({...profileData, emergencyContact: e.target.value})}
+                  placeholder="+90 5XX XXX XX XX"
                 />
               </div>
 

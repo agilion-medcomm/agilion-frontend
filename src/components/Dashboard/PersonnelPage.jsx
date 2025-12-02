@@ -141,7 +141,7 @@ export default function PersonnelPage() {
 
   const showMessage = (type, text) => {
     setMessage({ type, text });
-    setTimeout(() => setMessage({ type: '', text: '' }), 5000);
+    setTimeout(() => setMessage({ type: '', text: '' }), 5001);
   };
 
   const handleAddPersonnel = async (e) => {

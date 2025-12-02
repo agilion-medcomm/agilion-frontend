@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './EvdeSaglikPage.css'; // Stil dosyamızı import ediyoruz
 
 // Kartlar için kullanılacak ikon bileşenleri
@@ -9,10 +9,30 @@ const BandageIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="
 
 // Hizmet kartları için veri
 const serviceCards = [
-  { icon: <HandIcon />, title: "Evde Hemşirelik Hizmetleri" },
-  { icon: <SerumIcon />, title: "Evde Serum Hizmetleri" },
-  { icon: <LabIcon />, title: "Evde Laboratuvar Hizmetleri" },
-  { icon: <BandageIcon />, title: "Evde Yara Bakımı Hizmetleri" },
+  { 
+    icon: <HandIcon />, 
+    title: "Evde Hemşirelik Hizmetleri",
+    description: "Profesyonel hemşirelerimiz tarafından evinizde enjeksiyon, pansuman, serum takma ve tüm hemşirelik hizmetleri sunulmaktadır.",
+    services: ["Enjeksiyon Uygulaması", "Pansuman", "Serum Takma", "Kan Basıncı Takibi", "İlaç Düzenleme", "Yara Bakımı"]
+  },
+  { 
+    icon: <SerumIcon />, 
+    title: "Evde Serum Hizmetleri",
+    description: "Hastane ortamına gerek kalmadan, evinizin konforunda güvenli ve hijyenik serum hizmeti alabilirsiniz.",
+    services: ["İV Serum Uygulaması", "Vitamin Serum", "Antibiyotik Serum", "Serum Takip ve Kontrol", "Acil Serum Desteği"]
+  },
+  { 
+    icon: <LabIcon />, 
+    title: "Evde Laboratuvar Hizmetleri",
+    description: "Evde kan alma, idrar tahlili ve diğer laboratuvar testleriniz için randevu alın.",
+    services: ["Evde Kan Alma", "Rutin Tahliller", "Check-Up Paketleri", "Covid-19 Testi", "Hormon Testleri", "Vitamin Analizleri"]
+  },
+  { 
+    icon: <BandageIcon />, 
+    title: "Evde Yara Bakımı Hizmetleri",
+    description: "Ameliyat sonrası, kronik yaralar ve yanık tedavisi için uzman yara bakım hizmetleri.",
+    services: ["Ameliyat Sonrası Bakım", "Bası Yarası Tedavisi", "Diyabetik Yara Bakımı", "Yanık Tedavisi", "Dikiş Alma/Atma", "Peg Bakımı"]
+  },
 ];
 
 // Kapsamdaki hizmetler için veri
@@ -25,6 +45,16 @@ const includedServices = [
 ];
 
 export default function EvdeSaglikPage() {
+  const [selectedService, setSelectedService] = useState(null);
+
+  const handleServiceClick = (service) => {
+    setSelectedService(service);
+  };
+
+  const closeModal = () => {
+    setSelectedService(null);
+  };
+
   return (
     <div className="evde-saglik-page">
       {/* Üst Banner */}
@@ -43,7 +73,12 @@ export default function EvdeSaglikPage() {
               <div className="service-card" key={index}>
                 <div className="service-card-icon">{card.icon}</div>
                 <h3 className="service-card-title">{card.title}</h3>
-                <button className="service-card-button">İncele</button>
+                <button 
+                  className="service-card-button"
+                  onClick={() => handleServiceClick(card)}
+                >
+                  İncele
+                </button>
               </div>
             ))}
           </div>
@@ -92,6 +127,38 @@ export default function EvdeSaglikPage() {
           </section>
         </div>
       </div>
+
+      {/* Hizmet Detay Modalı */}
+      {selectedService && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <div className="modal-icon">{selectedService.icon}</div>
+              <h2>{selectedService.title}</h2>
+              <button className="modal-close" onClick={closeModal}>×</button>
+            </div>
+            <div className="modal-body">
+              <p className="modal-description">{selectedService.description}</p>
+              <h3>Sunulan Hizmetler</h3>
+              <ul className="service-list">
+                {selectedService.services.map((service, index) => (
+                  <li key={index}>
+                    <span className="checkmark">✓</span> {service}
+                  </li>
+                ))}
+              </ul>
+              <div className="modal-actions">
+                <button className="btn-primary" onClick={closeModal}>
+                  📞 Randevu Al
+                </button>
+                <button className="btn-secondary" onClick={closeModal}>
+                  Kapat
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
