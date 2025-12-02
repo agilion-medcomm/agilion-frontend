@@ -1,119 +1,105 @@
 /* Dış blok (sayfayı enine kaplar) */
-.stats-wrap{
-  width:100%;
-  padding: 40px 20px 60px;
-  background:#ffffff;
-  display:flex;
-  justify-content:center;
-}
-
-/* Koyu kart (masaüstünde tek şerit) */
-.stats-container{
-  width:100%;
-  max-width:1200px;
-  background:#17365a;            /* lacivert ton */
-  color:#fff;
-  border-radius:28px;
-  padding:28px 24px;
-  display:grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;                         /* tek şerit, iç ayırıcılarla bölünecek */
-  box-shadow:0 10px 24px rgba(0,0,0,.08);
-}
-
-/* Her hücre */
-.stat-card{
-  position:relative;
-  text-align:center;
-  padding:14px 10px 18px;
-}
-
-/* Dikey ayırıcı (masaüstü) */
-.stat-card .divider{
-  content:"";
-  position:absolute;
-  right:0;
-  top:18%;
-  bottom:18%;
-  width:1px;
-  background:rgba(255,255,255,.25);
-}
-.stat-card:last-child .divider{ display:none; }
-
-.stat-number{
-  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing:.5px;
-}
-.stat-label{
-  margin-top:8px;
-  font-size: clamp(.9rem, 1.4vw, 1rem);
-  color:#d6e2f2;
-}
-
-/* === Responsive: 2x2 grid ve yatay/vertical çizgiler === */
-@media (max-width: 900px){
-  .stats-container{
-    grid-template-columns: repeat(2, 1fr);
-    gap:0;
-    padding:18px 16px;
-    border-radius:22px;
-  }
-  .stat-card{
-    padding:18px 8px 20px;
-  }
-  /* 2x2’de iç çizgiler: sağ dikey + alt yatay */
-  .stat-card .divider{
-    display:none; /* masaüstü dikey çizgiyi kapat */
-  }
-  .stats-container{
-    /* grid çizgilerini border ile verelim */
-    position: relative;
-  }
-  .stat-card{
-    border-right: 1px solid rgba(255,255,255,.22);
-    border-bottom: 1px solid rgba(255,255,255,.22);
-  }
-  .stat-card:nth-child(2),
-  .stat-card:nth-child(4){ border-right: none; } /* sağ sütun */
-  .stat-card:nth-child(3),
-  .stat-card:nth-child(4){ border-bottom: none; } /* alt sıra */
-}
-
-/* Tek sütun (çok dar mobil) */
-@media (max-width: 520px) {
-  .stats-container {
-    grid-template-columns: 1fr;
-    padding: 14px 12px;
-    border-radius: 18px;
-  }
-
-  .stat-card {
-    border-right: none;
-    /* BURADAKİ border-bottom KURALINI SİLİYORUZ */
-    padding: 16px 6px 18px;
-  }
-
-  /* VE YERİNE BUNU EKLİYORUZ:
-    Bu kural, "sonuncu olmayan" TÜM kartlara alt çizgi ekler.
-    ':not(:last-child)' seçicisi, 900px'lik kuraldaki ':nth-child(3)' kadar 
-    spesifiktir ve tek sütun görünümünde onu düzgünce ezer.
-  */
-  .stat-card:not(:last-child) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
-  }
-
-  /* BU KURALA ARTIK GEREK YOK (çünkü :not(:last-child) bunu zaten hallediyor)
-  .stat-card:last-child { border-bottom: none; }
-  */
-}
-
-/* Dış blok (sayfayı enine kaplar) */
 .stats-wrap {
   width: 100%;
   padding: 40px 20px 60px;
   background: #ffffff;
   display: flex;
   justify-content: center;
-  box-sizing: border-box; /* EKLENDİ - Taşırma sorununu bu çözer */
+  box-sizing: border-box;
+}
+
+/* Container artık şeffaf ve grid gap var */
+.stats-container {
+  width: 100%;
+  max-width: 1200px;
+  background: transparent;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Her hücre artık kendi kutusu */
+.stat-card {
+  position: relative;
+  text-align: center;
+  padding: 24px 16px;
+  background: #17365a;
+  /* Mavi arka plan */
+  color: #ffffff;
+  border-radius: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Divider kaldırıldı */
+.stat-card .divider {
+  display: none;
+}
+
+.stat-number {
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+.stat-label {
+  margin-top: 8px;
+  font-size: clamp(.9rem, 1.4vw, 1rem);
+  color: #d6e2f2;
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 520px) {
+  .stats-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* Daha spesifik bir seçici kullanarak diğer stillerin ezmesini engelliyoruz */
+.stats-container .stat-card {
+  background-color: #002b5c !important;
+  /* Koyu Lacivert - Kesin uygula */
+  color: #ffffff !important;
+  /* Beyaz Yazı - Kesin uygula */
+
+  /* Diğer özellikler */
+  position: relative;
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 43, 92, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover efekti */
+.stats-container .stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 43, 92, 0.4);
+}
+
+/* Label (etiket) rengini de zorluyoruz */
+.stats-container .stat-card .stat-label {
+  color: #ffffff !important;
+  opacity: 0.9;
+  margin-top: 8px;
+  font-size: clamp(.9rem, 1.4vw, 1rem);
+}
+
+/* Sayıların rengi parent'tan miras alınacak ama garanti olsun */
+.stats-container .stat-card .stat-number {
+  color: #ffffff !important;
 }

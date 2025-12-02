@@ -1,0 +1,139 @@
+/* Kurumsal Page Styles */
+.kurumsal-page {
+    font-family: 'Inter', sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+    padding-bottom: 0;
+    /* Footer handles spacing */
+}
+
+/* Hero Section */
+.kurumsal-hero {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: linear-gradient(135deg, #0052cc 0%, #003380 100%), url('/cover.png');
+    /* Fallback + Image */
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Overlay for the hero image to match the blue tint */
+.kurumsal-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 82, 204, 0.85);
+    /* Strong blue overlay */
+    z-index: 1;
+}
+
+.kurumsal-hero__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.kurumsal-hero__logo {
+    height: 60px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    /* Make white if needed */
+}
+
+.kurumsal-hero__title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* Content Container */
+.kurumsal-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/* Intro Text */
+.kurumsal-intro {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+    text-align: left;
+}
+
+.kurumsal-intro p {
+    margin-bottom: 20px;
+}
+
+/* Section Headers (Blue rounded bars) */
+.kurumsal-section-header {
+    background-color: #1a56db;
+    /* Blue color from design */
+    color: white;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+/* Text Blocks */
+.kurumsal-text-block {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+.kurumsal-text-block ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.kurumsal-text-block li {
+    margin-bottom: 8px;
+    padding-left: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .kurumsal-hero {
+        height: 300px;
+    }
+
+    .kurumsal-hero__title {
+        font-size: 2rem;
+    }
+
+    .kurumsal-content {
+        padding: 40px 20px;
+        gap: 30px;
+    }
+
+    .kurumsal-section-header {
+        font-size: 1.2rem;
+        padding: 12px 20px;
+    }
+}

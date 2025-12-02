@@ -1,7 +1,8 @@
 /* Floating Buttons - En Altta Sabit, Daraltılmış */
 .floating-buttons {
   position: fixed;
-  bottom: 10px; /* 0 → 20px yukarı kaldırıldı */
+  bottom: 10px;
+  /* 0 → 20px yukarı kaldırıldı */
   left: 50%;
   transform: translateX(-50%);
   max-width: 600px;
@@ -9,8 +10,10 @@
   display: flex;
   gap: 0;
   background: white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15); /* Daha belirgin gölge */
-  border-radius: 16px; /* Tüm köşeler yuvarlak */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  /* Daha belirgin gölge */
+  border-radius: 16px;
+  /* Tüm köşeler yuvarlak */
   z-index: 1000;
   overflow: hidden;
 }
@@ -35,27 +38,29 @@
   flex-shrink: 0;
 }
 
-/* Hızlı Randevu - Fenerbahçe Navy Blue */
+
 .floating-btn--appointment {
-  background: linear-gradient(135deg, #001C54 0%, #002D7A 100%);
+  background: linear-gradient(135deg, #001C54 0%, #184da8 100%);
   color: white;
   border-right: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px 0 0 16px; /* Sol taraf yuvarlak */
+  border-radius: 16px 0 0 16px;
 }
 
 .floating-btn--appointment:hover {
-  background: linear-gradient(135deg, #000F2F 0%, #001C54 100%);
+  background: linear-gradient(135deg, #4d6391 0%, #34579e 100%);
 }
 
-/* İletişim - Fenerbahçe Yellow */
+
 .floating-btn--contact {
-  background: linear-gradient(135deg, #00ff08 0%, #09ff00 100%);
-  color: #001C54;
-  border-radius: 0 16px 16px 0; /* Sağ taraf yuvarlak */
+  background: linear-gradient(135deg, #076f0b 0%, #0abe04 100%);
+  color: white;
+  border-radius: 0 16px 16px 0;
+  /* Sağ taraf yuvarlak */
 }
 
 .floating-btn--contact:hover {
-  background: linear-gradient(135deg, #00ff08 0%, hsl(126, 100%, 50%) 100%);
+  background: linear-gradient(135deg, #2c812f 0%, hsl(114, 95%, 32%) 100%);
+  color: white;
 }
 
 .floating-btn:active {
@@ -65,7 +70,8 @@
 /* Tablet */
 @media (max-width: 768px) {
   .floating-buttons {
-    bottom: 16px; /* Mobilde biraz daha az */
+    bottom: 16px;
+    /* Mobilde biraz daha az */
     max-width: 500px;
     width: calc(100% - 32px);
   }

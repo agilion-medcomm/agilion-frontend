@@ -3,7 +3,7 @@
   width: 100%;
   background: linear-gradient(135deg, #0e2b4b 0%, #1a4d5f 70%, #2d6b7f 100%);
   color: #eaf1ff;
-  padding: 70px 20px 40px;
+  padding: 70px 20px 120px;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -14,7 +14,7 @@
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle at 20% 80%, rgba(74, 99, 209, 0.08) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(69, 181, 196, 0.08) 0%, transparent 50%);
+    radial-gradient(circle at 80% 20%, rgba(69, 181, 196, 0.08) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -25,7 +25,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
 }
 
 /* 3 sütunlu grid */
@@ -85,6 +85,7 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .footer__item {
   width: 100%;
   text-align: left;
@@ -92,7 +93,7 @@
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   color: #eaf1ff;
-  border: 1.5px solid rgba(255,255,255,0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
   padding: 14px 16px;
   border-radius: 12px;
   cursor: pointer;
@@ -102,9 +103,9 @@
 }
 
 .footer__item:hover {
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
   transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.35);
+  border-color: rgba(255, 255, 255, 0.35);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
@@ -140,13 +141,14 @@
   flex-direction: column;
   gap: 10px;
 }
+
 .footer__link {
   text-align: left;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   color: #d7e2f7;
-  border: 1.5px solid rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
   padding: 12px 14px;
   border-radius: 12px;
   cursor: pointer;
@@ -156,9 +158,9 @@
 }
 
 .footer__link:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.25);
+  border-color: rgba(255, 255, 255, 0.25);
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
@@ -172,26 +174,29 @@
   .footer__container {
     grid-template-columns: 1fr 1fr;
   }
+
   /* Logo üstte kalır, sonra 1. ve 2. sütun akışa göre */
 }
 
 @media (max-width: 640px) {
   .footer {
-    padding: 50px 16px 30px;
+    padding: 50px 16px 140px;
   }
+
   .footer__container {
     grid-template-columns: 1fr;
     gap: 32px;
   }
-  .footer__logoBlock img { 
-    height: 42px; 
+
+  .footer__logoBlock img {
+    height: 42px;
   }
-  
+
   .footer__heading {
     font-size: 1.1rem;
     margin: 6px 0 20px 0;
   }
-  
+
   .footer__item,
   .footer__link {
     padding: 12px 14px;

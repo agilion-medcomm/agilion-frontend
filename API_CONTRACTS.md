@@ -746,6 +746,83 @@ Get test results
 
 ### Base Route: `/api/v1/patients`
 
+#### PUT `/api/v1/patients/me/profile`
+Update patient's own profile information
+
+**Authentication:** Required (JWT + Patient role)
+
+**Request Body:**
+```json
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "phoneNumber": "+90 555 123 4567",
+  "address": "123 Main St, Istanbul",
+  "emergencyContact": "+90 555 987 6543",
+  "bloodType": "A+"
+}
+```
+
+**Response 200:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 456,
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@example.com",
+    "phoneNumber": "+90 555 123 4567",
+    "address": "123 Main St, Istanbul",
+    "emergencyContact": "+90 555 987 6543",
+    "bloodType": "A+",
+    "updatedAt": "2025-12-01T10:00:00Z"
+  },
+  "message": "Profile updated successfully"
+}
+```
+
+**Error Responses:**
+- **400 Bad Request:** Invalid data format
+- **401 Unauthorized:** Invalid or missing token
+- **404 Not Found:** Patient not found
+
+---
+
+#### PUT `/api/v1/patients/me/change-password`
+Change patient's password
+
+**Authentication:** Required (JWT + Patient role)
+
+**Request Body:**
+```json
+{
+  "currentPassword": "OldPassword123!",
+  "newPassword": "NewPassword456!",
+  "confirmPassword": "NewPassword456!"
+}
+```
+
+**Response 200:**
+```json
+{
+  "success": true,
+  "message": "Password changed successfully"
+}
+```
+
+**Error Responses:**
+- **400 Bad Request:** Passwords don't match or invalid format
+- **401 Unauthorized:** Current password is incorrect
+- **422 Unprocessable Entity:** New password doesn't meet requirements (min 6 characters)
+
+**Password Requirements:**
+- Minimum 6 characters
+- Must contain at least one letter and one number (recommended)
+- Cannot be the same as current password
+
+---
+
 #### GET `/api/v1/patients/me/appointments`
 Get patient's own appointments
 

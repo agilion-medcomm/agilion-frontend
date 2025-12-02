@@ -56,7 +56,7 @@ export default function Footer() {
 
         {/* SAĞ SÜTUN */}
         <div className="footer__col">
-          <h4 className="footer__heading">Tıbbi Birimlerimiz</h4>
+          <h4 className="footer__heading">Bölümlerimiz</h4>
           <div className="footer__menu">
             <button className="footer__link" onClick={handleClick("acil")}>Acil 7/24</button>
             <button className="footer__link" onClick={handleClick("dis")}>Ağız ve Diş Sağlığı</button>
@@ -68,10 +68,10 @@ export default function Footer() {
         </div>
       </div>
 
-        <div className="container footer__row">
-            <small>© {new Date().getFullYear()} AgilionMED Tıp Merkezi</small>
-            <a href="#"> Aydınlatma Metni</a>
-          </div>
+      <div className="container footer__row">
+        <small>© {new Date().getFullYear()} AgilionMED Tıp Merkezi</small>
+        <a href="#"> Aydınlatma Metni</a>
+      </div>
 
     </footer>
   );

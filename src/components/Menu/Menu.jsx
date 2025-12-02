@@ -2,8 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; 
-import { usePersonnelAuth } from '../../context/PersonnelAuthContext'; 
+import { useAuth } from '../../context/AuthContext';
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 // Appointment modals removed — randevu sayfası kullanılacak
 import "./Menu.css";
 
@@ -13,43 +13,47 @@ export default function Menu() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  
 
-  const { user: patientUser, logout: patientLogout } = useAuth(); 
-  const { user: personnelUser, logout: personnelLogout } = usePersonnelAuth(); 
+
+  const { user: patientUser, logout: patientLogout } = useAuth();
+  const { user: personnelUser, logout: personnelLogout } = usePersonnelAuth();
 
   const loggedInUser = personnelUser || patientUser;
   const isLoggedIn = !!loggedInUser;
-  const isPersonnel = !!personnelUser; 
-  
+  const isPersonnel = !!personnelUser;
+
   function handleLogout() {
     closeMenu();
-    
+
     if (isPersonnel) {
       personnelLogout();
       // Personel çıkış yapınca kendi giriş ekranına dönsün
       navigate('/personelLogin', { replace: true });
     } else if (patientUser) {
-      patientLogout(); 
+      patientLogout();
       // Hasta çıkış yapınca ana sayfaya dönsün
       navigate('/', { replace: true });
     }
   }
 
-function handleAvatarClick() {
+  function handleAvatarClick() {
     if (loggedInUser) {
       closeMenu();
-      
       if (isPersonnel) {
-        // Personel -> Dashboard
-        navigate('/dashboard'); 
+        switch (personnelUser.role) {
+          case 'ADMIN': navigate('/admin-panel'); break;
+          case 'DOCTOR': navigate('/doctor-panel'); break;
+          case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
+          case 'CASHIER': navigate('/cashier-panel'); break;
+          case 'CLEANER': navigate('/cleaner-panel'); break;
+          default: navigate('/'); break;
+        }
       } else if (patientUser) {
-        // ✅ DÜZELTME: App.jsx'teki rota '/profile' olduğu için burası da '/profile' olmalı.
-        navigate('/profile'); 
+        navigate('/profile');
       }
     }
   }
-  
+
   // 🔥 HAMBURGER BUTON İŞLEVİ
   const handleHizliRandevuClick = (e) => {
     e.preventDefault(); // Varsayılan link davranışını engelle
@@ -58,13 +62,13 @@ function handleAvatarClick() {
     // 1. Kural: Kullanıcı login değilse, login sayfasına yönlendir.
     if (!patientUser) {
       alert("Randevu alabilmek için önce giriş yapınız.");
-      navigate('/login'); 
+      navigate('/login');
       return;
     }
-      // 2. Kural: Kullanıcı login ise, randevu sayfasına yönlendir.
-      navigate('/randevu');
+    // 2. Kural: Kullanıcı login ise, randevu sayfasına yönlendir.
+    navigate('/randevu');
   };
-  
+
   // artık modal state'leri yok
 
 
@@ -105,7 +109,7 @@ function handleAvatarClick() {
 
   function toggleMenu() { setMenuOpen(prev => !prev); }
   function closeMenu() { setMenuOpen(false); }
-  
+
   // Not: FloatingButtons.jsx'teki ikon placeholder'ları buraya taşındı (Empty SVG'ler yerine)
   const CalendarIconPlaceholder = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
 
@@ -116,7 +120,7 @@ function handleAvatarClick() {
       <div className="topbar">
         <div className="container topbar__row">
           <div className="topbar__left">
-            <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">canım@fenerbahcem.com.tr</a></span>
+            <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">agilion@medcomm.com.tr</a></span>
             <span className="topbar__item"><PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong></span>
           </div>
           <div className="topbar__right">
@@ -147,12 +151,12 @@ function handleAvatarClick() {
         <div className="container menubar__row">
           <Link className="brand" to="/"><img src="/agicom.png" alt="AgilionMED Logo" className="logo-img" /></Link>
           <nav className="nav">
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "") } to="/">ANA SAYFA</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "") } to="/kurumsal">KURUMSAL</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "") } to="/bolumlerimiz">BÖLÜMLERİMİZ</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "") } to="/hekimlerimiz">HEKİMLERİMİZ</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "") } to="/birimlerimiz">BİRİMLERİMİZ</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "") } to="/evde-saglik">EVDE SAĞLIK</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">ANA SAYFA</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">KURUMSAL</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/bolumlerimiz">BÖLÜMLERİMİZ</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/hekimlerimiz">HEKİMLERİMİZ</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/birimlerimiz">BİRİMLERİMİZ</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/evde-saglik">EVDE SAĞLIK</NavLink>
           </nav>
           <button className="hamburger" onClick={toggleMenu}><HamburgerIcon isOpen={menuOpen} /></button>
         </div>
@@ -160,13 +164,32 @@ function handleAvatarClick() {
 
       {menuOpen && (
         <>
-          <div ref={menuRef} id="mobile-menu" className={`mobile-menu mobile-menu--open`}> 
+          <div ref={menuRef} id="mobile-menu" className={`mobile-menu mobile-menu--open`}>
             <div className="mobile-menu__content">
               {/* 🔥 HAMBURGER MENÜ BUTON DÜZELTMESİ */}
               <button className="mobile-menu__appointment" onClick={handleHizliRandevuClick}>
                 Hızlı Randevu Al <CalendarIconPlaceholder />
               </button>
-              
+
+              {/* Giriş Yap / User Actions - Moved Here */}
+              <div className="mobile-menu__auth-section" style={{ marginBottom: '20px' }}>
+                {isLoggedIn ? (
+                  <div className="mobile-menu__user-actions">
+                    <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer', margin: '0 auto' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
+                      {loggedInUser.firstName?.charAt(0).toUpperCase()}
+                      {loggedInUser.lastName?.charAt(0).toUpperCase()}
+                    </div>
+                    <button onClick={handleLogout} className="mobile-menu__login-btn" style={{ background: '#d32f2f', marginTop: 8 }}>
+                      Çıkış Yap ({isPersonnel ? 'Personel' : 'Hasta'})
+                    </button>
+                  </div>
+                ) : (
+                  <Link to="/login" className="mobile-menu__login-btn" onClick={closeMenu}>
+                    Giriş Yap
+                  </Link>
+                )}
+              </div>
+
               <nav className="mobile-menu__nav">
                 <Link className="mobile-menu__link" to="/" onClick={closeMenu}><span>Ana Sayfa</span> <ChevronIcon /></Link>
                 <Link className="mobile-menu__link" to="/kurumsal" onClick={closeMenu}><span>Kurumsal</span> <ChevronIcon /></Link>
@@ -176,6 +199,7 @@ function handleAvatarClick() {
                 <Link className="mobile-menu__link" to="/evde-saglik" onClick={closeMenu}><span>Evde Sağlık</span> <ChevronIcon /></Link>
                 <Link className="mobile-menu__link" to="/contact" onClick={closeMenu}><span>İletişim</span> <ChevronIcon /></Link>
               </nav>
+
               {isLoggedIn ? (
                 <div style={{ borderTop: '1px solid #eee', marginTop: 16, paddingTop: 8 }}>
                   <a className="mobile-menu__link mobile-menu__link--login" href="#" style={{ color: '#d32f2f', fontWeight: 600 }} onClick={(e) => { e.preventDefault(); handleLogout(); }}>
@@ -187,6 +211,22 @@ function handleAvatarClick() {
                   <Link to="/personelLogin" className="mobile-menu__link mobile-menu__link--login" onClick={closeMenu}><span>Personel Girişi</span></Link>
                 </div>
               )}
+
+              {/* 780px ve altı için Topbar İçerikleri - Moved to Bottom */}
+              <div className="mobile-menu__topbar-items">
+                <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
+                  <MailIcon /> agilion@medcomm.com.tr
+                </a>
+                <a href="tel:2120000000" className="mobile-menu__info-item">
+                  <PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong>
+                </a>
+
+                <div className="mobile-menu__socials-row">
+                  <a className="social" href="#"><FbIcon /></a>
+                  <a className="social" href="#"><IgIcon /></a>
+                  <span className="lang">TR</span>
+                </div>
+              </div>
             </div>
           </div>
           <div className="mobile-menu-overlay active" onClick={closeMenu} />
