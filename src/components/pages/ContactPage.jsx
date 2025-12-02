@@ -42,6 +42,9 @@ export default function ContactPage() {
       {/* Üst Banner */}
       <div className="contact-banner">
         <img src="/contact-banner.jpg" alt="İletişim Merkezi" className="contact-banner-img" />
+        <div className="contact-banner-overlay">
+          <h1>İletişim</h1>
+        </div>
       </div>
 
       <div className="container page-section">
