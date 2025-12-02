@@ -3,7 +3,7 @@ import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './PersonnelPage.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
@@ -141,7 +141,7 @@ export default function PersonnelPage() {
 
   const showMessage = (type, text) => {
     setMessage({ type, text });
-    setTimeout(() => setMessage({ type: '', text: '' }), 5000);
+    setTimeout(() => setMessage({ type: '', text: '' }), 5001);
   };
 
   const handleAddPersonnel = async (e) => {
