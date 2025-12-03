@@ -92,6 +92,13 @@ const LogOutIcon = () => (
   </svg>
 );
 
+const MailIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+    <polyline points="22,6 12,13 2,6"></polyline>
+  </svg>
+);
+
 export default function DashboardLayout() {
   const { user, logoutPersonnel } = usePersonnelAuth();
   const navigate = useNavigate();
@@ -118,6 +125,7 @@ export default function DashboardLayout() {
         { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Appointments' },
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
         { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
+        { path: '/dashboard/contact-forms', icon: <MailIcon />, label: 'Contact Forms' },
         { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Cleaning' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications-sender', icon: <FileTextIcon />, label: 'Send Alerts' },
