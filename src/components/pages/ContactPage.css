@@ -4,7 +4,8 @@
 
 .contact-banner {
   width: 100%;
-  height: 250px;
+  height: 450px;
+  position: relative;
   overflow: hidden;
 }
 
@@ -12,6 +13,26 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.contact-banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-banner-overlay h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .page-section {
