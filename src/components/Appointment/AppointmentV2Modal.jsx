@@ -10,6 +10,13 @@ const SLOT_START = 9;
 const SLOT_END = 17;
 const MAX_DAYS = 90;
 
+const formatDateForBackend = (date) => {
+	const day = String(date.getDate()).padStart(2, '0');
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const year = date.getFullYear();
+	return `${day}.${month}.${year}`;
+};
+
 const getDays = (startDay) => {
     const dates = [];
     let currentDate = new Date(startDay);

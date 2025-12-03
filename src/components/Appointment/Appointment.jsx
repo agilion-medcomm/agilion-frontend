@@ -16,6 +16,13 @@ const SLOT_END = 17;
 const MAX_DAYS = 90;
 
 // --- Yardımcı Fonksiyonlar ---
+const formatDateForBackend = (date) => {
+	const day = String(date.getDate()).padStart(2, '0');
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+	const year = date.getFullYear();
+	return `${day}.${month}.${year}`;
+};
+
 const getDays = (startDay) => {
 	const dates = [];
 	let currentDate = new Date(startDay);
@@ -79,7 +86,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 	useEffect(() => {
 		if (!doctor) return;
 		const fetchBookedSlots = async () => {
-			const dateStr = selectedDate.toLocaleDateString('tr-TR');
+			const dateStr = formatDateForBackend(selectedDate);
 			try {
 				const response = await axios.get(`${BaseURL}/appointments`, {
 					params: {
@@ -131,7 +138,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 		const confirmBooking = window.confirm(
 			'📅 Randevu Onayı\n\n' +
 			`Doktor: ${doctor.firstName} ${doctor.lastName}\n` +
-			`Tarih: ${selectedDate.toLocaleDateString('tr-TR')}\n` +
+			`Tarih: ${formatDateForBackend(selectedDate)}\n` +
 			`Saat: ${selectedSlot}\n\n` +
 			'Randevuyu oluşturmak istediğinize emin misiniz?'
 		);
@@ -145,7 +152,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 			patientId: user.id,
 			patientFirstName: user.firstName,
 			patientLastName: user.lastName,
-			date: selectedDate.toLocaleDateString('tr-TR'),
+			date: formatDateForBackend(selectedDate),
 			time: selectedSlot,
 			status: 'APPROVED'
 		};
