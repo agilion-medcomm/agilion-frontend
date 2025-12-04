@@ -38,6 +38,7 @@ export default function ProfilePage() {
 
     // Password State
     const [passData, setPassData] = useState({
+        currentPassword: '',
         newPassword: '',
         confirmPassword: ''
     });
@@ -76,11 +77,14 @@ export default function ProfilePage() {
             if (!token) {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış.");
             }
-            // DİKKAT: Burada personel tablosunun id'si kullanılmalı! (ör: doctor.id, admin.id)
-            // user.personnelId, user.doctorId, user.adminId gibi bir alan backend'den gelmeli ve burada kullanılmalı.
-            // Eğer user objesinde personnelId yoksa, backend'den /auth/me veya ilgili endpoint ile bu id'yi çekmelisiniz.
-            const targetId = user.personnelId || user.doctorId || user.adminId || user.id; // Sıralamayı ihtiyaca göre güncelleyin
-            await axios.put(`${BaseURL}/personnel/${targetId}`, formData, {
+            
+            // Check if user is a patient or personnel
+            const isPatient = user.role === 'PATIENT';
+            const endpoint = isPatient 
+                ? `${BaseURL}/patients/me/profile`
+                : `${BaseURL}/personnel/${user.personnelId || user.doctorId || user.adminId || user.id}`;
+            
+            await axios.put(endpoint, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
@@ -118,29 +122,28 @@ export default function ProfilePage() {
         setSuccessMsg('');
 
         try {
-            // DÜZELTME: Token kontrolü
             const token = localStorage.getItem('personnelToken') || localStorage.getItem('token');
 
             if (!token) {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış. Lütfen tekrar giriş yapın.");
             }
 
-            // DİKKAT: Burada da personel tablosunun id'si kullanılmalı! (ör: doctor.id, admin.id)
-            // user.personnelId, user.doctorId, user.adminId gibi bir alan backend'den gelmeli ve burada kullanılmalı.
-            // Eğer user objesinde personnelId yoksa, backend'den /auth/me veya ilgili endpoint ile bu id'yi çekmelisiniz.
-            const targetId = user.personnelId || user.doctorId || user.adminId || user.id; // Sıralamayı ihtiyaca göre güncelleyin
+            // Check if user is a patient or personnel
+            const isPatient = user.role === 'PATIENT';
+            const endpoint = isPatient 
+                ? `${BaseURL}/patients/me/change-password`
+                : `${BaseURL}/personnel/${user.personnelId || user.doctorId || user.adminId || user.id}`;
 
-            console.log("Şifre güncelleme isteği gönderiliyor...", { targetId });
+            console.log("Şifre güncelleme isteği gönderiliyor...", { endpoint });
 
-            await axios.put(`${BaseURL}/personnel/${targetId}`, { password: passData.newPassword }, {
+            await axios.put(endpoint, { currentPassword: passData.currentPassword, newPassword: passData.newPassword }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
             setSuccessMsg('Şifreniz başarıyla değiştirildi.');
-            setPassData({ newPassword: '', confirmPassword: '' });
+            setPassData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (err) {
             console.error("Şifre değiştirme hatası:", err);
-            // Backend'den gelen özel mesajı göster, yoksa genel mesaj
             setErrorMsg(err.response?.data?.message || err.message || 'Şifre değiştirilemedi.');
         } finally {
             setLoading(false);
@@ -248,6 +251,19 @@ export default function ProfilePage() {
                             <LockIcon /> Şifre Değiştir
                         </div>
                         <form onSubmit={handlePasswordUpdate}>
+                            <div className="form-row">
+                                <div className="form-group">
+                                    <label>Mevcut Şifre</label>
+                                    <input
+                                        type="password"
+                                        name="currentPassword"
+                                        value={passData.currentPassword}
+                                        onChange={handlePassChange}
+                                        placeholder="******"
+                                        required
+                                    />
+                                </div>
+                            </div>
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>Yeni Şifre</label>
