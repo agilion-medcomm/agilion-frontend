@@ -284,7 +284,7 @@ const styles = {
   gridContainer: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' },
   card: { backgroundColor: '#fff', padding: '20px', borderRadius: '16px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' },
   cardTitle: { marginTop: 0, marginBottom: '20px', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '10px' },
-  form: { display: 'flex', flexDirection: 'column', gap: '15px' },
+  form: { display: 'flex', flexDirection: 'column', gap: '16px' },
   formGroup: { display: 'flex', flexDirection: 'column', gap: '5px' },
   label: { fontWeight: '600', color: '#094ab3ff', fontSize: '0.9rem' },
   select: { padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '1.2rem' },
