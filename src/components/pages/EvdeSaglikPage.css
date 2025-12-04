@@ -181,8 +181,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
@@ -197,11 +202,12 @@
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     transform: translateY(50px);
     opacity: 0;
   }
-  to { 
+
+  to {
     transform: translateY(0);
     opacity: 1;
   }
@@ -227,29 +233,9 @@
   margin: 0;
 }
 
-.modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 2rem;
-  color: #6c757d;
-  cursor: pointer;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
 
-.modal-close:hover {
-  background-color: #f8f9fa;
-  color: #000;
-}
+
+
 
 .modal-body {
   padding: 20px 25px;
@@ -263,7 +249,7 @@
 }
 
 .modal-body h3 {
-  color: #0d3d6a;
+  color: #1668b6;
   font-size: 1.1rem;
   margin-bottom: 12px;
   border-left: 4px solid #0d6efd;
@@ -307,22 +293,13 @@
   flex: 1;
   padding: 12px 24px;
   border: none;
-  border-radius: 8px;
+  border-radius: 100px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
 }
 
-.modal-actions .btn-primary {
-  background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%);
-  color: white;
-}
 
-.modal-actions .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
-}
 
 .modal-actions .btn-secondary {
   background: #f8f9fa;
@@ -338,8 +315,289 @@
   .modal-content {
     margin: 10px;
   }
-  
+
   .modal-actions {
     flex-direction: column;
   }
+}
+
+
+
+/* --- MODAL STİLLERİ (GÜNCEL - YATAY VE GENİŞ VERSİYON) --- */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* Arka planı biraz daha kararttık */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  /* BURASI ÖNEMLİ: Genişliği zorla artırıyoruz */
+  width: 95% !important;
+  max-width: 950px !important;
+  /* Yükseklik ayarı: İçeriğe göre uzasın ama ekran taşmasın */
+  height: auto;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 20px 30px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background-color: #fff;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-header h2 {
+  font-size: 1.6rem;
+  color: #333;
+  margin: 0;
+}
+
+.modal-body {
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* İçeriği Yanyana Getiren Kapsayıcı */
+.modal-row {
+  display: flex;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Sol Taraf: Açıklama */
+.modal-col-left {
+  flex: 0.8;
+  font-size: 1em;
+  line-height: 1.6;
+  color: #555;
+}
+
+/* Sağ Taraf: Hizmet Listesi Kutusu */
+.modal-col-right {
+  flex: 1.2;
+  /* Sağ taraf biraz daha geniş olsun */
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.modal-subtitle {
+  color: #0d6efd;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  display: inline-block;
+  border-bottom: 2px solid #0d6efd;
+  padding-bottom: 8px;
+}
+
+/* LİSTE AYARI: İçeriği YATAY'a yayıyoruz (Grid Sistemi) */
+.service-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  /* Sihirli kısım burası: Listeyi 2 sütuna bölüyoruz */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 10px;
+  /* Satır ve sütun arası boşluklar */
+}
+
+.service-list li {
+  font-size: 0.95rem;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  /* Alt çizgi yerine kutu görünümü verelim */
+  background: white;
+  padding: 8px 12px;
+  border-radius: 16px;
+  border: 1px solid #c2d4e7;
+}
+
+.checkmark {
+  color: #28a745;
+  font-weight: bold;
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+/* Alt Buton Alanı */
+.modal-actions {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+  display: flex;
+  justify-content: center;
+}
+
+.modal-actions .btn-primary {
+  width: 90%;
+  max-width: 200px;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 100px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-actions .btn-primary:hover {
+  background-color: #0b5ed7;
+}
+
+
+
+/* MOBİL UYUM */
+@media (max-width: 768px) {
+  .modal-row {
+    flex-direction: column;
+    /* Mobilde yine alt alta olsun */
+  }
+
+  .service-list {
+    grid-template-columns: 1fr;
+    /* Mobilde tek sütun olsun */
+  }
+
+  .modal-content {
+    width: 95% !important;
+    margin: 10px;
+  }
+}
+
+/* Buton Alanını ve Butonu Ortalama */
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid #e9ecef;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.modal-actions .btn-primary {
+  width: 100%;
+  max-width: 200px;
+  padding: 12px;
+  font-size: 1.1rem;
+  border-radius: 16px;
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Başlığı Sola Yaslama */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* KRİTİK KOD: Başlığı sola yaslar */
+  padding: 20px 30px;
+  border-bottom: 1px solid #e9ecef;
+  gap: 15px;
+  position: relative;
+  /* Kapat butonu buna göre konumlanır */
+}
+
+/* Başlık metninin kendisi */
+.modal-header h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+  text-align: left;
+  /* Metni sola hizalar */
+  flex: 1;
+  /* Geniş alana yayılmasını sağlar */
+}
+
+/* Public klasöründen gelen SVG ikonların boyutu */
+.custom-svg-icon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+
+/* --- KAPAT BUTONU (SABİT VE KAYMAYAN VERSİYON) --- */
+
+.modal-close {
+  /* Konumlandırma - !important ile kaymayı engelliyoruz */
+  position: absolute !important;
+  right: 25px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+
+  /* Görünüm Sıfırlama */
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+
+  /* Boyut */
+  width: 32px;
+  height: 32px;
+
+  /* İçerik Hizalama */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  /* Z-index ile en üstte kalsın */
+  z-index: 10;
+}
+
+/* Hover durumunda POZİSYONA DOKUNMUYORUZ, sadece görsel */
+.modal-close:hover {
+  background: transparent;
+}
+
+/* Resim Ayarları */
+.modal-close img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* Resim Hover Efekti */
+.modal-close:hover img {
+  opacity: 1;
+  /* Üzerine gelince netleşir */
+  filter: brightness(0.5);
+  /* İsteğe bağlı renk koyulaşması */
 }
