@@ -8,7 +8,7 @@ const BirimlerimizPage = () => {
     {
       id: 'anestezi',
       title: 'Anestezi & Reanimasyon',
-      icon: '/anestezi.svg', // Placeholder
+      icon: '/d1.png', // Placeholder
       contentTitle: 'Anestezi ve Reanimasyon',
       content: <p>Anestezi ve reanimasyon, cerrahi veya diğer tıbbi müdahaleler sırasında hastanın bilincini kaybetmesini sağlamak ve hayati fonksiyonlarını sürdürmek için kullanılan tıbbi uygulamalardır.
         Anestezi, hastanın ağrı duymasını önlemek, vücut fonksiyonlarını kontrol etmek ve cerrahi işlem sırasında rahatlık sağlamak amacıyla kullanılır.
@@ -18,7 +18,7 @@ const BirimlerimizPage = () => {
     {
       id: 'ameliyathane',
       title: 'Ameliyathane',
-      icon: '/ameliyathane.svg',
+      icon: '/d2.png',
       contentTitle: 'Ameliyathane',
       content: <p>Ameliyathane, tıbbi müdahalelerin gerçekleştirildiği özel bir bölümdür. Burada pek çok farklı işlem yapılmaktadır ve ameliyat süreci titizlikle planlanır ve uygulanır. Ameliyathane işlevleri, hastanın sağlığını korumak ve ameliyatın başarılı bir şekilde gerçekleşmesini sağlamak için çeşitli aşamalardan oluşur.
 
@@ -32,7 +32,7 @@ const BirimlerimizPage = () => {
     {
       id: 'dogumhane',
       title: 'Doğumhane',
-      icon: '/dogum.svg',
+      icon: '/d3.png',
       contentTitle: 'Doğumhane',
       content: <p>ÖHastaneye başvurduğunuzda öncelikle doktorunuz sizi muayene eder ve doğumun gerçekten başlayıp başlamadığını tespit eder. Doğumun başlaması ancak vajinal muayene (elle muayene) ile anlaşılır, ultrason ile anlaşılmaz.
 
@@ -45,7 +45,7 @@ const BirimlerimizPage = () => {
     {
       id: 'rontgen',
       title: 'Röntgen',
-      icon: '/rontgen.svg',
+      icon: '/d4.png',
       contentTitle: 'Röntgen',
       content: <p>Röntgen, insan vücudunu ve diğer nesneleri görüntülemek için kullanılan bir tıbbi görüntüleme teknolojisidir. Bu teknoloji, X-ışınlarının kullanımıyla çalışır. Röntgen cihazları, vücut dokularının iç yapısını görüntülemek için kullanılır ve birçok tıbbi durumun teşhisinde önemli bir araçtır.
 
@@ -54,14 +54,14 @@ const BirimlerimizPage = () => {
     {
       id: 'laboratuvar',
       title: 'Laboratuvar',
-      icon: '/lab.svg',
+      icon: '/d5.png',
       contentTitle: 'Laboratuvar',
       content: <p>Zeytinburnu Tıp Merkezi,  hastalarına acil ve rutin laboratuvar hizmeti verirken, özellikle güvenilir sonuç üretmeyi hedef edinmiş olmanın gereklerini yerine getiren merkez laboratuvarı, haftanın 7 günü hizmetini sürdürmektedir. </p>
     },
     {
       id: 'saglik_raporlari',
       title: 'Sağlık Raporları',
-      icon: '/rapor.svg',
+      icon: '/d6.png',
       contentTitle: 'Sağlık Raporları',
       content: (
         <>
@@ -80,14 +80,14 @@ const BirimlerimizPage = () => {
     {
       id: 'ultrason',
       title: 'Ultrasonografi',
-      icon: '/ultrason.svg',
+      icon: '/d7.png',
       contentTitle: 'Ultrasonografi',
       content: <p>Ultrason (USG) ile hem iç organlar hakkında bilgi edilebilir, hem de gebelik tanı ve kontrolünde fetüsü izlemek amacıyla kullanılmaktadır. Radyasyon içermediği için düzenli olarak yaptırılmasının hiçbir sakıncası yoktur.</p>
     },
     {
       id: 'solunum',
       title: 'Solunum Testi',
-      icon: '/solunum.svg',
+      icon: '/d8.png',
       contentTitle: 'Solunum Testi',
       content: <p>Solunum fonksiyon testi temel anlamda akciğerlerinizin performansını ölçmek için yapılan bir testtir.
 
@@ -101,7 +101,7 @@ const BirimlerimizPage = () => {
     {
       id: 'odyometri',
       title: 'Odyometri ve Timpanometri',
-      icon: '/odyometri.svg',
+      icon: '/d9.png',
       contentTitle: 'Odyometri ve Timpanometri',
       content: <p>Odyometri, kişinin işitme yeteneğini değerlendirmek için kullanılan bir testtir. Bu testte, kişinin işitme eşiği ölçülür ve işitme kaybı tespit edilir. Odyometri testi, kulaklıklar ve sesli uyarıcılar kullanılarak gerçekleştirilir.
 

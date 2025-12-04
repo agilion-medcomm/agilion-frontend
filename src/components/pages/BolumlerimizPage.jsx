@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './BolumlerimizPage.css';
 
 const BolumlerimizPage = () => {
-  const [selectedId, setSelectedId] = useState('acil');
+  const location = useLocation();
+  const [selectedId, setSelectedId] = useState(location.state?.selectedId || 'acil');
+
+  useEffect(() => {
+    if (location.state?.selectedId) {
+      setSelectedId(location.state.selectedId);
+    }
+  }, [location.state]);
 
   const departments = [
     {
       id: 'acil',
       title: 'Acil 7/24',
-      icon: '/acil.png', // Using png from public
+      icon: '/b11.png', // Using png from public
       isAcil: true,
       contentTitle: 'Acil Polikliniği',
       content: (
@@ -45,7 +53,7 @@ const BolumlerimizPage = () => {
     {
       id: 'dis',
       title: 'Ağız ve Diş',
-      icon: '/dis.png',
+      icon: '/b22.png',
       contentTitle: 'Ağız ve Diş Sağlığı',
       content: (
         <>
@@ -71,7 +79,7 @@ const BolumlerimizPage = () => {
     {
       id: 'diyet',
       title: 'Beslenme Diyet',
-      icon: '/diyet.png',
+      icon: '/b3diyet.png',
       contentTitle: 'Beslenme ve Diyet',
       content: (
         <>
@@ -163,7 +171,7 @@ const BolumlerimizPage = () => {
     {
       id: 'derma',
       title: 'Dermatoloji',
-      icon: '/derma.png',
+      icon: '/b44.png',
       contentTitle: 'Dermatoloji',
       content: (
         <>
@@ -213,7 +221,7 @@ const BolumlerimizPage = () => {
     {
       id: 'cerrahi',
       title: 'Genel Cerrahi',
-      icon: '/cerrah.png',
+      icon: '/b55.png',
       contentTitle: 'Genel Cerrahi',
       content: (
         <>
@@ -254,7 +262,7 @@ const BolumlerimizPage = () => {
     {
       id: 'goz',
       title: 'Göz Sağlığı',
-      icon: '/goz.png',
+      icon: '/b6goz.png',
       contentTitle: 'Göz Sağlığı',
       content: (
         <>
@@ -289,7 +297,7 @@ const BolumlerimizPage = () => {
     {
       id: 'dahiliye',
       title: 'İç Hastalıklar',
-      icon: '/ichastalOO╠éo╠Ça╠üeÔòáu╠êoO╠éo╠Ça╠üeÔòáe╠üCO╠éo╠Ça╠ügÔòáa╠èOO╠éo╠Ça╠üeÔòáu╠êuO╠éo╠Ça╠üeÔòáu╠êO╠éo╠ê┬úaÔòáe╠Çklar.png', // Using the complex filename found
+      icon: '/b77.png', // Using the complex filename found
       contentTitle: 'İç Hastalıkları (Dahiliye)',
       content: (
         <>
@@ -320,7 +328,7 @@ const BolumlerimizPage = () => {
     {
       id: 'kadin',
       title: 'Kadın & Doğum',
-      icon: '/dogum.png',
+      icon: '/b88.png',
       contentTitle: 'Kadın Hastalıkları ve Doğum',
       content: (
         <>
