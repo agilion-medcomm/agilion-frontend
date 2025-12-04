@@ -84,13 +84,23 @@ export default function PersonnelPage() {
     setLoading(true);
     const token = localStorage.getItem('personnelToken');
     
+    if (!token) {
+      showMessage('error', 'No authentication token found. Please login again.');
+      setLoading(false);
+      return;
+    }
+    
     try {
       const res = await axios.get(`${BaseURL}/personnel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setPersonnelList(res.data?.data || []);
     } catch (error) {
-      showMessage('error', 'Failed to fetch personnel');
+      if (error.response?.status === 401) {
+        showMessage('error', 'Session expired. Please login again.');
+      } else {
+        showMessage('error', 'Failed to fetch personnel');
+      }
       console.error('Error fetching personnel:', error);
     } finally {
       setLoading(false);
@@ -247,18 +257,16 @@ export default function PersonnelPage() {
     switch(role) {
       case 'DOCTOR': return 'badge-doctor';
       case 'ADMIN': return 'badge-admin';
-      case 'LAB_TECHNICIAN': return 'badge-lab';
-      case 'CASHIER': return 'badge-cashier';
-      case 'CLEANER': return 'badge-cleaner';
+      case 'LABORANT': return 'badge-lab';
       default: return 'badge-default';
     }
   };
 
   const getRoleLabel = (role) => {
     switch(role) {
-      case 'LAB_TECHNICIAN': return 'Lab Tech';
-      case 'CASHIER': return 'Cashier';
-      case 'CLEANER': return 'Cleaner';
+      case 'LABORANT': return 'Lab Technician';
+      case 'DOCTOR': return 'Doctor';
+      case 'ADMIN': return 'Admin';
       default: return role;
     }
   };
@@ -308,7 +316,7 @@ export default function PersonnelPage() {
         </div>
         
         <div className="role-filters">
-          {['ALL', 'DOCTOR', 'ADMIN', 'LAB_TECHNICIAN', 'CASHIER', 'CLEANER'].map(role => (
+          {['ALL', 'DOCTOR', 'ADMIN', 'LABORANT'].map(role => (
             <button
               key={role}
               className={`filter-chip ${roleFilter === role ? 'active' : ''}`}
@@ -440,9 +448,7 @@ export default function PersonnelPage() {
                   <select name="role" value={form.role} onChange={handleInputChange} required>
                     <option value="DOCTOR">Doctor</option>
                     <option value="ADMIN">Admin</option>
-                    <option value="LAB_TECHNICIAN">Lab Technician</option>
-                    <option value="CASHIER">Cashier</option>
-                    <option value="CLEANER">Cleaner</option>
+                    <option value="LABORANT">Lab Technician</option>
                   </select>
                 </div>
               </div>

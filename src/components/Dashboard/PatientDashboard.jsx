@@ -6,7 +6,7 @@ import './SharedDashboard.css';
 
 export default function PatientDashboard() {
   // ✅ Vite uyumlu API adresi
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
   const BaseURL = `${API_BASE}/api/v1`;
 
   const { user, updateUser } = useAuth(); 
@@ -131,18 +131,62 @@ export default function PatientDashboard() {
   };
 
   const fetchLabResults = async () => {
-    // Mock Data (İleride backend'e bağlanabilir)
-    const mockLabResults = [
-      {
-        id: 1,
-        testName: 'Tam Kan Sayımı (Hemogram)',
-        date: new Date(Date.now() - 86400000 * 3).toISOString(),
-        status: 'COMPLETED',
-        doctorName: 'Dr. Ahmet Yılmaz',
-        hasFile: true
-      },
-    ];
-    setLabResults(mockLabResults);
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      console.log('Fetching my lab results...');
+      
+      // Yeni /my endpoint'i kullan - token'dan userId alınır
+      const response = await axios.get(`${BaseURL}/medical-files/my`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      console.log('Lab results response:', response.data);
+      const data = response.data.data || response.data;
+      setLabResults(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Tahlil sonuçları alınamadı:', error);
+      setLabResults([]);
+    }
+  };
+
+  // Dosya indirme fonksiyonu
+  const handleDownloadFile = async (fileUrl, fileName) => {
+    try {
+      if (!fileUrl) {
+        setMessage({ type: 'error', text: 'Dosya URL bulunamadı' });
+        return;
+      }
+
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      const fullUrl = `${API_BASE}${fileUrl}`;
+      
+      console.log('Downloading from:', fullUrl);
+      
+      // Fetch ile indir
+      const response = await fetch(fullUrl, {
+        method: 'GET',
+        headers: { 
+          'Authorization': `Bearer ${token}` 
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Dosya indirilemedi');
+      }
+
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = fileName || 'dosya';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error('Dosya indirme hatası:', error);
+      setMessage({ type: 'error', text: 'Dosya indirilemedi' });
+    }
   };
 
   // --- FORM İŞLEMLERİ ---
@@ -437,23 +481,38 @@ export default function PatientDashboard() {
               <tr>
                 <th>Test Adı</th>
                 <th>Tarih</th>
-                <th>Doktor</th>
-                <th>Durum</th>
+                <th>Yükleyen</th>
+                <th>Dosya Tipi</th>
+                <th>Boyut</th>
                 <th>İşlem</th>
               </tr>
             </thead>
             <tbody>
               {labResults.length === 0 ? (
-                <tr><td colSpan="5" className="no-data">Sonuç bulunamadı.</td></tr>
+                <tr><td colSpan="6" className="no-data">Henüz tahlil sonucu bulunmuyor.</td></tr>
               ) : (
                 labResults.map((result) => (
                   <tr key={result.id}>
-                    <td><strong>{result.testName}</strong></td>
-                    <td>{new Date(result.date).toLocaleDateString('tr-TR')}</td>
-                    <td>{result.doctorName}</td>
-                    <td><span className="badge badge-completed">{result.status}</span></td>
                     <td>
-                      <button className="btn-sm btn-secondary" onClick={() => handleDownloadReport(result)}>
+                      <strong>{result.testName}</strong>
+                      {result.description && <div style={{ fontSize: '12px', color: '#666' }}>{result.description}</div>}
+                    </td>
+                    <td>{new Date(result.testDate).toLocaleDateString('tr-TR')}</td>
+                    <td>{result.laborant?.user?.firstName} {result.laborant?.user?.lastName}</td>
+                    <td>
+                      <span className="badge" style={{ 
+                        background: result.fileType?.includes('pdf') ? '#fee2e2' : '#dbeafe',
+                        color: result.fileType?.includes('pdf') ? '#991b1b' : '#1e40af'
+                      }}>
+                        {result.fileType?.includes('pdf') ? '📄 PDF' : '🖼️ Resim'}
+                      </span>
+                    </td>
+                    <td>{result.fileSizeKB?.toFixed(0)} KB</td>
+                    <td>
+                      <button 
+                        className="btn-sm btn-secondary" 
+                        onClick={() => handleDownloadFile(result.fileUrl, result.fileName)}
+                      >
                         📥 İndir
                       </button>
                     </td>

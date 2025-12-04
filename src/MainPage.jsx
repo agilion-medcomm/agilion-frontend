@@ -22,19 +22,13 @@ export default function MainPage() {
 		   if (personnelUser) {
 			   switch (personnelUser.role) {
 				   case 'ADMIN':
-					   navigate('/admin-panel', { replace: true });
+					   navigate('/dashboard', { replace: true });
 					   break;
 				   case 'DOCTOR':
-					   navigate('/doctor-panel', { replace: true });
+					   navigate('/dashboard', { replace: true });
 					   break;
-				   case 'LAB_TECHNICIAN':
-					   navigate('/lab-panel', { replace: true });
-					   break;
-				   case 'CASHIER':
-					   navigate('/cashier-panel', { replace: true });
-					   break;
-				   case 'CLEANER':
-					   navigate('/cleaner-panel', { replace: true });
+				   case 'LABORANT':
+					   navigate('/dashboard/laborant', { replace: true });
 					   break;
 				   default:
 					   break;

@@ -126,6 +126,7 @@ export default function DashboardLayout() {
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
         { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
         { path: '/dashboard/contact-forms', icon: <MailIcon />, label: 'Contact Forms' },
+        { path: '/dashboard/medical-files', icon: <FileTextIcon />, label: 'Medical Files' },
         { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Cleaning' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications-sender', icon: <FileTextIcon />, label: 'Send Alerts' },
@@ -136,12 +137,19 @@ export default function DashboardLayout() {
     if (isDoctor) {
       return [
         ...baseNav,
-        { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'My Appointments' },
-        { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
-        { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
-        { path: '/dashboard/lab-results', icon: <ActivityIcon />, label: 'Lab Results' },
+        { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Appointments' },
+        { path: '/dashboard/medical-files', icon: <FileTextIcon />, label: 'Medical Files' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+      ];
+    }
+
+    // Laborant role
+    if (user?.role === 'LABORANT') {
+      return [
+        { path: '/dashboard/laborant', icon: <HomeIcon />, label: 'Dosya Yükle' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
+        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Bildirimler' },
       ];
     }
 
