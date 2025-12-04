@@ -167,7 +167,7 @@ export default function DashboardLayout() {
     if (user?.role === 'CASHIER') {
       return [
         ...baseNav,
-        { path: '/dashboard/payments', icon: <CalendarIcon />, label: 'Payments' },
+        { path: '/dashboard/payments', icon: <CalendarIcon />, label: 'Randevu Oluştur' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];

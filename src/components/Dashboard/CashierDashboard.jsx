@@ -1,352 +1,651 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './SharedDashboard.css';
 
-const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+const BaseURL = `${API_BASE}/api/v1`;
+
+const DEPARTMENTS = [
+  'Acil 7/24',
+  'Ağız ve Diş',
+  'Beslenme Diyet',
+  'Dermatoloji',
+  'Genel Cerrahi',
+  'Göz Sağlığı',
+  'İç Hastalıklar',
+  'Kadın & Doğum'
+];
 
 export default function CashierDashboard() {
-  const { user } = usePersonnelAuth();
-  const [payments, setPayments] = useState([]);
-  const [todayStats, setTodayStats] = useState({
-    totalRevenue: 0,
-    transactionCount: 0,
-    cashAmount: 0,
-    cardAmount: 0,
+  const navigate = useNavigate();
+  const { user, token } = usePersonnelAuth();
+
+  // STATES
+  const [searchTckn, setSearchTckn] = useState('');
+  const [foundPatient, setFoundPatient] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [searchError, setSearchError] = useState('');
+
+  // Register form states
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
+  const [registerForm, setRegisterForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    dateOfBirth: '',
+    tckn: '',
+    password: ''
   });
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [filter, setFilter] = useState('today'); // today, week, month, all
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const [registerError, setRegisterError] = useState('');
+  const [registerSuccess, setRegisterSuccess] = useState('');
 
-  const [newPayment, setNewPayment] = useState({
-    patientId: '',
-    patientName: '',
-    amount: '',
-    method: 'CASH',
-    receiptNumber: '',
-    description: ''
-  });
+  // Appointment states
+  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [doctorsList, setDoctorsList] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [availableDates, setAvailableDates] = useState([]);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState('');
+  const [appointmentLoading, setAppointmentLoading] = useState(false);
+  const [appointmentError, setAppointmentError] = useState('');
+  const [appointmentSuccess, setAppointmentSuccess] = useState('');
 
-  useEffect(() => {
-    fetchPayments();
-  }, [filter]);
+  // Authorization check
+  if (!user || user.role !== 'CASHIER') {
+    return (
+      <div style={{ textAlign: 'center', padding: '100px', fontSize: '18px', color: '#c1272d', fontWeight: 'bold' }}>
+        ⛔ Yetkiniz yok. Lütfen Vezne Çalışanı olarak giriş yapınız.
+      </div>
+    );
+  }
 
-  const fetchPayments = async () => {
-    setLoading(true);
-    try {
-      // TODO: Replace with real API call
-      // const response = await axios.get(`${BaseURL}/api/v1/payments`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      //   params: { filter, method: paymentMethod }
-      // });
-      
-      // Mock data
-      const mockPayments = [
-        {
-          id: 1,
-          patientName: 'John Doe',
-          amount: 500,
-          method: 'CASH',
-          receiptNumber: 'RCP-001',
-          date: new Date().toISOString(),
-          description: 'Consultation fee',
-          status: 'COMPLETED'
-        },
-        {
-          id: 2,
-          patientName: 'Jane Smith',
-          amount: 1200,
-          method: 'CARD',
-          receiptNumber: 'RCP-002',
-          date: new Date().toISOString(),
-          description: 'Lab tests',
-          status: 'COMPLETED'
-        },
-        {
-          id: 3,
-          patientName: 'Mike Johnson',
-          amount: 800,
-          method: 'INSURANCE',
-          receiptNumber: 'RCP-003',
-          date: new Date(Date.now() - 86400000).toISOString(),
-          description: 'X-Ray imaging',
-          status: 'COMPLETED'
-        },
-      ];
-
-      setPayments(mockPayments);
-      
-      // Calculate stats
-      const today = new Date().toDateString();
-      const todayPayments = mockPayments.filter(p => 
-        new Date(p.date).toDateString() === today
-      );
-      
-      setTodayStats({
-        totalRevenue: todayPayments.reduce((sum, p) => sum + p.amount, 0),
-        transactionCount: todayPayments.length,
-        cashAmount: todayPayments.filter(p => p.method === 'CASH').reduce((sum, p) => sum + p.amount, 0),
-        cardAmount: todayPayments.filter(p => p.method === 'CARD').reduce((sum, p) => sum + p.amount, 0),
-      });
-    } catch (error) {
-      console.error('Error fetching payments:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRecordPayment = async (e) => {
+  // === SEARCH PATIENT ===
+  const handleSearchPatient = async (e) => {
     e.preventDefault();
     
+    if (!searchTckn.trim() || searchTckn.length !== 11) {
+      setSearchError('Geçerli bir TC Kimlik Numarası giriniz (11 haneli).');
+      return;
+    }
+
+    setSearchLoading(true);
+    setSearchError('');
+    setFoundPatient(null);
+    setShowRegisterForm(false);
+
     try {
-      // TODO: Replace with real API call
-      // await axios.post(`${BaseURL}/api/v1/payments`, newPayment, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
-      
-      alert('Payment recorded successfully!');
-      setShowPaymentModal(false);
-      setNewPayment({
-        patientId: '',
-        patientName: '',
-        amount: '',
-        method: 'CASH',
-        receiptNumber: '',
-        description: ''
+      const response = await axios.get(`${BaseURL}/patients/search`, {
+        params: { tckn: searchTckn },
+        headers: { Authorization: `Bearer ${token}` }
       });
-      fetchPayments();
+
+      if (response.data?.data) {
+        setFoundPatient(response.data.data);
+        setSearchError('');
+      } else {
+        setShowRegisterForm(true);
+        setSearchError('');
+      }
     } catch (error) {
-      alert('Error recording payment: ' + error.message);
+      if (error.response?.status === 404) {
+        setShowRegisterForm(true);
+        setSearchError('');
+      } else {
+        setSearchError(error.response?.data?.message || 'Hasta aranırken hata oluştu.');
+      }
+    } finally {
+      setSearchLoading(false);
     }
   };
 
-  const handlePrintReceipt = (payment) => {
-    // In real implementation, this would generate a PDF receipt
-    alert(`Printing receipt ${payment.receiptNumber}`);
+  // === REGISTER NEW PATIENT ===
+  const handleRegisterChange = (e) => {
+    const { name, value } = e.target;
+    setRegisterForm(prev => {
+      const updated = { ...prev, [name]: value };
+      // TC değiştiğinde password'ü otomatik TC'ye ayarla
+      if (name === 'tckn') {
+        updated.password = value;
+      }
+      return updated;
+    });
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    setRegisterLoading(true);
+    setRegisterError('');
+    setRegisterSuccess('');
+
+    try {
+      const response = await axios.post(`${BaseURL}/auth/register`, {
+        ...registerForm,
+        role: 'PATIENT'
+      }, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const newPatient = {
+        id: response.data?.data?.userId || response.data?.data?.id,
+        patientId: response.data?.data?.patientId,
+        firstName: registerForm.firstName,
+        lastName: registerForm.lastName,
+        email: registerForm.email,
+        phoneNumber: registerForm.phoneNumber,
+        dateOfBirth: registerForm.dateOfBirth,
+        tckn: registerForm.tckn
+      };
+
+      setFoundPatient(newPatient);
+      setRegisterSuccess('✅ Hasta kaydı başarıyla oluşturuldu! Mail onayından sonra aktif olacak.');
+      setShowRegisterForm(false);
+      setRegisterForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        dateOfBirth: '',
+        tckn: '',
+        password: ''
+      });
+
+      setTimeout(() => setRegisterSuccess(''), 3000);
+    } catch (error) {
+      setRegisterError(error.response?.data?.message || 'Kayıt sırasında hata oluştu.');
+    } finally {
+      setRegisterLoading(false);
+    }
+  };
+
+  // === FETCH DOCTORS BY DEPARTMENT ===
+  useEffect(() => {
+    if (selectedDepartment && foundPatient) {
+      const fetchDoctors = async () => {
+        try {
+          const response = await axios.get(`${BaseURL}/doctors`, {
+            params: { department: selectedDepartment },
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setDoctorsList(response.data?.data || []);
+          setSelectedDoctor('');
+          setAvailableDates([]);
+          setAvailableTimes([]);
+        } catch (error) {
+          console.error('Doktor listesi hatası:', error);
+          setDoctorsList([]);
+        }
+      };
+      fetchDoctors();
+    }
+  }, [selectedDepartment, foundPatient, token]);
+
+  // === GENERATE AVAILABLE DATES ===
+  useEffect(() => {
+    if (selectedDoctor && foundPatient) {
+      const dates = [];
+      const today = new Date();
+
+      for (let i = 1; i <= 14; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() + i);
+
+        // Skip weekends
+        if (date.getDay() === 0 || date.getDay() === 6) continue;
+
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        const formattedDate = `${day}.${month}.${year}`;
+
+        dates.push(formattedDate);
+      }
+
+      setAvailableDates(dates);
+      setSelectedDate('');
+      setAvailableTimes([]);
+    }
+  }, [selectedDoctor, foundPatient]);
+
+  // === FETCH AVAILABLE TIMES ===
+  useEffect(() => {
+    if (selectedDate && selectedDoctor && foundPatient) {
+      const fetchAvailableTimes = async () => {
+        try {
+          const response = await axios.get(`${BaseURL}/appointments`, {
+            params: {
+              doctorId: selectedDoctor,
+              date: selectedDate
+            },
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          const bookedTimes = response.data?.data?.bookedTimes || [];
+          
+          const allTimes = [];
+          for (let hour = 9; hour < 18; hour++) {
+            for (let minute = 0; minute < 60; minute += 30) {
+              const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}`;
+              allTimes.push(time);
+            }
+          }
+
+          const available = allTimes.filter(time => !bookedTimes.includes(time));
+          setAvailableTimes(available);
+          setSelectedTime('');
+        } catch (error) {
+          console.error('Saat listesi hatası:', error);
+          setAvailableTimes([]);
+        }
+      };
+      fetchAvailableTimes();
+    }
+  }, [selectedDate, selectedDoctor, foundPatient, token]);
+
+  // === CREATE APPOINTMENT ===
+  const handleCreateAppointment = async (e) => {
+    e.preventDefault();
+
+    if (!foundPatient || !selectedDoctor || !selectedDate || !selectedTime) {
+      setAppointmentError('Lütfen tüm alanları doldurunuz.');
+      return;
+    }
+
+    setAppointmentLoading(true);
+    setAppointmentError('');
+
+    try {
+      const appointmentData = {
+        doctorId: parseInt(selectedDoctor),
+        patientId: parseInt(foundPatient.patientId || foundPatient.id),
+        date: selectedDate,
+        time: selectedTime,
+        status: 'APPROVED'
+      };
+
+      await axios.post(`${BaseURL}/appointments`, appointmentData, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      setAppointmentSuccess('✅ Randevu başarıyla oluşturuldu!');
+      
+      // Reset form
+      setTimeout(() => {
+        setFoundPatient(null);
+        setSearchTckn('');
+        setSelectedDepartment('');
+        setSelectedDoctor('');
+        setSelectedDate('');
+        setSelectedTime('');
+        setDoctorsList([]);
+        setAvailableDates([]);
+        setAvailableTimes([]);
+        setAppointmentSuccess('');
+      }, 2000);
+    } catch (error) {
+      setAppointmentError(error.response?.data?.message || 'Randevu oluşturma sırasında hata oluştu.');
+    } finally {
+      setAppointmentLoading(false);
+    }
   };
 
   return (
-    <div className="dashboard-page">
-      <div className="page-header">
-        <div>
-          <h1>Cashier Dashboard</h1>
-          <p>Manage payments and financial transactions</p>
-        </div>
-        <button className="btn-primary" onClick={() => setShowPaymentModal(true)}>
-          Record New Payment
-        </button>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px' }}>
+      <h1 style={{ color: '#333', marginBottom: '10px', fontSize: '28px' }}>💳 Vezne Paneli - Randevu Alma</h1>
+      <p style={{ color: '#666', marginBottom: '30px', fontSize: '14px' }}>Hastalar için randevu oluştur veya yeni hastalar kaydet</p>
+
+      {/* ===== SEARCH SECTION ===== */}
+      <div style={{
+        background: 'white',
+        padding: '24px',
+        borderRadius: '12px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+        marginBottom: '20px'
+      }}>
+        <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>🔍 Adım 1: Hastayı Ara</h2>
+        
+        <form onSubmit={handleSearchPatient} style={{ display: 'flex', gap: '12px', marginBottom: '15px' }}>
+          <input
+            type="text"
+            placeholder="TC Kimlik Numarası (11 haneli)..."
+            value={searchTckn}
+            onChange={(e) => setSearchTckn(e.target.value)}
+            maxLength={11}
+            style={{
+              flex: 1,
+              padding: '12px',
+              border: '1px solid #ddd',
+              borderRadius: '6px',
+              fontSize: '14px',
+              boxSizing: 'border-box'
+            }}
+          />
+          <button
+            type="submit"
+            disabled={searchLoading}
+            style={{
+              padding: '12px 24px',
+              background: '#667eea',
+              color: 'white',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: searchLoading ? 'not-allowed' : 'pointer',
+              fontWeight: 'bold',
+              fontSize: '14px',
+              opacity: searchLoading ? 0.6 : 1
+            }}
+          >
+            {searchLoading ? '🔄 Aranıyor...' : '🔍 Ara'}
+          </button>
+        </form>
+
+        {searchError && (
+          <div style={{ color: '#c1272d', padding: '12px', background: '#ffebee', borderRadius: '6px', marginBottom: '15px' }}>
+            ❌ {searchError}
+          </div>
+        )}
+
+        {foundPatient && (
+          <div style={{ color: '#2e7d32', padding: '12px', background: '#e8f5e9', borderRadius: '6px' }}>
+            ✅ Hasta bulundu: <strong>{foundPatient.firstName} {foundPatient.lastName}</strong> (TC: {foundPatient.tckn})
+          </div>
+        )}
       </div>
 
-      {/* Statistics Cards */}
-      <div className="stats-grid">
-        <div className="stat-card" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
-          <div className="stat-icon">💰</div>
-          <div className="stat-info">
-            <h3>Today's Revenue</h3>
-            <p className="stat-value">₺{todayStats.totalRevenue.toFixed(2)}</p>
-          </div>
-        </div>
-
-        <div className="stat-card" style={{ background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
-          <div className="stat-icon">🧾</div>
-          <div className="stat-info">
-            <h3>Transactions</h3>
-            <p className="stat-value">{todayStats.transactionCount}</p>
-          </div>
-        </div>
-
-        <div className="stat-card" style={{ background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
-          <div className="stat-icon">💵</div>
-          <div className="stat-info">
-            <h3>Cash Payments</h3>
-            <p className="stat-value">₺{todayStats.cashAmount.toFixed(2)}</p>
-          </div>
-        </div>
-
-        <div className="stat-card" style={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}>
-          <div className="stat-icon">💳</div>
-          <div className="stat-info">
-            <h3>Card Payments</h3>
-            <p className="stat-value">₺{todayStats.cardAmount.toFixed(2)}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Filters */}
-      <div className="filters-bar">
-        <div className="filter-group">
-          <label>Period:</label>
-          <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="today">Today</option>
-            <option value="week">This Week</option>
-            <option value="month">This Month</option>
-            <option value="all">All Time</option>
-          </select>
-        </div>
-
-        <div className="filter-group">
-          <label>Payment Method:</label>
-          <select value={paymentMethod} onChange={(e) => setPaymentMethod(e.target.value)}>
-            <option value="">All Methods</option>
-            <option value="CASH">Cash</option>
-            <option value="CARD">Card</option>
-            <option value="INSURANCE">Insurance</option>
-            <option value="BANK_TRANSFER">Bank Transfer</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Payments Table */}
-      <div className="data-table-container">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Receipt #</th>
-              <th>Patient</th>
-              <th>Amount</th>
-              <th>Method</th>
-              <th>Description</th>
-              <th>Date & Time</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="8" style={{ textAlign: 'center' }}>Loading...</td>
-              </tr>
-            ) : payments.length === 0 ? (
-              <tr>
-                <td colSpan="8" style={{ textAlign: 'center' }}>No payments found</td>
-              </tr>
-            ) : (
-              payments.map((payment) => (
-                <tr key={payment.id}>
-                  <td><strong>{payment.receiptNumber}</strong></td>
-                  <td>{payment.patientName}</td>
-                  <td><strong>₺{payment.amount.toFixed(2)}</strong></td>
-                  <td>
-                    <span className={`badge badge-${payment.method.toLowerCase()}`}>
-                      {payment.method}
-                    </span>
-                  </td>
-                  <td>{payment.description}</td>
-                  <td>{new Date(payment.date).toLocaleString()}</td>
-                  <td>
-                    <span className="badge badge-success">{payment.status}</span>
-                  </td>
-                  <td>
-                    <button 
-                      className="btn-icon" 
-                      onClick={() => handlePrintReceipt(payment)}
-                      title="Print Receipt"
-                    >
-                      🖨️
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Payment Modal */}
-      {showPaymentModal && (
-        <div className="modal-overlay" onClick={() => setShowPaymentModal(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>Record New Payment</h2>
-              <button className="modal-close" onClick={() => setShowPaymentModal(false)}>×</button>
+      {/* ===== REGISTER NEW PATIENT SECTION ===== */}
+      {showRegisterForm && !foundPatient && (
+        <div style={{
+          background: 'white',
+          padding: '24px',
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          marginBottom: '20px'
+        }}>
+          <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>📝 Adım 1b: Yeni Hasta Kaydı</h2>
+          
+          <form onSubmit={handleRegisterSubmit}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
+              <input
+                type="text"
+                name="firstName"
+                placeholder="Adı *"
+                value={registerForm.firstName}
+                onChange={handleRegisterChange}
+                required
+                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+              />
+              <input
+                type="text"
+                name="lastName"
+                placeholder="Soyadı *"
+                value={registerForm.lastName}
+                onChange={handleRegisterChange}
+                required
+                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+              />
             </div>
 
-            <form onSubmit={handleRecordPayment}>
-              <div className="form-group">
-                <label>Patient Name</label>
-                <input
-                  type="text"
-                  required
-                  value={newPayment.patientName}
-                  onChange={(e) => setNewPayment({...newPayment, patientName: e.target.value})}
-                  placeholder="Enter patient name"
-                />
-              </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
+              <input
+                type="text"
+                name="tckn"
+                placeholder="TC Numarası *"
+                value={registerForm.tckn}
+                onChange={handleRegisterChange}
+                maxLength={11}
+                required
+                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="E-posta *"
+                value={registerForm.email}
+                onChange={handleRegisterChange}
+                required
+                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+              />
+            </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Amount (₺)</label>
-                  <input
-                    type="number"
-                    required
-                    min="0"
-                    step="0.01"
-                    value={newPayment.amount}
-                    onChange={(e) => setNewPayment({...newPayment, amount: e.target.value})}
-                    placeholder="0.00"
-                  />
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
+              <input
+                type="tel"
+                name="phoneNumber"
+                placeholder="Telefon *"
+                value={registerForm.phoneNumber}
+                onChange={handleRegisterChange}
+                required
+                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+              />
+              <input
+                type="date"
+                name="dateOfBirth"
+                placeholder="Doğum Tarihi"
+                value={registerForm.dateOfBirth}
+                onChange={handleRegisterChange}
+                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+              />
+            </div>
 
-                <div className="form-group">
-                  <label>Payment Method</label>
-                  <select
-                    required
-                    value={newPayment.method}
-                    onChange={(e) => setNewPayment({...newPayment, method: e.target.value})}
-                  >
-                    <option value="CASH">Cash</option>
-                    <option value="CARD">Card</option>
-                    <option value="INSURANCE">Insurance</option>
-                    <option value="BANK_TRANSFER">Bank Transfer</option>
-                  </select>
-                </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px', marginBottom: '15px' }}>
+              <div style={{ 
+                padding: '10px', 
+                background: '#f5f5f5', 
+                border: '1px solid #ddd', 
+                borderRadius: '6px',
+                fontSize: '14px',
+                color: '#666'
+              }}>
+                🔐 <strong>Şifre:</strong> TC Numarası ile otomatik ayarlanacak ({registerForm.tckn || 'TC giriniz'})
               </div>
+            </div>
 
-              <div className="form-group">
-                <label>Receipt Number</label>
-                <input
-                  type="text"
-                  required
-                  value={newPayment.receiptNumber}
-                  onChange={(e) => setNewPayment({...newPayment, receiptNumber: e.target.value})}
-                  placeholder="RCP-XXX"
-                />
+            {registerError && (
+              <div style={{ color: '#c1272d', padding: '12px', background: '#ffebee', borderRadius: '6px', marginBottom: '15px' }}>
+                ❌ {registerError}
               </div>
+            )}
 
-              <div className="form-group">
-                <label>Description</label>
-                <textarea
-                  value={newPayment.description}
-                  onChange={(e) => setNewPayment({...newPayment, description: e.target.value})}
-                  placeholder="Payment description..."
-                  rows="3"
-                />
+            {registerSuccess && (
+              <div style={{ color: '#2e7d32', padding: '12px', background: '#e8f5e9', borderRadius: '6px', marginBottom: '15px' }}>
+                {registerSuccess}
               </div>
+            )}
 
-              <div className="modal-actions">
-                <button type="button" className="btn-secondary" onClick={() => setShowPaymentModal(false)}>
-                  Cancel
-                </button>
-                <button type="submit" className="btn-primary">
-                  Record Payment
-                </button>
-              </div>
-            </form>
-          </div>
+            <button
+              type="submit"
+              disabled={registerLoading}
+              style={{
+                padding: '12px 24px',
+                background: '#667eea',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: registerLoading ? 'not-allowed' : 'pointer',
+                fontWeight: 'bold',
+                opacity: registerLoading ? 0.6 : 1,
+                width: '100%'
+              }}
+            >
+              {registerLoading ? '⏳ Kaydediliyor...' : '✅ Hastayı Kaydet'}
+            </button>
+          </form>
         </div>
       )}
 
-      {/* API Notice */}
-      <div className="api-notice">
-        <p><strong>⚠️ Backend API Required:</strong></p>
-        <ul>
-          <li>GET /api/v1/payments - Fetch all payments with filters</li>
-          <li>POST /api/v1/payments - Record new payment</li>
-          <li>GET /api/v1/payments/summary - Get statistics</li>
-        </ul>
-        <p>See IMPLEMENTATION_CHECKLIST.md for details</p>
-      </div>
+      {/* ===== APPOINTMENT BOOKING SECTION ===== */}
+      {foundPatient && (
+        <div style={{
+          background: 'white',
+          padding: '24px',
+          borderRadius: '12px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+        }}>
+          <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>📅 Adım 2: Randevu Oluştur</h2>
+          
+          <div style={{ marginBottom: '20px', padding: '15px', background: '#e3f2fd', borderRadius: '6px' }}>
+            <p style={{ margin: 0, fontWeight: 'bold', color: '#1976d2' }}>
+              👤 Hasta: {foundPatient.firstName} {foundPatient.lastName}
+            </p>
+            <p style={{ margin: '5px 0 0 0', fontSize: '13px', color: '#555' }}>
+              📧 {foundPatient.email} | 📱 {foundPatient.phoneNumber}
+            </p>
+          </div>
+
+          <form onSubmit={handleCreateAppointment}>
+            {/* Department Selection */}
+            <div style={{ marginBottom: '15px' }}>
+              <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Bölüm Seçiniz *</label>
+              <select
+                value={selectedDepartment}
+                onChange={(e) => setSelectedDepartment(e.target.value)}
+                required
+                style={{
+                  width: '100%',
+                  padding: '10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '6px',
+                  fontSize: '14px',
+                  boxSizing: 'border-box',
+                  cursor: 'pointer'
+                }}
+              >
+                <option value="">-- Bölüm Seçiniz --</option>
+                {DEPARTMENTS.map(dept => (
+                  <option key={dept} value={dept}>{dept}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Doctor Selection */}
+            {selectedDepartment && (
+              <div style={{ marginBottom: '15px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Doktor Seçiniz *</label>
+                {doctorsList.length === 0 ? (
+                  <p style={{ color: '#f57c00', padding: '10px', background: '#fff3e0', borderRadius: '6px', margin: 0 }}>
+                    ⚠️ Seçilen bölüme ait doktor bulunamadı.
+                  </p>
+                ) : (
+                  <select
+                    value={selectedDoctor}
+                    onChange={(e) => setSelectedDoctor(e.target.value)}
+                    required
+                    style={{
+                      width: '100%',
+                      padding: '10px',
+                      border: '1px solid #ddd',
+                      borderRadius: '6px',
+                      fontSize: '14px',
+                      boxSizing: 'border-box',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="">-- Doktor Seçiniz --</option>
+                    {doctorsList.map(doc => (
+                      <option key={doc.id} value={doc.id}>
+                        Dr. {doc.firstName} {doc.lastName}
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </div>
+            )}
+
+            {/* Date Selection */}
+            {selectedDoctor && availableDates.length > 0 && (
+              <div style={{ marginBottom: '15px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Tarih Seçiniz *</label>
+                <select
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '6px',
+                    fontSize: '14px',
+                    boxSizing: 'border-box',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <option value="">-- Tarih Seçiniz --</option>
+                  {availableDates.map(date => (
+                    <option key={date} value={date}>{date}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Time Selection */}
+            {selectedDate && availableTimes.length > 0 && (
+              <div style={{ marginBottom: '15px' }}>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Saat Seçiniz *</label>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
+                  gap: '8px'
+                }}>
+                  {availableTimes.map(time => (
+                    <button
+                      key={time}
+                      type="button"
+                      onClick={() => setSelectedTime(time)}
+                      style={{
+                        padding: '8px 12px',
+                        border: selectedTime === time ? '2px solid #667eea' : '1px solid #ddd',
+                        background: selectedTime === time ? '#f3f4ff' : 'white',
+                        borderRadius: '6px',
+                        cursor: 'pointer',
+                        fontWeight: selectedTime === time ? 'bold' : 'normal',
+                        color: selectedTime === time ? '#667eea' : '#333',
+                        fontSize: '13px'
+                      }}
+                    >
+                      {time}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {appointmentError && (
+              <div style={{ color: '#c1272d', padding: '12px', background: '#ffebee', borderRadius: '6px', marginBottom: '15px' }}>
+                ❌ {appointmentError}
+              </div>
+            )}
+
+            {appointmentSuccess && (
+              <div style={{ color: '#2e7d32', padding: '12px', background: '#e8f5e9', borderRadius: '6px', marginBottom: '15px' }}>
+                {appointmentSuccess}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={appointmentLoading || !selectedTime}
+              style={{
+                padding: '12px 24px',
+                background: '#667eea',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: (!selectedTime || appointmentLoading) ? 'not-allowed' : 'pointer',
+                fontWeight: 'bold',
+                opacity: (!selectedTime || appointmentLoading) ? 0.6 : 1,
+                width: '100%',
+                fontSize: '15px'
+              }}
+            >
+              {appointmentLoading ? '⏳ Randevu Oluşturuluyor...' : '✅ Randevu Oluştur'}
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
