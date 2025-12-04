@@ -6,10 +6,23 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
+// 8 Bölüm
+const DEPARTMENTS = [
+  'Acil 7/24',
+  'Ağız ve Diş',
+  'Beslenme Diyet',
+  'Dermatoloji',
+  'Genel Cerrahi',
+  'Göz Sağlığı',
+  'İç Hastalıklar',
+  'Kadın & Doğum'
+];
+
 const SelectDoctorPage = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
+  const [selectedDepartment, setSelectedDepartment] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,16 +63,45 @@ const SelectDoctorPage = () => {
       <h2 style={{ textAlign: "center", color: "#0e2b4b", marginBottom: 10, fontSize: '2rem' }}>
         Randevu Almak İçin Doktor Seçiniz
       </h2>
-      <p style={{ textAlign: "center", color: "#666", marginBottom: 50 }}>
+      <p style={{ textAlign: "center", color: "#666", marginBottom: 30 }}>
         İşlem yapmak istediğiniz hekimin üzerine tıklayınız.
       </p>
 
+      {/* BÖLÜMLERİ GÖRE FİLTRE */}
+      <div style={{ maxWidth: 400, margin: '0 auto 50px auto', padding: '0 20px' }}>
+        <label style={{ display: 'block', marginBottom: '10px', fontWeight: '600', color: '#0e2b4b' }}>Bölüme Göre Filtrele:</label>
+        <select 
+          value={selectedDepartment} 
+          onChange={(e) => setSelectedDepartment(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '12px',
+            borderRadius: '8px',
+            border: '1px solid #ddd',
+            fontSize: '15px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            backgroundColor: '#fff'
+          }}
+        >
+          <option value="">Tüm Bölümler</option>
+          {DEPARTMENTS.map(dept => (
+            <option key={dept} value={dept}>{dept}</option>
+          ))}
+        </select>
+      </div>
+
       <div style={{ 
         display: "grid", 
-        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", 
-        gap: 24 
+        gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", 
+        gap: 24,
+        maxWidth: 1200,
+        margin: "0 auto",
+        justifyItems: "center"
       }}>
-        {doctors.map((doctor) => (
+        {doctors
+          .filter(doc => !selectedDepartment || doc.specialization === selectedDepartment)
+          .map((doctor) => (
           <div
             key={doctor.id}
             onClick={() => handleSelect(doctor)}
