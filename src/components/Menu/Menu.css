@@ -628,14 +628,27 @@ input[type="button"] {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #fff;
-  color: #c93434;
-  border: 2px solid #c93434;
+  background: linear-gradient(135deg, #45b5c4 0%, #357d91 100%);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   font-weight: 700;
   font-size: 16px;
   line-height: 1;
-  cursor: default !important;
-  /* Avatar'da pointer olmasın */
+  cursor: pointer !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(69, 181, 196, 0.2);
+}
+
+.user-avatar:hover {
+  background: linear-gradient(135deg, #50c0cf 0%, #3c9fae 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(69, 181, 196, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.user-avatar:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(69, 181, 196, 0.2);
 }
 
 /* ====== RESPONSIVE ====== */

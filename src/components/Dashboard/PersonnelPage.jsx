@@ -450,13 +450,17 @@ export default function PersonnelPage() {
               {form.role === 'DOCTOR' && (
                 <div className="form-group">
                   <label>Specialization</label>
-                  <input
-                    type="text"
-                    name="specialization"
-                    value={form.specialization}
-                    onChange={handleInputChange}
-                    placeholder="e.g., Cardiology"
-                  />
+                  <select name="specialization" value={form.specialization} onChange={handleInputChange} required>
+                    <option value="">Select Specialization</option>
+                    <option value="Acil 7/24">Acil 7/24</option>
+                    <option value="Ağız ve Diş">Ağız ve Diş</option>
+                    <option value="Beslenme Diyet">Beslenme Diyet</option>
+                    <option value="Dermatoloji">Dermatoloji</option>
+                    <option value="Genel Cerrahi">Genel Cerrahi</option>
+                    <option value="Göz Sağlığı">Göz Sağlığı</option>
+                    <option value="İç Hastalıklar">İç Hastalıklar</option>
+                    <option value="Kadın & Doğum">Kadın & Doğum</option>
+                  </select>
                 </div>
               )}
 

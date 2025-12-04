@@ -329,8 +329,22 @@ export default function DoctorPanel() {
                   <div className="modal-field"><label>Yeni Şifre</label><input type="password" value={editValue} onChange={(e) => setEditValue(e.target.value)} placeholder="En az 8 karakter" required /></div>
                   <div className="modal-field"><label>Yeni Şifre (Tekrar)</label><input type="password" value={editValueConfirm} onChange={(e) => setEditValueConfirm(e.target.value)} placeholder="Şifreyi tekrar girin" required /></div>
                 </>
+              ) : editField === 'specialization' ? (
+                <div className="modal-field"><label>Uzmanlık Alanı</label>
+                  <select value={editValue} onChange={(e) => setEditValue(e.target.value)} style={{padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px'}} required>
+                    <option value="">Seçiniz</option>
+                    <option value="Acil 7/24">Acil 7/24</option>
+                    <option value="Ağız ve Diş">Ağız ve Diş</option>
+                    <option value="Beslenme Diyet">Beslenme Diyet</option>
+                    <option value="Dermatoloji">Dermatoloji</option>
+                    <option value="Genel Cerrahi">Genel Cerrahi</option>
+                    <option value="Göz Sağlığı">Göz Sağlığı</option>
+                    <option value="İç Hastalıklar">İç Hastalıklar</option>
+                    <option value="Kadın & Doğum">Kadın & Doğum</option>
+                  </select>
+                </div>
               ) : (
-                <div className="modal-field"><label>Yeni Değer</label><input type={(editField === 'email' || editField === 'specialization') ? 'text' : 'text'} value={editValue} onChange={(e) => setEditValue(e.target.value)} placeholder={editField === 'phone' ? "0555..." : editField === 'email' ? "ornek@mail.com" : "Yeni Uzmanlık Alanı"} required /></div>
+                <div className="modal-field"><label>Yeni Değer</label><input type={(editField === 'email') ? 'email' : 'text'} value={editValue} onChange={(e) => setEditValue(e.target.value)} placeholder={editField === 'phone' ? "0555..." : editField === 'email' ? "ornek@mail.com" : "Yeni Değer"} required /></div>
               )}
               {error && <div className="modal-error">{error}</div>}
               <div className="modal-actions"><button type="button" onClick={closeEditModal} className="cancel-btn">İptal</button><button type="submit" className="save-btn">Güncelle</button></div>

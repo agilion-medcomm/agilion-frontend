@@ -453,7 +453,19 @@ export default function AdminPanelPage() {
                   <input name="phoneNumber" placeholder="Telefon" value={form.phoneNumber} onChange={handleChange} />
                   <input name="email" type="email" placeholder="E-posta" value={form.email} onChange={handleChange} />
                   <input name="dateOfBirth" type="date" placeholder="Doğum Tarihi" value={form.dateOfBirth} onChange={handleChange} />
-                  {form.role === 'DOCTOR' && (<input name="specialization" placeholder="Uzmanlık Alanı" value={form.specialization} onChange={handleChange} style={{border:'1px solid #c1272d', backgroundColor:'#fff5f5'}} />)}
+                  {form.role === 'DOCTOR' && (
+                    <select name="specialization" value={form.specialization} onChange={handleChange} style={{border:'1px solid #c1272d', backgroundColor:'#fff5f5', fontWeight: 'bold', color: '#333'}} required>
+                      <option value="">Uzmanlık Alanı Seçiniz</option>
+                      <option value="Acil 7/24">Acil 7/24</option>
+                      <option value="Ağız ve Diş">Ağız ve Diş</option>
+                      <option value="Beslenme Diyet">Beslenme Diyet</option>
+                      <option value="Dermatoloji">Dermatoloji</option>
+                      <option value="Genel Cerrahi">Genel Cerrahi</option>
+                      <option value="Göz Sağlığı">Göz Sağlığı</option>
+                      <option value="İç Hastalıklar">İç Hastalıklar</option>
+                      <option value="Kadın & Doğum">Kadın & Doğum</option>
+                    </select>
+                  )}
                   <button type="submit">Ekle</button>
                 </form>
                 {error && <div className="error-message status-message">{error}</div>}
