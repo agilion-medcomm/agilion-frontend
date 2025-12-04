@@ -8,8 +8,8 @@ const KurumsalPage = () => {
       {/* Hero Section */}
       <section className="kurumsal-hero">
         <div className="kurumsal-hero__content">
-          <img src="/agilion1.svg" alt="AgilionMED Logo" className="kurumsal-hero__logo" />
-          <h1 className="kurumsal-hero__title">AgilonMED</h1>
+          <img src="/kurumsal.png" alt="Kurumsal" className="kurumsal-hero__image" />
+          <h1 className="kurumsal-hero__title"></h1>
         </div>
       </section>
 

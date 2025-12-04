@@ -1,17 +1,25 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Bolumler.css";
 
 export default function Bolumler() {
+  const navigate = useNavigate();
+
   const services = [
-    { title: "Acil 7/24", img: "/acil.png", color: "red" },
-    { title: "Ağız ve Diş", img: "/dis.png", color: "blue" },
-    { title: "Beslenme Diyet", img: "/diyet.png", color: "blue" },
-    { title: "Dermatoloji", img: "/derma.png", color: "blue" },
-    { title: "Genel Cerrahi", img: "/cerrah.png", color: "blue" },
-    { title: "Göz Sağlığı", img: "/goz.png", color: "blue" },
-    { title: "İç Hastalıklar", img: "/ichastalıklar.png", color: "blue" },
-    { title: "Kadın & Doğum", img: "/dogum.png", color: "blue" },
+    { id: "acil", title: "Acil 7/24", img: "/b11.png", color: "red" },
+    { id: "dis", title: "Ağız ve Diş", img: "/b22.png", color: "blue" },
+    { id: "diyet", title: "Beslenme Diyet", img: "/b3diyet.png", color: "blue" },
+    { id: "derma", title: "Dermatoloji", img: "/b44.png", color: "blue" },
+    { id: "cerrahi", title: "Genel Cerrahi", img: "/b55.png", color: "blue" },
+    { id: "goz", title: "Göz Sağlığı", img: "/b6goz.png", color: "blue" },
+    { id: "dahiliye", title: "İç Hastalıklar", img: "/b77.png", color: "blue" },
+    { id: "kadin", title: "Kadın & Doğum", img: "/b88.png", color: "blue" },
   ];
+
+  const handleNavigate = (id) => {
+    navigate("/bolumlerimiz", { state: { selectedId: id } });
+    window.scrollTo(0, 0);
+  };
 
   return (
     <section className="bolumler-section">
@@ -26,10 +34,15 @@ export default function Bolumler() {
           <div
             key={i}
             className={`bolum-card ${item.color === "red" ? "red" : ""}`}
+            onClick={() => handleNavigate(item.id)}
+            style={{ cursor: "pointer" }}
           >
             <img src={item.img} alt={item.title} />
             <h3>{item.title}</h3>
-            <button>İncele</button>
+            <button onClick={(e) => {
+              e.stopPropagation();
+              handleNavigate(item.id);
+            }}>İncele</button>
           </div>
         ))}
       </div>

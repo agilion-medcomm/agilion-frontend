@@ -242,7 +242,7 @@ input[type="button"] {
   color: white;
   font-weight: 700;
   background: rgba(59, 130, 246, 0.9);
-  padding: 10px 20px;
+  padding: 12px 20px;
 }
 
 .nav__link::after {
@@ -253,7 +253,7 @@ input[type="button"] {
   bottom: -8px;
   height: 3px;
   background-color: #2563eb;
-  border-radius: 2px;
+  border-radius: 100px;
   transform: scaleX(0);
   transition: transform 0.2s ease-out;
 }
@@ -806,7 +806,6 @@ input[type="button"] {
   cursor: pointer !important;
 }
 
-/* 3. (ÖNERİ) Butonun kutusu gidince boşluk fazla kalmasın */
 .search {
   display: flex;
   align-items: center;

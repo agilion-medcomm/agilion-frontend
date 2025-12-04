@@ -118,8 +118,8 @@ export default function Menu() {
       <div className="topbar">
         <div className="container topbar__row">
           <div className="topbar__left">
-            <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">agilion@medcomm.com.tr</a></span>
-            <span className="topbar__item"><PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong></span>
+            <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">info@zeytinburnutipmerkezi.com.tr</a></span>
+            <span className="topbar__item"><PhoneIcon /> Çağrı Merkezi: <strong>(212) 665 70 10</strong></span>
           </div>
           <div className="topbar__right">
             <a className="social" href="#"><FbIcon /></a>
@@ -147,7 +147,7 @@ export default function Menu() {
       {/* Menubar */}
       <div className="menubar">
         <div className="container menubar__row">
-          <Link className="brand" to="/"><img src="/agicom.png" alt="AgilionMED Logo" className="logo-img" /></Link>
+          <Link className="brand" to="/"><img src="/logo.png" alt="AgilionMED Logo" className="logo-img" /></Link>
           <nav className="nav">
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">ANA SAYFA</NavLink>
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">KURUMSAL</NavLink>
@@ -213,10 +213,10 @@ export default function Menu() {
               {/* 780px ve altı için Topbar İçerikleri - Moved to Bottom */}
               <div className="mobile-menu__topbar-items">
                 <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
-                  <MailIcon /> agilion@medcomm.com.tr
+                  <MailIcon /> info@zeytinburnutipmerkezi.com.tr
                 </a>
                 <a href="tel:2120000000" className="mobile-menu__info-item">
-                  <PhoneIcon /> Çağrı Merkezi: <strong>(212) 000 00 00</strong>
+                  <PhoneIcon /> Çağrı Merkezi: <strong>(212) 665 70 10</strong>
                 </a>
 
                 <div className="mobile-menu__socials-row">
