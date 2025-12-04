@@ -9,7 +9,7 @@ export default function PatientDashboard() {
   const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
   const BaseURL = `${API_BASE}/api/v1`;
 
-  const { user } = useAuth(); 
+  const { user, updateUser } = useAuth(); 
   const location = useLocation();
 
   // URL'e göre başlangıç sekmesi
@@ -153,10 +153,24 @@ export default function PatientDashboard() {
     setMessage({ type: '', text: '' });
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put(`${BaseURL}/patients/me/profile`, profileData, {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      
+      // Backend'in kabul ettiği alanları gönder (email ve dateOfBirth hariç)
+      // Boş string'leri filtrele - Joi validation için
+      const payload = {};
+      if (profileData.firstName) payload.firstName = profileData.firstName;
+      if (profileData.lastName) payload.lastName = profileData.lastName;
+      if (profileData.phoneNumber) payload.phoneNumber = profileData.phoneNumber;
+      if (profileData.address) payload.address = profileData.address;
+      if (profileData.emergencyContact) payload.emergencyContact = profileData.emergencyContact;
+      if (profileData.bloodType) payload.bloodType = profileData.bloodType;
+      
+      const response = await axios.put(`${BaseURL}/patients/me/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      // Context'i güncelle - böylece profil de anında yenilenecek
+      updateUser(payload);
       
       setMessage({ type: 'success', text: response.data?.message || 'Profil bilgileriniz başarıyla güncellendi.' });
     } catch (error) {
@@ -181,7 +195,7 @@ export default function PatientDashboard() {
 
     setLoading(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
       const response = await axios.put(`${BaseURL}/patients/me/change-password`, {
         currentPassword: passwordData.currentPassword,
         newPassword: passwordData.newPassword,
@@ -201,7 +215,7 @@ export default function PatientDashboard() {
 
   const handleSubmitReview = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
     
     try {
       await axios.post(`${BaseURL}/appointments/${selectedAppointment.id}/review`, {
@@ -540,8 +554,8 @@ export default function PatientDashboard() {
                     <option value="B-">B Rh-</option>
                     <option value="AB+">AB Rh+</option>
                     <option value="AB-">AB Rh-</option>
-                    <option value="0+">0 Rh+</option>
-                    <option value="0-">0 Rh-</option>
+                    <option value="O+">O Rh+</option>
+                    <option value="O-">O Rh-</option>
                   </select>
                 </div>
               </div>

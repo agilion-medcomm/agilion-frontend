@@ -54,6 +54,13 @@ export default function AdminPanelPage() {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [isLeaveRequestsLoading, setIsLeaveRequestsLoading] = useState(false);
 
+  // 🔥 İLETİŞİM FORMLARI STATE'LERİ
+  const [contactIssues, setContactIssues] = useState([]);
+  const [isContactLoading, setIsContactLoading] = useState(false);
+  const [replyModalOpen, setReplyModalOpen] = useState(false);
+  const [selectedIssue, setSelectedIssue] = useState(null);
+  const [replyText, setReplyText] = useState('');
+
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -91,7 +98,8 @@ export default function AdminPanelPage() {
   useEffect(() => { 
     if (user && user.role === 'ADMIN') {
         fetchPersonnel(); 
-        fetchLeaveRequests(); 
+        fetchLeaveRequests();
+        fetchContactIssues();
     }
   }, [user]);
 
@@ -127,6 +135,52 @@ export default function AdminPanelPage() {
       setIsLeaveRequestsLoading(false);
     }
   }
+
+  // 🔥 İLETİŞİM FORMLARINI ÇEKME İŞLEVİ
+  async function fetchContactIssues() {
+    const token = localStorage.getItem('personnelToken');
+    if (!token) return;
+    setIsContactLoading(true);
+    try {
+      const res = await axios.get(`${BaseURL}/contact`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setContactIssues(Array.isArray(res.data.data) ? res.data.data : []);
+    } catch (err) { 
+      console.error("İletişim formları çekilemedi:", err); 
+      setContactIssues([]); 
+    } finally {
+      setIsContactLoading(false);
+    }
+  }
+
+  // 🔥 İLETİŞİM FORMUNA YANIT VERME İŞLEVİ
+  async function handleReplySubmit(e) {
+    e.preventDefault();
+    if (!selectedIssue || !replyText.trim()) return;
+    
+    const token = localStorage.getItem('personnelToken');
+    try {
+      await axios.post(`${BaseURL}/contact/${selectedIssue.id}/reply`, 
+        { replyMessage: replyText },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessage("Yanıt başarıyla gönderildi!");
+      setTimeout(() => setMessage(""), 3000);
+      setReplyModalOpen(false);
+      setSelectedIssue(null);
+      setReplyText('');
+      fetchContactIssues();
+    } catch (err) {
+      alert(err.response?.data?.message || "Yanıt gönderilemedi.");
+    }
+  }
+
+  const openReplyModal = (issue) => {
+    setSelectedIssue(issue);
+    setReplyText('');
+    setReplyModalOpen(true);
+  };
 
   // 🔥 YENİ: İZİN TALEBİNİ ONAYLAMA İŞLEVİ
   async function handleApprove(requestId) {
@@ -337,6 +391,43 @@ export default function AdminPanelPage() {
         </div>
       )}
 
+      {/* 🔥 İLETİŞİM FORMU YANITLAMA MODALI */}
+      {replyModalOpen && selectedIssue && (
+        <div className="modal-overlay">
+          <div className="modal-box" style={{maxWidth: '550px'}}>
+            <div className="modal-header">
+              <h3 style={{color: '#0d6efd'}}>İletişim Formuna Yanıt Ver</h3>
+              <button onClick={() => setReplyModalOpen(false)} className="modal-close-btn"><CloseIcon /></button>
+            </div>
+            <div style={{padding: '15px', background: '#f8f9fa', borderRadius: '8px', marginBottom: '15px'}}>
+              <p><strong>Gönderen:</strong> {selectedIssue.name}</p>
+              <p><strong>E-posta:</strong> {selectedIssue.email}</p>
+              <p><strong>Telefon:</strong> {selectedIssue.phone}</p>
+              <p><strong>Konu:</strong> {selectedIssue.subject}</p>
+              <p style={{marginTop:'10px'}}><strong>Mesaj:</strong></p>
+              <p style={{background: '#fff', padding: '10px', borderRadius: '4px', border: '1px solid #ddd', marginTop:'5px'}}>{selectedIssue.message}</p>
+            </div>
+            <form onSubmit={handleReplySubmit} className="modal-form">
+              <div className="modal-field">
+                <label>Yanıtınız</label>
+                <textarea 
+                  value={replyText} 
+                  onChange={(e) => setReplyText(e.target.value)} 
+                  placeholder="Yanıtınızı buraya yazın..."
+                  rows="4"
+                  style={{width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #ddd', resize: 'vertical'}}
+                  required
+                />
+              </div>
+              <div className="modal-actions">
+                <button type="button" onClick={() => setReplyModalOpen(false)} className="cancel-btn">İptal</button>
+                <button type="submit" className="save-btn" style={{background: '#0d6efd'}}>Yanıt Gönder</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
       <div className="admin-bottom-section">
         <div className="admin-inner-container">
           
@@ -403,17 +494,61 @@ export default function AdminPanelPage() {
 
           <hr className="divider"/>
 
-          {/* 3. İLETİŞİM FORMLARINI GÖRÜNTÜLEME (Aynı kalır) */}
+          {/* 3. İLETİŞİM FORMLARINI GÖRÜNTÜLEME */}
           <section className="personnel-section-wrapper">
              <div className="section-header" onClick={() => setShowContactForms(!showContactForms)}>
-              <h3>3. İletişim Formlarını Görüntüleme</h3>
+              <h3>3. İletişim Formları ({contactIssues.filter(i => i.status === 'PENDING').length} bekleyen)</h3>
               <BlueArrowIcon isOpen={showContactForms} />
             </div>
             {showContactForms && (
               <div className="section-content-anim">
-                <p style={{ color: '#666', padding: '10px', background: '#f9fafb', borderRadius:'8px' }}>
-                  <i>Bu özellik henüz aktif değil. (İletişim formları burada listelenecek)</i>
-                </p>
+                {isContactLoading ? (
+                  <p className="action-info-box">İletişim Formları Yükleniyor...</p>
+                ) : contactIssues.length > 0 ? (
+                  <div className="table-responsive">
+                    <table className="personnel-table" style={{width: '100%'}}>
+                      <thead>
+                        <tr>
+                          <th>Tarih</th>
+                          <th>Ad Soyad</th>
+                          <th>E-posta</th>
+                          <th>Telefon</th>
+                          <th>Konu</th>
+                          <th style={{textAlign:'center'}}>Durum</th>
+                          <th style={{textAlign:'center'}}>İşlem</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {contactIssues.map((issue) => (
+                          <tr key={issue.id} style={{ opacity: issue.status === 'PENDING' ? 1 : 0.7 }}>
+                            <td style={{fontSize:'0.85rem'}}>{new Date(issue.createdAt).toLocaleDateString('tr-TR')}</td>
+                            <td>{issue.name}</td>
+                            <td>{issue.email}</td>
+                            <td>{issue.phone}</td>
+                            <td style={{maxWidth:'150px', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap'}} title={issue.subject}>{issue.subject}</td>
+                            <td style={{fontWeight: 'bold', textAlign:'center', color: issue.status === 'PENDING' ? '#ff6600' : '#4ab43f'}}>
+                              {issue.status === 'PENDING' ? 'Bekliyor' : 'Yanıtlandı'}
+                            </td>
+                            <td style={{textAlign:'center'}}>
+                              {issue.status === 'PENDING' ? (
+                                <button 
+                                  onClick={() => openReplyModal(issue)}
+                                  style={{background: '#0d6efd', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer', fontWeight: 600}}
+                                >
+                                  Yanıtla
+                                </button>
+                              ) : (
+                                <span style={{color: '#4ab43f', fontSize:'0.85rem'}}>✓ Yanıtlandı</span>
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p className="action-info-box">Henüz iletişim formu gönderilmemiş.</p>
+                )}
               </div>
             )}
           </section>

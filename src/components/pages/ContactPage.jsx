@@ -1,5 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useAuth } from '../../context/AuthContext';
 import './ContactPage.css'; // Stil dosyamızı import ediyoruz
+
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const BaseURL = `${API_BASE}/api/v1`;
 
 
 const PhoneIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg>;
@@ -7,6 +12,8 @@ const MailIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="non
 const LocationIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>;
 
 export default function ContactPage() {
+  const { user } = useAuth();
+  
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -15,6 +22,20 @@ export default function ContactPage() {
     message: '',
     agreed: false
   });
+  const [loading, setLoading] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
+
+  // Giriş yapmış kullanıcının bilgilerini otomatik doldur
+  useEffect(() => {
+    if (user) {
+      setFormData(prev => ({
+        ...prev,
+        name: `${user.firstName || ''} ${user.lastName || ''}`.trim(),
+        email: user.email || '',
+        phone: user.phoneNumber || ''
+      }));
+    }
+  }, [user]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -24,17 +45,31 @@ export default function ContactPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitMessage({ type: '', text: '' });
+    
     if (!formData.agreed) {
-      alert('Lütfen aydınlatma metnini onaylayın.');
+      setSubmitMessage({ type: 'error', text: 'Lütfen aydınlatma metnini onaylayın.' });
       return;
     }
-    console.log('Form verisi gönderildi:', formData);
-    // Burada form verisini backend'e gönderecek API çağrısı yapılabilir.
 
-    
-    alert('Mesajınız başarıyla gönderildi!');
+    setLoading(true);
+    try {
+      const { agreed, ...payload } = formData; // agreed alanını çıkar
+      await axios.post(`${BaseURL}/contact`, payload);
+      
+      setSubmitMessage({ type: 'success', text: '✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.' });
+      // Form başarılı gönderildikten sonra sadece konu ve mesajı temizle (kullanıcı bilgileri kalsın)
+      setFormData(prev => ({ ...prev, subject: '', message: '', agreed: false }));
+    } catch (error) {
+      setSubmitMessage({ 
+        type: 'error', 
+        text: error.response?.data?.message || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.' 
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,14 +113,27 @@ export default function ContactPage() {
 
         {/* İletişim Formu */}
         <div className="contact-form-container">
+          {submitMessage.text && (
+            <div style={{
+              padding: '12px 16px',
+              marginBottom: '16px',
+              borderRadius: '8px',
+              backgroundColor: submitMessage.type === 'error' ? '#fee2e2' : '#dcfce7',
+              color: submitMessage.type === 'error' ? '#991b1b' : '#166534',
+              border: `1px solid ${submitMessage.type === 'error' ? '#f87171' : '#86efac'}`,
+              fontWeight: '500'
+            }}>
+              {submitMessage.text}
+            </div>
+          )}
           <form onSubmit={handleSubmit}>
             <div className="form-row">
               <input type="text" name="name" placeholder="İsim" value={formData.name} onChange={handleChange} required />
-              <input type="tel" name="phone" placeholder="Telefon" value={formData.phone} onChange={handleChange} />
+              <input type="tel" name="phone" placeholder="Telefon" value={formData.phone} onChange={handleChange} required />
             </div>
             <div className="form-row">
               <input type="email" name="email" placeholder="Mail" value={formData.email} onChange={handleChange} required />
-              <input type="text" name="subject" placeholder="Konu" value={formData.subject} onChange={handleChange} />
+              <input type="text" name="subject" placeholder="Konu" value={formData.subject} onChange={handleChange} required />
             </div>
             <textarea name="message" placeholder="Mesajınız..." rows="6" value={formData.message} onChange={handleChange} required></textarea>
             <div className="form-agreement">
@@ -94,7 +142,9 @@ export default function ContactPage() {
                 Kişisel verilerimin aydınlatma metni kapsamında işlenmesini kabul ediyorum.
               </label>
             </div>
-            <button type="submit" className="form-submit-btn">Hemen Gönder</button>
+            <button type="submit" className="form-submit-btn" disabled={loading}>
+              {loading ? 'Gönderiliyor...' : 'Hemen Gönder'}
+            </button>
           </form>
         </div>
       </div>
