@@ -54,6 +54,7 @@ export default function CashierDashboard() {
   const [appointmentLoading, setAppointmentLoading] = useState(false);
   const [appointmentError, setAppointmentError] = useState('');
   const [appointmentSuccess, setAppointmentSuccess] = useState('');
+  const [calendarMonth, setCalendarMonth] = useState(new Date());
 
   // Authorization check
   if (!user || user.role !== 'CASHIER') {
@@ -189,25 +190,40 @@ export default function CashierDashboard() {
     if (selectedDoctor && foundPatient) {
       const dates = [];
       const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
-      for (let i = 1; i <= 14; i++) {
-        const date = new Date(today);
+      // Generate 90 days from today (rolling window - includes past month days)
+      const startDate = new Date(today);
+      startDate.setDate(startDate.getDate() - 30); // Show 30 days before for context
+
+      for (let i = 0; i <= 120; i++) {
+        const date = new Date(startDate);
         date.setDate(date.getDate() + i);
 
-        // Skip weekends
-        if (date.getDay() === 0 || date.getDay() === 6) continue;
-
+        // Include all days (no weekend skip)
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
+        
+        // Check if within 90-day bookable range
+        const daysFromToday = Math.floor((date - today) / (1000 * 60 * 60 * 24));
+        const isBookable = daysFromToday >= 1 && daysFromToday <= 90;
 
-        dates.push(formattedDate);
+        dates.push({
+          formatted: formattedDate,
+          date: date,
+          dayOfWeek: date.getDay(),
+          dayName: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'][date.getDay()],
+          isBookable: isBookable
+        });
       }
 
       setAvailableDates(dates);
       setSelectedDate('');
       setAvailableTimes([]);
+      // Set calendar to today
+      setCalendarMonth(new Date(today));
     }
   }, [selectedDoctor, foundPatient]);
 
@@ -216,10 +232,13 @@ export default function CashierDashboard() {
     if (selectedDate && selectedDoctor && foundPatient) {
       const fetchAvailableTimes = async () => {
         try {
+          // selectedDate is now an object with formatted date
+          const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
+          
           const response = await axios.get(`${BaseURL}/appointments`, {
             params: {
               doctorId: selectedDoctor,
-              date: selectedDate
+              date: dateString
             },
             headers: { Authorization: `Bearer ${token}` }
           });
@@ -259,10 +278,13 @@ export default function CashierDashboard() {
     setAppointmentError('');
 
     try {
+      // selectedDate is now an object with formatted date
+      const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
+      
       const appointmentData = {
         doctorId: parseInt(selectedDoctor),
         patientId: parseInt(foundPatient.patientId || foundPatient.id),
-        date: selectedDate,
+        date: dateString,
         time: selectedTime,
         status: 'APPROVED'
       };
@@ -555,29 +577,175 @@ export default function CashierDashboard() {
               </div>
             )}
 
-            {/* Date Selection */}
+            {/* Date Selection - Calendar View */}
             {selectedDoctor && availableDates.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Tarih Seçiniz *</label>
-                <select
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  required
-                  style={{
-                    width: '100%',
-                    padding: '10px',
-                    border: '1px solid #ddd',
-                    borderRadius: '6px',
-                    fontSize: '14px',
-                    boxSizing: 'border-box',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <option value="">-- Tarih Seçiniz --</option>
-                  {availableDates.map(date => (
-                    <option key={date} value={date}>{date}</option>
-                  ))}
-                </select>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px', fontSize: '13px' }}>📅 Tarih Seçiniz *</label>
+                
+                {/* Calendar Grid */}
+                <div style={{
+                  background: '#f9f9f9',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '8px',
+                  padding: '12px',
+                }}>
+                  {/* Group by month and show only current month from calendarMonth state */}
+                  {Object.entries(availableDates.reduce((groups, dateObj) => {
+                    const key = `${dateObj.date.getFullYear()}-${dateObj.date.getMonth()}`;
+                    if (!groups[key]) {
+                      groups[key] = [];
+                    }
+                    groups[key].push(dateObj);
+                    return groups;
+                  }, {})).map(([monthKey, monthDates], idx, arr) => {
+                    const monthDate = monthDates[0].date;
+                    const currentMonthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth()}`;
+                    const isCurrentMonth = monthKey === currentMonthKey;
+                    
+                    // Calculate bounds for month navigation
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    const minMonth = new Date(today);
+                    minMonth.setDate(minMonth.getDate() - 30);
+                    const maxMonth = new Date(today);
+                    maxMonth.setDate(maxMonth.getDate() + 90);
+                    
+                    // Create dates for the first day of each month for comparison
+                    const currentMonthStart = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
+                    const minMonthStart = new Date(minMonth.getFullYear(), minMonth.getMonth(), 1);
+                    const maxMonthStart = new Date(maxMonth.getFullYear(), maxMonth.getMonth(), 1);
+                    
+                    const canGoPrev = currentMonthStart > minMonthStart;
+                    const canGoNext = currentMonthStart < maxMonthStart;
+                    
+                    return isCurrentMonth ? (
+                      <div key={monthKey}>
+                        {/* Month Navigation */}
+                        <div style={{
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          marginBottom: '12px'
+                        }}>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const prevMonth = new Date(calendarMonth);
+                              prevMonth.setMonth(prevMonth.getMonth() - 1);
+                              setCalendarMonth(prevMonth);
+                            }}
+                            disabled={!canGoPrev}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              fontSize: '16px',
+                              cursor: canGoPrev ? 'pointer' : 'not-allowed',
+                              padding: '2px 6px',
+                              color: canGoPrev ? '#667eea' : '#ccc',
+                              fontWeight: 'bold',
+                              opacity: canGoPrev ? 1 : 0.5
+                            }}
+                          >
+                            ← Önceki
+                          </button>
+                          
+                          <h4 style={{ margin: 0, color: '#667eea', fontSize: '13px', fontWeight: '600' }}>
+                            {monthDate.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
+                          </h4>
+                          
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const nextMonth = new Date(calendarMonth);
+                              nextMonth.setMonth(nextMonth.getMonth() + 1);
+                              setCalendarMonth(nextMonth);
+                            }}
+                            disabled={!canGoNext}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              fontSize: '16px',
+                              cursor: canGoNext ? 'pointer' : 'not-allowed',
+                              padding: '2px 6px',
+                              color: canGoNext ? '#667eea' : '#ccc',
+                              fontWeight: 'bold',
+                              opacity: canGoNext ? 1 : 0.5
+                            }}
+                          >
+                            Sonraki →
+                          </button>
+                        </div>
+                        
+                        {/* Days of week header - Starting from Monday */}
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(7, 1fr)',
+                          gap: '6px',
+                          marginBottom: '6px'
+                        }}>
+                          {['Pt', 'Sa', 'Ça', 'Pe', 'Cu', 'Cm', 'Pz'].map(day => (
+                            <div key={day} style={{
+                              textAlign: 'center',
+                              fontWeight: 'bold',
+                              fontSize: '10px',
+                              color: '#999',
+                              padding: '2px'
+                            }}>
+                              {day}
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Calendar days - Get first day of month and fill grid */}
+                        <div style={{
+                          display: 'grid',
+                          gridTemplateColumns: 'repeat(7, 1fr)',
+                          gap: '6px'
+                        }}>
+                          {/* Empty cells for days before month starts */}
+                          {Array.from({ length: ((monthDates[0].date.getDay() - 1 + 7) % 7) }).map((_, i) => (
+                            <div key={`empty-${i}`}></div>
+                          ))}
+                          
+                          {monthDates.map(dateObj => {
+                            const isSelected = selectedDate?.formatted === dateObj.formatted;
+                            const isWeekend = dateObj.dayOfWeek === 0 || dateObj.dayOfWeek === 6;
+                            const isDisabled = !dateObj.isBookable;
+                            
+                            return (
+                              <button
+                                key={dateObj.formatted}
+                                type="button"
+                                onClick={() => {
+                                  if (!isDisabled) setSelectedDate(dateObj);
+                                }}
+                                disabled={isDisabled}
+                                style={{
+                                  padding: '10px 4px',
+                                  border: isSelected ? '2px solid #667eea' : '1px solid #ddd',
+                                  background: isSelected ? '#e8eaf6' : isDisabled ? '#f5f5f5' : isWeekend ? '#fff9e6' : 'white',
+                                  borderRadius: '4px',
+                                  cursor: isDisabled ? 'not-allowed' : 'pointer',
+                                  fontWeight: isSelected ? 'bold' : 'normal',
+                                  color: isSelected ? '#667eea' : isDisabled ? '#ccc' : isWeekend ? '#f57c00' : '#333',
+                                  fontSize: '12px',
+                                  textAlign: 'center',
+                                  transition: 'all 0.2s',
+                                  boxShadow: isSelected ? '0 2px 6px rgba(102, 126, 234, 0.2)' : 'none',
+                                  aspectRatio: '1',
+                                  opacity: isDisabled ? 0.4 : 1
+                                }}
+                                title={isDisabled ? '90 günün dışında' : dateObj.dayName}
+                              >
+                                <div style={{ fontWeight: 'bold', fontSize: '11px' }}>{dateObj.date.getDate()}</div>
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
               </div>
             )}
 
