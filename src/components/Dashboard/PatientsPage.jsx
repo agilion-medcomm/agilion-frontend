@@ -7,7 +7,7 @@ const BaseURL = `${API_BASE}/api/v1`;
 
 export default function PatientsPage() {
   const [patients, setPatients] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedPatient, setExpandedPatient] = useState(null);
   const [expandedTab, setExpandedTab] = useState(null); // 'appointments' or 'labResults'
@@ -15,34 +15,56 @@ export default function PatientsPage() {
   const [appointments, setAppointments] = useState({});
   const [loadingAppointments, setLoadingAppointments] = useState({});
   const [error, setError] = useState(null);
+  const [searchError, setSearchError] = useState(null);
   const token = localStorage.getItem('personnelToken');
 
   useEffect(() => {
-    fetchPatients();
+    // No initial fetch needed - search by TCKN only
   }, []);
 
-  const fetchPatients = async () => {
+  const searchPatientByTckn = async (tckn) => {
+    if (!tckn.trim()) {
+      setError('TCKN bulunamadı. Lütfen geçerli bir TC numarası girin.');
+      setPatients([]);
+      return;
+    }
+
     setLoading(true);
     setError(null);
+    setSearchError(null);
     
     if (!token) {
-      setError('No authentication token found. Please login again.');
+      setError('Kimlik doğrulama tokeni bulunamadı. Lütfen tekrar giriş yapın.');
       setLoading(false);
       return;
     }
     
     try {
-      const res = await axios.get(`${BaseURL}/patients`, {
+      const res = await axios.get(`${BaseURL}/patients/search`, {
+        params: { tckn },
         headers: { Authorization: `Bearer ${token}` }
       });
-      setPatients(res.data?.users || []);
+      
+      // Response'da single patient object döner, bunu array'e dönüştür
+      const patient = res.data?.data;
+      if (patient) {
+        setPatients([patient]);
+      } else {
+        setPatients([]);
+        setSearchError('Hasta bulunamadı.');
+      }
     } catch (error) {
-      console.error('Error fetching patients:', error);
-      setError(error.response?.data?.message || error.message || 'Failed to load patients');
+      console.error('Error searching patient:', error);
+      setError(error.response?.data?.message || 'Hasta aranırken hata oluştu.');
       setPatients([]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    searchPatientByTckn(searchQuery);
   };
 
   const fetchAppointments = async (patientId) => {
@@ -152,23 +174,10 @@ export default function PatientsPage() {
     return upcoming;
   };
 
-  const filteredPatients = patients.filter(p =>
-    !searchQuery || 
-    p.firstName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.lastName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.tckn?.includes(searchQuery) ||
-    p.email?.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  if (loading) return <div className="page-loading"><div className="spinner"></div><p>Aranıyor...</p></div>;
 
-  if (loading) return <div className="page-loading"><div className="spinner"></div><p>Loading...</p></div>;
-
-  if (error) return (
-    <div className="dashboard-page">
-      <div style={{ padding: '2rem', background: '#ffebee', color: '#c62828', borderRadius: '4px', marginBottom: '1rem' }}>
-        <strong>❌ Error:</strong> {error}
-      </div>
-    </div>
-  );
+  // Show empty state message when no search has been performed
+  const noSearchPerformed = patients.length === 0 && !error && !searchError && !searchQuery;
 
   return (
     <div className="dashboard-page">
@@ -180,246 +189,292 @@ export default function PatientsPage() {
       </div>
 
       <div className="filters-section">
-        <div className="search-box">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-          </svg>
-          <input
-            type="text"
-            placeholder="Search patients by name, TCKN, or email..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
+        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px' }}>
+          <div className="search-box" style={{ flex: 1 }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input
+              type="text"
+              placeholder="TC numarası ile hastayı arayın (11 haneli)..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              maxLength="11"
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              padding: '10px 20px',
+              background: '#2196F3',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontWeight: 'bold',
+              opacity: loading ? 0.6 : 1
+            }}
+          >
+            {loading ? 'Aranıyor...' : 'Ara'}
+          </button>
+        </form>
+        {error && (
+          <div style={{ color: '#d32f2f', marginTop: '10px', fontSize: '14px' }}>
+            ❌ {error}
+          </div>
+        )}
+        {searchError && (
+          <div style={{ color: '#d32f2f', marginTop: '10px', fontSize: '14px' }}>
+            ❌ {searchError}
+          </div>
+        )}
       </div>
 
       <div className="table-container">
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>TCKN</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Date of Birth</th>
-              <th style={{ width: '80px', textAlign: 'center' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPatients.length === 0 ? (
-              <tr><td colSpan="6" className="no-data">No patients found</td></tr>
-            ) : (
-              filteredPatients.map(patient => (
-                <React.Fragment key={patient.id}>
-                  <tr>
-                    <td>
-                      <div className="name-cell">
-                        <div className="avatar">{patient.firstName?.charAt(0)}{patient.lastName?.charAt(0)}</div>
-                        <span>{patient.firstName} {patient.lastName}</span>
-                      </div>
-                    </td>
-                    <td>{patient.tckn}</td>
-                    <td>{patient.email || '-'}</td>
-                    <td>{patient.phoneNumber || '-'}</td>
-                    <td>{patient.dateOfBirth ? new Date(patient.dateOfBirth).toLocaleDateString('tr-TR') : '-'}</td>
-                    <td style={{ textAlign: 'center' }}>
-                      <div style={{ display: 'flex', gap: '5px', justifyContent: 'center' }}>
-                        <button
-                          className="expand-btn"
-                          onClick={() => handleExpandRow(patient.patientId, 'appointments')}
-                          title="Show past appointments"
-                          style={{
-                            background: expandedPatient === patient.patientId && expandedTab === 'appointments' ? '#4CAF50' : '#2196F3',
-                            color: 'white',
-                            border: 'none',
-                            padding: '6px 10px',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '14px'
-                          }}
-                        >
-                          ▼
-                        </button>
-                        <button
-                          className="expand-btn"
-                          onClick={() => handleExpandRow(patient.patientId, 'labResults')}
-                          title="Show lab results"
-                          style={{
-                            background: expandedPatient === patient.patientId && expandedTab === 'labResults' ? '#FF9800' : '#9C27B0',
-                            color: 'white',
-                            border: 'none',
-                            padding: '6px 10px',
-                            borderRadius: '4px',
-                            cursor: 'pointer',
-                            fontSize: '14px'
-                          }}
-                        >
-                          ▼
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-
-                  {/* Expanded Appointments Row */}
-                  {expandedPatient === patient.patientId && expandedTab === 'appointments' && (
-                    <tr className="expanded-row">
-                      <td colSpan="6" style={{ padding: '20px' }}>
-                        <div className="expanded-content">
-                          <h3>Appointments</h3>
-                          
-                          {/* Tabs for Past and Upcoming */}
-                          <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', borderBottom: '2px solid #e9ecef' }}>
-                            <button
-                              onClick={() => setAppointmentsSubTab('past')}
-                              style={{
-                                padding: '10px 15px',
-                                background: appointmentsSubTab === 'past' ? '#2196F3' : '#e9ecef',
-                                color: appointmentsSubTab === 'past' ? 'white' : '#495057',
-                                border: 'none',
-                                borderRadius: '4px 4px 0 0',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                fontSize: '14px'
-                              }}
-                            >
-                              Past Appointments
-                            </button>
-                            <button
-                              onClick={() => setAppointmentsSubTab('upcoming')}
-                              style={{
-                                padding: '10px 15px',
-                                background: appointmentsSubTab === 'upcoming' ? '#4CAF50' : '#e9ecef',
-                                color: appointmentsSubTab === 'upcoming' ? 'white' : '#495057',
-                                border: 'none',
-                                borderRadius: '4px 4px 0 0',
-                                cursor: 'pointer',
-                                fontWeight: 'bold',
-                                fontSize: '14px'
-                              }}
-                            >
-                              Upcoming Appointments
-                            </button>
-                          </div>
-
-                          {loadingAppointments[patient.id] ? (
-                            <p>Loading appointments...</p>
-                          ) : appointmentsSubTab === 'past' ? (
-                            // Past Appointments
-                            getPastAppointments(expandedPatient).length === 0 ? (
-                              <p>No past appointments found</p>
-                            ) : (
-                              <table className="nested-table">
-                                <thead>
-                                  <tr>
-                                    <th>Doctor</th>
-                                    <th>Department</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {getPastAppointments(expandedPatient).map(apt => (
-                                    <tr key={apt.id}>
-                                      <td>{apt.doctorName}</td>
-                                      <td>{apt.department || '-'}</td>
-                                      <td>{apt.date}</td>
-                                      <td>{apt.time}</td>
-                                      <td>
-                                        <span style={{
-                                          padding: '4px 8px',
-                                          borderRadius: '4px',
-                                          fontSize: '12px',
-                                          fontWeight: 'bold',
-                                          background: apt.status === 'APPROVED' ? '#4CAF50' : 
-                                                    apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
-                                          color: 'white'
-                                        }}>
-                                          {apt.status}
-                                        </span>
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            )
-                          ) : (
-                            // Upcoming Appointments
-                            getUpcomingAppointments(expandedPatient).length === 0 ? (
-                              <p>No upcoming appointments found</p>
-                            ) : (
-                              <table className="nested-table">
-                                <thead>
-                                  <tr>
-                                    <th>Doctor</th>
-                                    <th>Department</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {getUpcomingAppointments(expandedPatient).map(apt => (
-                                    <tr key={apt.id}>
-                                      <td>{apt.doctorName}</td>
-                                      <td>{apt.department || '-'}</td>
-                                      <td>{apt.date}</td>
-                                      <td>{apt.time}</td>
-                                      <td>
-                                        <span style={{
-                                          padding: '4px 8px',
-                                          borderRadius: '4px',
-                                          fontSize: '12px',
-                                          fontWeight: 'bold',
-                                          background: apt.status === 'APPROVED' ? '#4CAF50' : 
-                                                    apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
-                                          color: 'white'
-                                        }}>
-                                          {apt.status}
-                                        </span>
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            )
-                          )}
+        {noSearchPerformed ? (
+          <div style={{
+            textAlign: 'center',
+            padding: '60px 20px',
+            color: '#94a3b8',
+            background: '#f8fafc',
+            borderRadius: '8px',
+            border: '2px dashed #cbd5e1'
+          }}>
+            <p style={{ fontSize: '18px', marginBottom: '8px' }}>🔍 Hastayı Arayın</p>
+            <p style={{ fontSize: '14px', marginBottom: '16px' }}>Yukarıdaki arama kutusunda TC numarası girerek bir hastayı arayınız.</p>
+            <p style={{ fontSize: '12px', color: '#64748b' }}>
+              💡 Örnek: 12345678901
+            </p>
+          </div>
+        ) : (
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>TCKN</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Date of Birth</th>
+                <th style={{ width: '80px', textAlign: 'center' }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {patients.length === 0 ? (
+                <tr><td colSpan="6" className="no-data">Sonuç bulunamadı</td></tr>
+              ) : (
+                patients.map(patient => (
+                  <React.Fragment key={patient.id}>
+                    <tr>
+                      <td>
+                        <div className="name-cell">
+                          <div className="avatar">{patient.firstName?.charAt(0)}{patient.lastName?.charAt(0)}</div>
+                          <span>{patient.firstName} {patient.lastName}</span>
+                        </div>
+                      </td>
+                      <td>{patient.tckn}</td>
+                      <td>{patient.email || '-'}</td>
+                      <td>{patient.phoneNumber || '-'}</td>
+                      <td>{patient.dateOfBirth ? new Date(patient.dateOfBirth).toLocaleDateString('tr-TR') : '-'}</td>
+                      <td style={{ textAlign: 'center' }}>
+                        <div style={{ display: 'flex', gap: '5px', justifyContent: 'center' }}>
+                          <button
+                            className="expand-btn"
+                            onClick={() => handleExpandRow(patient.patientId, 'appointments')}
+                            title="Show past appointments"
+                            style={{
+                              background: expandedPatient === patient.patientId && expandedTab === 'appointments' ? '#4CAF50' : '#2196F3',
+                              color: 'white',
+                              border: 'none',
+                              padding: '6px 10px',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontSize: '14px'
+                            }}
+                          >
+                            ▼
+                          </button>
+                          <button
+                            className="expand-btn"
+                            onClick={() => handleExpandRow(patient.patientId, 'labResults')}
+                            title="Show lab results"
+                            style={{
+                              background: expandedPatient === patient.patientId && expandedTab === 'labResults' ? '#FF9800' : '#9C27B0',
+                              color: 'white',
+                              border: 'none',
+                              padding: '6px 10px',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontSize: '14px'
+                            }}
+                          >
+                            ▼
+                          </button>
                         </div>
                       </td>
                     </tr>
-                  )}
 
-                  {/* Expanded Lab Results Row */}
-                  {expandedPatient === patient.patientId && expandedTab === 'labResults' && (
-                    <tr className="expanded-row">
-                      <td colSpan="6" style={{ padding: '20px' }}>
-                        <div className="expanded-content">
-                          <h3>Lab Results</h3>
-                          <p style={{ color: '#999' }}>Lab results feature coming soon...</p>
-                          <div style={{ marginTop: '15px' }}>
-                            <button 
-                              style={{
-                                padding: '8px 16px',
-                                background: '#FF9800',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '4px',
-                                cursor: 'pointer'
-                              }}
-                            >
-                              View Lab Results
-                            </button>
+                    {/* Expanded Appointments Row */}
+                    {expandedPatient === patient.patientId && expandedTab === 'appointments' && (
+                      <tr className="expanded-row">
+                        <td colSpan="6" style={{ padding: '20px' }}>
+                          <div className="expanded-content">
+                            <h3>Randevular</h3>
+                            
+                            {/* Tabs for Past and Upcoming */}
+                            <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', borderBottom: '2px solid #e9ecef' }}>
+                              <button
+                                onClick={() => setAppointmentsSubTab('past')}
+                                style={{
+                                  padding: '10px 15px',
+                                  background: appointmentsSubTab === 'past' ? '#2196F3' : '#e9ecef',
+                                  color: appointmentsSubTab === 'past' ? 'white' : '#495057',
+                                  border: 'none',
+                                  borderRadius: '4px 4px 0 0',
+                                  cursor: 'pointer',
+                                  fontWeight: 'bold',
+                                  fontSize: '14px'
+                                }}
+                              >
+                                Geçmiş Randevular
+                              </button>
+                              <button
+                                onClick={() => setAppointmentsSubTab('upcoming')}
+                                style={{
+                                  padding: '10px 15px',
+                                  background: appointmentsSubTab === 'upcoming' ? '#4CAF50' : '#e9ecef',
+                                  color: appointmentsSubTab === 'upcoming' ? 'white' : '#495057',
+                                  border: 'none',
+                                  borderRadius: '4px 4px 0 0',
+                                  cursor: 'pointer',
+                                  fontWeight: 'bold',
+                                  fontSize: '14px'
+                                }}
+                              >
+                                Gelecek Randevular
+                              </button>
+                            </div>
+
+                            {loadingAppointments[patient.id] ? (
+                              <p>Randevular yükleniyor...</p>
+                            ) : appointmentsSubTab === 'past' ? (
+                              // Past Appointments
+                              getPastAppointments(expandedPatient).length === 0 ? (
+                                <p>Geçmiş randevu bulunamadı</p>
+                              ) : (
+                                <table className="nested-table">
+                                  <thead>
+                                    <tr>
+                                      <th>Doktor</th>
+                                      <th>Bölüm</th>
+                                      <th>Tarih</th>
+                                      <th>Saat</th>
+                                      <th>Durum</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {getPastAppointments(expandedPatient).map(apt => (
+                                      <tr key={apt.id}>
+                                        <td>{apt.doctorName}</td>
+                                        <td>{apt.department || '-'}</td>
+                                        <td>{apt.date}</td>
+                                        <td>{apt.time}</td>
+                                        <td>
+                                          <span style={{
+                                            padding: '4px 8px',
+                                            borderRadius: '4px',
+                                            fontSize: '12px',
+                                            fontWeight: 'bold',
+                                            background: apt.status === 'APPROVED' ? '#4CAF50' : 
+                                                      apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
+                                            color: 'white'
+                                          }}>
+                                            {apt.status}
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              )
+                            ) : (
+                              // Upcoming Appointments
+                              getUpcomingAppointments(expandedPatient).length === 0 ? (
+                                <p>Gelecek randevu bulunamadı</p>
+                              ) : (
+                                <table className="nested-table">
+                                  <thead>
+                                    <tr>
+                                      <th>Doktor</th>
+                                      <th>Bölüm</th>
+                                      <th>Tarih</th>
+                                      <th>Saat</th>
+                                      <th>Durum</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {getUpcomingAppointments(expandedPatient).map(apt => (
+                                      <tr key={apt.id}>
+                                        <td>{apt.doctorName}</td>
+                                        <td>{apt.department || '-'}</td>
+                                        <td>{apt.date}</td>
+                                        <td>{apt.time}</td>
+                                        <td>
+                                          <span style={{
+                                            padding: '4px 8px',
+                                            borderRadius: '4px',
+                                            fontSize: '12px',
+                                            fontWeight: 'bold',
+                                            background: apt.status === 'APPROVED' ? '#4CAF50' : 
+                                                      apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
+                                            color: 'white'
+                                          }}>
+                                            {apt.status}
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              )
+                            )}
                           </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </React.Fragment>
-              ))
-            )}
-          </tbody>
-        </table>
+                        </td>
+                      </tr>
+                    )}
+
+                    {/* Expanded Lab Results Row */}
+                    {expandedPatient === patient.patientId && expandedTab === 'labResults' && (
+                      <tr className="expanded-row">
+                        <td colSpan="6" style={{ padding: '20px' }}>
+                          <div className="expanded-content">
+                            <h3>Lab Sonuçları</h3>
+                            <p style={{ color: '#999' }}>Lab sonuçları özelliği yakında gelecek...</p>
+                            <div style={{ marginTop: '15px' }}>
+                              <button 
+                                style={{
+                                  padding: '8px 16px',
+                                  background: '#FF9800',
+                                  color: 'white',
+                                  border: 'none',
+                                  borderRadius: '4px',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                Lab Sonuçlarını Göster
+                              </button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                ))
+              )}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

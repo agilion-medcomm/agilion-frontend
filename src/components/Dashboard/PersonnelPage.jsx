@@ -267,6 +267,7 @@ export default function PersonnelPage() {
       case 'LABORANT': return 'Lab Technician';
       case 'DOCTOR': return 'Doctor';
       case 'ADMIN': return 'Admin';
+      case 'CASHIER': return 'Desk Staff';
       default: return role;
     }
   };
@@ -449,6 +450,7 @@ export default function PersonnelPage() {
                     <option value="DOCTOR">Doctor</option>
                     <option value="ADMIN">Admin</option>
                     <option value="LABORANT">Lab Technician</option>
+                    <option value="CASHIER">Desk Staff</option>
                   </select>
                 </div>
               </div>

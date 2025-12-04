@@ -443,7 +443,7 @@ export default function AdminPanelPage() {
                    <div className="form-group-full">
                     <label style={{fontSize:'0.9rem', fontWeight:'600', color:'#444', marginBottom:'4px', display:'block'}}>Personel Türü</label>
                     <select name="role" value={form.role} onChange={handleChange} style={{fontWeight:'bold', color:'#c1272d'}}>
-                      <option value="DOCTOR">Doktor</option><option value="LABORANT">Laborant</option><option value="ADMIN">Yönetici (Admin)</option>
+                      <option value="DOCTOR">Doktor</option><option value="LABORANT">Laborant</option><option value="ADMIN">Yönetici (Admin)</option><option value="CASHIER">Vezne Çalışanı</option><option value="CLEANER">Temizlik Görevlisi</option>
                     </select>
                   </div>
                   <input name="tckn" maxLength={11} minLength={11} required placeholder="TC Kimlik No" value={form.tckn} onChange={handleChange} />
