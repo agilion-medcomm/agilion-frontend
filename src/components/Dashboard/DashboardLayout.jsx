@@ -157,7 +157,7 @@ export default function DashboardLayout() {
     if (user?.role === 'CLEANER') {
       return [
         ...baseNav,
-        { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'My Assignments' },
+        { path: '/dashboard/cleaner', icon: <ActivityIcon />, label: 'Cleaning Panel' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
@@ -214,8 +214,8 @@ export default function DashboardLayout() {
       <aside className={`dashboard-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           {sidebarCollapsed ? (
-            <button 
-              className="sidebar-toggle collapsed-toggle" 
+            <button
+              className="sidebar-toggle collapsed-toggle"
               onClick={() => setSidebarCollapsed(false)}
               title="Expand sidebar"
             >
@@ -231,8 +231,8 @@ export default function DashboardLayout() {
                 </div>
                 <span className="logo-text">AgilionMed</span>
               </div>
-              <button 
-                className="sidebar-toggle" 
+              <button
+                className="sidebar-toggle"
                 onClick={() => setSidebarCollapsed(true)}
                 title="Collapse sidebar"
               >
@@ -243,7 +243,7 @@ export default function DashboardLayout() {
         </div>
 
         <div className="sidebar-user">
-          <div className="user-avatar" style={{cursor:'pointer'}} onClick={() => navigate('/dashboard/profile')} title="Profilim">
+          <div className="user-avatar" style={{ cursor: 'pointer' }} onClick={() => navigate('/dashboard/profile')} title="Profilim">
             {user.photoUrl ? (
               <img src={user.photoUrl} alt={user.firstName} />
             ) : (
