@@ -50,13 +50,13 @@ export default function PersonnelPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
-  
+
   // Modals
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedPersonnel, setSelectedPersonnel] = useState(null);
-  
+
   // Form state
   const [form, setForm] = useState({
     tckn: '',
@@ -69,7 +69,7 @@ export default function PersonnelPage() {
     role: 'DOCTOR',
     specialization: ''
   });
-  
+
   const [message, setMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
@@ -83,13 +83,13 @@ export default function PersonnelPage() {
   const fetchPersonnel = async () => {
     setLoading(true);
     const token = localStorage.getItem('personnelToken');
-    
+
     if (!token) {
       showMessage('error', 'No authentication token found. Please login again.');
       setLoading(false);
       return;
     }
-    
+
     try {
       const res = await axios.get(`${BaseURL}/personnel`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -109,12 +109,12 @@ export default function PersonnelPage() {
 
   const filterPersonnel = () => {
     let filtered = [...personnelList];
-    
+
     // Role filter
     if (roleFilter !== 'ALL') {
       filtered = filtered.filter(p => p.role === roleFilter);
     }
-    
+
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -126,7 +126,7 @@ export default function PersonnelPage() {
         p.phoneNumber?.includes(query)
       );
     }
-    
+
     setFilteredPersonnel(filtered);
   };
 
@@ -157,17 +157,17 @@ export default function PersonnelPage() {
   const handleAddPersonnel = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
-    
+
     const dataToSend = { ...form };
     if (dataToSend.role !== 'DOCTOR') {
       dataToSend.specialization = '';
     }
-    
+
     try {
       await axios.post(`${BaseURL}/personnel`, dataToSend, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       showMessage('success', 'Personnel added successfully');
       setShowAddModal(false);
       resetForm();
@@ -180,26 +180,26 @@ export default function PersonnelPage() {
   const handleEditPersonnel = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
-    
+
     const updateData = {
       email: form.email,
       phoneNumber: form.phoneNumber,
       dateOfBirth: form.dateOfBirth,
     };
-    
+
     if (form.role === 'DOCTOR' && form.specialization) {
       updateData.specialization = form.specialization;
     }
-    
+
     if (form.password) {
       updateData.password = form.password;
     }
-    
+
     try {
       await axios.put(`${BaseURL}/personnel/${selectedPersonnel.id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       showMessage('success', 'Personnel updated successfully');
       setShowEditModal(false);
       resetForm();
@@ -212,17 +212,17 @@ export default function PersonnelPage() {
 
   const handleDeletePersonnel = async () => {
     const token = localStorage.getItem('personnelToken');
-    
+
     if (selectedPersonnel.id === user.id) {
       showMessage('error', 'You cannot delete your own account');
       return;
     }
-    
+
     try {
       await axios.delete(`${BaseURL}/personnel/${selectedPersonnel.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       showMessage('success', 'Personnel deleted successfully');
       setShowDeleteModal(false);
       setSelectedPersonnel(null);
@@ -254,7 +254,7 @@ export default function PersonnelPage() {
   };
 
   const getRoleBadgeClass = (role) => {
-    switch(role) {
+    switch (role) {
       case 'DOCTOR': return 'badge-doctor';
       case 'ADMIN': return 'badge-admin';
       case 'LABORANT': return 'badge-lab';
@@ -263,7 +263,7 @@ export default function PersonnelPage() {
   };
 
   const getRoleLabel = (role) => {
-    switch(role) {
+    switch (role) {
       case 'LABORANT': return 'Lab Technician';
       case 'DOCTOR': return 'Doctor';
       case 'ADMIN': return 'Admin';
@@ -314,7 +314,7 @@ export default function PersonnelPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        
+
         <div className="role-filters">
           {['ALL', 'DOCTOR', 'ADMIN', 'LABORANT'].map(role => (
             <button
@@ -449,6 +449,7 @@ export default function PersonnelPage() {
                     <option value="DOCTOR">Doctor</option>
                     <option value="ADMIN">Admin</option>
                     <option value="LABORANT">Lab Technician</option>
+                    <option value="CLEANER">Cleaning Staff</option>
                   </select>
                 </div>
               </div>
