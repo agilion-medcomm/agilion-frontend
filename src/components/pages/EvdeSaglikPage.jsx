@@ -8,27 +8,29 @@ const LabIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="curr
 const BandageIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M20.5 8.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zM3.5 11.5c.8 0 1.5-.7 1.5-1.5S4.3 8.5 3.5 8.5 2 9.2 2 10s.7 1.5 1.5 1.5zm7.5 4.5c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5zm-4-4c.8 0 1.5-.7 1.5-1.5S7.8 8.5 7 8.5 5.5 9.2 5.5 10s.7 1.5 1.5 1.5zm8 0c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5z" /></svg>;
 
 // Hizmet kartları için veri
+// Hizmet kartları için veri
 const serviceCards = [
-  { 
-    icon: <HandIcon />, 
+  {
+    // Public klasöründeki dosyaya direkt yol veriyoruz (Başına / koyarak)
+    icon: <img src="/nurse.jpg" alt="Hemşirelik" className="custom-svg-icon" />,
     title: "Evde Hemşirelik Hizmetleri",
     description: "Profesyonel hemşirelerimiz tarafından evinizde enjeksiyon, pansuman, serum takma ve tüm hemşirelik hizmetleri sunulmaktadır.",
     services: ["Enjeksiyon Uygulaması", "Pansuman", "Serum Takma", "Kan Basıncı Takibi", "İlaç Düzenleme", "Yara Bakımı"]
   },
-  { 
-    icon: <SerumIcon />, 
+  {
+    icon: <img src="/serum.png" alt="Serum" className="custom-svg-icon" />,
     title: "Evde Serum Hizmetleri",
     description: "Hastane ortamına gerek kalmadan, evinizin konforunda güvenli ve hijyenik serum hizmeti alabilirsiniz.",
     services: ["İV Serum Uygulaması", "Vitamin Serum", "Antibiyotik Serum", "Serum Takip ve Kontrol", "Acil Serum Desteği"]
   },
-  { 
-    icon: <LabIcon />, 
+  {
+    icon: <img src="/lab.png" alt="Laboratuvar" className="custom-svg-icon" />,
     title: "Evde Laboratuvar Hizmetleri",
     description: "Evde kan alma, idrar tahlili ve diğer laboratuvar testleriniz için randevu alın.",
     services: ["Evde Kan Alma", "Rutin Tahliller", "Check-Up Paketleri", "Covid-19 Testi", "Hormon Testleri", "Vitamin Analizleri"]
   },
-  { 
-    icon: <BandageIcon />, 
+  {
+    icon: <img src="/care.jpg" alt="Yara Bakımı" className="custom-svg-icon" />,
     title: "Evde Yara Bakımı Hizmetleri",
     description: "Ameliyat sonrası, kronik yaralar ve yanık tedavisi için uzman yara bakım hizmetleri.",
     services: ["Ameliyat Sonrası Bakım", "Bası Yarası Tedavisi", "Diyabetik Yara Bakımı", "Yanık Tedavisi", "Dikiş Alma/Atma", "Peg Bakımı"]
@@ -73,7 +75,7 @@ export default function EvdeSaglikPage() {
               <div className="service-card" key={index}>
                 <div className="service-card-icon">{card.icon}</div>
                 <h3 className="service-card-title">{card.title}</h3>
-                <button 
+                <button
                   className="service-card-button"
                   onClick={() => handleServiceClick(card)}
                 >
@@ -132,30 +134,45 @@ export default function EvdeSaglikPage() {
       {selectedService && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+
             <div className="modal-header">
               <div className="modal-icon">{selectedService.icon}</div>
               <h2>{selectedService.title}</h2>
-              <button className="modal-close" onClick={closeModal}>×</button>
-            </div>
+              <button className="modal-close" onClick={closeModal}>
+                <img src="/x.svg" alt="Kapat" />
+              </button>            </div>
+
             <div className="modal-body">
-              <p className="modal-description">{selectedService.description}</p>
-              <h3>Sunulan Hizmetler</h3>
-              <ul className="service-list">
-                {selectedService.services.map((service, index) => (
-                  <li key={index}>
-                    <span className="checkmark">✓</span> {service}
-                  </li>
-                ))}
-              </ul>
+              {/* İçeriği yan yana almak için yeni bir kapsayıcı açtık */}
+              <div className="modal-row">
+
+                {/* SOL Taraf: Açıklama */}
+                <div className="modal-col-left">
+                  <h3 className="modal-subtitle">Hizmet Detayı</h3>
+                  <p className="modal-description">{selectedService.description}</p>
+                </div>
+
+                {/* SAĞ Taraf: Liste */}
+                <div className="modal-col-right">
+                  <h3 className="modal-subtitle">Sunulan Hizmetler</h3>
+                  <ul className="service-list">
+                    {selectedService.services.map((service, index) => (
+                      <li key={index}>
+                        <span className="checkmark">✓</span> {service}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Alt Kısım: Sadece Randevu Butonu */}
               <div className="modal-actions">
                 <button className="btn-primary" onClick={closeModal}>
-                  📞 Randevu Al
-                </button>
-                <button className="btn-secondary" onClick={closeModal}>
-                  Kapat
+                  Randevu Al
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       )}
