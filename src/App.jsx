@@ -45,6 +45,8 @@ import PatientDashboard from './components/Dashboard/PatientDashboard';
 import NotificationsPage from './components/Dashboard/NotificationsPage';
 import AdminNotificationSender from './components/Dashboard/AdminNotificationSender';
 import ProfilePage from './components/Dashboard/ProfilePage';
+import LaborantDashboard from './components/Dashboard/LaborantDashboard';
+import MedicalFilesPage from './components/Dashboard/MedicalFilesPage';
 
 export default function App() {
   const { user: patientUser } = useAuth(); // Hasta kullanıcısı
@@ -92,11 +94,13 @@ export default function App() {
           <Route path="lab-results" element={<LabResultsPage />} />
           <Route path="cleaning" element={<CleaningManagementPage />} />
           <Route path="notifications-sender" element={<AdminNotificationSender />} />
+          <Route path="medical-files" element={<MedicalFilesPage />} />
           
           {/* Role Based Dashboards */}
           <Route path="cleaner" element={<CleanerDashboard />} />
           <Route path="payments" element={<CashierDashboard />} />
           <Route path="lab-tests" element={<LabTechDashboard />} />
+          <Route path="laborant" element={<LaborantDashboard />} />
           
           {/* Hasta Paneli (Dashboard içinden erişim gerekirse) */}
           <Route path="my-appointments" element={<PatientDashboard />} />

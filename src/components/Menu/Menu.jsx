@@ -43,9 +43,7 @@ export default function Menu() {
         switch (personnelUser.role) {
           case 'ADMIN': navigate('/admin-panel'); break;
           case 'DOCTOR': navigate('/doctor-panel'); break;
-          case 'LAB_TECHNICIAN': navigate('/lab-panel'); break;
-          case 'CASHIER': navigate('/cashier-panel'); break;
-          case 'CLEANER': navigate('/cleaner-panel'); break;
+          case 'LABORANT': navigate('/dashboard/laborant'); break;
           default: navigate('/'); break;
         }
       } else if (patientUser) {
