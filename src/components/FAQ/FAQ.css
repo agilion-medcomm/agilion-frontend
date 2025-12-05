@@ -1,6 +1,7 @@
 .faq-section {
   width: 100%;
-  background-color: #f3f4f6; /* açık gri zemin */
+  background-color: #f3f4f6;
+  /* açık gri zemin */
   padding: 80px 20px;
   box-sizing: border-box;
 }
@@ -103,6 +104,7 @@
     opacity: 0;
     transform: translateY(-6px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

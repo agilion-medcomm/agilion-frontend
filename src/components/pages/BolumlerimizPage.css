@@ -79,7 +79,7 @@
     /* Matches card roundness */
     font-size: 0.95rem;
     font-weight: 600;
-    width: 100%;
+    width: 90%;
     /* Full width */
     max-width: none;
     transition: all 0.2s;
@@ -132,7 +132,7 @@
 }
 
 .bolum-content-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 30px;
 }
 
