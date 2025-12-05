@@ -43,8 +43,55 @@ const XIcon = () => (
   </svg>
 );
 
+const CameraIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+    <circle cx="12" cy="13" r="4"></circle>
+  </svg>
+);
+
+// Avatar component with photo or initials
+const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medium', onClick }) => {
+  const displayInitials = initials || `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
+  
+  // Generate consistent color from name
+  const getAvatarColor = (name) => {
+    const colors = [
+      '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
+      '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'
+    ];
+    const hash = (name || '').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return colors[hash % colors.length];
+  };
+
+  const sizeClasses = {
+    small: 'avatar-small',
+    medium: 'avatar-medium',
+    large: 'avatar-large'
+  };
+
+  return (
+    <div 
+      className={`personnel-avatar ${sizeClasses[size]} ${onClick ? 'clickable' : ''}`}
+      onClick={onClick}
+      style={!photoUrl ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
+    >
+      {photoUrl ? (
+        <img src={`${API_BASE}${photoUrl}`} alt={`${firstName} ${lastName}`} />
+      ) : (
+        <span className="avatar-initials">{displayInitials.toUpperCase()}</span>
+      )}
+      {onClick && (
+        <div className="avatar-overlay">
+          <CameraIcon />
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function PersonnelPage() {
-  const { user } = usePersonnelAuth();
+  const { user, refreshUser } = usePersonnelAuth();
   const [personnelList, setPersonnelList] = useState([]);
   const [filteredPersonnel, setFilteredPersonnel] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +102,13 @@ export default function PersonnelPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [selectedPersonnel, setSelectedPersonnel] = useState(null);
+  
+  // Photo upload state
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
   
   // Form state
   const [form, setForm] = useState({
@@ -164,13 +217,32 @@ export default function PersonnelPage() {
     }
     
     try {
-      await axios.post(`${BaseURL}/personnel`, dataToSend, {
+      const response = await axios.post(`${BaseURL}/personnel`, dataToSend, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      // If photo was selected, upload it after personnel is created
+      if (photoFile && response.data?.data?.id) {
+        const formData = new FormData();
+        formData.append('photo', photoFile);
+        try {
+          await axios.post(`${BaseURL}/personnel/${response.data.data.id}/photo`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+        } catch (photoError) {
+          console.error('Photo upload failed:', photoError);
+          // Personnel was created, just photo failed
+        }
+      }
       
       showMessage('success', 'Personnel added successfully');
       setShowAddModal(false);
       resetForm();
+      setPhotoFile(null);
+      setPhotoPreview(null);
       fetchPersonnel();
     } catch (error) {
       showMessage('error', error.response?.data?.message || 'Failed to add personnel');
@@ -251,6 +323,94 @@ export default function PersonnelPage() {
   const openDeleteModal = (personnel) => {
     setSelectedPersonnel(personnel);
     setShowDeleteModal(true);
+  };
+
+  // Photo handlers
+  const openPhotoModal = (personnel) => {
+    setSelectedPersonnel(personnel);
+    setPhotoFile(null);
+    setPhotoPreview(personnel.photoUrl ? `${API_BASE}${personnel.photoUrl}` : null);
+    setShowPhotoModal(true);
+  };
+
+  const handlePhotoSelect = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        showMessage('error', 'File size must be less than 5MB');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        showMessage('error', 'Only image files are allowed');
+        return;
+      }
+      setPhotoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handlePhotoUpload = async () => {
+    if (!photoFile || !selectedPersonnel) return;
+    
+    const token = localStorage.getItem('personnelToken');
+    const formData = new FormData();
+    formData.append('photo', photoFile);
+    
+    setUploadingPhoto(true);
+    try {
+      await axios.post(`${BaseURL}/personnel/${selectedPersonnel.id}/photo`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      showMessage('success', 'Photo uploaded successfully');
+      setShowPhotoModal(false);
+      setPhotoFile(null);
+      setPhotoPreview(null);
+      fetchPersonnel();
+      
+      // Refresh current user if they updated their own photo
+      if (selectedPersonnel.id === user?.id || selectedPersonnel.userId === user?.id) {
+        await refreshUser();
+      }
+    } catch (error) {
+      showMessage('error', error.response?.data?.message || 'Failed to upload photo');
+    } finally {
+      setUploadingPhoto(false);
+    }
+  };
+
+  const handlePhotoDelete = async () => {
+    if (!selectedPersonnel) return;
+    
+    const token = localStorage.getItem('personnelToken');
+    
+    setUploadingPhoto(true);
+    try {
+      await axios.delete(`${BaseURL}/personnel/${selectedPersonnel.id}/photo`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      showMessage('success', 'Photo deleted successfully');
+      setPhotoPreview(null);
+      setPhotoFile(null);
+      fetchPersonnel();
+      
+      // Refresh current user if they deleted their own photo
+      if (selectedPersonnel.id === user?.id || selectedPersonnel.userId === user?.id) {
+        await refreshUser();
+      }
+    } catch (error) {
+      showMessage('error', error.response?.data?.message || 'Failed to delete photo');
+    } finally {
+      setUploadingPhoto(false);
+    }
   };
 
   const getRoleBadgeClass = (role) => {
@@ -355,9 +515,14 @@ export default function PersonnelPage() {
                 <tr key={personnel.id}>
                   <td>
                     <div className="name-cell">
-                      <div className="avatar">
-                        {personnel.firstName?.charAt(0)}{personnel.lastName?.charAt(0)}
-                      </div>
+                      <PersonnelAvatar
+                        photoUrl={personnel.photoUrl}
+                        firstName={personnel.firstName}
+                        lastName={personnel.lastName}
+                        initials={personnel.initials}
+                        size="small"
+                        onClick={(user?.role === 'ADMIN' || user?.id === personnel.id) ? () => openPhotoModal(personnel) : undefined}
+                      />
                       <span>{personnel.firstName} {personnel.lastName}</span>
                     </div>
                   </td>
@@ -408,6 +573,38 @@ export default function PersonnelPage() {
               </button>
             </div>
             <form onSubmit={handleAddPersonnel} className="modal-form">
+              {/* Photo Upload Section */}
+              <div className="form-photo-section">
+                <div className="photo-upload-preview">
+                  {photoPreview ? (
+                    <img src={photoPreview} alt="Preview" className="preview-image" />
+                  ) : (
+                    <div className="photo-placeholder">
+                      <CameraIcon />
+                      <span>Add Photo</span>
+                    </div>
+                  )}
+                </div>
+                <div className="photo-upload-controls">
+                  <input
+                    type="file"
+                    id="add-photo-upload"
+                    accept="image/*"
+                    onChange={handlePhotoSelect}
+                    style={{ display: 'none' }}
+                  />
+                  <label htmlFor="add-photo-upload" className="btn-secondary btn-small">
+                    {photoPreview ? 'Change Photo' : 'Select Photo'}
+                  </label>
+                  {photoPreview && (
+                    <button type="button" className="btn-text" onClick={() => { setPhotoFile(null); setPhotoPreview(null); }}>
+                      Remove
+                    </button>
+                  )}
+                  <p className="upload-hint">Optional - Max 5MB</p>
+                </div>
+              </div>
+
               <div className="form-row">
                 <div className="form-group">
                   <label>First Name *</label>
@@ -655,6 +852,76 @@ export default function PersonnelPage() {
               </button>
               <button className="btn-danger" onClick={handleDeletePersonnel}>
                 Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Photo Upload Modal */}
+      {showPhotoModal && selectedPersonnel && (
+        <div className="modal-overlay" onClick={() => setShowPhotoModal(false)}>
+          <div className="modal-content modal-photo" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Update Profile Photo</h2>
+              <button className="btn-close" onClick={() => setShowPhotoModal(false)}>
+                <XIcon />
+              </button>
+            </div>
+            <div className="modal-body photo-modal-body">
+              <div className="photo-preview-section">
+                <PersonnelAvatar
+                  photoUrl={photoPreview && !photoPreview.startsWith('data:') ? photoPreview.replace(API_BASE, '') : null}
+                  firstName={selectedPersonnel.firstName}
+                  lastName={selectedPersonnel.lastName}
+                  size="large"
+                />
+                {photoPreview && photoPreview.startsWith('data:') && (
+                  <div className="new-photo-preview">
+                    <img src={photoPreview} alt="New photo preview" />
+                  </div>
+                )}
+              </div>
+              
+              <div className="photo-info">
+                <p><strong>{selectedPersonnel.firstName} {selectedPersonnel.lastName}</strong></p>
+                <p className="text-muted">{getRoleLabel(selectedPersonnel.role)}</p>
+              </div>
+              
+              <div className="photo-upload-section">
+                <input
+                  type="file"
+                  id="photo-upload"
+                  accept="image/*"
+                  onChange={handlePhotoSelect}
+                  style={{ display: 'none' }}
+                />
+                <label htmlFor="photo-upload" className="btn-secondary upload-label">
+                  <CameraIcon />
+                  <span>Select Photo</span>
+                </label>
+                <p className="upload-hint">Max 5MB, JPG/PNG/GIF</p>
+              </div>
+            </div>
+            <div className="modal-actions">
+              {selectedPersonnel.photoUrl && !photoFile && (
+                <button 
+                  className="btn-danger" 
+                  onClick={handlePhotoDelete}
+                  disabled={uploadingPhoto}
+                >
+                  {uploadingPhoto ? 'Deleting...' : 'Remove Photo'}
+                </button>
+              )}
+              <button className="btn-secondary" onClick={() => setShowPhotoModal(false)}>
+                Cancel
+              </button>
+              <button 
+                className="btn-primary" 
+                onClick={handlePhotoUpload}
+                disabled={!photoFile || uploadingPhoto}
+              >
+                {uploadingPhoto ? 'Uploading...' : 'Save Photo'}
               </button>
             </div>
           </div>

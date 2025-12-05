@@ -11,6 +11,8 @@ import NotificationBadge from './NotificationBadge';
 import NotificationAlert from './NotificationAlert';
 import './DashboardLayout.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+
 // Icons
 const HomeIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -245,7 +247,7 @@ export default function DashboardLayout() {
         <div className="sidebar-user">
           <div className="user-avatar" style={{ cursor: 'pointer' }} onClick={() => navigate('/dashboard/profile')} title="Profilim">
             {user.photoUrl ? (
-              <img src={user.photoUrl} alt={user.firstName} />
+              <img src={user.photoUrl.startsWith('http') ? user.photoUrl : `${API_BASE}${user.photoUrl}`} alt={user.firstName} />
             ) : (
               <span>{user.firstName?.charAt(0)}{user.lastName?.charAt(0)}</span>
             )}

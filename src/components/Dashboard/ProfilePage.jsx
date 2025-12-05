@@ -84,20 +84,30 @@ export default function ProfilePage() {
                 ? `${BaseURL}/patients/me/profile`
                 : `${BaseURL}/personnel/${user.personnelId || user.doctorId || user.adminId || user.id}`;
             
-            await axios.put(endpoint, formData, {
+            // Sadece dolu alanları gönder
+            const payload = {};
+            if (formData.email?.trim()) payload.email = formData.email.trim();
+            if (formData.phoneNumber?.trim()) payload.phoneNumber = formData.phoneNumber.trim();
+            if (formData.address?.trim()) payload.address = formData.address.trim();
+            if (formData.emergencyContact?.trim()) payload.emergencyContact = formData.emergencyContact.trim();
+            if (formData.bloodType?.trim()) payload.bloodType = formData.bloodType.trim();
+            if (formData.dateOfBirth?.trim()) payload.dateOfBirth = formData.dateOfBirth;
+
+            await axios.put(endpoint, payload, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
             // Context güncelleme (opsiyonel)
             if (loginPersonnel) {
-                const updatedUser = { ...user, ...formData };
+                const updatedUser = { ...user, ...payload };
                 loginPersonnel(token, updatedUser);
             }
 
             setSuccessMsg('Profil bilgileriniz başarıyla güncellendi.');
         } catch (err) {
             console.error("Profil güncelleme hatası:", err);
-            setErrorMsg(err.response?.data?.message || err.message || 'Güncelleme başarısız.');
+            const errorMsg = err.response?.data?.errors?.[0]?.message || err.response?.data?.message || err.message || 'Güncelleme başarısız.';
+            setErrorMsg(errorMsg);
         } finally {
             setLoading(false);
         }

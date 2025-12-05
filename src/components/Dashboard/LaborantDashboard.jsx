@@ -59,7 +59,7 @@ export default function LaborantDashboard() {
     try {
       const formData = new FormData();
       formData.append('file', selectedFile);
-      formData.append('patientId', foundPatient.id);
+      formData.append('patientId', foundPatient.patientId);
       formData.append('testName', testName);
       formData.append('testDate', testDate);
       formData.append('description', description);
