@@ -31,7 +31,7 @@ import { useAuth } from './context/AuthContext';
 // Dashboard Bileşenleri
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import DashboardHome from './components/Dashboard/DashboardHome';
-//import PersonnelPage from './components/Dashboard/PersonnelPage';
+import PersonnelPage from './components/Dashboard/PersonnelPage';
 import AppointmentsPage from './components/Dashboard/AppointmentsPage';
 import PatientsPage from './components/Dashboard/PatientsPage';
 import LeaveRequestsPage from './components/Dashboard/LeaveRequestsPage';
@@ -86,7 +86,7 @@ export default function App() {
           <Route index element={<DashboardHome />} />
 
           {/* Admin Routes */}
-          {/* <Route path="personnel" element={<PersonnelPage />} /> */} {/* Backend gerekli */}
+          <Route path="personnel" element={<PersonnelPage />} />
           <Route path="appointments" element={<AppointmentsPage />} />
           <Route path="patients" element={<PatientsPage />} />
           <Route path="leave-requests" element={<LeaveRequestsPage />} />
