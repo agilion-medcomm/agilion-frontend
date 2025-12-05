@@ -90,7 +90,7 @@ const BolumlerimizPage = () => {
             Polikliniğimizde uzman diyetisyenlerimiz tarafından yapılan kapsamlı değerlendirmeler sonrasında, vücut analizi, metabolik hız ve ihtiyaç analizleri yapılmakta, kilo yönetiminden hastalıklara özel beslenme planlarına kadar birçok alanda destek sağlanmaktadır. Sağlıklı bir geleceğe adım atarken, yaşam kalitenizi artıracak diyet ve beslenme önerilerimizle yanınızdayız.
           </p>
 
-          <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#0052cc', fontWeight: 'bold' }}>HİZMETLERİMİZ</h3>
+          <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#2d7bf0ff', fontWeight: 'bold' }}>HİZMETLERİMİZ</h3>
 
           <div className="bolum-tags">
             <span>Beslenme</span>

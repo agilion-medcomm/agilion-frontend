@@ -237,7 +237,7 @@
     margin-left: -50vw;
     margin-right: -50vw;
 
-    background-color: #004098;
+    background-color: #E6F0FA;
     /* Sayfa mavisi */
 
     /* İçerik Düzeni */
@@ -259,9 +259,9 @@
     max-width: 1000px;
     /* Kartlar sonsuza kadar uzamasın, üstteki metinle aynı hizada dursun */
 
-    background-color: #e8e8e8;
+    background-color: #fcfcfc;
     /* Yumurta beyazı */
-    color: #006aff;
+    color: #334155;
     font-weight: 600;
     /* Yazılar mavi */
 

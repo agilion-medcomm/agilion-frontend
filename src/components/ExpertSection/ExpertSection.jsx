@@ -26,13 +26,19 @@ export default function ExpertSection() {
             <div className="call-box">
               <h4>Hasta Çağrı Merkezi</h4>
               <p className="subtitle">İhtiyacınız olan her an yanınızdayız</p>
-              <p className="phone">📞 (0212) 665 70 10</p>
+              <p className="phone">
+                <img src="/phone.svg" alt="" className="phone-icon" /> (0212) 665 70 10
+              </p>
             </div>
 
             {/* Sağ Butonlar */}
             <div className="expert-buttons">
-              <button className="outline-btn">🛈 Detaylı inceleyin</button>
-              <button className="outline-btn">📍 Adresimiz</button>
+              <button className="outline-btn">
+                <img src="/details.svg" alt="" className="btn-icon" /> İnceleyin
+              </button>
+              <button className="outline-btn">
+                <img src="/map.svg" alt="" className="btn-icon" /> Adresimiz
+              </button>
             </div>
           </div>
         </div>
