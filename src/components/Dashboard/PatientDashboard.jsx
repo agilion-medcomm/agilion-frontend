@@ -199,42 +199,44 @@ export default function PatientDashboard() {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
 
-      // Backend'in kabul ettiği alanları gönder
+      // Backend'in kabul ettiği alanları gönder - sadece dolu olanları!
       const payload = {};
 
       // User tablosu alanları - sadece dolu olanları gönder
-      // firstName ve lastName disabled olduğu için göndermeyelim
       if (profileData.email?.trim()) payload.email = profileData.email.trim();
       if (profileData.phoneNumber?.trim()) payload.phoneNumber = profileData.phoneNumber.trim();
 
-      // Patient tablosu alanları - boş olsa bile gönder (güncelleme için gerekli)
-      payload.address = profileData.address?.trim() || '';
-      payload.emergencyContact = profileData.emergencyContact?.trim() || '';
-      payload.bloodType = profileData.bloodType?.trim() || '';
+      // Patient tablosu alanları - sadece dolu olanları gönder
+      if (profileData.address?.trim()) payload.address = profileData.address.trim();
+      if (profileData.emergencyContact?.trim()) payload.emergencyContact = profileData.emergencyContact.trim();
+      if (profileData.bloodType?.trim()) payload.bloodType = profileData.bloodType.trim();
 
-      // dateOfBirth'i YYYY-MM-DD formatına çevir (backend sadece tarih kısmını bekliyor)
-      if (profileData.dateOfBirth) {
-        payload.dateOfBirth = profileData.dateOfBirth; // Zaten YYYY-MM-DD formatında
+      // dateOfBirth - sadece doluysa gönder, YYYY-MM-DD formatında
+      if (profileData.dateOfBirth?.trim()) {
+        payload.dateOfBirth = profileData.dateOfBirth;
       }
 
-      // Debug: Gönderilen payload'u göster
-      console.log('📤 Profil güncelleme için gönderilen request body:', JSON.stringify(payload, null, 2));
+      // En az bir alan doluysa gönder
+      if (Object.keys(payload).length === 0) {
+        setMessage({ type: 'error', text: 'Güncellenecek bir alan bulunamadı.' });
+        setLoading(false);
+        return;
+      }
+
+      console.log('📤 Profil güncelleme payload:', JSON.stringify(payload, null, 2));
 
       const response = await axios.put(`${BaseURL}/patients/me/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Context'i güncelle - böylece profil de anında yenilenecek
+      // Context'i güncelle
       updateUser(payload);
 
       setMessage({ type: 'success', text: response.data?.message || 'Profil bilgileriniz başarıyla güncellendi.' });
     } catch (error) {
-      // Debug: Hata detaylarını göster
       console.error('❌ Profil güncelleme hatası:', error.response?.data);
-      if (error.response?.data?.errors) {
-        console.error('🔍 Validation hataları:', error.response.data.errors);
-      }
-      setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + (error.response?.data?.message || 'Hata oluştu') });
+      const errorMsg = error.response?.data?.errors?.[0]?.message || error.response?.data?.message || 'Hata oluştu';
+      setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + errorMsg });
     } finally {
       setLoading(false);
     }
