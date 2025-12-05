@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import './SharedDashboard.css'; 
+import './SharedDashboard.css';
 
 export default function PatientDashboard() {
   // ✅ Vite uyumlu API adresi
   const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
   const BaseURL = `${API_BASE}/api/v1`;
 
-  const { user, updateUser } = useAuth(); 
+  const { user, updateUser } = useAuth();
   const location = useLocation();
 
   // URL'e göre başlangıç sekmesi
@@ -17,7 +17,7 @@ export default function PatientDashboard() {
     if (location.pathname.includes('/profile')) return 'settings';
     return 'appointments';
   });
-  
+
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
   // timeFilter: all, future, past, cancelled
@@ -41,7 +41,7 @@ export default function PatientDashboard() {
     bloodType: '',
     dateOfBirth: ''
   });
-  
+
   const [passwordData, setPasswordData] = useState({
     currentPassword: '',
     newPassword: '',
@@ -61,7 +61,7 @@ export default function PatientDashboard() {
         bloodType: user.bloodType || '',
         dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toISOString().split('T')[0] : ''
       });
-      
+
       fetchAppointments();
       fetchLabResults();
     }
@@ -88,9 +88,9 @@ export default function PatientDashboard() {
       '• Yeni randevu için tekrar başvuru yapmanız gerekir\n\n' +
       'Devam etmek istiyor musunuz?'
     );
-    
+
     if (!confirmCancel) return;
-    
+
     setLoading(true);
     setMessage({ type: '', text: '' });
     try {
@@ -134,12 +134,12 @@ export default function PatientDashboard() {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
       console.log('Fetching my lab results...');
-      
+
       // Yeni /my endpoint'i kullan - token'dan userId alınır
       const response = await axios.get(`${BaseURL}/medical-files/my`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       console.log('Lab results response:', response.data);
       const data = response.data.data || response.data;
       setLabResults(Array.isArray(data) ? data : []);
@@ -159,14 +159,14 @@ export default function PatientDashboard() {
 
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
       const fullUrl = `${API_BASE}${fileUrl}`;
-      
+
       console.log('Downloading from:', fullUrl);
-      
+
       // Fetch ile indir
       const response = await fetch(fullUrl, {
         method: 'GET',
-        headers: { 
-          'Authorization': `Bearer ${token}` 
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
       });
 
@@ -198,26 +198,42 @@ export default function PatientDashboard() {
 
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
-      
-      // Backend'in kabul ettiği alanları gönder (email ve dateOfBirth hariç)
-      // Boş string'leri filtrele - Joi validation için
+
+      // Backend'in kabul ettiği alanları gönder
       const payload = {};
-      if (profileData.firstName) payload.firstName = profileData.firstName;
-      if (profileData.lastName) payload.lastName = profileData.lastName;
-      if (profileData.phoneNumber) payload.phoneNumber = profileData.phoneNumber;
-      if (profileData.address) payload.address = profileData.address;
-      if (profileData.emergencyContact) payload.emergencyContact = profileData.emergencyContact;
-      if (profileData.bloodType) payload.bloodType = profileData.bloodType;
-      
+
+      // User tablosu alanları - sadece dolu olanları gönder
+      // firstName ve lastName disabled olduğu için göndermeyelim
+      if (profileData.email?.trim()) payload.email = profileData.email.trim();
+      if (profileData.phoneNumber?.trim()) payload.phoneNumber = profileData.phoneNumber.trim();
+
+      // Patient tablosu alanları - boş olsa bile gönder (güncelleme için gerekli)
+      payload.address = profileData.address?.trim() || '';
+      payload.emergencyContact = profileData.emergencyContact?.trim() || '';
+      payload.bloodType = profileData.bloodType?.trim() || '';
+
+      // dateOfBirth'i YYYY-MM-DD formatına çevir (backend sadece tarih kısmını bekliyor)
+      if (profileData.dateOfBirth) {
+        payload.dateOfBirth = profileData.dateOfBirth; // Zaten YYYY-MM-DD formatında
+      }
+
+      // Debug: Gönderilen payload'u göster
+      console.log('📤 Profil güncelleme için gönderilen request body:', JSON.stringify(payload, null, 2));
+
       const response = await axios.put(`${BaseURL}/patients/me/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       // Context'i güncelle - böylece profil de anında yenilenecek
       updateUser(payload);
-      
+
       setMessage({ type: 'success', text: response.data?.message || 'Profil bilgileriniz başarıyla güncellendi.' });
     } catch (error) {
+      // Debug: Hata detaylarını göster
+      console.error('❌ Profil güncelleme hatası:', error.response?.data);
+      if (error.response?.data?.errors) {
+        console.error('🔍 Validation hataları:', error.response.data.errors);
+      }
       setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + (error.response?.data?.message || 'Hata oluştu') });
     } finally {
       setLoading(false);
@@ -233,8 +249,8 @@ export default function PatientDashboard() {
       return;
     }
     if (passwordData.newPassword.length < 6) {
-        setMessage({ type: 'error', text: 'Şifre en az 6 karakter olmalıdır.' });
-        return;
+      setMessage({ type: 'error', text: 'Şifre en az 6 karakter olmalıdır.' });
+      return;
     }
 
     setLoading(true);
@@ -260,7 +276,7 @@ export default function PatientDashboard() {
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
-    
+
     try {
       await axios.post(`${BaseURL}/appointments/${selectedAppointment.id}/review`, {
         rating: review.rating,
@@ -290,7 +306,7 @@ export default function PatientDashboard() {
       let aptDate = new Date();
       if (dateStr && dateStr.includes('.')) {
         const parts = dateStr.split('.');
-        aptDate = new Date(parts[2], parts[1]-1, parts[0]);
+        aptDate = new Date(parts[2], parts[1] - 1, parts[0]);
       } else if (dateStr) {
         aptDate = new Date(dateStr);
       }
@@ -319,48 +335,48 @@ export default function PatientDashboard() {
       <div className="page-header">
         <div>
           <h1 style={{ marginBottom: '5px' }}>
-             {profileData.firstName} {profileData.lastName}
+            {profileData.firstName} {profileData.lastName}
           </h1>
           <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Hasta Paneli</p>
         </div>
       </div>
 
       {message.text && (
-        <div className={`alert ${message.type === 'error' ? 'alert-error' : 'alert-success'}`} 
-             style={{
-                padding: '12px', 
-                borderRadius: '8px', 
-                marginBottom: '20px',
-                backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
-                color: message.type === 'error' ? '#991b1b' : '#166534',
-                border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
-                fontWeight: '500'
-             }}>
-            {message.text}
+        <div className={`alert ${message.type === 'error' ? 'alert-error' : 'alert-success'}`}
+          style={{
+            padding: '12px',
+            borderRadius: '8px',
+            marginBottom: '20px',
+            backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
+            color: message.type === 'error' ? '#991b1b' : '#166534',
+            border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
+            fontWeight: '500'
+          }}>
+          {message.text}
         </div>
       )}
 
       {/* SEKMELER */}
       <div className="tabs-container">
-        <button 
+        <button
           className={`tab-button ${activeTab === 'appointments' ? 'active' : ''}`}
           onClick={() => setActiveTab('appointments')}
         >
           📅 Randevularım
         </button>
-        <button 
+        <button
           className={`tab-button ${activeTab === 'lab-results' ? 'active' : ''}`}
           onClick={() => setActiveTab('lab-results')}
         >
           🧪 Tahlil Sonuçları
         </button>
-        <button 
+        <button
           className={`tab-button ${activeTab === 'reviews' ? 'active' : ''}`}
           onClick={() => setActiveTab('reviews')}
         >
           ⭐ Değerlendirmelerim
         </button>
-        <button 
+        <button
           className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
           onClick={() => setActiveTab('settings')}
         >
@@ -390,7 +406,7 @@ export default function PatientDashboard() {
 
           <div className="appointments-grid modern-appointments-grid">
             {loading ? (
-               <p>Yükleniyor...</p>
+              <p>Yükleniyor...</p>
             ) : filteredAppointments.length === 0 ? (
               <p className="no-data">Kayıtlı randevu bulunamadı.</p>
             ) : (
@@ -398,10 +414,10 @@ export default function PatientDashboard() {
                 const doctorName = apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Doktor Belirtilmedi');
                 const department = apt.departmentName || (apt.department && apt.department.name) || 'Genel';
                 const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'));
-                const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', {hour:'2-digit', minute:'2-digit'}));
+                const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }));
                 const status = apt.status || 'PENDING';
                 // Avatar için ilk harfler
-                const avatar = doctorName.split(' ').map(s=>s[0]).join('').substring(0,2).toUpperCase();
+                const avatar = doctorName.split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
                 // Renkli durum badge'i
                 const statusColors = {
                   'COMPLETED': '#22c55e',
@@ -414,28 +430,28 @@ export default function PatientDashboard() {
                 const badgeColor = statusColors[status] || statusColors['DEFAULT'];
                 return (
                   <div key={apt.id} className={`appointment-card modern-appointment-card status-${status.toLowerCase()}`}
-                    style={{boxShadow:'0 2px 12px 0 #e0e7ef', borderRadius:16, background:'#fff', marginBottom:24, border:`1.5px solid ${badgeColor}22`}}>
-                    <div className="modern-apt-header" style={{display:'flex',alignItems:'center',gap:16}}>
-                      <div className="doctor-avatar" style={{width:48,height:48,borderRadius:'50%',background:'#e0e7ef',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:700,fontSize:22,color:'#2563eb'}} title={doctorName}>{avatar}</div>
-                      <div style={{flex:1}}>
-                        <div style={{fontWeight:600,fontSize:18,color:'#222'}}>{doctorName}</div>
-                        <div style={{fontSize:14,color:'#64748b'}}>{department}</div>
+                    style={{ boxShadow: '0 2px 12px 0 #e0e7ef', borderRadius: 16, background: '#fff', marginBottom: 24, border: `1.5px solid ${badgeColor}22` }}>
+                    <div className="modern-apt-header" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                      <div className="doctor-avatar" style={{ width: 48, height: 48, borderRadius: '50%', background: '#e0e7ef', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 22, color: '#2563eb' }} title={doctorName}>{avatar}</div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 600, fontSize: 18, color: '#222' }}>{doctorName}</div>
+                        <div style={{ fontSize: 14, color: '#64748b' }}>{department}</div>
                       </div>
-                      <span className="modern-badge" style={{background:badgeColor+'22',color:badgeColor,padding:'6px 14px',borderRadius:12,fontWeight:600,fontSize:14}} title={status}>{status}</span>
+                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{status}</span>
                     </div>
-                    <div className="modern-apt-body" style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:12}}>
-                      <div style={{fontSize:15}}>
+                    <div className="modern-apt-body" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
+                      <div style={{ fontSize: 15 }}>
                         <div><strong>Tarih:</strong> {dateStr}</div>
                         <div><strong>Saat:</strong> {timeStr}</div>
                       </div>
-                      <div style={{display:'flex',gap:8}}>
+                      <div style={{ display: 'flex', gap: 8 }}>
                         {/* İptal butonu */}
                         {status !== 'CANCELLED' && status !== 'COMPLETED' && (() => {
                           // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
                           let aptDate = new Date();
                           if (apt.date && apt.date.includes('.')) {
                             const parts = apt.date.split('.');
-                            aptDate = new Date(parts[2], parts[1]-1, parts[0]);
+                            aptDate = new Date(parts[2], parts[1] - 1, parts[0]);
                           } else if (apt.date) {
                             aptDate = new Date(apt.date);
                           } else if (apt.startTime) {
@@ -444,7 +460,7 @@ export default function PatientDashboard() {
                           const now = new Date();
                           if (aptDate >= now) {
                             return (
-                              <button className="btn-danger-action modern-btn" style={{background:'#fee2e2',color:'#b91c1c',border:'1px solid #fecaca',borderRadius:8,padding:'6px 14px',fontWeight:600}} onClick={() => handleCancelAppointment(apt.id)}>
+                              <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => handleCancelAppointment(apt.id)}>
                                 İptal Et
                               </button>
                             );
@@ -453,13 +469,13 @@ export default function PatientDashboard() {
                         })()}
                         {/* Değerlendir butonu */}
                         {status === 'COMPLETED' && !apt.hasReview && (
-                          <button className="btn-primary modern-btn" style={{background:'#e0f2fe',color:'#0369a1',border:'1px solid #bae6fd',borderRadius:8,padding:'6px 14px',fontWeight:600}} onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}>
+                          <button className="btn-primary modern-btn" style={{ background: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}>
                             Değerlendir
                           </button>
                         )}
                         {/* Puan gösterge */}
                         {apt.hasReview && (
-                          <div className="review-indicator" style={{background:'#fef9c3',color:'#b45309',borderRadius:8,padding:'6px 14px',fontWeight:600}}>
+                          <div className="review-indicator" style={{ background: '#fef9c3', color: '#b45309', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }}>
                             ⭐ Puanınız: {apt.reviewRating}/5
                           </div>
                         )}
@@ -500,7 +516,7 @@ export default function PatientDashboard() {
                     <td>{new Date(result.testDate).toLocaleDateString('tr-TR')}</td>
                     <td>{result.laborant?.user?.firstName} {result.laborant?.user?.lastName}</td>
                     <td>
-                      <span className="badge" style={{ 
+                      <span className="badge" style={{
                         background: result.fileType?.includes('pdf') ? '#fee2e2' : '#dbeafe',
                         color: result.fileType?.includes('pdf') ? '#991b1b' : '#1e40af'
                       }}>
@@ -509,8 +525,8 @@ export default function PatientDashboard() {
                     </td>
                     <td>{result.fileSizeKB?.toFixed(0)} KB</td>
                     <td>
-                      <button 
-                        className="btn-sm btn-secondary" 
+                      <button
+                        className="btn-sm btn-secondary"
                         onClick={() => handleDownloadFile(result.fileUrl, result.fileName)}
                       >
                         📥 İndir
@@ -550,61 +566,61 @@ export default function PatientDashboard() {
             <div className="settings-header">
               <h3>Kişisel Bilgiler</h3>
             </div>
-            
+
             <form onSubmit={handleUpdateProfile}>
               <div className="form-row">
-                  <div className="settings-form-group">
-                    <label className="form-label">Ad</label>
-                    <input type="text" className="form-input" 
-                           value={profileData.firstName} 
-                           disabled
-                    />
-                  </div>
-                  <div className="settings-form-group">
-                    <label className="form-label">Soyad</label>
-                    <input type="text" className="form-input" 
-                           value={profileData.lastName} 
-                           disabled
-                    />
-                  </div>
+                <div className="settings-form-group">
+                  <label className="form-label">Ad</label>
+                  <input type="text" className="form-input"
+                    value={profileData.firstName}
+                    disabled
+                  />
+                </div>
+                <div className="settings-form-group">
+                  <label className="form-label">Soyad</label>
+                  <input type="text" className="form-input"
+                    value={profileData.lastName}
+                    disabled
+                  />
+                </div>
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">E-Posta Adresi</label>
-                <input 
-                  type="email" 
-                  className="form-input" 
+                <input
+                  type="email"
+                  className="form-input"
                   value={profileData.email}
-                  onChange={(e) => setProfileData({...profileData, email: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
                 />
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">Telefon Numarası</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   className="form-input"
                   value={profileData.phoneNumber}
-                  onChange={(e) => setProfileData({...profileData, phoneNumber: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, phoneNumber: e.target.value })}
                 />
               </div>
 
               <div className="form-row">
                 <div className="settings-form-group">
                   <label className="form-label">Doğum Tarihi</label>
-                  <input 
-                    type="date" 
+                  <input
+                    type="date"
                     className="form-input"
                     value={profileData.dateOfBirth}
-                    onChange={(e) => setProfileData({...profileData, dateOfBirth: e.target.value})}
+                    onChange={(e) => setProfileData({ ...profileData, dateOfBirth: e.target.value })}
                   />
                 </div>
                 <div className="settings-form-group">
                   <label className="form-label">Kan Grubu</label>
-                  <select 
+                  <select
                     className="form-input"
                     value={profileData.bloodType}
-                    onChange={(e) => setProfileData({...profileData, bloodType: e.target.value})}
+                    onChange={(e) => setProfileData({ ...profileData, bloodType: e.target.value })}
                   >
                     <option value="">Seçiniz</option>
                     <option value="A+">A Rh+</option>
@@ -621,28 +637,28 @@ export default function PatientDashboard() {
 
               <div className="settings-form-group">
                 <label className="form-label">Adres</label>
-                <textarea 
+                <textarea
                   className="form-input"
                   rows="3"
                   value={profileData.address}
-                  onChange={(e) => setProfileData({...profileData, address: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
                   placeholder="İl, ilçe, mahalle, sokak..."
                 />
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">Acil Durum İletişim</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   className="form-input"
                   value={profileData.emergencyContact}
-                  onChange={(e) => setProfileData({...profileData, emergencyContact: e.target.value})}
+                  onChange={(e) => setProfileData({ ...profileData, emergencyContact: e.target.value })}
                   placeholder="+90 5XX XXX XX XX"
                 />
               </div>
 
-              <button type="submit" className="btn-save" style={{background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: 'white'}} disabled={loading}>
-                  {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+              <button type="submit" className="btn-save" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: 'white' }} disabled={loading}>
+                {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
               </button>
             </form>
           </div>
@@ -655,36 +671,36 @@ export default function PatientDashboard() {
             <form onSubmit={handleUpdatePassword}>
               <div className="settings-form-group">
                 <label className="form-label">Mevcut Şifre</label>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   className="form-input"
                   value={passwordData.currentPassword}
-                  onChange={(e) => setPasswordData({...passwordData, currentPassword: e.target.value})}
+                  onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
                 />
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">Yeni Şifre</label>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   className="form-input"
                   value={passwordData.newPassword}
-                  onChange={(e) => setPasswordData({...passwordData, newPassword: e.target.value})}
+                  onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
                 />
               </div>
 
               <div className="settings-form-group">
                 <label className="form-label">Yeni Şifre (Tekrar)</label>
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   className="form-input"
                   value={passwordData.confirmPassword}
-                  onChange={(e) => setPasswordData({...passwordData, confirmPassword: e.target.value})}
+                  onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
                 />
               </div>
 
-              <button type="submit" className="btn-save btn-danger-action" style={{background: 'white', color: '#ef4444', border: '1px solid #fecaca'}} disabled={loading}>
-                 {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
+              <button type="submit" className="btn-save btn-danger-action" style={{ background: 'white', color: '#ef4444', border: '1px solid #fecaca' }} disabled={loading}>
+                {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
               </button>
             </form>
           </div>
@@ -710,7 +726,7 @@ export default function PatientDashboard() {
                       key={star}
                       type="button"
                       className={`star-button ${star <= review.rating ? 'active' : ''}`}
-                      onClick={() => setReview({...review, rating: star})}
+                      onClick={() => setReview({ ...review, rating: star })}
                     >
                       ⭐
                     </button>
@@ -721,7 +737,7 @@ export default function PatientDashboard() {
                 <label>Yorumunuz</label>
                 <textarea
                   value={review.comment}
-                  onChange={(e) => setReview({...review, comment: e.target.value})}
+                  onChange={(e) => setReview({ ...review, comment: e.target.value })}
                   rows="4"
                 />
               </div>
