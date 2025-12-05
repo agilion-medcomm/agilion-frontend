@@ -66,10 +66,13 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
-.footer__logoBlock img {
-  display: block;
-  height: 48px;
-  width: auto;
+.footer__logoText {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
 /* Açıklama metni */
@@ -87,6 +90,9 @@
 }
 
 .footer__item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   width: 100%;
   text-align: left;
   background: rgba(255, 255, 255, 0.05);
@@ -143,6 +149,9 @@
 }
 
 .footer__link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   text-align: left;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(5px);

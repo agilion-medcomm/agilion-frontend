@@ -44,9 +44,11 @@
 }
 
 .expert-content p {
-  color: #4a5568;
-  line-height: 1.6;
+  color: #6f7174;
+  line-height: 1.5;
   max-width: 700px;
+  font-size: 1.2rem;
+  font-weight: 500;
   margin: 0;
 }
 
@@ -90,6 +92,15 @@
   font-size: 1.2rem;
   font-weight: 700;
   margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.phone-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  filter: brightness(0) invert(1);
 }
 
 /* Sağdaki Butonlar */
@@ -122,8 +133,14 @@
 
 .outline-btn:hover {
   background: #f4f8fc;
-  transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(14, 43, 75, 0.12);
+}
+
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  object-fit: contain;
 }
 
 /* ===== Responsive ===== */
