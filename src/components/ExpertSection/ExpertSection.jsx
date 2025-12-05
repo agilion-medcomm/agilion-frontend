@@ -1,7 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./ExpertSection.css";
 
 export default function ExpertSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="expert-section">
       <div className="expert-container">
@@ -33,10 +36,10 @@ export default function ExpertSection() {
 
             {/* Sağ Butonlar */}
             <div className="expert-buttons">
-              <button className="outline-btn">
+              <button className="outline-btn" onClick={() => navigate('/hekimlerimiz')}>
                 <img src="/details.svg" alt="" className="btn-icon" /> İnceleyin
               </button>
-              <button className="outline-btn">
+              <button className="outline-btn" onClick={() => window.open('https://maps.app.goo.gl/Y4Sd4PxT5nv51niW6', '_blank')}>
                 <img src="/map.svg" alt="" className="btn-icon" /> Adresimiz
               </button>
             </div>

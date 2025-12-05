@@ -13,7 +13,7 @@ const LocationIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill=
 
 export default function ContactPage() {
   const { user } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -48,7 +48,7 @@ export default function ContactPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitMessage({ type: '', text: '' });
-    
+
     if (!formData.agreed) {
       setSubmitMessage({ type: 'error', text: 'Lütfen aydınlatma metnini onaylayın.' });
       return;
@@ -58,14 +58,14 @@ export default function ContactPage() {
     try {
       const { agreed, ...payload } = formData; // agreed alanını çıkar
       await axios.post(`${BaseURL}/contact`, payload);
-      
+
       setSubmitMessage({ type: 'success', text: '✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.' });
       // Form başarılı gönderildikten sonra sadece konu ve mesajı temizle (kullanıcı bilgileri kalsın)
       setFormData(prev => ({ ...prev, subject: '', message: '', agreed: false }));
     } catch (error) {
-      setSubmitMessage({ 
-        type: 'error', 
-        text: error.response?.data?.message || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.' 
+      setSubmitMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.'
       });
     } finally {
       setLoading(false);
@@ -76,9 +76,9 @@ export default function ContactPage() {
     <div className="contact-page">
       {/* Üst Banner */}
       <div className="contact-banner">
-        <img src="/contact-banner.jpg" alt="İletişim Merkezi" className="contact-banner-img" />
+        <img src="/contact-banner.png" alt="İletişim Merkezi" className="contact-banner-img" />
         <div className="contact-banner-overlay">
-          <h1>İletişim</h1>
+          <h1></h1>
         </div>
       </div>
 
@@ -87,7 +87,7 @@ export default function ContactPage() {
         <div className="contact-header">
           <h1 className="contact-title">İLETİŞİME GEÇELİM</h1>
           <p className="contact-subtitle">
-            Sağlık hizmetlerimiz hakkında bilgi almak veya randevu oluşturmak için aşağıdaki iletişim bilgilerimizi kullanabilirsiniz.
+            Sağlığınız bizim önceliğimiz. İhtiyaç duyduğunuz her an yanınızda olabilmek, tedavi süreçlerimiz hakkında sizi bilgilendirmek ve randevu taleplerinizi en hızlı şekilde karşılamak için buradayız. Aşağıdaki iletişim kanallarını kullanarak veya formu doldurarak ekibimize hemen ulaşabilirsiniz.
           </p>
         </div>
 
@@ -95,19 +95,19 @@ export default function ContactPage() {
         <div className="contact-info-grid">
           <div className="contact-info-item">
             <PhoneIcon />
-            <span>+90 (212) 000 00 00</span>
+            <span>+90 (212) 665 70 10</span>
           </div>
           <div className="contact-info-item">
             <MailIcon />
-            <span>info@agiliontipmerkezi.com.tr</span>
+            <span>info@zeytinburnutipmerkezi.com.tr</span>
           </div>
           <div className="contact-info-item">
             <PhoneIcon />
-            <span>+90 (212) 000 00 00</span>
+            <span>+90 (212) 558 40 52</span>
           </div>
           <div className="contact-info-item">
             <LocationIcon />
-            <span>Cumhuriyet, 2254. Sk. No:2, 41420 Gebze/Kocaeli</span>
+            <span>Yenidoğan Mah. 50 Sok. No :22 Zeytinburnu/İstanbul</span>
           </div>
         </div>
 
@@ -147,23 +147,19 @@ export default function ContactPage() {
             </button>
           </form>
         </div>
-      </div>
-      
-      {/* Harita */}
-      <div className="contact-map">
-        <iframe
-
-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1759.6603115191679!2d29.356883807666723!3d40.80714894885567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cade5b10c31be7%3A0xba23b0e884a7e655!2sGebze%20Technical%20University%20Computer%20Engineering!5e0!3m2!1str!2str!4v1763457692285!5m2!1str!2str"
-
-        
-           width="100%"
-          height="450"
-          style={{ border: 0 }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Konumumuz"
-        ></iframe>
+        {/* Harita */}
+        <div className="contact-map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.6660938785153!2d28.904464800000003!3d40.988791899999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cabb1301a54129%3A0xb66ed631d8ac1b91!2sZeytinburnu%20Cerrahi%20T%C4%B1p%20Merkezi!5e0!3m2!1str!2str!4v1764944304698!5m2!1str!2str"
+            width="100%"
+            height="450"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Konumumuz"
+          ></iframe>
+        </div>
       </div>
     </div>
   );
