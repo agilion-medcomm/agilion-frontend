@@ -188,4 +188,8 @@
   .contact-title {
     font-size: 2rem;
   }
+
+  .contact-banner {
+    height: 300px;
+  }
 }

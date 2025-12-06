@@ -133,11 +133,16 @@
 /* Responsive */
 @media (max-width: 768px) {
     .kurumsal-hero {
-        height: 300px;
+        height: auto;
+        min-height: 300px;
+        padding: 40px 0;
     }
 
     .kurumsal-hero__image {
-        height: 120px;
+        height: auto;
+        width: 100%;
+        max-width: 1000px;
+        max-height: 1000px;
     }
 
     .kurumsal-hero__logo {
@@ -149,7 +154,7 @@
     }
 
     .kurumsal-content {
-        padding: 40px 20px;
+        padding: 0 20px 40px;
         gap: 30px;
     }
 

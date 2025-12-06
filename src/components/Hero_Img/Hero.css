@@ -28,6 +28,7 @@
   0% {
     transform: scale(1.1);
   }
+
   100% {
     transform: scale(1.0);
   }
@@ -36,12 +37,10 @@
 .hero__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(14, 43, 75, 0.15) 0%,
-    rgba(14, 43, 75, 0.35) 50%,
-    rgba(14, 43, 75, 0.6) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(14, 43, 75, 0.15) 0%,
+      rgba(14, 43, 75, 0.35) 50%,
+      rgba(14, 43, 75, 0.6) 100%);
   pointer-events: none;
 }
 
@@ -69,20 +68,22 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: 500px;
+    height: 200px;
+    width: 200px;
   }
-  
+
   .hero__searchbox {
     top: 50%;
+  }
+
+  .hero__image img {
+    object-position: center top;
   }
 }
 
 @media (max-width: 480px) {
   .hero {
-    height: 450px;
+    height: 350px;
+    /* Reduced from 450px */
   }
 }
-
-
-
-
