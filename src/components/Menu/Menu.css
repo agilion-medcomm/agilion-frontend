@@ -409,25 +409,24 @@ input[type="button"] {
 .search__btn {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  color: white;
+  background: transparent;
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: inherit;
   cursor: pointer !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  transition: none;
 }
 
 .search__btn:hover {
-  background: linear-gradient(135deg, #abc5ff 0%, #9dbbfe 100%);
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(110, 154, 250, 0.4);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
 }
 
 .search__btn:active {
-  transform: scale(0.95);
+  transform: none;
 }
 
 
@@ -693,9 +692,26 @@ input[type="button"] {
   }
 }
 
+@media (max-width: 768px) {
+  .topbar {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  :root {
+    --topbar-h: 0px !important;
+    /* Topbar yoksa yüksekliğini sıfırla ki diğer elemanlar yukarı kaymasın */
+  }
+}
+
 @media (max-width: 520px) {
   :root {
-    --topbar-h: 40px;
+    --topbar-h: 0px;
+    /* Topbar gizli olduğu için yükseklik 0 olmalı */
     --menubar-h: 66px;
   }
 
@@ -802,8 +818,21 @@ input[type="button"] {
   place-items: center;
   border: none;
   background: transparent;
-  color: var(--brand-800);
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: inherit;
   cursor: pointer !important;
+}
+
+.search__btn:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.search__btn:active {
+  transform: none;
 }
 
 .search {

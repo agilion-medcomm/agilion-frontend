@@ -91,14 +91,16 @@
   }
 
   .floating-btn {
-    padding: 11px 12px;
-    font-size: 12px;
-    gap: 6px;
+    padding: 12px 14px;
+    font-size: 16px;
+    /* Increased from 12px */
+    gap: 8px;
   }
 
-  .floating-btn svg {
-    width: 18px;
-    height: 18px;
+  .floating-btn svg,
+  .floating-btn .icon {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -111,14 +113,15 @@
 
   .floating-btn {
     padding: 10px;
-    font-size: 11px;
+    font-size: 14px;
+    /* Increased from 11px */
   }
 }
 
 .floating-btn .icon {
-  width: 32px;
-  height: 32px;
-  margin-right: 8px;
-  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
   filter: brightness(0) invert(1);
+  display: block;
 }

@@ -237,8 +237,8 @@ export default function Menu() {
 }
 
 // --- İKONLAR ---
-function MailIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" strokeWidth="1.6" /><path d="M4 7l8 6 8-6" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>; }
-function PhoneIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 3l3 3-2 2a14 14 0 007 7l2-2 3 3-2 3c-6 1-14-7-13-13L6 3z" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>; }
+function MailIcon() { return <img src="/mailicon.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
+function PhoneIcon() { return <img src="/phone.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
 function FbIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M13 22v-9h3l1-4h-4V7c0-1.1.9-2 2-2h2V1h-3a5 5 0 00-5 5v3H6v4h3v9h4z" /></svg>; }
 function IgIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="none" /><circle cx="12" cy="12" r="4" stroke="currentColor" fill="none" /><circle cx="17" cy="7" r="1.2" fill="currentColor" /></svg>; }
 function HamburgerIcon({ isOpen }) { return isOpen ? <img src="/xmark1.svg" className="xmark-icon" width="28" height="28" /> : <img src="/bars.svg" className="bars-icon" width="28" height="28" />; }
