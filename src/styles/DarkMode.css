@@ -1,0 +1,305 @@
+/* src/styles/DarkMode.css */
+
+/* Global Dark Mode Overrides */
+[data-theme="dark"] body {
+    background-color: #121212 !important;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .site {
+    background-color: #1e1e1e !important;
+}
+
+/* Header/Menu Exceptions - Ensure they keep their light/dark specific designs
+   Topbar acts as a dark header usually, Menubar is light. */
+[data-theme="dark"] .menubar {
+    background-color: #1f2937 !important;
+    /* Dark Grey */
+    border-bottom: 1px solid #374151 !important;
+}
+
+[data-theme="dark"] .menubar .nav__link {
+    color: #e5e7eb;
+}
+
+[data-theme="dark"] .menubar .nav__link:hover {
+    color: #3b82f6;
+}
+
+[data-theme="dark"] .menubar .nav__link.active {
+    color: white !important;
+}
+
+/* Typography Overrides in Main Content */
+[data-theme="dark"] .main h1,
+[data-theme="dark"] .main h2,
+[data-theme="dark"] .main h3,
+[data-theme="dark"] .main h4,
+[data-theme="dark"] .main h5,
+[data-theme="dark"] .main h6 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .main p,
+[data-theme="dark"] .main li,
+[data-theme="dark"] .main span:not(.badge):not(.btn) {
+    color: #cbd5e1;
+}
+
+/* Component Specific Overrides */
+
+/* Expert Section */
+[data-theme="dark"] .expert-section {
+    background-color: transparent !important;
+}
+
+[data-theme="dark"] .expert-content h2,
+[data-theme="dark"] .expert-content p {
+    color: #e2e8f0 !important;
+}
+
+/* Hasta Çağrı Merkezi Box - Lighter Blue */
+[data-theme="dark"] .expert-content .call-box {
+    background-color: #2251a2 !important;
+    border-top: 1px solid #306fdb !important;
+    border-right: 1px solid #306fdb !important;
+}
+
+
+[data-theme="dark"] .expert-content .call-box h4 {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .expert-content .call-box p {
+    color: #e2e8f0 !important;
+}
+
+/* FAQ */
+[data-theme="dark"] .faq-section {
+    background-color: #121212 !important;
+}
+
+[data-theme="dark"] .faq-title {
+    color: #f1f5f9 !important;
+}
+
+/* FAQ Item - Lighter Blue */
+[data-theme="dark"] .faq-item {
+    background-color: #2251a2 !important;
+    border: 1px solid #306fdb !important;
+    box-shadow: none !important;
+}
+
+[data-theme="dark"] .faq-question span {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .faq-answer {
+    color: #e2e8f0 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Stats */
+[data-theme="dark"] .stats-wrap {
+    background-color: #0f172a !important;
+}
+
+/* Stats Container - Lighter Blue */
+[data-theme="dark"] .stats-container .stat-card {
+    background-color: #2251a2 !important;
+    border: 1px solid #306fdb !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .stat-card .stat-number {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .stat-card .stat-label {
+    color: #e2e8f0 !important;
+}
+
+/* Bolumler (Departments) */
+[data-theme="dark"] .bolumler-section {
+    background-color: #121212 !important;
+}
+
+[data-theme="dark"] .bolumler-title {
+    color: #f1f5f9 !important;
+}
+
+/* Bolumler Cards - Light Blue #306fdb */
+
+
+/* Make icons white */
+[data-theme="dark"] .bolum-card img {
+    filter: brightness(0) invert(1) !important;
+}
+
+[data-theme="dark"] .bolum-card h3 {
+    color: #ffffff !important;
+}
+
+
+[data-theme="dark"] .bolum-card.red img {
+    filter: brightness(0) invert(1) !important;
+}
+
+/* Bolumler Footer Text - Dark for readability on inherited white box */
+[data-theme="dark"] .bolumler-footer span {
+    color: #1a202c !important;
+    /* Dark text */
+}
+
+/* Doctor Slider */
+[data-theme="dark"] .doctor-slider-section {
+    background-color: #121212 !important;
+}
+
+[data-theme="dark"] .doctor-slider-header h2 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .slider-doctor-card {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    box-shadow: none !important;
+}
+
+[data-theme="dark"] .slider-doctor-name {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .slider-doctor-specialization {
+    color: #94a3b8 !important;
+}
+
+
+
+/* Hero Search Box */
+[data-theme="dark"] .search {
+    background: #27292b !important;
+    border-color: #232222 !important;
+}
+
+[data-theme="dark"] .search__input {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .search__input::placeholder {
+    color: #94a3b8 !important;
+}
+
+/* === Mobile Menu Dark Mode === */
+[data-theme="dark"] .mobile-menu {
+    background-color: #1f2937 !important;
+    /* Dark Grey */
+    border-color: #374151 !important;
+}
+
+[data-theme="dark"] .mobile-menu__link {
+    color: #f3f4f6 !important;
+}
+
+[data-theme="dark"] .mobile-menu__link svg {
+    color: #9ca3af !important;
+}
+
+[data-theme="dark"] .mobile-menu__link:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+}
+
+/* Mobile Auth Section */
+[data-theme="dark"] .mobile-menu__info-item {
+    color: #e5e7eb !important;
+}
+
+[data-theme="dark"] .mobile-menu__info-item strong {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .mobile-menu__socials-row a {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .mobile-menu__socials-row .lang {
+    color: #fff !important;
+}
+
+[data-theme="dark"] .mobile-menu__login-btn {
+    background: linear-gradient(135deg, #299438 0%, #03890e 100%);
+    color: white;
+}
+
+/* --- Floating Buttons Dark Mode Başlangıç --- */
+
+/* Genel Konteyner (Opsiyonel: Eğer butonlar birleşik bir hap şeklindeyse) */
+[data-theme="dark"] .floating-buttons {
+    /* Butonların arkasında hafif bir gölge ile zeminden yükseltelim */
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+}
+
+/* 1. Hızlı Randevu Butonu (Mavi Tonlar) */
+[data-theme="dark"] .floating-btn--appointment {
+    /* Arka plan: Çok koyu, hafif transparan mavi */
+    background-color: rgba(30, 58, 138, 0.85) !important;
+    /* Tailwind Blue-900 tonu */
+
+    /* Kenarlık: Daha parlak, sınırları belli eden mavi */
+    border-top: 1px solid #3b82f6 !important;
+    /* Yazı Rengi: Okunabilirlik için tam beyaz */
+    color: #ffffff !important;
+    /* Geçiş efektleri */
+    transition: all 0.3s ease;
+}
+
+
+
+/* 2. İletişim Butonu (Yeşil Tonlar) */
+[data-theme="dark"] .floating-btn--contact {
+    background-color: rgba(20, 83, 45, 0.85) !important;
+
+
+    border-right: 1px solid #22c55e !important;
+    border-top: 1px solid #22c55e !important;
+    /* Tailwind Green-500 */
+
+    /* Yazı Rengi */
+    color: #ffffff !important;
+
+    /* Geçiş efektleri */
+    transition: all 0.3s ease;
+}
+
+/* --- Liquid Glass Bölüm Kartları (Dark Mode) Başlangıç --- */
+
+/* Standart Mavi Kartlar */
+[data-theme="dark"] .bolum-card {
+    background: linear-gradient(to top, rgba(34, 81, 162, 0.9), rgba(59, 130, 246, 0.8)) !important;
+    /* 2. Liquid Glass Kenarlık */
+    /* Yarı saydam, parlak bir mavi kenarlık */
+    border: 1px solid rgba(59, 130, 246, 0.5) !important;
+
+    /* 3. Cam Efekti Gölgeleri */
+    box-shadow:
+        /* İç Üst Parlama (Camın üst kenarındaki ışık vurması) */
+        inset 0 2px 4px rgba(255, 255, 255, 0.2),
+        /* İç Alt Gölge (Derinlik hissi için) */
+        inset 0 -4px 10px rgba(0, 0, 0, 0.3),
+
+        /* Hover için yumuşak geçiş */
+}
+
+/* Acil Durum Kırmızı Kartı */
+[data-theme="dark"] .bolum-card.red {
+    /* 1. Arka Plan Gradyanı */
+    /* Alt kısım koyu kırmızı, üst kısım daha canlı kırmızı */
+    background: linear-gradient(to top, rgba(177, 31, 31, 0.9), rgba(239, 68, 68, 0.8)) !important;
+    /* 2. Liquid Glass Kenarlık */
+    border: 1px solid rgba(239, 68, 68, 0.6) !important;
+
+}
+
+
+/* --- Liquid Glass Bölüm Kartları Bitiş --- */
