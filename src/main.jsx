@@ -7,18 +7,19 @@ import { AuthProvider } from './context/AuthContext'
 import { PersonnelAuthProvider } from './context/PersonnelAuthContext'
 import { NotificationProvider } from './context/NotificationContext'
 import './index.css'
+import './styles/DarkMode.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <PersonnelAuthProvider> 
-        <NotificationProvider>
-            <AuthProvider> 
-                <BrowserRouter>
-                    <App />
-                </BrowserRouter>
-            </AuthProvider>
-        </NotificationProvider>
+    <PersonnelAuthProvider>
+      <NotificationProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AuthProvider>
+      </NotificationProvider>
     </PersonnelAuthProvider>
   </StrictMode>,
 )
