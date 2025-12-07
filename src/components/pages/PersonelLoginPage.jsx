@@ -5,7 +5,7 @@ import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import axios from 'axios';
 import './LoginPage.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
@@ -18,14 +18,29 @@ export default function PersonelLoginPage() {
   const navigate = useNavigate();
   
   // Context'ten fonksiyonları alıyoruz (Harf duyarlılığına dikkat!)
-  const { loginPersonnel, logoutPersonnel } = usePersonnelAuth();
+  const { loginPersonnel, user } = usePersonnelAuth();
 
-  // Sayfa açıldığında eski oturumu temizle
-  useEffect(() => { 
-    if (logoutPersonnel) {
-      logoutPersonnel(); 
+  // Eğer zaten giriş yapmışsa dashboard'a yönlendir
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard', { replace: true });
     }
-  }, []); 
+  }, [user, navigate]);
+
+  // Tarayıcı geri tuşuna basınca ana sayfaya git
+  useEffect(() => {
+    const handlePopState = () => {
+      navigate('/', { replace: true });
+    };
+    
+    // History'ye bir entry ekle ki geri tuşu çalışsın
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handlePopState);
+    
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [navigate]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -94,6 +109,16 @@ export default function PersonelLoginPage() {
           <button type="submit" className="login-button" disabled={loading} style={{ backgroundColor: '#c1272d' }}>
             {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </button>
+          
+          <div style={{ textAlign: 'center', marginTop: '16px' }}>
+            <a 
+              href="/" 
+              style={{ color: '#666', fontSize: '0.9rem', textDecoration: 'none' }}
+              onClick={(e) => { e.preventDefault(); navigate('/'); }}
+            >
+              ← Ana Sayfaya Dön
+            </a>
+          </div>
         </form>
       </div>
     </div>
