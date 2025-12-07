@@ -43,9 +43,11 @@
 }
 
 .stat-number {
-  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: .5px;
+  font-size: clamp(1.7rem, 3.2vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: .4px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
 }
 
 .stat-label {
@@ -57,15 +59,15 @@
 /* === Responsive === */
 @media (max-width: 900px) {
   .stats-container {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
 }
 
 @media (max-width: 520px) {
   .stats-container {
-    grid-template-columns: 1fr;
-    gap: 16px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
   }
 }
 
@@ -80,7 +82,7 @@
   position: relative;
   text-align: center;
   padding: 24px 16px;
-  border-radius: 16px;
+  border-radius: 32px;
   box-shadow: 0 8px 24px rgba(0, 43, 92, 0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

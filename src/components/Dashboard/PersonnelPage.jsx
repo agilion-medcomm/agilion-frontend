@@ -53,7 +53,7 @@ const CameraIcon = () => (
 // Avatar component with photo or initials
 const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medium', onClick }) => {
   const displayInitials = initials || `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
-  
+
   // Generate consistent color from name
   const getAvatarColor = (name) => {
     const colors = [
@@ -71,7 +71,7 @@ const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medi
   };
 
   return (
-    <div 
+    <div
       className={`personnel-avatar ${sizeClasses[size]} ${onClick ? 'clickable' : ''}`}
       onClick={onClick}
       style={!photoUrl ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
@@ -97,19 +97,19 @@ export default function PersonnelPage() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
-  
+
   // Modals
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [selectedPersonnel, setSelectedPersonnel] = useState(null);
-  
+
   // Photo upload state
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
-  
+
   // Form state
   const [form, setForm] = useState({
     tckn: '',
@@ -122,7 +122,7 @@ export default function PersonnelPage() {
     role: 'DOCTOR',
     specialization: ''
   });
-  
+
   const [message, setMessage] = useState({ type: '', text: '' });
 
   useEffect(() => {
@@ -136,13 +136,13 @@ export default function PersonnelPage() {
   const fetchPersonnel = async () => {
     setLoading(true);
     const token = localStorage.getItem('personnelToken');
-    
+
     if (!token) {
       showMessage('error', 'No authentication token found. Please login again.');
       setLoading(false);
       return;
     }
-    
+
     try {
       const res = await axios.get(`${BaseURL}/personnel`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -162,12 +162,12 @@ export default function PersonnelPage() {
 
   const filterPersonnel = () => {
     let filtered = [...personnelList];
-    
+
     // Role filter
     if (roleFilter !== 'ALL') {
       filtered = filtered.filter(p => p.role === roleFilter);
     }
-    
+
     // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
@@ -179,7 +179,7 @@ export default function PersonnelPage() {
         p.phoneNumber?.includes(query)
       );
     }
-    
+
     setFilteredPersonnel(filtered);
   };
 
@@ -210,17 +210,17 @@ export default function PersonnelPage() {
   const handleAddPersonnel = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
-    
+
     const dataToSend = { ...form };
     if (dataToSend.role !== 'DOCTOR') {
       dataToSend.specialization = '';
     }
-    
+
     try {
       const response = await axios.post(`${BaseURL}/personnel`, dataToSend, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       // If photo was selected, upload it after personnel is created
       if (photoFile && response.data?.data?.id) {
         const formData = new FormData();
@@ -237,7 +237,7 @@ export default function PersonnelPage() {
           // Personnel was created, just photo failed
         }
       }
-      
+
       showMessage('success', 'Personnel added successfully');
       setShowAddModal(false);
       resetForm();
@@ -252,26 +252,26 @@ export default function PersonnelPage() {
   const handleEditPersonnel = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
-    
+
     const updateData = {
       email: form.email,
       phoneNumber: form.phoneNumber,
       dateOfBirth: form.dateOfBirth,
     };
-    
+
     if (form.role === 'DOCTOR' && form.specialization) {
       updateData.specialization = form.specialization;
     }
-    
+
     if (form.password) {
       updateData.password = form.password;
     }
-    
+
     try {
       await axios.put(`${BaseURL}/personnel/${selectedPersonnel.id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       showMessage('success', 'Personnel updated successfully');
       setShowEditModal(false);
       resetForm();
@@ -284,17 +284,17 @@ export default function PersonnelPage() {
 
   const handleDeletePersonnel = async () => {
     const token = localStorage.getItem('personnelToken');
-    
+
     if (selectedPersonnel.id === user.id) {
       showMessage('error', 'You cannot delete your own account');
       return;
     }
-    
+
     try {
       await axios.delete(`${BaseURL}/personnel/${selectedPersonnel.id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       showMessage('success', 'Personnel deleted successfully');
       setShowDeleteModal(false);
       setSelectedPersonnel(null);
@@ -355,11 +355,11 @@ export default function PersonnelPage() {
 
   const handlePhotoUpload = async () => {
     if (!photoFile || !selectedPersonnel) return;
-    
+
     const token = localStorage.getItem('personnelToken');
     const formData = new FormData();
     formData.append('photo', photoFile);
-    
+
     setUploadingPhoto(true);
     try {
       await axios.post(`${BaseURL}/personnel/${selectedPersonnel.id}/photo`, formData, {
@@ -368,13 +368,13 @@ export default function PersonnelPage() {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       showMessage('success', 'Photo uploaded successfully');
       setShowPhotoModal(false);
       setPhotoFile(null);
       setPhotoPreview(null);
       fetchPersonnel();
-      
+
       // Refresh current user if they updated their own photo
       if (selectedPersonnel.id === user?.id || selectedPersonnel.userId === user?.id) {
         await refreshUser();
@@ -388,20 +388,20 @@ export default function PersonnelPage() {
 
   const handlePhotoDelete = async () => {
     if (!selectedPersonnel) return;
-    
+
     const token = localStorage.getItem('personnelToken');
-    
+
     setUploadingPhoto(true);
     try {
       await axios.delete(`${BaseURL}/personnel/${selectedPersonnel.id}/photo`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       showMessage('success', 'Photo deleted successfully');
       setPhotoPreview(null);
       setPhotoFile(null);
       fetchPersonnel();
-      
+
       // Refresh current user if they deleted their own photo
       if (selectedPersonnel.id === user?.id || selectedPersonnel.userId === user?.id) {
         await refreshUser();
@@ -414,20 +414,23 @@ export default function PersonnelPage() {
   };
 
   const getRoleBadgeClass = (role) => {
-    switch(role) {
+    switch (role) {
       case 'DOCTOR': return 'badge-doctor';
       case 'ADMIN': return 'badge-admin';
       case 'LABORANT': return 'badge-lab';
+      case 'CLEANER': return 'badge-cleaner';
+      case 'CASHIER': return 'badge-cashier';
       default: return 'badge-default';
     }
   };
 
   const getRoleLabel = (role) => {
-    switch(role) {
+    switch (role) {
       case 'LABORANT': return 'Lab Technician';
       case 'DOCTOR': return 'Doctor';
       case 'ADMIN': return 'Admin';
       case 'CASHIER': return 'Desk Staff';
+      case 'CLEANER': return 'Cleaner';
       default: return role;
     }
   };
@@ -475,9 +478,9 @@ export default function PersonnelPage() {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        
+
         <div className="role-filters">
-          {['ALL', 'DOCTOR', 'ADMIN', 'LABORANT'].map(role => (
+          {['ALL', 'DOCTOR', 'ADMIN', 'LABORANT', 'CLEANER'].map(role => (
             <button
               key={role}
               className={`filter-chip ${roleFilter === role ? 'active' : ''}`}
@@ -648,6 +651,7 @@ export default function PersonnelPage() {
                     <option value="ADMIN">Admin</option>
                     <option value="LABORANT">Lab Technician</option>
                     <option value="CASHIER">Desk Staff</option>
+                    <option value="CLEANER">Cleaner</option>
                   </select>
                 </div>
               </div>
@@ -882,12 +886,12 @@ export default function PersonnelPage() {
                   </div>
                 )}
               </div>
-              
+
               <div className="photo-info">
                 <p><strong>{selectedPersonnel.firstName} {selectedPersonnel.lastName}</strong></p>
                 <p className="text-muted">{getRoleLabel(selectedPersonnel.role)}</p>
               </div>
-              
+
               <div className="photo-upload-section">
                 <input
                   type="file"
@@ -905,8 +909,8 @@ export default function PersonnelPage() {
             </div>
             <div className="modal-actions">
               {selectedPersonnel.photoUrl && !photoFile && (
-                <button 
-                  className="btn-danger" 
+                <button
+                  className="btn-danger"
                   onClick={handlePhotoDelete}
                   disabled={uploadingPhoto}
                 >
@@ -916,8 +920,8 @@ export default function PersonnelPage() {
               <button className="btn-secondary" onClick={() => setShowPhotoModal(false)}>
                 Cancel
               </button>
-              <button 
-                className="btn-primary" 
+              <button
+                className="btn-primary"
                 onClick={handlePhotoUpload}
                 disabled={!photoFile || uploadingPhoto}
               >

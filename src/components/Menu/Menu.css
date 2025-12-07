@@ -202,10 +202,10 @@ input[type="button"] {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border: none;
+  padding: 7px 12px;
+  border: 1px solid #88888832;
   border-radius: 9999px;
-  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+  background: linear-gradient(135deg, rgba(38, 99, 235, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
   justify-content: center;
   flex-grow: 1;
 }
@@ -221,7 +221,7 @@ input[type="button"] {
   justify-content: center;
   padding: 10px 20px;
   border-radius: 999px;
-  color: #64748b;
+  color: #585d64;
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
@@ -235,7 +235,7 @@ input[type="button"] {
 .nav__link:hover {
   color: #2563eb;
   background: rgba(37, 99, 235, 0.1);
-  transform: translateY(-2px);
+  transform: translateY(0px);
 }
 
 .nav__link.active {
@@ -409,25 +409,24 @@ input[type="button"] {
 .search__btn {
   display: grid;
   place-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
   border: none;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  color: white;
+  background: transparent;
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: inherit;
   cursor: pointer !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  transition: none;
 }
 
 .search__btn:hover {
-  background: linear-gradient(135deg, #abc5ff 0%, #9dbbfe 100%);
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(110, 154, 250, 0.4);
+  background: transparent;
+  transform: none;
+  box-shadow: none;
 }
 
 .search__btn:active {
-  transform: scale(0.95);
+  transform: none;
 }
 
 
@@ -501,6 +500,62 @@ input[type="button"] {
   padding: 20px 16px;
 }
 
+/* New Container for Side-by-Side Buttons */
+.mobile-menu__top-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Ensure children take equal width */
+.mobile-menu__appointment,
+.mobile-menu__auth-section {
+  flex: 1;
+  width: auto;
+  /* Override 100% width if present */
+  margin-bottom: 0;
+  /* Remove bottom margin */
+}
+
+.mobile-menu__auth-section {
+  display: flex;
+  /* Make sure it behaves as a container for the login button */
+}
+
+/* Ensure internal buttons also fill the space */
+.mobile-menu__login-btn,
+.mobile-menu__appointment {
+  width: 100%;
+  display: flex !important;
+  justify-content: center;
+  /* Center content */
+  align-items: center;
+  text-align: center;
+  padding: 0 10px;
+  /* Use height for height control, padding only horizontal */
+  height: 52px;
+  /* Fixed height for equality */
+  font-size: 0.95rem;
+  /* Slightly smaller font if needed */
+  border-radius: 16px !important;
+  /* Unified border radius */
+  box-sizing: border-box;
+  /* Include padding/border in height */
+  margin: 0 !important;
+  /* Reset any margins */
+}
+
+/* Adjust Appointment Button internals */
+.mobile-menu__appointment {
+  /* Keep existing styles but allow flex override */
+  justify-content: center;
+}
+
+/* Remove margin-left/auto logic if it interferes with centering */
+.mobile-menu__appointment img {
+  margin-left: 6px !important;
+}
+
 /* Hızlı Randevu Button */
 .mobile-menu__appointment {
   width: 100%;
@@ -514,15 +569,13 @@ input[type="button"] {
   background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
   color: white;
   border: none;
-  border-radius: 12px;
-  font-weight: 600;
+  border-radius: 16px;
+  font-weight: 700;
   cursor: pointer !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  font-size: 1rem;
 }
 
 .mobile-menu__appointment:hover {
-  transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
   background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
 }
@@ -549,13 +602,15 @@ input[type="button"] {
   align-items: center;
   justify-content: space-between;
   padding: 13px 14px;
-  font-size: 15px;
+  font-size: 1.1rem;
+  /* Larger font */
   color: #374151;
   text-decoration: none;
   border-radius: 10px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer !important;
-  font-weight: 500;
+  font-weight: 600;
+  /* Bolder text */
 }
 
 .mobile-menu__link:hover {
@@ -570,6 +625,8 @@ input[type="button"] {
   flex-shrink: 0;
   color: #9ca3af;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: auto;
+  /* Push to the right */
 }
 
 .mobile-menu__link:hover svg {
@@ -656,9 +713,9 @@ input[type="button"] {
   }
 
   .nav__link {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
     padding: 8px 10px;
-    font-weight: 600;
+    font-weight: 700;
   }
 
   .nav__link.active {
@@ -693,9 +750,26 @@ input[type="button"] {
   }
 }
 
+@media (max-width: 768px) {
+  .topbar {
+    display: none !important;
+    height: 0 !important;
+    visibility: hidden !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  :root {
+    --topbar-h: 0px !important;
+    /* Topbar yoksa yüksekliğini sıfırla ki diğer elemanlar yukarı kaymasın */
+  }
+}
+
 @media (max-width: 520px) {
   :root {
-    --topbar-h: 40px;
+    --topbar-h: 0px;
+    /* Topbar gizli olduğu için yükseklik 0 olmalı */
     --menubar-h: 66px;
   }
 
@@ -802,8 +876,21 @@ input[type="button"] {
   place-items: center;
   border: none;
   background: transparent;
-  color: var(--brand-800);
+  padding: 0;
+  width: auto;
+  height: auto;
+  color: inherit;
   cursor: pointer !important;
+}
+
+.search__btn:hover {
+  background: transparent;
+  transform: none;
+  box-shadow: none;
+}
+
+.search__btn:active {
+  transform: none;
 }
 
 .search {
@@ -926,7 +1013,7 @@ input[type="button"] {
     background: linear-gradient(135deg, #0e2b4b 0%, #1a3d5c 100%);
     color: white;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 16px;
     font-weight: 600;
     font-size: 14px;
     border: none;

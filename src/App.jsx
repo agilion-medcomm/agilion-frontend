@@ -48,70 +48,74 @@ import ProfilePage from './components/Dashboard/ProfilePage';
 import LaborantDashboard from './components/Dashboard/LaborantDashboard';
 import MedicalFilesPage from './components/Dashboard/MedicalFilesPage';
 
+import { ThemeProvider } from './context/ThemeContext';
+
 export default function App() {
   const { user: patientUser } = useAuth(); // Hasta kullanıcısı
 
   return (
-    <Routes>
-      {/* 1. Standart Sayfalar (Menü + Footer Var) */}
-      <Route path="/" element={<MainLayout />}>
-        <Route index element={<MainPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="reset-password" element={<ResetPasswordPage />} />
-        <Route path="contact" element={<ContactPage />} />
-        <Route path="evde-saglik" element={<EvdeSaglikPage />} />
-        <Route path="hekimlerimiz" element={<DoctorsPage />} />
-        <Route path="doktor-sec" element={<SelectDoctorPage />} />
-        <Route path="randevu" element={<AppointmentPage />} />
-        <Route path="kurumsal" element={<KurumsalPage />} />
-        <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
-        <Route path="birimlerimiz" element={<BirimlerimizPage />} />
-        <Route path="verify-email" element={<VerifyEmailPage />} />
+    <ThemeProvider>
+      <Routes>
+        {/* 1. Standart Sayfalar (Menü + Footer Var) */}
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<MainPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="reset-password" element={<ResetPasswordPage />} />
+          <Route path="contact" element={<ContactPage />} />
+          <Route path="evde-saglik" element={<EvdeSaglikPage />} />
+          <Route path="hekimlerimiz" element={<DoctorsPage />} />
+          <Route path="doktor-sec" element={<SelectDoctorPage />} />
+          <Route path="randevu" element={<AppointmentPage />} />
+          <Route path="kurumsal" element={<KurumsalPage />} />
+          <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
+          <Route path="birimlerimiz" element={<BirimlerimizPage />} />
+          <Route path="verify-email" element={<VerifyEmailPage />} />
 
-        {/* ✅ Profil Rotası: Hasta ise PatientDashboard, değilse ProfilePage */}
-        <Route
-          path="profile"
-          element={patientUser ? <PatientDashboard /> : <ProfilePage />}
-        />
-      </Route>
-
-      {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
-      <Route path="/personelLogin" element={<PersonelLoginPage />} />
-
-      {/* 3. Dashboard Sistemi (Personel Korumalı) */}
-      <Route element={<ProtectedPersonnelRoute />}>
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route index element={<DashboardHome />} />
-
-          {/* Admin Routes */}
-          <Route path="personnel" element={<PersonnelPage />} />
-          <Route path="appointments" element={<AppointmentsPage />} />
-          <Route path="patients" element={<PatientsPage />} />
-          <Route path="leave-requests" element={<LeaveRequestsPage />} />
-          <Route path="contact-forms" element={<ContactFormsPage />} />
-          <Route path="lab-results" element={<LabResultsPage />} />
-          <Route path="cleaning" element={<CleaningManagementPage />} />
-          <Route path="notifications-sender" element={<AdminNotificationSender />} />
-          <Route path="medical-files" element={<MedicalFilesPage />} />
-
-          {/* Role Based Dashboards */}
-          <Route path="cleaner" element={<CleanerDashboard />} />
-          <Route path="payments" element={<CashierDashboard />} />
-          <Route path="lab-tests" element={<LabTechDashboard />} />
-          <Route path="laborant" element={<LaborantDashboard />} />
-
-          {/* Hasta Paneli (Dashboard içinden erişim gerekirse) */}
-          <Route path="my-appointments" element={<PatientDashboard />} />
-
-          {/* Personel Profil Sayfası */}
-          <Route path="profile" element={<ProfilePage />} />
-
-          {/* Bildirimler */}
-          <Route path="notifications" element={<NotificationsPage />} />
+          {/* ✅ Profil Rotası: Hasta ise PatientDashboard, değilse ProfilePage */}
+          <Route
+            path="profile"
+            element={patientUser ? <PatientDashboard /> : <ProfilePage />}
+          />
         </Route>
-      </Route>
-    </Routes>
+
+        {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
+        <Route path="/personelLogin" element={<PersonelLoginPage />} />
+
+        {/* 3. Dashboard Sistemi (Personel Korumalı) */}
+        <Route element={<ProtectedPersonnelRoute />}>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+
+            {/* Admin Routes */}
+            <Route path="personnel" element={<PersonnelPage />} />
+            <Route path="appointments" element={<AppointmentsPage />} />
+            <Route path="patients" element={<PatientsPage />} />
+            <Route path="leave-requests" element={<LeaveRequestsPage />} />
+            <Route path="contact-forms" element={<ContactFormsPage />} />
+            <Route path="lab-results" element={<LabResultsPage />} />
+            <Route path="cleaning" element={<CleaningManagementPage />} />
+            <Route path="notifications-sender" element={<AdminNotificationSender />} />
+            <Route path="medical-files" element={<MedicalFilesPage />} />
+
+            {/* Role Based Dashboards */}
+            <Route path="cleaner" element={<CleanerDashboard />} />
+            <Route path="payments" element={<CashierDashboard />} />
+            <Route path="lab-tests" element={<LabTechDashboard />} />
+            <Route path="laborant" element={<LaborantDashboard />} />
+
+            {/* Hasta Paneli (Dashboard içinden erişim gerekirse) */}
+            <Route path="my-appointments" element={<PatientDashboard />} />
+
+            {/* Personel Profil Sayfası */}
+            <Route path="profile" element={<ProfilePage />} />
+
+            {/* Bildirimler */}
+            <Route path="notifications" element={<NotificationsPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    </ThemeProvider>
   );
 }

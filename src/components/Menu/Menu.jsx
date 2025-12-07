@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import { useTheme } from '../../context/ThemeContext';
 // Appointment modals removed — randevu sayfası kullanılacak
 import "./Menu.css";
 
@@ -12,6 +13,7 @@ export default function Menu() {
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, toggleTheme } = useTheme();
 
 
 
@@ -125,6 +127,14 @@ export default function Menu() {
             <a className="social" href="#"><FbIcon /></a>
             <a className="social" href="#"><IgIcon /></a>
             <span className="lang">TR</span>
+            <button
+              onClick={toggleTheme}
+              className="theme-toggle-btn"
+              title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', marginLeft: '10px', padding: '0', display: 'flex', alignItems: 'center' }}
+            >
+              <img src={theme === 'light' ? "/sun.svg" : "/moon.svg"} width="20" height="20" alt="Theme Toggle" style={{ filter: 'brightness(0) invert(1)' }} />
+            </button>
 
             {isLoggedIn ? (
               <div className="user-menu">
@@ -147,7 +157,7 @@ export default function Menu() {
       {/* Menubar */}
       <div className="menubar">
         <div className="container menubar__row">
-          <Link className="brand" to="/"><img src="/logo.png" alt="AgilionMED Logo" className="logo-img" /></Link>
+          <Link className="brand" to="/"><img src={theme === 'light' ? "/logo.png" : "/logo-dark.png"} alt="AgilionMED Logo" className="logo-img" /></Link>
           <nav className="nav">
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">ANA SAYFA</NavLink>
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">KURUMSAL</NavLink>
@@ -164,28 +174,30 @@ export default function Menu() {
         <>
           <div ref={menuRef} id="mobile-menu" className={`mobile-menu mobile-menu--open`}>
             <div className="mobile-menu__content">
-              {/* 🔥 HAMBURGER MENÜ BUTON DÜZELTMESİ */}
-              <button className="mobile-menu__appointment" onClick={handleHizliRandevuClick}>
-                Hızlı Randevu Al <CalendarIconPlaceholder />
-              </button>
+              {/* Top Buttons Container: Row Layout */}
+              <div className="mobile-menu__top-buttons">
+                <button className="mobile-menu__appointment" onClick={handleHizliRandevuClick}>
+                  Hızlı Randevu Al <img src="/appointment.svg" alt="" width="24" height="24" style={{ marginLeft: '8px', verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />
+                </button>
 
-              {/* Giriş Yap / User Actions - Moved Here */}
-              <div className="mobile-menu__auth-section" style={{ marginBottom: '20px' }}>
-                {isLoggedIn ? (
-                  <div className="mobile-menu__user-actions">
-                    <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer', margin: '0 auto' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
-                      {loggedInUser.firstName?.charAt(0).toUpperCase()}
-                      {loggedInUser.lastName?.charAt(0).toUpperCase()}
+                {/* Giriş Yap / User Actions */}
+                <div className="mobile-menu__auth-section">
+                  {isLoggedIn ? (
+                    <div className="mobile-menu__user-actions">
+                      <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer', margin: '0 auto' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
+                        {loggedInUser.firstName?.charAt(0).toUpperCase()}
+                        {loggedInUser.lastName?.charAt(0).toUpperCase()}
+                      </div>
+                      <button onClick={handleLogout} className="mobile-menu__login-btn" style={{ background: '#d32f2f', marginTop: 8 }}>
+                        Çıkış Yap ({isPersonnel ? 'Personel' : 'Hasta'})
+                      </button>
                     </div>
-                    <button onClick={handleLogout} className="mobile-menu__login-btn" style={{ background: '#d32f2f', marginTop: 8 }}>
-                      Çıkış Yap ({isPersonnel ? 'Personel' : 'Hasta'})
-                    </button>
-                  </div>
-                ) : (
-                  <Link to="/login" className="mobile-menu__login-btn" onClick={closeMenu}>
-                    Giriş Yap
-                  </Link>
-                )}
+                  ) : (
+                    <Link to="/login" className="mobile-menu__login-btn" onClick={closeMenu}>
+                      Giriş Yap
+                    </Link>
+                  )}
+                </div>
               </div>
 
               <nav className="mobile-menu__nav">
@@ -223,6 +235,13 @@ export default function Menu() {
                   <a className="social" href="#"><FbIcon /></a>
                   <a className="social" href="#"><IgIcon /></a>
                   <span className="lang">TR</span>
+                  <button
+                    onClick={toggleTheme}
+                    className="theme-toggle-btn-mobile"
+                    style={{ background: 'none', border: '1px solid #ddd', borderRadius: '50%', cursor: 'pointer', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '10px' }}
+                  >
+                    <img src={theme === 'light' ? "/sun.svg" : "/moon.svg"} width="18" height="18" alt="Theme Toggle" />
+                  </button>
                 </div>
               </div>
             </div>
@@ -237,8 +256,8 @@ export default function Menu() {
 }
 
 // --- İKONLAR ---
-function MailIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" strokeWidth="1.6" /><path d="M4 7l8 6 8-6" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>; }
-function PhoneIcon() { return <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 3l3 3-2 2a14 14 0 007 7l2-2 3 3-2 3c-6 1-14-7-13-13L6 3z" stroke="currentColor" strokeWidth="1.6" fill="none" /></svg>; }
+function MailIcon() { return <img src="/mailicon.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
+function PhoneIcon() { return <img src="/phone.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
 function FbIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M13 22v-9h3l1-4h-4V7c0-1.1.9-2 2-2h2V1h-3a5 5 0 00-5 5v3H6v4h3v9h4z" /></svg>; }
 function IgIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="none" /><circle cx="12" cy="12" r="4" stroke="currentColor" fill="none" /><circle cx="17" cy="7" r="1.2" fill="currentColor" /></svg>; }
 function HamburgerIcon({ isOpen }) { return isOpen ? <img src="/xmark1.svg" className="xmark-icon" width="28" height="28" /> : <img src="/bars.svg" className="bars-icon" width="28" height="28" />; }

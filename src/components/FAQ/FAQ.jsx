@@ -30,6 +30,16 @@ export default function FAQ() {
       answer:
         "Bu konudaki uygulamamız polikliniklerimizin yoğunluğuna göre değişmektedir. Bu nedenle, eğer doktorunuz tetkik istemiş veya kontrole çağırmış ise muayeneden çıktığınızda sonuçlarınızı göstermek veya kontrole gelmek için randevu almanız gerekip gerekmediğini poliklinik sekreterinden öğreniniz.",
     },
+    {
+      question: "05. SGK veya özel sağlık sigortaları ile anlaşmanız var mı?",
+      answer:
+        "Evet, kurumumuzun SGK (Sosyal Güvenlik Kurumu) ile anlaşması bulunmaktadır. Ayrıca birçok özel sağlık sigortası ve tamamlayıcı sağlık sigortası ile de anlaşmamız mevcuttur. Detaylı bilgi için danışma birimimizle iletişime geçebilirsiniz.",
+    },
+    {
+      question: "06. Refakatçi ve ziyaretçi kurallarınız nelerdir?",
+      answer:
+        "Hastalarımızın sağlığı ve konforu için ziyaret saatlerimiz her gün 10:00 - 22:00 arasındadır. Her hasta için bir refakatçi kabul edilmekte olup, yoğun bakım ünitelerimizde ziyaret kuralları hastanın durumuna göre doktor onayı ile belirlenmektedir.",
+    },
   ];
 
   return (
@@ -41,7 +51,7 @@ export default function FAQ() {
       <div className="faq-container">
         {/* Sol taraf: Görsel */}
         <div className="faq-image">
-          <img src="/erkekdoktor.png" alt="Erkek Doktor" />
+          <img src="/kdoctor.png" alt="Kadın Doktor" />
         </div>
 
         {/* Sağ taraf: Akordiyon */}

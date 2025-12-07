@@ -144,7 +144,7 @@
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   .expert-container {
     flex-direction: column;
     align-items: center;
@@ -162,20 +162,61 @@
   .expert-actions {
     flex-direction: column;
     align-items: center;
+    width: 100%;
   }
 
   .call-box {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
+    flex: 0 0 auto;
+    padding: 30px 20px;
   }
 
   .expert-buttons {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
+    flex-direction: row;
+    gap: 15px;
+    flex: 0 0 auto;
+    /* Masaüstünden kalan sabit yüksekliği sıfırla */
   }
 
   .outline-btn {
-    width: 100%;
+    width: auto;
+    flex: 1;
     text-align: center;
+    justify-content: center;
+    padding: 12px 10px;
+    font-size: 0.95rem;
+    height: auto;
+  }
+
+  .call-box .phone {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 960px) {
+  .outline-btn {
+    padding: 10px 14px;
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  .expert-buttons {
+    gap: 10px;
+    flex: 0 0 auto;
+    /* Reset flex-basis: 220px from desktop, which was forcing fixed height */
+    width: 100%;
+  }
+
+  .btn-icon {
+    width: 26px;
+    height: 26px;
+    margin-right: 8px;
+  }
+
+  .call-box .phone {
+    justify-content: center;
   }
 }

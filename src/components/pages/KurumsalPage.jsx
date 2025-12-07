@@ -8,7 +8,10 @@ const KurumsalPage = () => {
       {/* Hero Section */}
       <section className="kurumsal-hero">
         <div className="kurumsal-hero__content">
-          <img src="/kurumsal.png" alt="Kurumsal" className="kurumsal-hero__image" />
+          <picture>
+            <source media="(max-width: 768px)" srcSet="/k1.png" />
+            <img src="/kurumsal.png" alt="Kurumsal" className="kurumsal-hero__image" />
+          </picture>
           <h1 className="kurumsal-hero__title"></h1>
         </div>
       </section>

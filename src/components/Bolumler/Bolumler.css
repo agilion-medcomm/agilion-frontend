@@ -1,13 +1,13 @@
 .bolumler-section {
   width: 100%;
   text-align: center;
-  background: #f7f9fc;
+  background: #f3f3f3;
   padding: 60px 20px 40px;
 }
 
 /* === BAŞLIK === */
 .bolumler-title {
-  color: #0e2b4b;
+  color: #206dbf;
   font-size: 1.9rem;
   font-weight: 700;
   margin-bottom: 50px;
@@ -38,13 +38,14 @@
 
 /* Kart Tasarımı */
 .bolum-card {
-  background: #fff;
+  background: #ffffff !important;
   border-radius: 32px;
+  border: 1px solid #eaeaea !important;
   padding: 24px 18px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.248);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -60,7 +61,7 @@
 }
 
 .bolum-card h3 {
-  color: #0e2b4b;
+  color: #0d5cb1;
   font-size: 1.05rem;
   font-weight: 700;
   margin-bottom: 14px;
@@ -71,7 +72,7 @@
   color: #4154b3;
   background: white;
   border-radius: 999px;
-  padding: 8px 32px;
+  padding: 8px 62px;
   font-weight: 600;
   font-size: 0.95rem;
   cursor: pointer;
@@ -111,7 +112,7 @@
 }
 
 .bolumler-footer span {
-  background: #f7f9fc;
+  background: #ffffff;
   padding: 0 16px;
   font-size: 0.95rem;
   font-weight: 600;
