@@ -280,3 +280,152 @@
     color: #0035a0;
     /* Başlıklar, metinden bir ton daha koyu mavi olsun */
 }
+
+/* Dark Mode Configuration for BolumlerimizPage */
+[data-theme="dark"] .bolumlerimiz-page {
+    background-color: #121212;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .bolumlerimiz-title {
+    color: #f1f5f9;
+}
+
+/* Dark Mode Cards */
+[data-theme="dark"] .bolum-card {
+    background: #1e5bb8;
+    /* Blue card variant */
+    border: 1px solid #3b82f6;
+    box-shadow: none;
+}
+
+/* Force Acil Card Red */
+[data-theme="dark"] .bolum-card.is-acil,
+[data-theme="dark"] .bolum-card.is-acil.selected {
+    background: #b91c1c !important;
+    /* Red card variant */
+    border-color: #ef4444 !important;
+}
+
+[data-theme="dark"] .bolum-card:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+[data-theme="dark"] .bolum-card.is-acil:hover {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Selected state overrides for dark mode */
+[data-theme="dark"] .bolum-card.selected:not(.is-acil) {
+    background: #2563eb;
+    border-color: #93c5fd;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+    /* Glow effect */
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .bolum-card__title {
+    color: #ffffff;
+}
+
+/* Ensure Acil Title is White in Dark Mode (Override specific light mode rule) */
+[data-theme="dark"] .bolum-card.is-acil .bolum-card__title,
+[data-theme="dark"] .bolum-card.is-acil.selected .bolum-card__title {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .bolum-card__icon {
+    filter: brightness(0) invert(1);
+}
+
+/* Button Dark Mode (Default for non-selected) */
+[data-theme="dark"] .bolum-card__btn {
+    background: #ffffff;
+    color: #1e5bb8;
+    border: none;
+}
+
+/* Button for Acil Card (Non-selected) */
+[data-theme="dark"] .bolum-card.is-acil .bolum-card__btn {
+    background-color: #ffffff !important;
+    color: #b91c1c !important;
+    border: none !important;
+    font-weight: 800;
+}
+
+/* --- SELECTED CARD BUTTONS --- */
+
+/* Selected Standard Card Button (Darker Blue + White Border) */
+[data-theme="dark"] .bolum-card.selected:not(.is-acil) .bolum-card__btn {
+    background: #002855;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+}
+
+/* Selected Acil Card Button (Darker Red + White Border) */
+[data-theme="dark"] .bolum-card.is-acil.selected .bolum-card__btn {
+    background-color: #7a0c0c !important;
+    color: #ffffff !important;
+    border: 1px solid #ffffff !important;
+}
+
+[data-theme="dark"] .bolum-card__btn:hover {
+    background: #f1f5f9;
+}
+
+/* Hover override for selected buttons to keep them dark/readable */
+[data-theme="dark"] .bolum-card.selected .bolum-card__btn:hover {
+    background-color: transparent !important;
+    /* or keep the dark color */
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+
+/* Content Area Dark Mode */
+[data-theme="dark"] .bolum-content-section {
+    background: #1e1e1e;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .bolum-content-title {
+    color: #1c75f0 !important;
+}
+
+[data-theme="dark"] .bolum-content-title[style*="cc0000"] {
+    color: #ef4444 !important;
+    /* Red title for acil */
+}
+
+[data-theme="dark"] .bolum-content-title[style*="0052cc"] {
+    color: #60a5fa !important;
+    /* Blue title for others */
+}
+
+[data-theme="dark"] .bolum-content-text {
+    color: #cbd5e1;
+}
+
+/* Tags in Dark Mode */
+[data-theme="dark"] .bolum-tags span {
+    background-color: #1e293b;
+    color: #93c5fd;
+    border-color: #3b82f6;
+}
+
+/* Detail List Area (Mavi kısım) */
+[data-theme="dark"] .bolum-detail-list {
+    background-color: #0f172a;
+}
+
+/* Detail Cards */
+[data-theme="dark"] .bolum-detail-card {
+    background-color: #1e293b;
+    color: #cbd5e1;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .bolum-detail-title {
+    color: #60a5fa;
+}

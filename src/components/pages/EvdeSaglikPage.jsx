@@ -12,25 +12,25 @@ const BandageIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="
 const serviceCards = [
   {
     // Public klasöründeki dosyaya direkt yol veriyoruz (Başına / koyarak)
-    icon: <img src="/nurse.jpg" alt="Hemşirelik" className="custom-svg-icon" />,
+    icon: <img src="/nurse1.svg" alt="Hemşirelik" className="custom-svg-icon" />,
     title: "Evde Hemşirelik Hizmetleri",
     description: "Profesyonel hemşirelerimiz tarafından evinizde enjeksiyon, pansuman, serum takma ve tüm hemşirelik hizmetleri sunulmaktadır.",
     services: ["Enjeksiyon Uygulaması", "Pansuman", "Serum Takma", "Kan Basıncı Takibi", "İlaç Düzenleme", "Yara Bakımı"]
   },
   {
-    icon: <img src="/serum.png" alt="Serum" className="custom-svg-icon" />,
+    icon: <img src="/serum2.svg" alt="Serum" className="custom-svg-icon" />,
     title: "Evde Serum Hizmetleri",
     description: "Hastane ortamına gerek kalmadan, evinizin konforunda güvenli ve hijyenik serum hizmeti alabilirsiniz.",
     services: ["İV Serum Uygulaması", "Vitamin Serum", "Antibiyotik Serum", "Serum Takip ve Kontrol", "Acil Serum Desteği"]
   },
   {
-    icon: <img src="/lab.png" alt="Laboratuvar" className="custom-svg-icon" />,
+    icon: <img src="/lab3.svg" alt="Laboratuvar" className="custom-svg-icon" />,
     title: "Evde Laboratuvar Hizmetleri",
     description: "Evde kan alma, idrar tahlili ve diğer laboratuvar testleriniz için randevu alın.",
     services: ["Evde Kan Alma", "Rutin Tahliller", "Check-Up Paketleri", "Covid-19 Testi", "Hormon Testleri", "Vitamin Analizleri"]
   },
   {
-    icon: <img src="/care.jpg" alt="Yara Bakımı" className="custom-svg-icon" />,
+    icon: <img src="/care4.svg" alt="Yara Bakımı" className="custom-svg-icon" />,
     title: "Evde Yara Bakımı Hizmetleri",
     description: "Ameliyat sonrası, kronik yaralar ve yanık tedavisi için uzman yara bakım hizmetleri.",
     services: ["Ameliyat Sonrası Bakım", "Bası Yarası Tedavisi", "Diyabetik Yara Bakımı", "Yanık Tedavisi", "Dikiş Alma/Atma", "Peg Bakımı"]

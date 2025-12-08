@@ -163,3 +163,42 @@
         padding: 12px 20px;
     }
 }
+
+/* Dark Mode Configuration for KurumsalPage */
+[data-theme="dark"] .kurumsal-page {
+    background-color: #121212;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .kurumsal-hero::before {
+    background: #121212;
+}
+
+[data-theme="dark"] .kurumsal-text-block {
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .kurumsal-intro {
+    color: #e2e8f0;
+    border-color: #1a56db;
+}
+
+[data-theme="dark"] .kurumsal-section-header {
+    background-color: #1a56db !important;
+    color: white !important;
+}
+
+[data-theme="dark"] .kurumsal-text-block li,
+[data-theme="dark"] .kurumsal-text-block p {
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .kurumsal-text-block strong {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .kurumsal-hero__image {
+    filter: invert(1) hue-rotate(180deg) brightness(1.9) contrast(1.2);
+    /* mix-blend-mode da işe yarayabilir ama arka planın rengine bağlı */
+    mix-blend-mode: screen;
+}

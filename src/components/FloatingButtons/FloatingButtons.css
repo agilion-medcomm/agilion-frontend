@@ -55,7 +55,6 @@
   background: linear-gradient(135deg, #076f0b 0%, #0abe04 100%);
   color: white;
   border-radius: 0 16px 16px 0;
-  /* Sağ taraf yuvarlak */
 }
 
 .floating-btn--contact:hover {

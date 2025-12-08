@@ -53,11 +53,12 @@
 
 .service-card {
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: 32px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
   padding: 30px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #ced4da;
 }
 
 .service-card:hover {
@@ -81,12 +82,15 @@
 
 .service-card-button {
   background-color: transparent;
-  border: 1px solid #ced4da;
-  color: #6c757d;
-  padding: 8px 25px;
-  border-radius: 20px;
+  border: 1px solid #5a5a5a;
+  color: #4c4c4c;
+  padding: 10px 0;
+  width: 98%;
+  border-radius: 100px;
   cursor: pointer;
   transition: all 0.3s;
+  margin-top: 14px;
+  font-size: 1.2rem;
 }
 
 .service-card-button:hover {
@@ -603,4 +607,160 @@
   /* Üzerine gelince netleşir */
   filter: brightness(0.5);
   /* İsteğe bağlı renk koyulaşması */
+}
+
+/* --- DARK MODE CONFIGURATION --- */
+
+/* Page Background & Text */
+[data-theme="dark"] .evde-saglik-page .bg-light,
+[data-theme="dark"] .evde-saglik-page .page-section {
+  background-color: #121212;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .evde-saglik-page {
+  background-color: #121212;
+}
+
+/* Headings */
+[data-theme="dark"] .evde-saglik-page h2,
+[data-theme="dark"] .content-section h2,
+[data-theme="dark"] .service-card-title,
+[data-theme="dark"] .modal-header h2 {
+  color: #f1f5f9;
+}
+
+[data-theme="dark"] .content-section p {
+  color: #cbd5e1;
+}
+
+/* Service Cards */
+[data-theme="dark"] .service-card {
+  background-color: #2251a2 !important;
+  border: 1px solid #306fdb !important;
+}
+
+[data-theme="dark"] .service-card-button {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+[data-theme="dark"] .service-card-button:hover {
+  background-color: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+}
+
+/* Pills (Etiketler) */
+[data-theme="dark"] .pill {
+  background-color: #1e293b;
+  color: #c1d9f5;
+  border-color: #3b82f6;
+}
+
+/* Modal Styling */
+[data-theme="dark"] .modal-content {
+  background-color: #1a1a1a;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .modal-header {
+  background-color: #1a1a1a;
+  border-bottom-color: #333;
+}
+
+[data-theme="dark"] .modal-col-left {
+  color: #cbd5e1;
+}
+
+/* Modal Right Column (List Box) */
+[data-theme="dark"] .modal-col-right {
+  background-color: #0f172a;
+  border-color: #334155;
+}
+
+[data-theme="dark"] .service-list li {
+  background-color: #1e293b;
+  /* Kart rengi */
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+[data-theme="dark"] .modal-subtitle {
+  color: #60a5fa;
+  border-bottom-color: #60a5fa;
+}
+
+[data-theme="dark"] .modal-actions {
+  border-top-color: #333;
+}
+
+/* Modal Close Icon - Invert for visibility on dark */
+[data-theme="dark"] .modal-close img {
+  filter: brightness(0) invert(1);
+}
+
+[data-theme="dark"] .modal-close:hover img {
+  filter: brightness(0) invert(0.8);
+  /* Slightly dimmer on hover */
+}
+
+
+/* --- DARK MODE SERVICE CARD UPDATES --- */
+
+[data-theme="dark"] .service-card {
+  /* 1. Kare Form (Hafif yumuşatılmış köşeler) */
+  border-radius: 32px !important;
+  /* 2. Zemin Rengi & Gradyan (Aşağıdan yukarıya hafif açılan koyu ton) */
+  background: linear-gradient(to top, rgba(50, 78, 142, 0.9), rgba(60, 120, 215, 0.8)) !important;
+  /* 3. Liquid Glass Etkisi için Kenarlık */
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  /* Gölgeyi sıfırla, sadece hoverda gelsin */
+  box-shadow: none !important;
+  /* Geçiş ayarları */
+  transition: all 0.3s ease-in-out !important;
+}
+
+/* --- HOVER EFFECT (Renk Değişimi & Glow) --- */
+[data-theme="dark"] .service-card:hover {
+  transform: none !important;
+  /* Arka planı hafifçe aydınlat (Renk değişimi) */
+  background: linear-gradient(to top, rgba(30, 41, 59, 1), rgba(51, 65, 85, 0.9)) !important;
+
+  /* Kenarlığı belirginleştir (Mavi ışıltı) */
+  border-color: rgba(59, 130, 246, 0.5) !important;
+
+  /* Hafif bir dış ışıltı (Glow effect) */
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* --- KART İÇİNDEKİ BUTON UYUMU --- */
+[data-theme="dark"] .service-card-button {
+  background-color: transparent;
+  color: #ffffff;
+  font-size: 1.2rem;
+  /* Daha sönük gri-mavi */
+  border: 1px solid rgba(255, 255, 255, 0.505);
+  border-radius: 100px;
+  /* Kartla uyumlu köşe */
+  transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .service-card:hover .service-card-button {
+  background-color: #3b82f6;
+  /* Hoverda maviye dön */
+  color: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Kart içindeki ikon rengini de dark mode'a uyduralım */
+[data-theme="dark"] .service-card-icon {
+  color: #ffffff;
+  /* Fallback for text/svg elements */
+}
+
+/* Image icons specific fix */
+[data-theme="dark"] .custom-svg-icon {
+  filter: brightness(0) invert(1);
 }

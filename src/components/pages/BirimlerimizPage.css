@@ -72,10 +72,10 @@
     border: 1px solid #0052cc;
     color: #0052cc;
     padding: 10px 0;
-    border-radius: 32px;
+    border-radius: 24px;
     font-size: 0.95rem;
     font-weight: 600;
-    width: 100%;
+    width: 95%;
     max-width: none;
     transition: all 0.2s;
     margin-top: 12px;
@@ -108,7 +108,7 @@
 }
 
 .birim-content-header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 30px;
 }
 
@@ -169,4 +169,88 @@
     .birim-card__title {
         font-size: 1rem;
     }
+}
+
+/* Dark Mode Configuration for BirimlerimizPage */
+[data-theme="dark"] .birimlerimiz-page {
+    background-color: #121212;
+    color: #e2e8f0;
+}
+
+[data-theme="dark"] .birimlerimiz-title {
+    color: #f1f5f9;
+}
+
+/* Cards Dark Mode */
+[data-theme="dark"] .birim-card {
+    background: #1e5bb8;
+    /* Consistent blue card from Bolumlerimiz */
+    border: 1px solid #3b82f6;
+    box-shadow: none;
+}
+
+[data-theme="dark"] .birim-card:hover {
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+[data-theme="dark"] .birim-card.selected {
+    background: #2563eb;
+    border-color: #93c5fd;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+[data-theme="dark"] .birim-card__title {
+    color: #ffffff;
+}
+
+[data-theme="dark"] .birim-card__icon {
+    filter: brightness(0) invert(1);
+}
+
+/* Buttons Dark Mode */
+/* Default (Unselected) */
+[data-theme="dark"] .birim-card__btn {
+    background: #ffffff;
+    color: #1e5bb8;
+    border: none;
+}
+
+[data-theme="dark"] .birim-card__btn:hover {
+    background: #f1f5f9;
+}
+
+/* Selected Button (Darker + White Border) */
+[data-theme="dark"] .birim-card.selected .birim-card__btn {
+    background: #002855;
+    color: #ffffff;
+    border: 1px solid #cacaca;
+}
+
+[data-theme="dark"] .birim-card.selected .birim-card__btn:hover {
+    background-color: transparent;
+    color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+/* Content Area Dark Mode - Slightly different dark tone */
+[data-theme="dark"] .birim-content-section {
+    background: #1a1a1a;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+    border-top: 1px solid #333;
+}
+
+[data-theme="dark"] .birim-content-title {
+    color: #3b82f6 !important;
+}
+
+[data-theme="dark"] .birim-content-text {
+    color: #cbd5e1;
+}
+
+/* Tags in Dark Mode */
+[data-theme="dark"] .birim-tags span {
+    background-color: #1e293b;
+    color: #93c5fd;
+    border-color: #3b82f6;
 }
