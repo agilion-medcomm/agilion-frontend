@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 const PersonnelAuthContext = createContext(null);
@@ -9,13 +9,21 @@ const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 /**
  * PersonnelAuthProvider Context: Personel oturum yönetimi (token & kullanıcı ile)
- * - İster token ve user birlikte ister tek token ile çalışır.
- * - token ile giriş yapılınca /auth/me'den profili çeker.
+ * - Sayfa kapandığında oturum otomatik sonlanır (sessionStorage ile kontrol)
  * - loginPersonnel(token, user) veya loginPersonnel(token) olarak iki kullanım destekler.
  */
 export function PersonnelAuthProvider({ children }) {
+  // Sayfa yeni açıldıysa (sessionStorage boşsa) oturumu temizle
   const [user, setUser] = useState(() => {
     try {
+      // Session aktif mi kontrol et
+      const sessionActive = sessionStorage.getItem('personnelSessionActive');
+      if (!sessionActive) {
+        // Sayfa yeni açıldı, eski oturumu temizle
+        localStorage.removeItem('personnelUser');
+        localStorage.removeItem('personnelToken');
+        return null;
+      }
       const storedUser = localStorage.getItem('personnelUser');
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (error) { return null; }
@@ -23,6 +31,10 @@ export function PersonnelAuthProvider({ children }) {
 
   const [token, setToken] = useState(() => {
     try {
+      const sessionActive = sessionStorage.getItem('personnelSessionActive');
+      if (!sessionActive) {
+        return null;
+      }
       return localStorage.getItem('personnelToken') || null;
     } catch (error) { return null; }
   });
@@ -36,6 +48,7 @@ export function PersonnelAuthProvider({ children }) {
     if (typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
       localStorage.setItem('personnelToken', tokenOrObj);
       localStorage.setItem('personnelUser', JSON.stringify(userObj));
+      sessionStorage.setItem('personnelSessionActive', 'true'); // Session başlat
       setToken(tokenOrObj);
       setUser(userObj);
       return;
@@ -53,6 +66,7 @@ export function PersonnelAuthProvider({ children }) {
 
     if (userToStore && typeof userToStore === "object" && !Array.isArray(userToStore)) {
       localStorage.setItem('personnelUser', JSON.stringify(userToStore));
+      sessionStorage.setItem('personnelSessionActive', 'true'); // Session başlat
       setUser(userToStore);
       setToken(tokenString);
     } else if (tokenString) {
@@ -68,6 +82,7 @@ export function PersonnelAuthProvider({ children }) {
           throw new Error("Bu token bir personele ait değil.");
         }
         localStorage.setItem('personnelUser', JSON.stringify(profile));
+        sessionStorage.setItem('personnelSessionActive', 'true'); // Session başlat
         setUser(profile);
         setToken(tokenString);
       } catch (err) {
@@ -80,6 +95,7 @@ export function PersonnelAuthProvider({ children }) {
   const logoutPersonnel = () => {
     localStorage.removeItem('personnelUser');
     localStorage.removeItem('personnelToken');
+    sessionStorage.removeItem('personnelSessionActive'); // Session sonlandır
     setToken(null);
     setUser(null);
   };

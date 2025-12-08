@@ -108,7 +108,8 @@ export default function DashboardLayout() {
 
   const handleLogout = () => {
     logoutPersonnel();
-    navigate('/personelLogin', { replace: true });
+    // Replace history and force page reload to clear all cached state
+    window.location.href = '/personelLogin';
   };
 
   // Define navigation based on role
