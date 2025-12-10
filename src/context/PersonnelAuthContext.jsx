@@ -14,16 +14,26 @@ const BaseURL = `${API_BASE}${API_PREFIX}`;
  */
 export function PersonnelAuthProvider({ children }) {
   // Sayfa yeni açıldıysa (sessionStorage boşsa) oturumu temizle
+  // ANCAK: doctorDisplaySession flag'i varsa (doktor ekranı için yeni sekme) temizleme
   const [user, setUser] = useState(() => {
     try {
       // Session aktif mi kontrol et
       const sessionActive = sessionStorage.getItem('personnelSessionActive');
-      if (!sessionActive) {
+      const isDoctorDisplay = localStorage.getItem('doctorDisplaySession');
+      
+      if (!sessionActive && !isDoctorDisplay) {
         // Sayfa yeni açıldı, eski oturumu temizle
         localStorage.removeItem('personnelUser');
         localStorage.removeItem('personnelToken');
         return null;
       }
+      
+      // Eğer doctorDisplaySession varsa, sessionStorage'ı da aktif et ve flag'i temizle
+      if (isDoctorDisplay) {
+        sessionStorage.setItem('personnelSessionActive', 'true');
+        localStorage.removeItem('doctorDisplaySession');
+      }
+      
       const storedUser = localStorage.getItem('personnelUser');
       return storedUser ? JSON.parse(storedUser) : null;
     } catch (error) { return null; }
@@ -32,7 +42,9 @@ export function PersonnelAuthProvider({ children }) {
   const [token, setToken] = useState(() => {
     try {
       const sessionActive = sessionStorage.getItem('personnelSessionActive');
-      if (!sessionActive) {
+      const isDoctorDisplay = localStorage.getItem('doctorDisplaySession');
+      
+      if (!sessionActive && !isDoctorDisplay) {
         return null;
       }
       return localStorage.getItem('personnelToken') || null;

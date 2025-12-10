@@ -150,15 +150,15 @@ export default function PatientDashboard() {
   };
 
   // Dosya indirme fonksiyonu
-  const handleDownloadFile = async (fileUrl, fileName) => {
+  const handleDownloadFile = async (fileId, fileName) => {
     try {
-      if (!fileUrl) {
-        setMessage({ type: 'error', text: 'Dosya URL bulunamadı' });
+      if (!fileId) {
+        setMessage({ type: 'error', text: 'Dosya Id bulunamadı' });
         return;
       }
 
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
-      const fullUrl = `${API_BASE}${fileUrl}`;
+      const fullUrl = `${BaseURL}/medical-files/${fileId}/download`;
 
       console.log('Downloading from:', fullUrl);
 
@@ -529,7 +529,7 @@ export default function PatientDashboard() {
                     <td>
                       <button
                         className="btn-sm btn-secondary"
-                        onClick={() => handleDownloadFile(result.fileUrl, result.fileName)}
+                        onClick={() => handleDownloadFile(result.id, result.fileName)}
                       >
                         📥 İndir
                       </button>

@@ -47,6 +47,7 @@ import AdminNotificationSender from './components/Dashboard/AdminNotificationSen
 import ProfilePage from './components/Dashboard/ProfilePage';
 import LaborantDashboard from './components/Dashboard/LaborantDashboard';
 import MedicalFilesPage from './components/Dashboard/MedicalFilesPage';
+import DoctorDisplayPage from './components/Dashboard/DoctorDisplayPage';
 
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -82,6 +83,9 @@ export default function App() {
 
         {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
         <Route path="/personelLogin" element={<PersonelLoginPage />} />
+
+        {/* Doktor Kapı Ekranı (Bağımsız - Layout Yok, Kendi Token Kontrolü Var) */}
+        <Route path="/doctor-display" element={<DoctorDisplayPage />} />
 
         {/* 3. Dashboard Sistemi (Personel Korumalı) */}
         <Route element={<ProtectedPersonnelRoute />}>
