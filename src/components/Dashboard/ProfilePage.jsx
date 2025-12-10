@@ -24,7 +24,7 @@ const PhoneIcon = () => (
 );
 
 export default function ProfilePage() {
-    const { user, loginPersonnel } = usePersonnelAuth();
+    const { user, loginPersonnel, refreshUser } = usePersonnelAuth();
     const [loading, setLoading] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
@@ -42,6 +42,13 @@ export default function ProfilePage() {
         newPassword: '',
         confirmPassword: ''
     });
+
+    // Profil sayfası açıldığında kullanıcı verilerini yenile
+    useEffect(() => {
+        if (refreshUser) {
+            refreshUser();
+        }
+    }, []);
 
     useEffect(() => {
         if (user) {
@@ -179,8 +186,16 @@ export default function ProfilePage() {
                 {/* SOL KOLON: KİMLİK KARTI */}
                 <div className="profile-card identity-card">
                     <div className="card-header">
-                        <div className="avatar-circle">
-                            {user?.firstName?.charAt(0) || 'U'}{user?.lastName?.charAt(0) || ''}
+                        <div className="avatar-circle" style={user?.photoUrl ? { padding: 0, overflow: 'hidden' } : {}}>
+                            {user?.photoUrl ? (
+                                <img 
+                                    src={user.photoUrl.startsWith('http') ? user.photoUrl : `${API_BASE}${user.photoUrl}`}
+                                    alt={`${user.firstName} ${user.lastName}`}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                                />
+                            ) : (
+                                `${user?.firstName?.charAt(0) || 'U'}${user?.lastName?.charAt(0) || ''}`
+                            )}
                         </div>
                         <div className="user-identity">
                             <h2>{user?.firstName} {user?.lastName}</h2>
@@ -241,9 +256,13 @@ export default function ProfilePage() {
                                         type="text"
                                         name="specialization"
                                         value={formData.specialization}
-                                        onChange={handleChange}
+                                        disabled
                                         className="full-width"
+                                        style={{ backgroundColor: '#f1f5f9', cursor: 'not-allowed' }}
                                     />
+                                    <small style={{ color: '#64748b', fontSize: '12px', marginTop: '4px', display: 'block' }}>
+                                        Uzmanlık alanınızı değiştirmek için yönetici ile iletişime geçin.
+                                    </small>
                                 </div>
                             )}
 

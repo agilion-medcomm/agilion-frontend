@@ -142,8 +142,12 @@ const SelectDoctorPage = () => {
                 color: "#1a4d5f"
               }}
             >
-              {doctor.img ? (
-                <img src={doctor.img} alt={doctor.firstName} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              {doctor.photoUrl ? (
+                <img 
+                  src={doctor.photoUrl.startsWith('http') ? doctor.photoUrl : `${API_BASE}${doctor.photoUrl}`} 
+                  alt={doctor.firstName} 
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }} 
+                />
               ) : (
                 `${doctor.firstName?.[0] || ''}${doctor.lastName?.[0] || ''}`.toUpperCase()
               )}

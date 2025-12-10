@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; 
 import "./DoctorSlider.css"; 
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
 const ITEMS_PER_PAGE = 4; // Her sayfada maksimum 4 doktor
 
 export default function DoctorSlider() {
@@ -20,7 +21,6 @@ export default function DoctorSlider() {
 
   useEffect(() => {
     setLoading(true);
-    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
     
     fetch(`${API_BASE}/api/v1/doctors`)
       .then(res => {
@@ -91,8 +91,12 @@ export default function DoctorSlider() {
             <div className="doctor-slider-container">
               {visibleDoctors.map((doc, i) => (
                 <div className="slider-doctor-card" key={doc.id || i}>
-                  {doc.img && doc.img.startsWith('/') ? (
-                    <img src={doc.img} alt={doc.firstName + ' ' + doc.lastName} className="slider-doctor-img" />
+                  {doc.photoUrl ? (
+                    <img 
+                      src={doc.photoUrl.startsWith('http') ? doc.photoUrl : `${API_BASE}${doc.photoUrl}`} 
+                      alt={doc.firstName + ' ' + doc.lastName} 
+                      className="slider-doctor-img" 
+                    />
                   ) : (
                     <div className="slider-doctor-initials">
                       {`${doc.firstName?.[0] || ''}${doc.lastName?.[0] || ''}`.toUpperCase()}
