@@ -101,6 +101,14 @@ const MailIcon = () => (
   </svg>
 );
 
+const DisplayIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+    <line x1="8" y1="21" x2="16" y2="21"></line>
+    <line x1="12" y1="17" x2="12" y2="21"></line>
+  </svg>
+);
+
 export default function DashboardLayout() {
   const { user, logoutPersonnel } = usePersonnelAuth();
   const navigate = useNavigate();
@@ -141,9 +149,11 @@ export default function DashboardLayout() {
       return [
         ...baseNav,
         { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Appointments' },
+        { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
         { path: '/dashboard/medical-files', icon: <FileTextIcon />, label: 'Medical Files' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/doctor-display', icon: <DisplayIcon />, label: 'Randevuları Yansıt', openInNewTab: true },
       ];
     }
 
@@ -263,16 +273,35 @@ export default function DashboardLayout() {
 
         <nav className="sidebar-nav">
           {navigation.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-              title={sidebarCollapsed ? item.label : ''}
-              end={item.path === '/dashboard'}
-            >
-              <span className="nav-icon">{item.icon}</span>
-              {!sidebarCollapsed && <span className="nav-label">{item.label}</span>}
-            </NavLink>
+            item.openInNewTab ? (
+              <a
+                key={item.path}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Yeni sekmede açılmadan önce bir flag koyalım
+                  localStorage.setItem('doctorDisplaySession', 'true');
+                  window.open(item.path, '_blank');
+                }}
+                className="nav-item"
+                title={sidebarCollapsed ? item.label : ''}
+                style={{ textDecoration: 'none' }}
+              >
+                <span className="nav-icon">{item.icon}</span>
+                {!sidebarCollapsed && <span className="nav-label">{item.label}</span>}
+              </a>
+            ) : (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                title={sidebarCollapsed ? item.label : ''}
+                end={item.path === '/dashboard'}
+              >
+                <span className="nav-icon">{item.icon}</span>
+                {!sidebarCollapsed && <span className="nav-label">{item.label}</span>}
+              </NavLink>
+            )
           ))}
         </nav>
 

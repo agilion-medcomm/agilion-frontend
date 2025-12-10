@@ -55,6 +55,7 @@ export default function CashierDashboard() {
   const [appointmentError, setAppointmentError] = useState('');
   const [appointmentSuccess, setAppointmentSuccess] = useState('');
   const [calendarMonth, setCalendarMonth] = useState(new Date());
+  const [confirmModal, setConfirmModal] = useState({ open: false });
 
   // Authorization check
   if (!user || user.role !== 'CASHIER') {
@@ -265,8 +266,8 @@ export default function CashierDashboard() {
     }
   }, [selectedDate, selectedDoctor, foundPatient, token]);
 
-  // === CREATE APPOINTMENT ===
-  const handleCreateAppointment = async (e) => {
+  // === SHOW CONFIRMATION MODAL ===
+  const handleShowConfirmation = (e) => {
     e.preventDefault();
 
     if (!foundPatient || !selectedDoctor || !selectedDate || !selectedTime) {
@@ -274,6 +275,28 @@ export default function CashierDashboard() {
       return;
     }
 
+    // Find doctor name from doctorsList
+    const doctor = doctorsList.find(d => d.id === parseInt(selectedDoctor));
+    const doctorName = doctor ? `${doctor.user?.firstName || ''} ${doctor.user?.lastName || ''}`.trim() : 'Bilinmiyor';
+    const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
+
+    setConfirmModal({
+      open: true,
+      doctorName,
+      department: selectedDepartment,
+      date: dateString,
+      time: selectedTime,
+      patientName: `${foundPatient.firstName} ${foundPatient.lastName}`
+    });
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmModal({ open: false });
+  };
+
+  // === CREATE APPOINTMENT ===
+  const handleCreateAppointment = async () => {
+    setConfirmModal({ open: false });
     setAppointmentLoading(true);
     setAppointmentError('');
 
@@ -518,7 +541,7 @@ export default function CashierDashboard() {
             </p>
           </div>
 
-          <form onSubmit={handleCreateAppointment}>
+          <form onSubmit={handleShowConfirmation}>
             {/* Department Selection */}
             <div style={{ marginBottom: '15px' }}>
               <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Bölüm Seçiniz *</label>
@@ -812,6 +835,115 @@ export default function CashierDashboard() {
               {appointmentLoading ? '⏳ Randevu Oluşturuluyor...' : '✅ Randevu Oluştur'}
             </button>
           </form>
+        </div>
+      )}
+
+      {/* Confirmation Modal */}
+      {confirmModal.open && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '16px',
+            padding: '28px',
+            maxWidth: '450px',
+            width: '90%',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+          }}>
+            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+              <div style={{
+                width: '70px',
+                height: '70px',
+                borderRadius: '50%',
+                backgroundColor: '#eef2ff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px'
+              }}>
+                <span style={{ fontSize: '32px' }}>📅</span>
+              </div>
+              <h3 style={{ margin: '0 0 8px', fontSize: '20px', fontWeight: '600', color: '#1f2937' }}>
+                Randevu Onayı
+              </h3>
+              <p style={{ margin: 0, color: '#6b7280', fontSize: '14px' }}>
+                Aşağıdaki randevuyu onaylıyor musunuz?
+              </p>
+            </div>
+
+            <div style={{
+              background: '#f9fafb',
+              borderRadius: '12px',
+              padding: '16px',
+              marginBottom: '24px'
+            }}>
+              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#6b7280', fontSize: '14px' }}>👤 Hasta:</span>
+                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.patientName}</span>
+              </div>
+              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#6b7280', fontSize: '14px' }}>🏥 Bölüm:</span>
+                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.department}</span>
+              </div>
+              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#6b7280', fontSize: '14px' }}>👨‍⚕️ Doktor:</span>
+                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.doctorName}</span>
+              </div>
+              <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#6b7280', fontSize: '14px' }}>📆 Tarih:</span>
+                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.date}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: '#6b7280', fontSize: '14px' }}>🕐 Saat:</span>
+                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.time}</span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button
+                onClick={closeConfirmModal}
+                style={{
+                  padding: '12px 28px',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  backgroundColor: 'white',
+                  color: '#374151',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Vazgeç
+              </button>
+              <button
+                onClick={handleCreateAppointment}
+                style={{
+                  padding: '12px 28px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#667eea',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                ✅ Onayla
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

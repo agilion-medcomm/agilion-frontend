@@ -37,11 +37,13 @@ export default function MedicalFilesPage() {
     setMessage({ type: '', text: '' });
 
     try {
+      // patientId kullan (Patient tablosundaki id), userId değil
       const response = await axios.get(`${BaseURL}/medical-files/patient/${patientId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMedicalFiles(Array.isArray(response.data.data) ? response.data.data : []);
     } catch (error) {
+      console.error('Medical files error:', error);
       setMessage({ type: 'error', text: 'Tıbbi dosyalar yüklenemedi' });
       setMedicalFiles([]);
     } finally {
@@ -49,13 +51,10 @@ export default function MedicalFilesPage() {
     }
   };
 
-  const handleDownloadFile = async (fileUrl, fileName) => {
+  const handleDownloadFile = async (fileId, fileName) => {
     try {
-      // Build full URL for the file
-      const fullUrl = `${API_BASE}${fileUrl}`;
-      
-      // Fetch file as blob
-      const response = await axios.get(fullUrl, {
+      // Backend'deki güvenli download endpoint'ini kullan
+      const response = await axios.get(`${BaseURL}/medical-files/${fileId}/download`, {
         responseType: 'blob',
         headers: {
           Authorization: `Bearer ${token}`
@@ -122,14 +121,14 @@ export default function MedicalFilesPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {patients.map((patient) => (
                 <button
-                  key={patient.id}
-                  onClick={() => handlePatientSelect(patient.id)}
+                  key={patient.patientId || patient.id}
+                  onClick={() => handlePatientSelect(patient.patientId || patient.id)}
                   style={{
                     padding: '12px',
                     borderRadius: '8px',
-                    border: selectedPatientId === patient.id ? '2px solid #3b82f6' : '1px solid #e2e8f0',
-                    background: selectedPatientId === patient.id ? '#eff6ff' : 'white',
-                    color: selectedPatientId === patient.id ? '#1e40af' : '#334155',
+                    border: selectedPatientId === (patient.patientId || patient.id) ? '2px solid #3b82f6' : '1px solid #e2e8f0',
+                    background: selectedPatientId === (patient.patientId || patient.id) ? '#eff6ff' : 'white',
+                    color: selectedPatientId === (patient.patientId || patient.id) ? '#1e40af' : '#334155',
                     cursor: 'pointer',
                     textAlign: 'left',
                     fontSize: '14px',
@@ -137,12 +136,12 @@ export default function MedicalFilesPage() {
                     transition: 'all 0.2s'
                   }}
                   onMouseOver={(e) => {
-                    if (selectedPatientId !== patient.id) {
+                    if (selectedPatientId !== (patient.patientId || patient.id)) {
                       e.target.style.background = '#f8fafc';
                     }
                   }}
                   onMouseOut={(e) => {
-                    if (selectedPatientId !== patient.id) {
+                    if (selectedPatientId !== (patient.patientId || patient.id)) {
                       e.target.style.background = 'white';
                     }
                   }}
@@ -215,7 +214,7 @@ export default function MedicalFilesPage() {
                       </p>
                     </div>
                     <button
-                      onClick={() => handleDownloadFile(file.fileUrl, file.fileName)}
+                      onClick={() => handleDownloadFile(file.id, file.fileName)}
                       style={{
                         padding: '10px 16px',
                         borderRadius: '8px',

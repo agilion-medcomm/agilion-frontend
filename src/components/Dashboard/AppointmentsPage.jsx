@@ -13,6 +13,7 @@ export default function AppointmentsPage() {
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [cancelModal, setCancelModal] = useState({ open: false, appointmentId: null, patientName: '' });
 
   useEffect(() => {
     fetchAppointments();
@@ -47,8 +48,23 @@ export default function AppointmentsPage() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       fetchAppointments();
+      setCancelModal({ open: false, appointmentId: null, patientName: '' });
     } catch (error) {
       alert('Failed to update status: ' + (error.response?.data?.message || error.message));
+    }
+  };
+
+  const openCancelModal = (appointmentId, patientName) => {
+    setCancelModal({ open: true, appointmentId, patientName });
+  };
+
+  const closeCancelModal = () => {
+    setCancelModal({ open: false, appointmentId: null, patientName: '' });
+  };
+
+  const confirmCancel = () => {
+    if (cancelModal.appointmentId) {
+      handleUpdateStatus(cancelModal.appointmentId, 'CANCELLED');
     }
   };
 
@@ -174,7 +190,7 @@ export default function AppointmentsPage() {
                     {app.status !== 'CANCELLED' && (
                       <button
                         className="btn-sm btn-danger"
-                        onClick={() => handleUpdateStatus(app.id, 'CANCELLED')}
+                        onClick={() => openCancelModal(app.id, `${app.patientFirstName} ${app.patientLastName}`)}
                       >
                         Cancel
                       </button>
@@ -186,6 +202,86 @@ export default function AppointmentsPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Cancel Confirmation Modal */}
+      {cancelModal.open && (
+        <div className="modal-overlay" style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div className="modal-content" style={{
+            background: 'white',
+            borderRadius: '12px',
+            padding: '24px',
+            maxWidth: '400px',
+            width: '90%',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+          }}>
+            <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+              <div style={{
+                width: '60px',
+                height: '60px',
+                borderRadius: '50%',
+                backgroundColor: '#fef2f2',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 16px'
+              }}>
+                <span style={{ fontSize: '28px' }}>⚠️</span>
+              </div>
+              <h3 style={{ margin: '0 0 8px', fontSize: '18px', fontWeight: '600', color: '#1f2937' }}>
+                Randevu İptali
+              </h3>
+              <p style={{ margin: 0, color: '#6b7280', fontSize: '14px' }}>
+                <strong>{cancelModal.patientName}</strong> adlı hastanın randevusunu iptal etmek istediğinize emin misiniz?
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button
+                onClick={closeCancelModal}
+                style={{
+                  padding: '10px 24px',
+                  borderRadius: '8px',
+                  border: '1px solid #e5e7eb',
+                  backgroundColor: 'white',
+                  color: '#374151',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Vazgeç
+              </button>
+              <button
+                onClick={confirmCancel}
+                style={{
+                  padding: '10px 24px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#ef4444',
+                  color: 'white',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                Evet, İptal Et
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
