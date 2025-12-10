@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; 
 import "./Doctors.css"; 
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+
 // 8 Bölüm
 const DEPARTMENTS = [
   'Acil 7/24',
@@ -27,7 +29,6 @@ export default function Doctors() {
   useEffect(() => {
     setLoading(true);
     // API'den doktorları çek
-    const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
     fetch(`${API_BASE}/api/v1/doctors`)
       .then(res => {
         if (!res.ok) throw new Error('Sunucu hatası');
@@ -104,8 +105,12 @@ export default function Doctors() {
               style={{ minWidth: 220, maxWidth: 260, flex: '1 1 220px', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#fff', borderRadius: 16, boxShadow: '0 2px 12px rgba(0,0,0,0.06)', padding: 18, marginBottom: 8, cursor: 'pointer' }}
               onClick={() => handleDoctorCardClick(doc)}
             >
-              {doc.img ? (
-                <img src={doc.img} alt={doc.firstName + ' ' + doc.lastName} style={{ width: 90, height: 90, objectFit: 'cover', borderRadius: '50%', marginBottom: 12, background: '#f3f6fa' }} />
+              {doc.photoUrl ? (
+                <img 
+                  src={doc.photoUrl.startsWith('http') ? doc.photoUrl : `${API_BASE}${doc.photoUrl}`} 
+                  alt={doc.firstName + ' ' + doc.lastName} 
+                  style={{ width: 90, height: 90, objectFit: 'cover', borderRadius: '50%', marginBottom: 12, background: '#f3f6fa' }} 
+                />
               ) : (
                 <div style={{
                   width: 90,
