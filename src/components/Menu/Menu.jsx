@@ -157,7 +157,7 @@ export default function Menu() {
       {/* Menubar */}
       <div className="menubar">
         <div className="container menubar__row">
-          <Link className="brand" to="/"><img src={theme === 'light' ? "/logo.png" : "/logo-dark.png"} alt="AgilionMED Logo" className="logo-img" /></Link>
+          <Link className="brand" to="/"><img src={theme === 'light' ? "/logo1.png" : "/logo_dark.png"} alt="AgilionMED Logo" className="logo-img" /></Link>
           <nav className="nav">
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">ANA SAYFA</NavLink>
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">KURUMSAL</NavLink>
