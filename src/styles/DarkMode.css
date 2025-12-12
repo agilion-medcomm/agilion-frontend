@@ -13,7 +13,7 @@
 /* Header/Menu Exceptions - Ensure they keep their light/dark specific designs
    Topbar acts as a dark header usually, Menubar is light. */
 [data-theme="dark"] .menubar {
-    background-color: #1f2937 !important;
+    background-color: #1f2937b8 !important;
     /* Dark Grey */
     border-bottom: 1px solid #374151 !important;
 }

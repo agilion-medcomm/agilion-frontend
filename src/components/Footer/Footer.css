@@ -48,27 +48,19 @@
 
 /* Logo bloğu */
 .footer__logoBlock {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 16px;
-  padding: 16px 20px;
+  padding: 12px 0;
   display: inline-flex;
   align-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
+  cursor: pointer;
+  width: 100%;
+  /* Ensure it takes full width if needed for alignment context */
 }
 
-.footer__logoBlock:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-}
 
 .footer__logoText {
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.5px;

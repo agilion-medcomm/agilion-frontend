@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import './EvdeSaglikPage.css'; // Stil dosyamızı import ediyoruz
 
-// Kartlar için kullanılacak ikon bileşenleri
-const HandIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M19.5 13.5c-1.2 0-2.5.3-3.5.8-1.7.8-3.3 1.9-4.5 3.3-1-.9-2.2-1.6-3.5-1.9-1.3-.3-2.6-.2-3.8.3v-5c0-.8.7-1.5 1.5-1.5H12V3.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5V11h3.5c.8 0 1.5.7 1.5 1.5v1z" /></svg>;
-const SerumIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M16 4h-2V2h-4v2H8c-1.1 0-2 .9-2 2v11c0 2.2 1.8 4 4 4h4c2.2 0 4-1.8 4-4V6c0-1.1-.9-2-2-2zm-2 13h-4v-2h4v2zm0-4h-4V8h4v5z" /></svg>;
-const LabIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4 14h-2v-4H9v4H7V9h2v4h2V9h2v8z" /></svg>;
-const BandageIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M20.5 8.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zM3.5 11.5c.8 0 1.5-.7 1.5-1.5S4.3 8.5 3.5 8.5 2 9.2 2 10s.7 1.5 1.5 1.5zm7.5 4.5c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5zm-4-4c.8 0 1.5-.7 1.5-1.5S7.8 8.5 7 8.5 5.5 9.2 5.5 10s.7 1.5 1.5 1.5zm8 0c.8 0 1.5-.7 1.5-1.5s-.7-1.5-1.5-1.5-1.5.7-1.5 1.5.7 1.5 1.5 1.5z" /></svg>;
 
 // Hizmet kartları için veri
 // Hizmet kartları için veri
@@ -61,7 +56,7 @@ export default function EvdeSaglikPage() {
     <div className="evde-saglik-page">
       {/* Üst Banner */}
       <div className="page-banner">
-        <img src="/evde-saglik-banner.jpg" alt="Evde bakım hizmeti alan yaşlı hasta" className="page-banner-img" />
+        <img src="/esp-banner.png" alt="Evde bakım hizmeti alan yaşlı hasta" className="page-banner-img" />
         <div className="page-banner-overlay">
           <h1 className="page-banner-title">Evde Sağlık</h1>
         </div>
@@ -75,6 +70,7 @@ export default function EvdeSaglikPage() {
               <div className="service-card" key={index}>
                 <div className="service-card-icon">{card.icon}</div>
                 <h3 className="service-card-title">{card.title}</h3>
+                <p className="service-card-desc">{card.description}</p>
                 <button
                   className="service-card-button"
                   onClick={() => handleServiceClick(card)}

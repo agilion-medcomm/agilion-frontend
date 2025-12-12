@@ -191,11 +191,18 @@ input[type="button"] {
 }
 
 .logo-img {
-  height: 55px;
+  height: 180px;
   width: auto;
   object-fit: contain;
   display: block;
 }
+
+@media (max-width: 768px) {
+  .logo-img {
+    height: 132px;
+  }
+}
+
 
 /* Desktop Navigation - Kapsül */
 .nav {
