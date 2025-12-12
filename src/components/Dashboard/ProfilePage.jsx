@@ -85,11 +85,8 @@ export default function ProfilePage() {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış.");
             }
             
-            // Check if user is a patient or personnel
-            const isPatient = user.role === 'PATIENT';
-            const endpoint = isPatient 
-                ? `${BaseURL}/patients/me/profile`
-                : `${BaseURL}/personnel/${user.personnelId || user.doctorId || user.adminId || user.id}`;
+            // Personel kendi profilini güncelliyor
+            const endpoint = `${BaseURL}/personnel/profile`;
             
             // Sadece dolu alanları gönder
             const payload = {};
@@ -145,15 +142,15 @@ export default function ProfilePage() {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış. Lütfen tekrar giriş yapın.");
             }
 
-            // Check if user is a patient or personnel
-            const isPatient = user.role === 'PATIENT';
-            const endpoint = isPatient 
-                ? `${BaseURL}/patients/me/change-password`
-                : `${BaseURL}/personnel/${user.personnelId || user.doctorId || user.adminId || user.id}`;
+            // Personel kendi şifresini güncelliyor
+            const endpoint = `${BaseURL}/personnel/profile/password`;
 
             console.log("Şifre güncelleme isteği gönderiliyor...", { endpoint });
 
-            await axios.put(endpoint, { currentPassword: passData.currentPassword, newPassword: passData.newPassword }, {
+            await axios.patch(endpoint, { 
+                currentPassword: passData.currentPassword, 
+                newPassword: passData.newPassword 
+            }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

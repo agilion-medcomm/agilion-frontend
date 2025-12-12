@@ -48,6 +48,7 @@ import ProfilePage from './components/Dashboard/ProfilePage';
 import LaborantDashboard from './components/Dashboard/LaborantDashboard';
 import MedicalFilesPage from './components/Dashboard/MedicalFilesPage';
 import DoctorDisplayPage from './components/Dashboard/DoctorDisplayPage';
+import HomeHealthRequestsPage from './components/Dashboard/HomeHealthRequestsPage';
 
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -98,6 +99,7 @@ export default function App() {
             <Route path="patients" element={<PatientsPage />} />
             <Route path="leave-requests" element={<LeaveRequestsPage />} />
             <Route path="contact-forms" element={<ContactFormsPage />} />
+            <Route path="home-health" element={<HomeHealthRequestsPage />} />
             <Route path="lab-results" element={<LabResultsPage />} />
             <Route path="cleaning" element={<CleaningManagementPage />} />
             <Route path="notifications-sender" element={<AdminNotificationSender />} />
