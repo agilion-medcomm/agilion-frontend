@@ -119,22 +119,33 @@ export default function DashboardHome() {
     const token = localStorage.getItem('personnelToken');
     
     try {
-      const [appointmentsRes, patientsRes, personnelRes] = await Promise.all([
+      const [appointmentsRes, patientsRes] = await Promise.all([
         axios.get(`${BaseURL}/appointments`, {
           params: { list: 'true' },
           headers: { Authorization: `Bearer ${token}` }
         }),
         axios.get(`${BaseURL}/patients`, {
           headers: { Authorization: `Bearer ${token}` }
-        }),
-        axios.get(`${BaseURL}/personnel`, {
-          headers: { Authorization: `Bearer ${token}` }
         })
       ]);
 
       const appointments = appointmentsRes.data?.data || [];
       const patients = patientsRes.data?.users || [];
-      const personnel = personnelRes.data?.data || [];
+
+      // Try to fetch personnel data (only admins can access this)
+      let personnel = [];
+      if (user?.role === 'ADMIN') {
+        try {
+          const personnelRes = await axios.get(`${BaseURL}/personnel`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          personnel = personnelRes.data?.data || [];
+        } catch (personnelError) {
+          console.error('Error fetching personnel data:', personnelError);
+          // Non-admin users will get 403, which is expected
+        }
+      }
+      // Non-admin users: personnel list remains empty (doctors/staff counts will show 0)
 
       // Filter data based on time period
       const now = new Date();

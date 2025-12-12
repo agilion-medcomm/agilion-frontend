@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './EvdeSaglikPage.css'; // Stil dosyamızı import ediyoruz
+
+const API_BASE = 'http://localhost:5001/api/v1';
 
 // Kartlar için kullanılacak ikon bileşenleri
 const HandIcon = () => <svg viewBox="0 0 24 24" width="36" height="36" fill="currentColor"><path d="M19.5 13.5c-1.2 0-2.5.3-3.5.8-1.7.8-3.3 1.9-4.5 3.3-1-.9-2.2-1.6-3.5-1.9-1.3-.3-2.6-.2-3.8.3v-5c0-.8.7-1.5 1.5-1.5H12V3.5c0-.8.7-1.5 1.5-1.5s1.5.7 1.5 1.5V11h3.5c.8 0 1.5.7 1.5 1.5v1z" /></svg>;
@@ -47,7 +51,24 @@ const includedServices = [
 ];
 
 export default function EvdeSaglikPage() {
+  const { user, token } = useAuth();
+  const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState(null);
+  const [showRequestForm, setShowRequestForm] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: '',
+    tckn: '',
+    phoneNumber: '',
+    email: '',
+    address: '',
+    serviceType: '',
+    preferredDate: '',
+    preferredTime: '',
+    notes: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitResult, setSubmitResult] = useState(null);
 
   const handleServiceClick = (service) => {
     setSelectedService(service);
@@ -55,6 +76,103 @@ export default function EvdeSaglikPage() {
 
   const closeModal = () => {
     setSelectedService(null);
+  };
+
+  const openRequestForm = (serviceTitle = '') => {
+    // Kullanıcı giriş yapmamışsa, giriş uyarısını göster
+    if (!user || !token) {
+      setShowLoginPrompt(true);
+      setSelectedService(null);
+      return;
+    }
+    
+    // Giriş yapmışsa form verilerini kullanıcı bilgileriyle doldur
+    const fullName = user.fullName || 
+                     (user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : '') ||
+                     user.name || '';
+    
+    setFormData(prev => ({ 
+      ...prev, 
+      serviceType: serviceTitle,
+      fullName: fullName,
+      tckn: user.tckn || '',
+      phoneNumber: user.phoneNumber || user.phone || '',
+      email: user.email || ''
+    }));
+    setSelectedService(null);
+    setShowRequestForm(true);
+    setSubmitResult(null);
+  };
+
+  const closeLoginPrompt = () => {
+    setShowLoginPrompt(false);
+  };
+
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
+  const closeRequestForm = () => {
+    setShowRequestForm(false);
+    setFormData({
+      fullName: '',
+      tckn: '',
+      phoneNumber: '',
+      email: '',
+      address: '',
+      serviceType: '',
+      preferredDate: '',
+      preferredTime: '',
+      notes: ''
+    });
+    setSubmitResult(null);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitResult(null);
+
+    try {
+      const response = await fetch(`${API_BASE}/home-health`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitResult({ success: true, message: 'Talebiniz başarıyla alındı! En kısa sürede sizinle iletişime geçeceğiz.' });
+        // Form'u temizle
+        setFormData({
+          fullName: '',
+          tckn: '',
+          phoneNumber: '',
+          email: '',
+          address: '',
+          serviceType: '',
+          preferredDate: '',
+          preferredTime: '',
+          notes: ''
+        });
+      } else {
+        setSubmitResult({ success: false, message: data.message || 'Bir hata oluştu. Lütfen tekrar deneyin.' });
+      }
+    } catch (error) {
+      console.error('Error submitting request:', error);
+      setSubmitResult({ success: false, message: 'Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -167,12 +285,219 @@ export default function EvdeSaglikPage() {
 
               {/* Alt Kısım: Sadece Randevu Butonu */}
               <div className="modal-actions">
-                <button className="btn-primary" onClick={closeModal}>
+                <button className="btn-primary" onClick={() => openRequestForm(selectedService.title)}>
                   Randevu Al
                 </button>
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Randevu Talep Formu Modalı */}
+      {showRequestForm && (
+        <div className="modal-overlay" onClick={closeRequestForm}>
+          <div className="modal-content request-form-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Evde Sağlık Hizmeti Talebi</h2>
+              <button className="modal-close" onClick={closeRequestForm}>
+                <img src="/x.svg" alt="Kapat" />
+              </button>
+            </div>
+
+            <div className="modal-body">
+              {submitResult && (
+                <div className={`submit-result ${submitResult.success ? 'success' : 'error'}`}>
+                  {submitResult.message}
+                </div>
+              )}
+
+              {!submitResult?.success && (
+                <form onSubmit={handleSubmit} className="request-form">
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="fullName">Ad Soyad *</label>
+                      <input
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="Adınız ve soyadınız"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="tckn">T.C. Kimlik No *</label>
+                      <input
+                        type="text"
+                        id="tckn"
+                        name="tckn"
+                        value={formData.tckn}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="11 haneli TC kimlik numaranız"
+                        maxLength={11}
+                        pattern="[0-9]{11}"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="phoneNumber">Telefon Numarası *</label>
+                      <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        value={formData.phoneNumber}
+                        onChange={handleInputChange}
+                        required
+                        placeholder="05XX XXX XX XX"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="email">E-posta</label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="ornek@email.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label htmlFor="address">Adres *</label>
+                    <textarea
+                      id="address"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      required
+                      placeholder="Hizmet alacağınız adres"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label htmlFor="serviceType">Hizmet Türü *</label>
+                    <select
+                      id="serviceType"
+                      name="serviceType"
+                      value={formData.serviceType}
+                      onChange={handleInputChange}
+                      required
+                    >
+                      <option value="">Hizmet seçiniz</option>
+                      {serviceCards.map((card, index) => (
+                        <option key={index} value={card.title}>{card.title}</option>
+                      ))}
+                      <option value="Evde Doktor Hizmeti">Evde Doktor Hizmeti</option>
+                      <option value="Diğer">Diğer</option>
+                    </select>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label htmlFor="preferredDate">Tercih Edilen Tarih</label>
+                      <input
+                        type="date"
+                        id="preferredDate"
+                        name="preferredDate"
+                        value={formData.preferredDate}
+                        onChange={handleInputChange}
+                        min={new Date().toISOString().split('T')[0]}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="preferredTime">Tercih Edilen Saat</label>
+                      <select
+                        id="preferredTime"
+                        name="preferredTime"
+                        value={formData.preferredTime}
+                        onChange={handleInputChange}
+                      >
+                        <option value="">Saat seçiniz</option>
+                        <option value="09:00-12:00">09:00 - 12:00</option>
+                        <option value="12:00-15:00">12:00 - 15:00</option>
+                        <option value="15:00-18:00">15:00 - 18:00</option>
+                        <option value="18:00-21:00">18:00 - 21:00</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="form-group full-width">
+                    <label htmlFor="notes">Ek Notlar</label>
+                    <textarea
+                      id="notes"
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleInputChange}
+                      placeholder="Varsa ek bilgiler, özel durumlar veya sorularınız"
+                      rows={3}
+                    />
+                  </div>
+
+                  <div className="form-actions">
+                    <button type="button" className="btn-secondary" onClick={closeRequestForm}>
+                      İptal
+                    </button>
+                    <button type="submit" className="btn-primary" disabled={isSubmitting}>
+                      {isSubmitting ? 'Gönderiliyor...' : 'Talep Gönder'}
+                    </button>
+                  </div>
+                </form>
+              )}
+
+              {submitResult?.success && (
+                <div className="form-actions">
+                  <button className="btn-primary" onClick={closeRequestForm}>
+                    Tamam
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Giriş Uyarı Modalı */}
+      {showLoginPrompt && (
+        <div className="modal-overlay" onClick={closeLoginPrompt}>
+          <div className="modal-content login-prompt-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>Giriş Yapmanız Gerekiyor</h2>
+              <button className="modal-close" onClick={closeLoginPrompt}>
+                <img src="/x.svg" alt="Kapat" />
+              </button>
+            </div>
+            <div className="modal-body">
+              <div className="login-prompt-content">
+                <div className="login-prompt-icon">
+                  <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+                  </svg>
+                </div>
+                <p className="login-prompt-message">
+                  Evde sağlık hizmeti talebinde bulunabilmek için önce giriş yapmanız gerekmektedir.
+                </p>
+                <p className="login-prompt-submessage">
+                  Hesabınız yoksa kayıt olabilirsiniz.
+                </p>
+              </div>
+              <div className="form-actions">
+                <button type="button" className="btn-secondary" onClick={closeLoginPrompt}>
+                  İptal
+                </button>
+                <button type="button" className="btn-primary" onClick={goToLogin}>
+                  Giriş Yap
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

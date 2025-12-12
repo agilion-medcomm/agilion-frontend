@@ -137,6 +137,7 @@ export default function DashboardLayout() {
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
         { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
         { path: '/dashboard/contact-forms', icon: <MailIcon />, label: 'Contact Forms' },
+        { path: '/dashboard/home-health', icon: <ActivityIcon />, label: 'Evde Sağlık' },
         { path: '/dashboard/medical-files', icon: <FileTextIcon />, label: 'Medical Files' },
         { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Cleaning' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
@@ -181,6 +182,7 @@ export default function DashboardLayout() {
       return [
         ...baseNav,
         { path: '/dashboard/payments', icon: <CalendarIcon />, label: 'Randevu Oluştur' },
+        { path: '/dashboard/home-health', icon: <ActivityIcon />, label: 'Evde Sağlık' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
       ];
