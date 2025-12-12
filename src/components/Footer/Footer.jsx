@@ -11,7 +11,7 @@ export default function Footer() {
         {/* SOL SÜTUN */}
         <div className="footer__col footer__col--left">
           {/* Logo bloğu */}
-          <div className="footer__logoBlock">
+          <div className="footer__logoBlock" onClick={() => navigate('/')}>
             <h2 className="footer__logoText">Zeytinburnu Tıp Merkezi</h2>
           </div>
 

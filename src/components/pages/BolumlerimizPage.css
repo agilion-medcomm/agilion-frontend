@@ -192,8 +192,7 @@
     color: #ffffff;
     /* Beyaz yazı */
     padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .bolum-detail-title {
@@ -263,10 +262,8 @@
     /* Yumurta beyazı */
     color: #334155;
     font-weight: 600;
-    /* Yazılar mavi */
-
     padding: 24px;
-    border-radius: 16px;
+    border-radius: 32px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     border: none;
 }
@@ -416,16 +413,97 @@
 
 /* Detail List Area (Mavi kısım) */
 [data-theme="dark"] .bolum-detail-list {
-    background-color: #0f172a;
+    background-color: #0F172A;
 }
 
 /* Detail Cards */
 [data-theme="dark"] .bolum-detail-card {
-    background-color: #1e293b;
-    color: #cbd5e1;
+    background-color: #1E293B;
+    color: #bacde8;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid #374252;
 }
 
 [data-theme="dark"] .bolum-detail-title {
     color: #60a5fa;
+}
+
+/* Fix mobile overflow/layout issues */
+@media (max-width: 768px) {
+    /* Fix mobile overflow/layout issues */
+    @media (max-width: 768px) {
+        .bolumlerimiz-page {
+            overflow-x: hidden;
+        }
+
+        .bolumlerimiz-header {
+            padding: 0 10px;
+            margin-top: 20px;
+        }
+
+        .bolumlerimiz-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            /* Prevent content from expanding width */
+            gap: 12px;
+            /* Increased gap to slightly shrink cards */
+            margin-bottom: 20px;
+            padding: 0 0px;
+            /* Add side padding to shrink cards further */
+            box-sizing: border-box;
+        }
+
+        .bolum-card {
+            height: 180px;
+            /* Fixed height for uniformity */
+            min-height: 180px;
+            padding: 10px 4px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* Ensure content is spaced evenly */
+            box-sizing: border-box;
+        }
+
+        .bolum-card__title {
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            flex-grow: 1;
+            /* Allow title to take flexible space */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bolum-card__icon {
+            width: 42px;
+            height: 42px;
+            margin-bottom: 4px;
+            flex-shrink: 0;
+        }
+
+        .bolum-card__btn {
+            margin-top: auto;
+            /* Push to bottom */
+            padding: 8px 0;
+            font-size: 0.8rem;
+            width: 90%;
+            max-width: 100%;
+        }
+
+
+        /* Force full-width background on mobile */
+        .bolum-detail-list {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            border-radius: 0;
+            padding: 40px 15px;
+            box-sizing: border-box;
+        }
+    }
 }
