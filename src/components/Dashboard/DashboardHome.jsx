@@ -117,7 +117,7 @@ export default function DashboardHome() {
   const fetchDashboardStats = async () => {
     setLoading(true);
     const token = localStorage.getItem('personnelToken');
-    
+
     try {
       const [appointmentsRes, patientsRes] = await Promise.all([
         axios.get(`${BaseURL}/appointments`, {
@@ -150,12 +150,12 @@ export default function DashboardHome() {
       // Filter data based on time period
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      
+
       const filteredAppointments = appointments.filter(app => {
         const appDate = parseDateString(app.date);
         if (!appDate) return false;
-        
-        switch(timeFilter) {
+
+        switch (timeFilter) {
           case 'today':
             return appDate.getTime() === today.getTime();
           case '7d':
@@ -189,7 +189,7 @@ export default function DashboardHome() {
 
       const doctors = personnel.filter(p => p.role === 'DOCTOR');
       const approvedAppointments = filteredAppointments.filter(a => a.status === 'APPROVED');
-      
+
       // Calculate mock statistics (you can replace with real data)
       setStats({
         patients: approvedAppointments.length,
@@ -230,7 +230,7 @@ export default function DashboardHome() {
   };
 
   const getTimeLabel = () => {
-    switch(timeFilter) {
+    switch (timeFilter) {
       case 'today': return 'today';
       case '7d': return 'this week';
       case '2w': return 'last 2 weeks';
@@ -276,7 +276,7 @@ export default function DashboardHome() {
             <h1 className="hero-name">Dr. {user?.firstName} {user?.lastName}</h1>
             <p className="hero-schedule">Your schedule {getTimeLabel()}.</p>
           </div>
-          
+
           <div className="hero-stats">
             <div className="hero-stat-card hero-stat-patients">
               <div className="hero-stat-icon">
@@ -287,7 +287,7 @@ export default function DashboardHome() {
                 <p>Patients</p>
               </div>
             </div>
-            
+
             <div className="hero-stat-card hero-stat-surgeries">
               <div className="hero-stat-icon">
                 <LungsIcon />
@@ -297,7 +297,7 @@ export default function DashboardHome() {
                 <p>Surgeries</p>
               </div>
             </div>
-            
+
             <div className="hero-stat-card hero-stat-discharges">
               <div className="hero-stat-icon">
                 <WalkIcon />
@@ -309,7 +309,7 @@ export default function DashboardHome() {
             </div>
           </div>
         </div>
-        
+
         <div className="hero-illustration">
           <img src="/doctor-illustration.svg" alt="Medical Staff" />
         </div>

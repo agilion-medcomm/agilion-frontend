@@ -4,7 +4,7 @@ const UserIcon = () => (
     <path d="M4 20v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path>
   </svg>
 );
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import NotificationBadge from './NotificationBadge';
@@ -109,10 +109,29 @@ const DisplayIcon = () => (
   </svg>
 );
 
+import { useTheme } from '../../context/ThemeContext'; // Import useTheme
+
+// ... imports remain the same
+
 export default function DashboardLayout() {
   const { user, logoutPersonnel } = usePersonnelAuth();
+  const { theme, toggleTheme } = useTheme(); // Use theme hook
   const navigate = useNavigate();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const location = useLocation();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 1024);
+
+  // Force light mode in Dashboard
+  useEffect(() => {
+    if (theme === 'dark') {
+      toggleTheme();
+    }
+  }, [theme, toggleTheme]);
+
+  useEffect(() => {
+    if (window.innerWidth <= 1024) {
+      setSidebarCollapsed(true);
+    }
+  }, [location.pathname]);
 
   const handleLogout = () => {
     logoutPersonnel();
@@ -224,7 +243,7 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="dashboard-container">
+    <div className={`dashboard-container ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
@@ -239,12 +258,7 @@ export default function DashboardLayout() {
           ) : (
             <>
               <div className="logo-section">
-                <div className="logo-icon">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                  </svg>
-                </div>
-                <span className="logo-text">AgilionMed</span>
+                <span className="logo-text">Zeytinburnu Genel Cerrahi</span>
               </div>
               <button
                 className="sidebar-toggle"

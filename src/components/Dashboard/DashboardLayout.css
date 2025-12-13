@@ -26,7 +26,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Sidebar */
@@ -41,7 +43,7 @@
   top: 0;
   height: 100vh;
   overflow-y: auto;
-  box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .dashboard-sidebar.collapsed {
@@ -53,7 +55,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logo-section {
@@ -62,22 +64,11 @@
   gap: 12px;
 }
 
-.logo-icon {
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
 .logo-text {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 700;
   color: white;
-  white-space: nowrap;
+  line-height: 1.2;
 }
 
 .sidebar-toggle {
@@ -92,7 +83,7 @@
 }
 
 .sidebar-toggle:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar-toggle.collapsed-toggle {
@@ -113,14 +104,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .user-avatar {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  background: linear-gradient(to top, #2473fb 0%, #6687ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,8 +134,8 @@
 }
 
 .user-name {
-  font-weight: 600;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 16px;
   margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
@@ -154,7 +145,7 @@
 
 .user-role {
   font-size: 12px;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -171,25 +162,23 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 16px;
-  border-radius: 8px;
-  color: rgba(255,255,255,0.8);
+  padding: 12px 18px;
+  border-radius: 12px;
+  color: rgb(255, 255, 255);
   text-decoration: none;
   transition: all 0.2s;
   margin-bottom: 4px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 }
 
 .nav-item:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
 }
 
 .nav-item.active {
-  background: linear-gradient(90deg, rgba(37,99,235,0.9) 0%, rgba(59,130,246,0.9) 100%);
-  color: white !important;
-  box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+  background: linear-gradient(to bottom, #2b4de3 0%, #1b339b 100%);
 }
 
 .nav-item.active .nav-icon {
@@ -197,9 +186,9 @@
 }
 
 .nav-item.active .nav-icon svg {
-  color: white !important;
-  stroke: white !important;
-  fill: none !important;
+  color: #fff !important;
+  stroke: #fff !important;
+  fill: #fff !important;
 }
 
 .nav-item.active .nav-label {
@@ -234,7 +223,7 @@
 
 .sidebar-footer {
   padding: 16px 12px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .logout-button {
@@ -245,7 +234,7 @@
   padding: 12px 16px;
   border-radius: 8px;
   background: transparent;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   cursor: pointer;
   transition: all 0.2s;
@@ -260,9 +249,7 @@
 }
 
 .logout-button:hover {
-  background: rgba(220,38,38,0.2);
-  border-color: rgba(220,38,38,0.4);
-  color: #fca5a5;
+  background: rgb(12, 0, 143);
 }
 
 .dashboard-sidebar.collapsed .logout-button {
@@ -293,46 +280,68 @@
 
 /* Responsive */
 @media (max-width: 1024px) {
+
+  /* Allow wider sidebar when expanded, but keep absolute to save space on small screens if needed, 
+     or just let it flow. For 880px, flow is fine. */
   .dashboard-sidebar {
-    width: 80px;
+    position: fixed;
+    z-index: 1000;
+    height: 100vh;
   }
+
+  /* Add a backdrop when sidebar is open on mobile */
+  .dashboard-sidebar:not(.collapsed) {
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .dashboard-main {
+    transition: margin-left 0.3s ease;
+    margin-left: 80px;
+    /* Default for collapsed state */
+  }
+
+  .dashboard-container.sidebar-expanded .dashboard-main {
+    margin-left: 260px;
+    /* Push content to right when sidebar is expanded, effectively narrowing it */
+  }
+
+  /* When expanded, it covers content. */
 
   .dashboard-sidebar.collapsed {
+    position: sticky;
+    /* Revert to sticky when collapsed so it sits in the layout? */
     width: 80px;
+    z-index: 100;
   }
 
-  .logo-section {
-    display: none;
-  }
-
-  .sidebar-header {
+  /* Adjust sidebar header for collapsed state */
+  .dashboard-sidebar.collapsed .sidebar-header {
     justify-content: center;
     padding: 20px 10px;
   }
 
-  .sidebar-toggle {
+  .dashboard-sidebar.collapsed .sidebar-toggle {
     width: 100%;
     justify-content: center;
   }
 
-  .logo-text,
-  .user-info,
-  .nav-label {
+  /* Hide elements ONLY when collapsed (inherits from main CSS mostly, but reinforcing for mobile specific adjustments if any) */
+  .dashboard-sidebar.collapsed .logo-section,
+  .dashboard-sidebar.collapsed .user-info,
+  .dashboard-sidebar.collapsed .nav-label {
     display: none;
   }
 
-  .nav-item {
-    justify-content: center;
-    padding: 12px;
-  }
-
-  .logout-button {
-    justify-content: center;
-    padding: 12px;
-  }
-
+  /* Ensure toggle button fits in header when expanded */
   .main-header {
     right: 16px;
+  }
+
+  /* Center items when collapsed */
+  .dashboard-sidebar.collapsed .nav-item,
+  .dashboard-sidebar.collapsed .logout-button {
+    justify-content: center;
+    padding: 12px;
   }
 }
 

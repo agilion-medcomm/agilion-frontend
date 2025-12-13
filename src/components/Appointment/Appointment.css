@@ -6,9 +6,9 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.1),
-                0 8px 24px rgba(0,0,0,0.06),
-                0 0 0 1px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1),
+        0 8px 24px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.8);
     overflow: hidden;
     display: flex;
@@ -22,6 +22,7 @@
         opacity: 0;
         transform: scale(0.96);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -32,7 +33,8 @@
 .modal-content-grid {
     display: grid;
     grid-template-columns: 280px 1fr;
-    gap: 0; /* Aradaki çizgiyi border ile yapacağız */
+    gap: 0;
+    /* Aradaki çizgiyi border ile yapacağız */
     align-items: stretch;
     min-height: 450px;
 }
@@ -78,53 +80,54 @@
 }
 
 /* Doktor Avatarı */
-.doctor-modal-img, 
-.doctor-modal-avatar-placeholder { 
-    width: 150px; 
-    height: 150px; 
-    border-radius: 50%; 
+.doctor-modal-img,
+.doctor-modal-avatar-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
     margin-bottom: 28px;
-    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-size: 48px; 
-    color: #0e2b4b; 
-    font-weight: 700; 
-    object-fit: cover; 
+    background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: #0e2b4b;
+    font-weight: 700;
+    object-fit: cover;
     border: 5px solid white;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08),
-                0 4px 12px rgba(0,0,0,0.04),
-                inset 0 2px 4px rgba(255,255,255,0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08),
+        0 4px 12px rgba(0, 0, 0, 0.04),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .doctor-modal-img:hover,
 .doctor-modal-avatar-placeholder:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.12),
-                0 6px 16px rgba(0,0,0,0.06);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12),
+        0 6px 16px rgba(0, 0, 0, 0.06);
 }
 
 /* Onay Butonu Alanı */
 .randevu-onay-wrap {
-    margin-top: auto; /* En alta iter */
+    margin-top: auto;
+    /* En alta iter */
     width: 100%;
 }
 
-.confirm-appointment-btn { 
-    width: 100%; 
+.confirm-appointment-btn {
+    width: 100%;
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white; 
-    border: none; 
-    padding: 16px 20px; 
-    border-radius: 14px; 
-    font-size: 1.05rem; 
-    font-weight: 700; 
-    cursor: pointer; 
+    color: white;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 14px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3),
-                0 2px 6px rgba(16, 185, 129, 0.2);
+        0 2px 6px rgba(16, 185, 129, 0.2);
     position: relative;
     overflow: hidden;
 }
@@ -133,16 +136,16 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.confirm-appointment-btn:hover:not(:disabled) { 
+.confirm-appointment-btn:hover:not(:disabled) {
     background: linear-gradient(135deg, #059669 0%, #047857 100%);
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4),
-                0 4px 12px rgba(16, 185, 129, 0.25);
+        0 4px 12px rgba(16, 185, 129, 0.25);
 }
 
 .confirm-appointment-btn:hover:not(:disabled)::before {
@@ -161,25 +164,25 @@
 }
 
 /* === SAĞ PANEL: TAKvİM VE SLOTLAR === */
-.calendar-panel-right { 
-    padding: 36px; 
+.calendar-panel-right {
+    padding: 36px;
     display: flex;
     flex-direction: column;
     background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
 }
 
 /* Navigasyon (Oklar ve Kartlar) */
-.date-navigation-container { 
-    display: flex; 
-    align-items: center; 
+.date-navigation-container {
+    display: flex;
+    align-items: center;
     gap: 15px;
-    margin-bottom: 25px; 
+    margin-bottom: 25px;
     padding-bottom: 20px;
     border-bottom: 1px solid #f0f0f0;
 }
 
 .nav-btn {
-    background: white; 
+    background: white;
     color: #4a63d1;
     border: 2px solid #e5e7eb;
     width: 44px;
@@ -191,17 +194,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
+
 .nav-btn:hover:not(:disabled) {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-color: #4a63d1;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(74, 99, 209, 0.15);
 }
+
 .nav-btn:active:not(:disabled) {
     transform: scale(0.98);
 }
+
 .nav-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
@@ -213,47 +219,64 @@
     display: flex;
     flex-grow: 1;
     justify-content: space-between;
-    gap: 10px; 
+    gap: 10px;
 }
 
-.date-card { 
-    flex: 1; 
-    padding: 12px 8px; 
-    border: 2px solid #e5e7eb; 
-    border-radius: 12px; 
-    text-align: center; 
-    cursor: pointer; 
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); 
+.date-card {
+    flex: 1;
+    padding: 12px 8px;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     background: white;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
 }
 
-.date-card:hover { 
+.date-card:hover {
     border-color: #4a63d1;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(74, 99, 209, 0.12);
 }
 
-.date-card.active { 
-    border-color: #4a63d1; 
+.date-card.active {
+    border-color: #4a63d1;
     background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
     box-shadow: 0 6px 16px rgba(74, 99, 209, 0.3),
-                0 3px 8px rgba(74, 99, 209, 0.2);
+        0 3px 8px rgba(74, 99, 209, 0.2);
     transform: translateY(-3px);
 }
 
-.date-card.active .day-name, 
-.date-card.active .date-number { color: white; font-weight: 700; }
+.date-card.active .day-name,
+.date-card.active .date-number {
+    color: white;
+    font-weight: 700;
+}
 
-.day-name { font-size: 0.75rem; color: #6b7280; font-weight: 600; text-transform: uppercase; margin-top: 4px;}
-.date-number { font-size: 1.2rem; font-weight: 800; color: #1f2937; }
+.day-name {
+    font-size: 0.75rem;
+    color: #6b7280;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-top: 4px;
+}
+
+.date-number {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #1f2937;
+}
 
 /* Takvim Açılır Pencere */
-.custom-date-selector { position: relative; }
+.custom-date-selector {
+    position: relative;
+}
+
 .date-select-btn {
     background: #f0f9ff;
     color: #0e2b4b;
@@ -265,16 +288,17 @@
     cursor: pointer;
     font-size: 1.2rem;
 }
+
 .calendar-popup {
     position: absolute;
-    top: 100%; 
+    top: 100%;
     right: 0;
     margin-top: 10px;
     z-index: 50;
     background: white;
     border-radius: 12px;
     padding: 10px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     border: 1px solid #e5e7eb;
 }
 
@@ -290,47 +314,47 @@
     font-weight: 600;
 }
 
-.time-slots-grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr)); 
-    gap: 12px; 
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 12px;
 }
 
-.time-slot { 
-    padding: 12px 8px; 
-    border-radius: 10px; 
-    font-weight: 600; 
+.time-slot {
+    padding: 12px 8px;
+    border-radius: 10px;
+    font-weight: 600;
     font-size: 0.95rem;
-    border: 2px solid #e5e7eb; 
+    border: 2px solid #e5e7eb;
     background: white;
     color: #374151;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
-.time-slot.available:hover { 
-    border-color: #10b981; 
-    color: #047857; 
+.time-slot.available:hover {
+    border-color: #10b981;
+    color: #047857;
     background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
 }
 
-.time-slot.selected { 
+.time-slot.selected {
     background: linear-gradient(135deg, #4a63d1 0%, #6381e8 100%);
-    color: white; 
-    border-color: #4a63d1; 
+    color: white;
+    border-color: #4a63d1;
     box-shadow: 0 0 0 3px rgba(74, 99, 209, 0.2),
-                0 4px 12px rgba(74, 99, 209, 0.3);
+        0 4px 12px rgba(74, 99, 209, 0.3);
     transform: scale(1.05);
     font-weight: 700;
 }
 
-.time-slot.unavailable { 
-    background: #f9fafb; 
-    color: #d1d5db; 
-    border-color: #f3f4f6; 
+.time-slot.unavailable {
+    background: #f9fafb;
+    color: #d1d5db;
+    border-color: #f3f4f6;
     text-decoration: line-through;
     cursor: not-allowed;
     opacity: 0.6;
@@ -341,6 +365,7 @@
     .modal-content-grid {
         grid-template-columns: 1fr;
     }
+
     .doctor-panel-left {
         flex-direction: row;
         text-align: left;
@@ -348,12 +373,27 @@
         border-right: none;
         border-bottom: 1px solid #e5e7eb;
     }
-    .doctor-modal-img, .doctor-modal-avatar-placeholder {
-        width: 80px; height: 80px; font-size: 24px; margin-bottom: 0; margin-right: 20px;
+
+    .doctor-modal-img,
+    .doctor-modal-avatar-placeholder {
+        width: 80px;
+        height: 80px;
+        font-size: 24px;
+        margin-bottom: 0;
+        margin-right: 20px;
     }
-    .doctor-info-text { flex: 1; } /* İsim ve uzmanlık için kapsayıcı gerekebilir */
-    .randevu-onay-wrap { display: none; } /* Mobilde butonu aşağıya alırız veya gizleriz */
-    
+
+    .doctor-info-text {
+        flex: 1;
+    }
+
+    /* İsim ve uzmanlık için kapsayıcı gerekebilir */
+    .randevu-onay-wrap {
+        display: none;
+    }
+
+    /* Mobilde butonu aşağıya alırız veya gizleriz */
+
     /* Mobilde onayı aşağıya almak için JS tarafında buton yerini değiştirmek veya CSS ile order oynamak gerekir. 
        Şimdilik basit tutuyoruz. */
 }
@@ -364,10 +404,243 @@
         text-align: center;
         gap: 10px;
     }
-    .doctor-modal-img { margin-right: 0; margin-bottom: 10px; }
-    .date-navigation-container { flex-wrap: wrap; }
-    .date-list { order: 3; width: 100%; margin-top: 10px; }
-    .nav-btn { flex: 1; }
-    .custom-date-selector { flex: 2; text-align: center; }
-    .date-select-btn { width: 100%; }
+
+    .doctor-modal-img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .date-navigation-container {
+        flex-wrap: wrap;
+    }
+
+    .date-list {
+        order: 3;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .nav-btn {
+        flex: 1;
+    }
+
+    .custom-date-selector {
+        flex: 2;
+        text-align: center;
+    }
+
+    .date-select-btn {
+        width: 100%;
+    }
+}
+
+/* === DARK MODE === */
+[data-theme='dark'] .appointment-component-container {
+    background: rgba(17, 24, 39, 0.95);
+    border-color: rgba(55, 65, 81, 0.8);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .doctor-panel-left {
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    border-right-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='dark'] .calendar-panel-right {
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+}
+
+[data-theme='dark'] .doctor-name {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme='dark'] .doctor-specialization {
+    color: #60a5fa;
+}
+
+[data-theme='dark'] .doctor-modal-img,
+[data-theme='dark'] .doctor-modal-avatar-placeholder {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+    color: #e5e7eb;
+    border-color: #374151;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .nav-btn {
+    background: #374151;
+    color: #e5e7eb;
+    border-color: #4b5563;
+}
+
+[data-theme='dark'] .nav-btn:hover:not(:disabled) {
+    background: #4b5563;
+    border-color: #60a5fa;
+}
+
+[data-theme='dark'] .date-card {
+    background: #374151;
+    border-color: #4b5563;
+}
+
+[data-theme='dark'] .date-card .day-name {
+    color: #9ca3af;
+}
+
+[data-theme='dark'] .date-card .date-number {
+    color: #f3f4f6;
+}
+
+[data-theme='dark'] .date-card:hover {
+    border-color: #60a5fa;
+}
+
+[data-theme='dark'] .date-card.active {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    border-color: #2563eb;
+}
+
+[data-theme='dark'] .date-card.active .day-name,
+[data-theme='dark'] .date-card.active .date-number {
+    color: white;
+}
+
+[data-theme='dark'] .selected-date-label {
+    color: #e5e7eb;
+}
+
+[data-theme='dark'] .time-slot {
+    background: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+
+[data-theme='dark'] .time-slot.available:hover {
+    border-color: #10b981;
+    color: #10b981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+[data-theme='dark'] .time-slot.selected {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    border-color: #2563eb;
+}
+
+[data-theme='dark'] .time-slot.unavailable {
+    background: #1f2937;
+    border-color: #374151;
+    color: #6b7280;
+}
+
+[data-theme='dark'] .date-select-btn {
+    background: #374151;
+    color: #e5e7eb;
+    border-color: #4b5563;
+}
+
+[data-theme='dark'] .calendar-popup {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+/* React Calendar Dark Mode Overrides */
+[data-theme='dark'] .react-calendar {
+    background: #1f2937;
+    border-color: #374151;
+    color: #e5e7eb;
+}
+
+[data-theme='dark'] .react-calendar__navigation button {
+    color: #e5e7eb;
+}
+
+[data-theme='dark'] .react-calendar__navigation button:disabled {
+    background-color: transparent;
+    color: #4b5563;
+    /* Disabled butonlar için gri renk */
+}
+
+[data-theme='dark'] .react-calendar__navigation button:enabled:hover,
+[data-theme='dark'] .react-calendar__navigation button:enabled:focus {
+    background-color: #374151;
+}
+
+[data-theme='dark'] .react-calendar__month-view__days__day {
+    color: #e5e7eb;
+}
+
+[data-theme='dark'] .react-calendar__month-view__weekdays__weekday {
+    color: #9ca3af;
+    /* Hafta günleri (Pzt, Sal...) */
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+[data-theme='dark'] .react-calendar__tile {
+    color: #e5e7eb;
+}
+
+[data-theme='dark'] .react-calendar__tile:enabled:hover,
+[data-theme='dark'] .react-calendar__tile:enabled:focus {
+    background-color: #374151;
+    color: #fff;
+}
+
+[data-theme='dark'] .react-calendar__tile--now {
+    background: transparent;
+    color: #60a5fa;
+    /* Bugünün tarihi sadece mavi yazı olsun */
+    border: 1px solid #60a5fa;
+}
+
+[data-theme='dark'] .react-calendar__tile--active {
+    background: #2563eb;
+    color: white;
+    border: none;
+}
+
+[data-theme='dark'] .react-calendar__tile--active:enabled:hover,
+[data-theme='dark'] .react-calendar__tile--active:enabled:focus {
+    background: #1d4ed8;
+}
+
+/* Geçmiş Günler (Disabled) Dark Mod */
+[data-theme='dark'] .react-calendar__tile:disabled {
+    background-color: transparent;
+    color: #4b5563;
+    /* Hafif görünür gri */
+}
+
+/* Light Mode Calendar Fixes (Genel Görünürlük) */
+.react-calendar__tile {
+    color: #374151;
+    /* Default text color */
+}
+
+.react-calendar__tile--now {
+    background: #ebbdbd;
+    /* Sarı yerine çok açık mavi */
+    color: #2563eb;
+}
+
+.react-calendar__tile--now:enabled:hover,
+.react-calendar__tile--now:enabled:focus {
+    background: #dbeafe;
+}
+
+.react-calendar__month-view__days__day--weekend {
+    color: #ef4444;
+    /* Hafta sonu kırmızı */
+}
+
+[data-theme='dark'] .react-calendar__month-view__days__day--weekend {
+    color: #fca5a5;
+    /* Dark modda hafta sonu açık kırmızı */
+}
+
+.react-calendar__navigation button {
+    color: #374151;
 }

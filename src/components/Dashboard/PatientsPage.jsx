@@ -32,19 +32,19 @@ export default function PatientsPage() {
     setLoading(true);
     setError(null);
     setSearchError(null);
-    
+
     if (!token) {
       setError('Kimlik doğrulama tokeni bulunamadı. Lütfen tekrar giriş yapın.');
       setLoading(false);
       return;
     }
-    
+
     try {
       const res = await axios.get(`${BaseURL}/patients/search`, {
         params: { tckn },
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       // Response'da single patient object döner, bunu array'e dönüştür
       const patient = res.data?.data;
       if (patient) {
@@ -117,19 +117,19 @@ export default function PatientsPage() {
     console.log('appointments object keys:', Object.keys(appointments));
     console.log('appointments[key]:', appointments[key]);
     console.log('All appointments:', allApts);
-    
+
     const past = allApts.filter(apt => {
       try {
         // Parse date from DD.MM.YYYY format
         const [day, month, year] = apt.date.split('.');
         const aptDateTime = new Date(year, month - 1, day);
-        
+
         // Parse time if available
         if (apt.time) {
           const [hours, minutes] = apt.time.split(':');
           aptDateTime.setHours(parseInt(hours), parseInt(minutes), 0);
         }
-        
+
         const isPast = aptDateTime < now;
         console.log(`Apt ${apt.date} ${apt.time}: ${aptDateTime} < ${now} = ${isPast}`);
         return isPast;
@@ -138,7 +138,7 @@ export default function PatientsPage() {
         return false;
       }
     });
-    
+
     console.log('Past appointments filtered:', past.length);
     return past;
   };
@@ -149,19 +149,19 @@ export default function PatientsPage() {
     const key = String(patientId);
     const allApts = appointments[key] || [];
     console.log('Getting upcoming appointments for patientId:', patientId, 'key:', key);
-    
+
     const upcoming = allApts.filter(apt => {
       try {
         // Parse date from DD.MM.YYYY format
         const [day, month, year] = apt.date.split('.');
         const aptDateTime = new Date(year, month - 1, day);
-        
+
         // Parse time if available
         if (apt.time) {
           const [hours, minutes] = apt.time.split(':');
           aptDateTime.setHours(parseInt(hours), parseInt(minutes), 0);
         }
-        
+
         const isUpcoming = aptDateTime >= now;
         return isUpcoming;
       } catch (e) {
@@ -169,7 +169,7 @@ export default function PatientsPage() {
         return false;
       }
     });
-    
+
     console.log('Upcoming appointments filtered:', upcoming.length);
     return upcoming;
   };
@@ -188,46 +188,93 @@ export default function PatientsPage() {
         </div>
       </div>
 
-      <div className="filters-section">
-        <form onSubmit={handleSearch} style={{ display: 'flex', gap: '10px' }}>
-          <div className="search-box" style={{ flex: 1 }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <div className="filters-section" style={{ marginBottom: '24px' }}>
+        <form
+          onSubmit={handleSearch}
+          style={{
+            display: 'flex',
+            gap: '12px',
+            alignItems: 'center', /* Dikeyde ortalar */
+            flexWrap: 'nowrap',
+            width: '100%'
+          }}
+        >
+
+          {/* SOL: ARAMA KUTUSU */}
+          <div className="search-box" style={{
+            flex: '1',
+            display: 'flex',
+            alignItems: 'center',
+            background: 'white',
+            border: '1px solid #cbd5e1',
+            borderRadius: '16px',
+            padding: '0 20px',
+            height: '56px',           /* KİLİT NOKTA 1: Yükseklik */
+            boxSizing: 'border-box',  /* KİLİT NOKTA 2: Border yüksekliğe dahil olsun */
+            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)',
+            minWidth: '0',
+            transition: 'all 0.2s ease'
+          }}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" style={{ minWidth: '22px' }}>
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
             </svg>
             <input
               type="text"
-              placeholder="TC numarası ile hastayı arayın (11 haneli)..."
+              placeholder="TC numarası ile hastayı arayın"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               maxLength="11"
+              style={{
+                border: 'none',
+                outline: 'none',
+                width: '100%',
+                marginLeft: '12px',
+                fontSize: '16px',
+                color: '#334155',
+                background: 'transparent',
+                height: '100%',
+                padding: 0, /* Inputun kendi padding'ini sıfırladık */
+                margin: 0   /* Inputun kendi margin'ini sıfırladık */
+              }}
             />
           </div>
+
+          {/* SAĞ: BUTON */}
           <button
             type="submit"
             disabled={loading}
             style={{
-              padding: '10px 20px',
+              flex: '0 0 auto',
+              height: '56px',          /* KİLİT NOKTA 3: Input ile BİREBİR aynı yükseklik */
+              padding: '0 40px',
               background: '#2196F3',
               color: 'white',
               border: 'none',
-              borderRadius: '4px',
+              borderRadius: '16px',
               cursor: loading ? 'not-allowed' : 'pointer',
-              fontWeight: 'bold',
-              opacity: loading ? 0.6 : 1
+              fontWeight: '600',
+              fontSize: '16px',
+              letterSpacing: '0.5px',
+              opacity: loading ? 0.7 : 1,
+              transition: 'all 0.2s',
+              boxShadow: '0 4px 6px -1px rgba(33, 150, 243, 0.3)',
+              margin: 0,              /* KİLİT NOKTA 4: Olası kaymaları engeller */
+              display: 'flex',        /* KİLİT NOKTA 5: Yazıyı tam ortalamak için */
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxSizing: 'border-box' /* KİLİT NOKTA 6: Hesaplama hatasını önler */
             }}
           >
             {loading ? 'Aranıyor...' : 'Ara'}
           </button>
         </form>
-        {error && (
-          <div style={{ color: '#d32f2f', marginTop: '10px', fontSize: '14px' }}>
-            ❌ {error}
-          </div>
-        )}
-        {searchError && (
-          <div style={{ color: '#d32f2f', marginTop: '10px', fontSize: '14px' }}>
-            ❌ {searchError}
+
+        {/* Hata mesajları kısmı aynı kalabilir */}
+        {(error || searchError) && (
+          <div style={{ color: '#ef4444', marginTop: '12px', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            {error || searchError}
           </div>
         )}
       </div>
@@ -245,7 +292,7 @@ export default function PatientsPage() {
             <p style={{ fontSize: '18px', marginBottom: '8px' }}>🔍 Hastayı Arayın</p>
             <p style={{ fontSize: '14px', marginBottom: '16px' }}>Yukarıdaki arama kutusunda TC numarası girerek bir hastayı arayınız.</p>
             <p style={{ fontSize: '12px', color: '#64748b' }}>
-              💡 Örnek: 12345678901
+              Örnek: 12345678901
             </p>
           </div>
         ) : (
@@ -321,7 +368,7 @@ export default function PatientsPage() {
                         <td colSpan="6" style={{ padding: '20px' }}>
                           <div className="expanded-content">
                             <h3>Randevular</h3>
-                            
+
                             {/* Tabs for Past and Upcoming */}
                             <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', borderBottom: '2px solid #e9ecef' }}>
                               <button
@@ -386,8 +433,8 @@ export default function PatientsPage() {
                                             borderRadius: '4px',
                                             fontSize: '12px',
                                             fontWeight: 'bold',
-                                            background: apt.status === 'APPROVED' ? '#4CAF50' : 
-                                                      apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
+                                            background: apt.status === 'APPROVED' ? '#4CAF50' :
+                                              apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
                                             color: 'white'
                                           }}>
                                             {apt.status}
@@ -426,8 +473,8 @@ export default function PatientsPage() {
                                             borderRadius: '4px',
                                             fontSize: '12px',
                                             fontWeight: 'bold',
-                                            background: apt.status === 'APPROVED' ? '#4CAF50' : 
-                                                      apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
+                                            background: apt.status === 'APPROVED' ? '#4CAF50' :
+                                              apt.status === 'CANCELLED' ? '#f44336' : '#FFC107',
                                             color: 'white'
                                           }}>
                                             {apt.status}
@@ -452,7 +499,7 @@ export default function PatientsPage() {
                             <h3>Lab Sonuçları</h3>
                             <p style={{ color: '#999' }}>Lab sonuçları özelliği yakında gelecek...</p>
                             <div style={{ marginTop: '15px' }}>
-                              <button 
+                              <button
                                 style={{
                                   padding: '8px 16px',
                                   background: '#FF9800',

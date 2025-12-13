@@ -2,7 +2,8 @@
 
 .appointment-page-wrapper {
     background-color: #f7fafd;
-    min-height: calc(100vh - 122px); /* Header/Footer payı */
+    min-height: calc(100vh - 122px);
+    /* Header/Footer payı */
     padding: 40px 20px;
     display: flex;
     justify-content: center;
@@ -37,4 +38,16 @@
     width: 20px;
     height: 20px;
 }
-   
+
+/* === DARK MODE === */
+[data-theme='dark'] .appointment-page-wrapper {
+    background-color: #111827;
+}
+
+[data-theme='dark'] .back-link-btn {
+    color: #9ca3af;
+}
+
+[data-theme='dark'] .back-link-btn:hover {
+    color: #f3f4f6;
+}

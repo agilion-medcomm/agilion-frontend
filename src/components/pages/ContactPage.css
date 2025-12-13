@@ -193,3 +193,63 @@
     height: 300px;
   }
 }
+
+/* === DARK MODE === */
+[data-theme='dark'] .contact-page,
+[data-theme='dark'] .page-section {
+  background-color: #111827;
+}
+
+[data-theme='dark'] .contact-title {
+  color: #f3f4f6;
+}
+
+[data-theme='dark'] .contact-subtitle {
+  color: #9ca3af;
+}
+
+[data-theme='dark'] .contact-info-item {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .contact-info-item svg {
+  color: #60a5fa;
+}
+
+[data-theme='dark'] .contact-form-container {
+  background-color: #1f2937;
+}
+
+[data-theme='dark'] .contact-form-container input[type="text"],
+[data-theme='dark'] .contact-form-container input[type="tel"],
+[data-theme='dark'] .contact-form-container input[type="email"],
+[data-theme='dark'] .contact-form-container textarea {
+  background-color: #374151;
+  border-color: #4b5563;
+  color: #f3f4f6;
+}
+
+[data-theme='dark'] .contact-form-container input::placeholder,
+[data-theme='dark'] .contact-form-container textarea::placeholder {
+  color: #9ca3af;
+}
+
+[data-theme='dark'] .form-agreement label {
+  color: #d1d5db;
+}
+
+[data-theme='dark'] .form-submit-btn {
+  background-color: #4b5563;
+}
+
+[data-theme='dark'] .form-submit-btn:hover {
+  background-color: #374151;
+}
+
+[data-theme='dark'] .contact-map {
+  border-color: #374151;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}

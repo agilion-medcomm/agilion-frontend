@@ -81,7 +81,7 @@ export default function MedicalFilesPage() {
     <div className="dashboard-page">
       <div className="page-header">
         <div className="page-title-section">
-          <h1 className="page-title">📋 Tıbbi Dosyalar</h1>
+          <h1 className="page-title">Tıbbi Dosyalar</h1>
           <p className="page-subtitle">Hastaların tıbbi raporlarını ve dosyalarını görüntüleyin</p>
         </div>
       </div>
