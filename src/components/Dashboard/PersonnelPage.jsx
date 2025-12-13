@@ -51,7 +51,7 @@ const CameraIcon = () => (
 );
 
 // Avatar component with photo or initials
-const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medium', onClick }) => {
+const PersonnelAvatar = ({ img, firstName, lastName, initials, size = 'medium', onClick }) => {
   const displayInitials = initials || `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
 
   // Generate consistent color from name
@@ -74,10 +74,10 @@ const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medi
     <div
       className={`personnel-avatar ${sizeClasses[size]} ${onClick ? 'clickable' : ''}`}
       onClick={onClick}
-      style={!photoUrl ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
+      style={!img ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
     >
-      {photoUrl ? (
-        <img src={`${API_BASE}${photoUrl}`} alt={`${firstName} ${lastName}`} />
+      {img ? (
+        <img src={`${API_BASE}${img}`} alt={`${firstName} ${lastName}`} />
       ) : (
         <span className="avatar-initials">{displayInitials.toUpperCase()}</span>
       )}
@@ -519,7 +519,7 @@ export default function PersonnelPage() {
                   <td>
                     <div className="name-cell">
                       <PersonnelAvatar
-                        photoUrl={personnel.photoUrl}
+                        img={personnel.img}
                         firstName={personnel.firstName}
                         lastName={personnel.lastName}
                         initials={personnel.initials}
