@@ -2,29 +2,43 @@
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:
+        'Helvetica Neue',
+        Helvetica,
+        Arial,
+        sans-serif;
     color: #334155;
     animation: fadeIn 0.4s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Başlık Bölümü */
 .profile-header-section {
     margin-bottom: 2rem;
 }
+
 .page-title {
     font-size: 1.8rem;
     font-weight: 700;
     color: #1e293b;
     margin-bottom: 0.5rem;
 }
+
 .page-subtitle {
     color: #64748b;
-    font-size: 0.95rem;
+    font-size: 0.98rem;
+    font-weight: 500;
 }
 
 /* Grid Yapısı */
@@ -38,7 +52,7 @@
 /* Kart Genel Stili */
 .profile-card {
     background: #fff;
-    border-radius: 12px;
+    border-radius: 32px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     border: 1px solid #e2e8f0;
     overflow: hidden;
@@ -46,15 +60,16 @@
 
 /* Sol Kolon: Kimlik Kartı */
 .identity-card .card-header {
-    background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    background: linear-gradient(to top, #293f72 0%, #0967eb 100%);
     padding: 2rem;
     text-align: center;
     color: white;
 }
+
 .avatar-circle {
     width: 80px;
     height: 80px;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     margin: 0 auto 1rem;
     display: flex;
@@ -62,14 +77,17 @@
     justify-content: center;
     font-size: 2rem;
     font-weight: 600;
-    border: 2px solid rgba(255,255,255,0.4);
+    border: 2px solid rgba(255, 255, 255, 0.4);
 }
+
 .user-identity h2 {
     font-size: 1.2rem;
     margin: 0 0 0.5rem;
+    color: #cde9f8;
 }
+
 .role-badge {
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     padding: 4px 12px;
     border-radius: 20px;
     font-size: 0.75rem;
@@ -77,18 +95,22 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
+
 .identity-card .card-body {
     padding: 1.5rem;
 }
+
 .info-group {
     margin-bottom: 1.2rem;
     border-bottom: 1px solid #f1f5f9;
     padding-bottom: 0.8rem;
 }
+
 .info-group:last-child {
     border-bottom: none;
     margin-bottom: 0;
 }
+
 .info-group label {
     display: block;
     font-size: 0.75rem;
@@ -97,6 +119,7 @@
     text-transform: uppercase;
     font-weight: 600;
 }
+
 .info-value {
     font-size: 0.95rem;
     font-weight: 500;
@@ -109,9 +132,12 @@
     flex-direction: column;
     gap: 2rem;
 }
-.settings-card, .security-card {
+
+.settings-card,
+.security-card {
     padding: 2rem;
 }
+
 .card-title {
     font-size: 1.1rem;
     font-weight: 600;
@@ -123,8 +149,10 @@
     padding-bottom: 1rem;
     border-bottom: 1px solid #e2e8f0;
 }
+
 .card-title svg {
-    color: #3b82f6; /* Agilion Mavisi */
+    color: #3b82f6;
+    /* Agilion Mavisi */
 }
 
 /* Form Elemanları */
@@ -134,11 +162,13 @@
     gap: 1.5rem;
     margin-bottom: 1.5rem;
 }
+
 .form-group {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
+
 .form-group label {
     font-size: 0.9rem;
     font-weight: 500;
@@ -147,9 +177,11 @@
     align-items: center;
     gap: 6px;
 }
+
 .form-group label svg {
     color: #94a3b8;
 }
+
 .form-group input {
     padding: 0.75rem 1rem;
     border: 1px solid #cbd5e1;
@@ -158,6 +190,7 @@
     transition: all 0.2s;
     background: #f8fafc;
 }
+
 .form-group input:focus {
     outline: none;
     border-color: #3b82f6;
@@ -171,8 +204,10 @@
     justify-content: flex-end;
     margin-top: 1rem;
 }
+
 .save-btn {
-    background: #0ea5e9; /* Teal/Blue arası */
+    background: #0ea5e9;
+    /* Teal/Blue arası */
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -184,9 +219,11 @@
     gap: 8px;
     transition: background 0.2s;
 }
+
 .save-btn:hover {
     background: #0284c7;
 }
+
 .save-btn:disabled {
     background: #cbd5e1;
     cursor: not-allowed;
@@ -202,9 +239,11 @@
     cursor: pointer;
     transition: all 0.2s;
 }
+
 .password-btn:hover:not(:disabled) {
     background: #fef2f2;
 }
+
 .password-btn:disabled {
     color: #cbd5e1;
     border-color: #cbd5e1;
@@ -219,11 +258,13 @@
     font-size: 0.9rem;
     font-weight: 500;
 }
+
 .profile-alert.success {
     background: #dcfce7;
     color: #166534;
     border: 1px solid #bbf7d0;
 }
+
 .profile-alert.error {
     background: #fee2e2;
     color: #991b1b;
@@ -231,10 +272,11 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .profile-grid {
         grid-template-columns: 1fr;
     }
+
     .form-row {
         grid-template-columns: 1fr;
     }

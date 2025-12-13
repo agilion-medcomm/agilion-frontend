@@ -32,31 +32,14 @@ export function NotificationProvider({ children }) {
 
     try {
       // Mock notifications - replace with actual API
-      const mockNotifications = [
-        {
-          id: 1,
-          title: 'New Leave Request',
-          message: 'Dr. John Doe has submitted a leave request for approval',
-          type: 'LEAVE_REQUEST',
-          read: false,
-          createdAt: new Date().toISOString()
-        },
-        {
-          id: 2,
-          title: 'Appointment Cancelled',
-          message: 'Patient Jane Smith cancelled appointment for 2025-12-01',
-          type: 'APPOINTMENT',
-          read: false,
-          createdAt: new Date(Date.now() - 3600000).toISOString()
-        }
-      ];
+      const mockNotifications = [];
 
       const newUnreadCount = mockNotifications.filter(n => !n.read).length;
       const hadUnread = unreadCount === 0 && newUnreadCount > 0;
-      
+
       setNotifications(mockNotifications);
       setUnreadCount(newUnreadCount);
-      
+
       // Show alert if there are new notifications
       if (hadUnread && !sessionStorage.getItem('notificationAlertShown')) {
         setShowAlert(true);
@@ -68,14 +51,14 @@ export function NotificationProvider({ children }) {
   };
 
   const markAsRead = (notificationId) => {
-    setNotifications(notifications.map(n => 
-      n.id === notificationId ? {...n, read: true} : n
+    setNotifications(notifications.map(n =>
+      n.id === notificationId ? { ...n, read: true } : n
     ));
     setUnreadCount(prev => Math.max(0, prev - 1));
   };
 
   const markAllAsRead = () => {
-    setNotifications(notifications.map(n => ({...n, read: true})));
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
     setUnreadCount(0);
   };
 

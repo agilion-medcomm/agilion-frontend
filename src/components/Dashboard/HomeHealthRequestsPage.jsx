@@ -133,7 +133,7 @@ export default function HomeHealthRequestsPage() {
   return (
     <div className="home-health-page">
       <div className="page-header">
-        <h1>🏠 Evde Sağlık Talepleri</h1>
+        <h1>Evde Sağlık Talepleri</h1>
         <p>Hastaların evde sağlık hizmeti taleplerini görüntüleyin ve yönetin.</p>
       </div>
 
@@ -173,7 +173,7 @@ export default function HomeHealthRequestsPage() {
           <option value="REJECTED">Reddedildi</option>
         </select>
         <button className="refresh-btn" onClick={fetchRequests}>
-          🔄 Yenile
+          Yenile
         </button>
       </div>
 
@@ -220,7 +220,7 @@ export default function HomeHealthRequestsPage() {
                       <td>{req.serviceType}</td>
                       <td>{req.preferredDate || '-'}</td>
                       <td>
-                        <span 
+                        <span
                           className="status-badge"
                           style={{ color: statusConfig.color, backgroundColor: statusConfig.bgColor }}
                         >
@@ -229,7 +229,7 @@ export default function HomeHealthRequestsPage() {
                       </td>
                       <td>{formatDate(req.createdAt)}</td>
                       <td>
-                        <button 
+                        <button
                           className="view-btn"
                           onClick={() => setSelectedRequest(req)}
                         >
@@ -289,11 +289,11 @@ export default function HomeHealthRequestsPage() {
                 </div>
                 <div className="detail-item">
                   <label>Durum:</label>
-                  <span 
+                  <span
                     className="status-badge"
-                    style={{ 
-                      color: STATUS_CONFIG[selectedRequest.status]?.color, 
-                      backgroundColor: STATUS_CONFIG[selectedRequest.status]?.bgColor 
+                    style={{
+                      color: STATUS_CONFIG[selectedRequest.status]?.color,
+                      backgroundColor: STATUS_CONFIG[selectedRequest.status]?.bgColor
                     }}
                   >
                     {STATUS_CONFIG[selectedRequest.status]?.label || selectedRequest.status}
@@ -324,14 +324,14 @@ export default function HomeHealthRequestsPage() {
                     rows={3}
                   />
                   <div className="action-buttons">
-                    <button 
+                    <button
                       className="approve-btn"
                       onClick={handleApprove}
                       disabled={actionLoading}
                     >
                       {actionLoading ? 'İşleniyor...' : '✓ Onayla'}
                     </button>
-                    <button 
+                    <button
                       className="reject-btn"
                       onClick={handleReject}
                       disabled={actionLoading}

@@ -546,14 +546,14 @@ export default function PersonnelPage() {
                           onClick={() => openEditModal(personnel)}
                           title="Edit"
                         >
-                          <EditIcon />
+                          <img src="/editor.svg" alt="Edit" width="30" height="30" />
                         </button>
                         <button
                           className="btn-icon btn-delete"
                           onClick={() => openDeleteModal(personnel)}
                           title="Delete"
                         >
-                          <TrashIcon />
+                          <img src="/delete.svg" alt="Delete" width="26" height="26" />
                         </button>
                       </div>
                     </td>

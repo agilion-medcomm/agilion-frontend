@@ -107,7 +107,7 @@ export default function PatientDashboard() {
     }
   };
 
-  // ✅ ARTIK EN TEMİZ YÖNTEMİ KULLANIYORUZ
+
   const fetchAppointments = async () => {
     setLoading(true);
     try {
@@ -493,7 +493,7 @@ export default function PatientDashboard() {
 
       {/* 2. TAHLİL SONUÇLARI SEKMESİ */}
       {activeTab === 'lab-results' && (
-        <div className="table-container">
+        <div className="data-table-container">
           <table className="data-table">
             <thead>
               <tr>
@@ -659,7 +659,7 @@ export default function PatientDashboard() {
                 />
               </div>
 
-              <button type="submit" className="btn-save" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: 'white' }} disabled={loading}>
+              <button type="submit" className="btn-save" style={{ background: '#2563eb', color: 'white', borderRadius: '100px' }} disabled={loading}>
                 {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
               </button>
             </form>
@@ -701,7 +701,7 @@ export default function PatientDashboard() {
                 />
               </div>
 
-              <button type="submit" className="btn-save btn-danger-action" style={{ background: 'white', color: '#ef4444', border: '1px solid #fecaca' }} disabled={loading}>
+              <button type="submit" className="btn-save btn-danger-action" style={{ background: 'white', color: '#ef4444', border: '1px solid #fecaca', borderRadius: '100px' }} disabled={loading}>
                 {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
               </button>
             </form>

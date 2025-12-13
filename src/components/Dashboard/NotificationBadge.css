@@ -27,13 +27,27 @@
 }
 
 .notification-bell.has-unread {
-  animation: bellRing 2s ease infinite;
+  /* Animation removed as per user request */
+  color: #3b82f6;
+  /* Optional: keep a color change to indicate state */
 }
 
 @keyframes bellRing {
-  0%, 100% { transform: rotate(0deg); }
-  10%, 30% { transform: rotate(-10deg); }
-  20%, 40% { transform: rotate(10deg); }
+
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  10%,
+  30% {
+    transform: rotate(-10deg);
+  }
+
+  20%,
+  40% {
+    transform: rotate(10deg);
+  }
 }
 
 .notification-count {
@@ -71,6 +85,7 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

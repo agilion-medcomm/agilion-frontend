@@ -2,7 +2,8 @@
 
 .settings-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Responsive Grid */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    /* Responsive Grid */
     gap: 2rem;
     margin-top: 1rem;
     animation: fadeIn 0.4s ease-out;
@@ -98,7 +99,6 @@
 .btn-save {
     width: 100%;
     padding: 1rem;
-    border-radius: 10px;
     font-weight: 600;
     font-size: 0.95rem;
     border: none;
@@ -138,6 +138,7 @@
     .settings-container {
         grid-template-columns: 1fr;
     }
+
     .form-row {
         grid-template-columns: 1fr;
     }
