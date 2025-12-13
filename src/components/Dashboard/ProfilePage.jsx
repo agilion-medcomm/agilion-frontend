@@ -86,7 +86,7 @@ export default function ProfilePage() {
             }
 
             // Personel kendi profilini güncelliyor
-            const endpoint = `${BaseURL}/personnel/profile`;
+            const endpoint = `${BaseURL}/personnel/${user.id}`;
 
             // Sadece dolu alanları gönder
             const payload = {};
@@ -101,10 +101,9 @@ export default function ProfilePage() {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            // Context güncelleme (opsiyonel)
-            if (loginPersonnel) {
-                const updatedUser = { ...user, ...payload };
-                loginPersonnel(token, updatedUser);
+            // Profil bilgilerini yenile
+            if (refreshUser) {
+                await refreshUser();
             }
 
             setSuccessMsg('Profil bilgileriniz başarıyla güncellendi.');
@@ -143,11 +142,11 @@ export default function ProfilePage() {
             }
 
             // Personel kendi şifresini güncelliyor
-            const endpoint = `${BaseURL}/personnel/profile/password`;
+            const endpoint = `${BaseURL}/personnel/${user.id}`;
 
             console.log("Şifre güncelleme isteği gönderiliyor...", { endpoint });
 
-            await axios.patch(endpoint, {
+            await axios.put(endpoint, {
                 currentPassword: passData.currentPassword,
                 newPassword: passData.newPassword
             }, {

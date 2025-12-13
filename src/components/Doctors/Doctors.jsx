@@ -96,9 +96,9 @@ export default function Doctors() {
                 key={doc.id || i}
                 onClick={() => handleDoctorCardClick(doc)}
               >
-                {doc.photoUrl ? (
+                {doc.img ? (
                   <img
-                    src={doc.photoUrl.startsWith('http') ? doc.photoUrl : `${API_BASE}${doc.photoUrl}`}
+                    src={doc.img.startsWith('http') ? doc.img : `${API_BASE}${doc.img}`}
                     alt={doc.firstName + ' ' + doc.lastName}
                     className="doctor-photo"
                   />
