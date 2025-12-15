@@ -417,19 +417,23 @@ export default function PatientDashboard() {
                 const department = apt.departmentName || (apt.department && apt.department.name) || 'Genel';
                 const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'));
                 const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }));
-                const status = apt.status || 'PENDING';
+                const status = apt.status || 'APPROVED';
                 // Avatar için ilk harfler
                 const avatar = doctorName.split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
                 // Renkli durum badge'i
                 const statusColors = {
-                  'COMPLETED': '#22c55e',
+                  'DONE': '#22c55e',
                   'CANCELLED': '#ef4444',
-                  'PENDING': '#f59e42',
                   'APPROVED': '#2563eb',
-                  'WAITING': '#fbbf24',
                   'DEFAULT': '#64748b'
                 };
+                const statusLabels = {
+                  'DONE': 'Tamamlandı',
+                  'CANCELLED': 'İptal Edildi',
+                  'APPROVED': 'Onaylandı'
+                };
                 const badgeColor = statusColors[status] || statusColors['DEFAULT'];
+                const statusLabel = statusLabels[status] || status;
                 return (
                   <div key={apt.id} className={`appointment-card modern-appointment-card status-${status.toLowerCase()}`}
                     style={{ boxShadow: '0 2px 12px 0 #e0e7ef', borderRadius: 16, background: '#fff', marginBottom: 24, border: `1.5px solid ${badgeColor}22` }}>
@@ -439,7 +443,7 @@ export default function PatientDashboard() {
                         <div style={{ fontWeight: 600, fontSize: 18, color: '#222' }}>{doctorName}</div>
                         <div style={{ fontSize: 14, color: '#64748b' }}>{department}</div>
                       </div>
-                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{status}</span>
+                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{statusLabel}</span>
                     </div>
                     <div className="modern-apt-body" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
                       <div style={{ fontSize: 15 }}>
@@ -448,7 +452,7 @@ export default function PatientDashboard() {
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
                         {/* İptal butonu */}
-                        {status !== 'CANCELLED' && status !== 'COMPLETED' && (() => {
+                        {status !== 'CANCELLED' && status !== 'DONE' && (() => {
                           // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
                           let aptDate = new Date();
                           if (apt.date && apt.date.includes('.')) {
@@ -459,8 +463,13 @@ export default function PatientDashboard() {
                           } else if (apt.startTime) {
                             aptDate = new Date(apt.startTime);
                           }
-                          const now = new Date();
-                          if (aptDate >= now) {
+                          // Bugünün başlangıcını al (saat 00:00)
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          aptDate.setHours(0, 0, 0, 0);
+                          
+                          // Bugün veya gelecekteki randevular iptal edilebilir
+                          if (aptDate >= today) {
                             return (
                               <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => handleCancelAppointment(apt.id)}>
                                 İptal Et
@@ -470,7 +479,7 @@ export default function PatientDashboard() {
                           return null;
                         })()}
                         {/* Değerlendir butonu */}
-                        {status === 'COMPLETED' && !apt.hasReview && (
+                        {status === 'DONE' && !apt.hasReview && (
                           <button className="btn-primary modern-btn" style={{ background: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}>
                             Değerlendir
                           </button>

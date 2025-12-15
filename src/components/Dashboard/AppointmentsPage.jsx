@@ -147,13 +147,13 @@ export default function AppointmentsPage() {
           )}
         </div>
         <div className="role-filters">
-          {['ALL', 'PENDING', 'APPROVED', 'CANCELLED'].map(status => (
+          {['ALL', 'APPROVED', 'DONE', 'CANCELLED'].map(status => (
             <button
               key={status}
               className={`filter-chip ${statusFilter === status ? 'active' : ''}`}
               onClick={() => setStatusFilter(status)}
             >
-              {status}
+              {status === 'ALL' ? 'Tümü' : status === 'APPROVED' ? 'Onaylı' : status === 'DONE' ? 'Tamamlandı' : 'İptal'}
             </button>
           ))}
         </div>
@@ -187,14 +187,25 @@ export default function AppointmentsPage() {
                     </span>
                   </td>
                   <td>
-                    {app.status !== 'CANCELLED' && (
-                      <button
-                        className="btn-sm btn-danger"
-                        onClick={() => openCancelModal(app.id, `${app.patientFirstName} ${app.patientLastName}`)}
-                      >
-                        Cancel
-                      </button>
-                    )}
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                      {app.status === 'APPROVED' && user?.role === 'DOCTOR' && (
+                        <button
+                          className="btn-sm"
+                          style={{ backgroundColor: '#10b981', color: 'white', border: 'none' }}
+                          onClick={() => handleUpdateStatus(app.id, 'DONE')}
+                        >
+                          Tamamla
+                        </button>
+                      )}
+                      {app.status === 'APPROVED' && (
+                        <button
+                          className="btn-sm btn-danger"
+                          onClick={() => openCancelModal(app.id, `${app.patientFirstName} ${app.patientLastName}`)}
+                        >
+                          İptal
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))

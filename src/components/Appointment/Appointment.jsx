@@ -173,7 +173,10 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 
 	// --- Render Helper ---
 	const DoctorAvatar = () => {
-		if (doctor.img) return <img src={doctor.img} alt="Dr." className="doctor-modal-img" />;
+		if (doctor.img) {
+			const imgSrc = doctor.img.startsWith('http') ? doctor.img : `${API_BASE}${doctor.img}`;
+			return <img src={imgSrc} alt="Dr." className="doctor-modal-img" />;
+		}
 		const initials = `${doctor.firstName?.[0] || ''}${doctor.lastName?.[0] || ''}`.toUpperCase();
 		return <div className="doctor-modal-avatar-placeholder">{initials}</div>;
 	};
