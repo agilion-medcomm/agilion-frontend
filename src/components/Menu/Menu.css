@@ -712,7 +712,7 @@ input[type="button"] {
 }
 
 /* ====== RESPONSIVE ====== */
-@media (max-width: 1210px) and (min-width: 991px) {
+@media (max-width: 1210px) and (min-width: 951px) {
   .nav {
     gap: 8px;
     padding: 6px 8px;
@@ -744,20 +744,21 @@ input[type="button"] {
   }
 }
 
-@media (max-width: 990px) {
+/* 950px ve altı: Topbar ve Desktop Nav gizlenir, Hamburger menu görünür */
+@media (max-width: 1100px) {
+
   .nav {
-    display: none;
+    display: none !important;
   }
 
   .hamburger {
-    display: flex;
+    display: flex !important;
     width: 48px;
     height: 48px;
     margin-right: 0;
   }
-}
 
-@media (max-width: 768px) {
+  /* Topbar gizle */
   .topbar {
     display: none !important;
     height: 0 !important;
@@ -767,9 +768,9 @@ input[type="button"] {
     margin: 0 !important;
   }
 
+  /* Topbar yüksekliğini sıfırla */
   :root {
     --topbar-h: 0px !important;
-    /* Topbar yoksa yüksekliğini sıfırla ki diğer elemanlar yukarı kaymasın */
   }
 }
 
@@ -922,7 +923,7 @@ input[type="button"] {
   display: none;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 950px) {
 
   /* 1. Topbar'ı gizle */
   .topbar {
