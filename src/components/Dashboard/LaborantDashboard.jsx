@@ -137,8 +137,14 @@ export default function LaborantDashboard() {
               <input
                 type="text"
                 value={patientTckn}
-                onChange={(e) => setPatientTckn(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D/g, '');
+                  if (value.length <= 11) {
+                    setPatientTckn(value);
+                  }
+                }}
                 placeholder="Hasta TCKN'sini girin"
+                maxLength={11}
                 required
                 disabled={!!foundPatient}
                 style={{

@@ -91,9 +91,9 @@ export default function DoctorSlider() {
             <div className="doctor-slider-container">
               {visibleDoctors.map((doc, i) => (
                 <div className="slider-doctor-card" key={doc.id || i}>
-                  {doc.photoUrl ? (
+                  {doc.img ? (
                     <img 
-                      src={doc.photoUrl.startsWith('http') ? doc.photoUrl : `${API_BASE}${doc.photoUrl}`} 
+                      src={doc.img.startsWith('http') ? doc.img : `${API_BASE}${doc.img}`} 
                       alt={doc.firstName + ' ' + doc.lastName} 
                       className="slider-doctor-img" 
                     />

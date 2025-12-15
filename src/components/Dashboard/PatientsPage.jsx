@@ -14,6 +14,8 @@ export default function PatientsPage() {
   const [appointmentsSubTab, setAppointmentsSubTab] = useState('past'); // 'past' or 'upcoming'
   const [appointments, setAppointments] = useState({});
   const [loadingAppointments, setLoadingAppointments] = useState({});
+  const [labResults, setLabResults] = useState({});
+  const [loadingLabResults, setLoadingLabResults] = useState({});
   const [error, setError] = useState(null);
   const [searchError, setSearchError] = useState(null);
   const token = localStorage.getItem('personnelToken');
@@ -91,6 +93,48 @@ export default function PatientsPage() {
     }
   };
 
+  const fetchLabResults = async (patientId) => {
+    if (labResults[patientId]) {
+      return;
+    }
+
+    setLoadingLabResults(prev => ({ ...prev, [patientId]: true }));
+    try {
+      const res = await axios.get(`${BaseURL}/medical-files/patient/${patientId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      console.log('Lab results fetched for patient', patientId, ':', res.data?.data);
+      setLabResults(prev => ({ ...prev, [patientId]: res.data?.data || [] }));
+    } catch (error) {
+      console.error('Error fetching lab results:', error);
+      setLabResults(prev => ({ ...prev, [patientId]: [] }));
+    } finally {
+      setLoadingLabResults(prev => ({ ...prev, [patientId]: false }));
+    }
+  };
+
+  const handleDownloadFile = async (fileId, fileName) => {
+    try {
+      const response = await axios.get(`${BaseURL}/medical-files/${fileId}/download`, {
+        responseType: 'blob',
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      const blob = new Blob([response.data], { type: response.headers['content-type'] });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Dosya indirilemedi');
+    }
+  };
+
   const handleExpandRow = (patientId, tab) => {
     console.log('handleExpandRow called with patientId:', patientId, 'tab:', tab);
     if (expandedPatient === patientId && expandedTab === tab) {
@@ -104,6 +148,9 @@ export default function PatientsPage() {
       if (tab === 'appointments') {
         console.log('Calling fetchAppointments with:', patientId);
         fetchAppointments(patientId);
+      } else if (tab === 'labResults') {
+        console.log('Calling fetchLabResults with:', patientId);
+        fetchLabResults(patientId);
       }
     }
   };
@@ -496,22 +543,55 @@ export default function PatientsPage() {
                       <tr className="expanded-row">
                         <td colSpan="6" style={{ padding: '20px' }}>
                           <div className="expanded-content">
-                            <h3>Lab Sonuçları</h3>
-                            <p style={{ color: '#999' }}>Lab sonuçları özelliği yakında gelecek...</p>
-                            <div style={{ marginTop: '15px' }}>
-                              <button
-                                style={{
-                                  padding: '8px 16px',
-                                  background: '#FF9800',
-                                  color: 'white',
-                                  border: 'none',
-                                  borderRadius: '4px',
-                                  cursor: 'pointer'
-                                }}
-                              >
-                                Lab Sonuçlarını Göster
-                              </button>
-                            </div>
+                            <h3 style={{ marginBottom: '16px', color: '#1e293b' }}>Lab Sonuçları</h3>
+                            {loadingLabResults[patient.patientId] ? (
+                              <p style={{ color: '#64748b' }}>Yükleniyor...</p>
+                            ) : !labResults[patient.patientId] || labResults[patient.patientId].length === 0 ? (
+                              <p style={{ color: '#94a3b8' }}>Bu hasta için lab sonucu bulunamadı.</p>
+                            ) : (
+                              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                                <thead>
+                                  <tr style={{ borderBottom: '2px solid #e2e8f0' }}>
+                                    <th style={{ padding: '12px', textAlign: 'left', fontWeight: '600', color: '#475569' }}>Dosya Adı</th>
+                                    <th style={{ padding: '12px', textAlign: 'left', fontWeight: '600', color: '#475569' }}>Açıklama</th>
+                                    <th style={{ padding: '12px', textAlign: 'left', fontWeight: '600', color: '#475569' }}>Yükleyen</th>
+                                    <th style={{ padding: '12px', textAlign: 'left', fontWeight: '600', color: '#475569' }}>Tarih</th>
+                                    <th style={{ padding: '12px', textAlign: 'center', fontWeight: '600', color: '#475569' }}>İşlem</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {labResults[patient.patientId].map((file) => (
+                                    <tr key={file.id} style={{ borderBottom: '1px solid #f1f5f9' }}>
+                                      <td style={{ padding: '12px', color: '#334155' }}>{file.fileName}</td>
+                                      <td style={{ padding: '12px', color: '#64748b' }}>{file.description || '-'}</td>
+                                      <td style={{ padding: '12px', color: '#64748b' }}>
+                                        {file.laborant ? `${file.laborant.firstName} ${file.laborant.lastName}` : '-'}
+                                      </td>
+                                      <td style={{ padding: '12px', color: '#64748b' }}>
+                                        {new Date(file.uploadedAt).toLocaleDateString('tr-TR')}
+                                      </td>
+                                      <td style={{ padding: '12px', textAlign: 'center' }}>
+                                        <button
+                                          onClick={() => handleDownloadFile(file.id, file.fileName)}
+                                          style={{
+                                            padding: '6px 12px',
+                                            background: '#3b82f6',
+                                            color: 'white',
+                                            border: 'none',
+                                            borderRadius: '6px',
+                                            cursor: 'pointer',
+                                            fontSize: '13px',
+                                            fontWeight: '500'
+                                          }}
+                                        >
+                                          İndir
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            )}
                           </div>
                         </td>
                       </tr>
