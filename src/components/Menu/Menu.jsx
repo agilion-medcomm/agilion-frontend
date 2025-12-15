@@ -86,7 +86,7 @@ export default function Menu() {
   // Ekran genişliği masaüstüne çıkınca menüyü kapat
   useEffect(() => {
     function handleResize() {
-      if (window.innerWidth > 990) setMenuOpen(false);
+      if (window.innerWidth > 950) setMenuOpen(false);
     }
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -222,7 +222,7 @@ export default function Menu() {
                 </div>
               )}
 
-              {/* 780px ve altı için Topbar İçerikleri - Moved to Bottom */}
+              {/* 950px ve altı için Topbar İçerikleri - Moved to Bottom */}
               <div className="mobile-menu__topbar-items">
                 <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
                   <MailIcon /> info@zeytinburnutipmerkezi.com.tr
