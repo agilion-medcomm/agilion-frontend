@@ -170,6 +170,7 @@ export default function DashboardLayout() {
         ...baseNav,
         { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Appointments' },
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
+        { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
         { path: '/dashboard/medical-files', icon: <FileTextIcon />, label: 'Medical Files' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
         { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
