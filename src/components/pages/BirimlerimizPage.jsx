@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import './BirimlerimizPage.css';
 
 const BirimlerimizPage = () => {
-  const [selectedId, setSelectedId] = useState('anestezi');
+  const location = useLocation();
+  const [selectedId, setSelectedId] = useState(location.state?.selectedId || 'anestezi');
+
+  useEffect(() => {
+    if (location.state?.selectedId) {
+      setSelectedId(location.state.selectedId);
+    }
+  }, [location.state]);
 
   const units = [
     {
@@ -57,6 +65,13 @@ const BirimlerimizPage = () => {
       icon: '/d5.png',
       contentTitle: 'Laboratuvar',
       content: <p>Zeytinburnu Tıp Merkezi,  hastalarına acil ve rutin laboratuvar hizmeti verirken, özellikle güvenilir sonuç üretmeyi hedef edinmiş olmanın gereklerini yerine getiren merkez laboratuvarı, haftanın 7 günü hizmetini sürdürmektedir. </p>
+    },
+    {
+      id: 'fizik',
+      title: 'Fizik Tedavi',
+      icon: '/d1.png', // Placeholder
+      contentTitle: 'Fizik Tedavi',
+      content: <p>Fizik Tedavi ve Rehabilitasyon ünitemizde; kas, eklem, kemik ve omurga hastalıkları, felçler, ortopedik ameliyatlar sonrası rehabilitasyon, spor yaralanmaları ve romatizmal hastalıkların tanı ve tedavisi uygulanmaktadır. Modern cihazlar ve deneyimli fizyoterapistler eşliğinde kişiye özel egzersiz ve tedavi programları ile hastalarımızın yaşam kalitesini artırmayı hedefliyoruz.</p>
     },
     {
       id: 'saglik_raporlari',
@@ -130,9 +145,7 @@ const BirimlerimizPage = () => {
             >
               <img src={unit.icon} alt={unit.title} className="birim-card__icon" />
               <div className="birim-card__title">{unit.title}</div>
-              <button className="birim-card__btn">
-                {selectedId === unit.id ? 'İnceleniyor' : 'İncele'}
-              </button>
+              <img src="/angle-right.svg" alt="" className="birim-card-arrow-icon" width="24" height="24" />
             </div>
           ))}
         </div>

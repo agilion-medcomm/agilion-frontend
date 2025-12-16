@@ -384,9 +384,7 @@ const BolumlerimizPage = () => {
             >
               <img src={dept.icon} alt={dept.title} className="bolum-card__icon" />
               <div className="bolum-card__title">{dept.title}</div>
-              <button className="bolum-card__btn">
-                {selectedId === dept.id ? 'İnceleniyor' : 'İncele'}
-              </button>
+              <img src="/angle-right.svg" alt="" className="card-arrow-icon" width="24" height="24" />
             </div>
           ))}
         </div>

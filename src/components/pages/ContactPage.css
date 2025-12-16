@@ -71,33 +71,68 @@
 }
 
 .contact-info-item {
-  background-color: #f2f2f2;
-  border-radius: 21px;
-  padding: 15px 15px;
+  /* Temel Yapı */
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  /* İç boşluğu biraz artırdık, ferahlık için */
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 1.2rem;
+  gap: 20px;
+  /* İkon ile yazı arasını açtık */
+
+  /* Tipografi */
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #686868;
-  border: 1px solid #eaeaea;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s;
+  color: #2d3748;
+  /* Soluk gri yerine daha okunaklı koyu antrasit */
+
+  /* Kenarlık ve Gölge */
+  border: 1px solid #f0f2f5;
+  /* Çok hafif bir kenarlık */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  /* Çok soft bir başlangıç gölgesi */
+
+  /* Animasyon */
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: default;
+  /* Eğer link değilse default, link ise pointer yapın */
+  position: relative;
+  overflow: hidden;
 }
 
+/* Hover (Üzerine Gelme) Efekti - Kartı Canlandırır */
 .contact-info-item:hover {
-  transform: translateY(-3px);
+  transform: translateY(0px);
+  box-shadow: 0 15px 30px rgba(14, 43, 75, 0.1);
+  border-color: rgba(14, 43, 75, 0.1);
 }
+
+
 
 .contact-info-item svg {
-  color: #0d6efd;
-  /* İkon rengi */
+  color: #0e2b4b;
+  /* Kurumsal Lacivert İkon */
+  background-color: #eef4fb;
+  /* İkonun arkasına açık mavi bir kutu */
+
+  /* İkon Kutusu Boyutları */
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: 12px;
+  /* İkon kutusunun köşeleri */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
 }
 
 .contact-form-container {
   background-color: #e9ecef;
   padding: 20px;
-  border-radius: 32px;
+  border-radius: 16px;
 }
 
 .form-row {
@@ -117,7 +152,7 @@
   width: 100%;
   padding: 15px;
   border: 1px solid #ced4da;
-  border-radius: 15px;
+  border-radius: 8px;
   font-size: 1rem;
   font-family: inherit;
 }
@@ -149,19 +184,27 @@
 }
 
 .form-submit-btn {
-  background-color: #6c757d;
+  background: #2c5282;
   color: white;
   border: none;
   padding: 15px 40px;
-  border-radius: 30px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s;
+  border-radius: 16px;
 }
 
 .form-submit-btn:hover {
   background-color: #5a6268;
+}
+
+[data-theme='dark'] .form-submit-btn {
+  background-color: #3869a5;
+}
+
+[data-theme='dark'] .form-submit-btn:hover {
+  background-color: #374151;
 }
 
 .contact-map {
@@ -169,14 +212,14 @@
   height: 450px;
   margin-top: 50px;
   margin-bottom: 60px;
-  border-radius: 32px;
+  border-radius: 24px;
   overflow: hidden;
   border: 2px solid #e0e0e0;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobil Cihazlar İçin Ayarlamalar */
-@media (max-width: 768px) {
+@media (max-width: 840px) {
   .contact-info-grid {
     grid-template-columns: 1fr;
   }
@@ -216,7 +259,8 @@
 }
 
 [data-theme='dark'] .contact-info-item svg {
-  color: #60a5fa;
+  color: #c9e2ff;
+  background-color: #686868;
 }
 
 [data-theme='dark'] .contact-form-container {
@@ -241,13 +285,7 @@
   color: #d1d5db;
 }
 
-[data-theme='dark'] .form-submit-btn {
-  background-color: #4b5563;
-}
 
-[data-theme='dark'] .form-submit-btn:hover {
-  background-color: #374151;
-}
 
 [data-theme='dark'] .contact-map {
   border-color: #374151;

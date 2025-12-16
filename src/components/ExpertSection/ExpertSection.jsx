@@ -10,7 +10,7 @@ export default function ExpertSection() {
       <div className="expert-container">
         {/* SOL: Görsel */}
         <div className="expert-image">
-          <img src="/uzman.png" alt="Uzman hekim ve hasta" />
+          <img src="/uzman1.jpg" alt="Uzman hekim ve hasta" />
         </div>
 
         {/* SAĞ: İçerik */}
