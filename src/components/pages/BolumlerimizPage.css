@@ -514,9 +514,9 @@
 
     /* Adjust arrow for mobile */
     .card-arrow-icon {
-        width: 12px;
+        width: 38px !important;
         /* Smaller arrow */
-        height: 12px;
+        height: 38px !important;
         right: 8px;
     }
 

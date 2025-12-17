@@ -248,6 +248,8 @@
 
     /* Kenarlık: Daha parlak, sınırları belli eden mavi */
     border-top: 1px solid #3b82f6 !important;
+    border-left: 1px solid #3b82f6 !important;
+    border-bottom: 1px solid #3b82f6 !important;
     /* Yazı Rengi: Okunabilirlik için tam beyaz */
     color: #ffffff !important;
     /* Geçiş efektleri */
@@ -260,9 +262,9 @@
 [data-theme="dark"] .floating-btn--contact {
     background-color: rgba(20, 83, 45, 0.85) !important;
 
-
     border-right: 1px solid #22c55e !important;
     border-top: 1px solid #22c55e !important;
+    border-bottom: 1px solid #22c55e !important;
     /* Tailwind Green-500 */
 
     /* Yazı Rengi */
