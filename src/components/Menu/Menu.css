@@ -326,115 +326,7 @@ input[type="button"] {
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* ====== HERO SECTION ====== */
-.hero {
-  position: relative;
-  width: 100vw;
-  height: 560px;
-  margin-left: calc(-50vw + 50%);
-  left: 0;
-  overflow: hidden;
-  cursor: default;
-  /* Default cursor */
-}
 
-.hero__image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.hero__image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 20% center;
-}
-
-.hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 40%, rgba(0, 0, 0, 0.35) 100%);
-  pointer-events: none;
-}
-
-.hero__searchbox {
-  position: absolute;
-  bottom: 40px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-/* Search Box */
-.search {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: white;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text-900);
-  border-radius: 100px;
-  padding: 12px 16px 12px 32px;
-  max-width: 800px;
-  width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  transition: all 0.3s ease;
-}
-
-.search:focus-within {
-  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.3);
-  transform: translateY(-4px);
-  border-color: rgba(37, 99, 235, 0.3);
-}
-
-.search__input {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 1.2rem;
-  padding: 14px 12px;
-  cursor: text !important;
-  background: transparent;
-  color: #1f2937;
-  font-weight: 500;
-}
-
-.search__input::placeholder {
-  color: #9ca3af;
-  font-weight: 400;
-}
-
-.search__btn {
-  display: grid;
-  place-items: center;
-  border: none;
-  background: transparent;
-  padding: 0;
-  width: auto;
-  height: auto;
-  color: inherit;
-  cursor: pointer !important;
-  transition: none;
-}
-
-.search__btn:hover {
-  background: transparent;
-  transform: none;
-  box-shadow: none;
-}
-
-.search__btn:active {
-  transform: none;
-}
 
 
 
@@ -687,7 +579,7 @@ input[type="button"] {
   place-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 100%;
   background: linear-gradient(135deg, #45b5c4 0%, #357d91 100%);
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -832,7 +724,7 @@ input[type="button"] {
     /* Çok uzun olursa içinde scroll çıksın */
 
     /* 4. GÖRÜNÜM */
-    border-radius: 12px;
+    border-radius: 24px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
 
     /* Animasyon */
@@ -864,56 +756,6 @@ input[type="button"] {
 
 
 
-/* 1. Arama kutusunu yukarı taşıyoruz */
-.hero__searchbox {
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-/* 2. Butonun arka planını kaldırıp sıfırlıyoruz */
-.search__btn {
-  display: grid;
-  place-items: center;
-  border: none;
-  background: transparent;
-  padding: 0;
-  width: auto;
-  height: auto;
-  color: inherit;
-  cursor: pointer !important;
-}
-
-.search__btn:hover {
-  background: transparent;
-  transform: none;
-  box-shadow: none;
-}
-
-.search__btn:active {
-  transform: none;
-}
-
-.search {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  background: #ffffff;
-  color: var(--text-900);
-  border-radius: 100px;
-  padding: 12px 28px;
-  max-width: 640px;
-  width: 100%;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
-  height: 48px;
-}
 
 /* ====== 780px ve Altı İçin Düzenlemeler ====== */
 
@@ -923,11 +765,12 @@ input[type="button"] {
   display: none;
 }
 
-@media (max-width: 950px) {
+/* 1100px ve Altı İçin Düzenlemeler */
+@media (max-width: 1100px) {
 
   /* 1. Topbar'ı gizle */
   .topbar {
-    display: none;
+    display: none !important;
   }
 
   /* 2. Menubar'ı en üste taşı */
@@ -957,59 +800,69 @@ input[type="button"] {
   .mobile-menu__info-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: var(--text-700);
+    gap: 8px;
+    color: #4b5563;
     text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 0.95rem;
   }
 
   .mobile-menu__info-item svg {
-    color: var(--brand-600);
+    color: #2563eb;
     width: 18px;
     height: 18px;
   }
 
-  /* Sosyal Medya İkonları Düzenlemesi */
   .mobile-menu__socials-row {
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Ortala */
-    gap: 20px;
-    /* Aralarına boşluk */
-    margin-top: 10px;
-    margin-bottom: 10px;
+    gap: 16px;
+    margin-top: 8px;
   }
 
-  .mobile-menu__socials-row .social,
-  .mobile-menu__socials-row .lang {
+  .mobile-menu__socials-row .social {
+    color: #4b5563;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    /* Çember */
-    border: 1px solid #e2e8f0;
-    /* Kenarlık */
-    color: var(--brand-800);
-    transition: all 0.2s ease;
-    text-decoration: none;
+    width: 36px;
+    height: 36px;
+    background: #f3f4f6;
+    border-radius: 100%;
+  }
+
+  /* Dark Mode for Social Icons */
+  [data-theme="dark"] .mobile-menu__socials-row .social {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  /* Dark Mode for Theme Toggle Button Border */
+  [data-theme="dark"] .theme-toggle-btn-mobile {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+  }
+
+  /* Dark Mode for Theme Toggle Icon (Moon) */
+  [data-theme="dark"] .theme-toggle-btn-mobile img {
+    filter: brightness(0) invert(1);
   }
 
   .mobile-menu__socials-row .lang {
     font-weight: 700;
-    font-size: 12px;
-    padding: 0;
-    /* Padding sıfırla */
+    font-size: 14px;
+    color: #4b5563;
+    background: #f3f4f6;
+    border-radius: 100%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .mobile-menu__socials-row .social:hover,
-  .mobile-menu__socials-row .lang:hover {
-    background-color: #f1f5f9;
-    border-color: var(--brand-600);
-    color: var(--brand-600);
+  [data-theme="dark"] .mobile-menu__socials-row .lang {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .mobile-menu__login-btn {
@@ -1030,9 +883,13 @@ input[type="button"] {
   }
 
   .mobile-menu__login-btn:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+    /* Opaklık yerine parlaklığı artırmak daha "canlı" hissettirir */
+    filter: brightness(1.2);
+    /* Yukarı doğru hareket ve gölge büyümesi */
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(14, 43, 75, 0.4);
   }
+
 
   .mobile-menu__user-actions {
     display: flex;
@@ -1048,19 +905,13 @@ input[type="button"] {
     left: 50% !important;
     right: auto !important;
     width: calc(100% - 32px) !important;
-    /* Yanlardan boşluk */
     max-width: 600px !important;
-
-    /* Floating buttons yüksekliği (~60px) + boşluk (~20px) = ~80px alttan boşluk */
     max-height: calc(100vh - var(--menubar-h) - 90px) !important;
-
-    /* Animasyon için başlangıç state'i (kapalı) */
     transform: translate(-50%, -10px) scale(0.95);
     margin-right: 0;
   }
 
   .mobile-menu--open {
-    /* Açık state - X ekseninde ortalı kalmalı */
     transform: translate(-50%, 0) scale(1) !important;
     opacity: 1;
     pointer-events: auto;
@@ -1069,4 +920,131 @@ input[type="button"] {
   .mobile-menu-overlay {
     top: var(--menubar-h) !important;
   }
+}
+
+/* ====== DROPDOWN STYLES (Added for Department & Units) ====== */
+/* Dropdown Wrapper */
+.nav__dropdown-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* The Dropdown Menu */
+.nav__dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(15px);
+
+  /* Glassmorphism / Blur Effect */
+  background-color: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  min-width: 220px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1100;
+  pointer-events: none;
+}
+
+[data-theme="dark"] .nav__dropdown {
+  background-color: rgba(30, 32, 40, 0.85);
+  /* Dark translucent */
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Triangle/Arrow */
+.nav__dropdown::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-style: solid;
+  border-color: transparent transparent rgba(255, 255, 255, 0.9) transparent;
+}
+
+[data-theme="dark"] .nav__dropdown::before {
+  border-color: transparent transparent rgba(30, 32, 40, 0.85) transparent;
+}
+
+/* Invisible bridge */
+.nav__dropdown::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+}
+
+/* Hover Effect for Visibility */
+.nav__dropdown-wrapper:hover .nav__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(12px);
+  pointer-events: auto;
+}
+
+/* List Styling */
+.nav__dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  /* Slightly more space between items */
+}
+
+.nav__dropdown li {
+  padding: 0;
+  margin: 0;
+}
+
+/* Link Styles inside Dropdown */
+.nav__dropdown a {
+  display: block;
+  padding: 10px 16px;
+  color: #4b5563;
+  /* Gray-600 */
+  font-size: 15px;
+  /* Readable size */
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+/* Dark Mode Link Color */
+[data-theme="dark"] .nav__dropdown a {
+  color: #e2e8f0;
+  /* Light gray text */
+}
+
+/* Hover States for Links */
+.nav__dropdown a:hover {
+  background-color: rgba(59, 130, 246, 0.1);
+  /* Light blue tint */
+  color: #2563eb;
+  /* Brand blue */
+  transform: translateX(4px);
+  /* Subtle move */
+}
+
+[data-theme="dark"] .nav__dropdown a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }

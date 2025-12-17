@@ -54,7 +54,7 @@ export default function Menu() {
     }
   }
 
-  // 🔥 HAMBURGER BUTON İŞLEVİ
+  // HAMBURGER BUTON İŞLEVİ
   const handleHizliRandevuClick = (e) => {
     e.preventDefault(); // Varsayılan link davranışını engelle
     closeMenu(); // Menüyü kapat
@@ -161,9 +161,42 @@ export default function Menu() {
           <nav className="nav">
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">ANA SAYFA</NavLink>
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">KURUMSAL</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/bolumlerimiz">BÖLÜMLERİMİZ</NavLink>
+
+            <div className="nav__dropdown-wrapper">
+              <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/bolumlerimiz">BÖLÜMLERİMİZ</NavLink>
+              <div className="nav__dropdown">
+                <ul>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'acil' }}>Acil 7/24</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'dis' }}>Ağız ve Diş</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'diyet' }}>Beslenme ve Diyet</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'derma' }}>Dermatoloji</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'cerrahi' }}>Genel Cerrahi</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'goz' }}>Göz Sağlığı</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'dahiliye' }}>İç Hastalıklar</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'kadin' }}>Kadın Sağlığı</Link></li>
+                </ul>
+              </div>
+            </div>
+
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/hekimlerimiz">HEKİMLERİMİZ</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/birimlerimiz">BİRİMLERİMİZ</NavLink>
+
+            <div className="nav__dropdown-wrapper">
+              <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/birimlerimiz">BİRİMLERİMİZ</NavLink>
+              <div className="nav__dropdown">
+                <ul>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'anestezi' }}>Anestezi & Reanimasyon</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'ameliyathane' }}>Ameliyathane</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'dogumhane' }}>Doğumhane</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'rontgen' }}>Röntgen</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'laboratuvar' }}>Laboratuvar</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'fizik' }}>Fizik Tedavi</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'saglik_raporlari' }}>Sağlık Raporları</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'ultrason' }}>Ultrasonografi</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'solunum' }}>Solunum Testi</Link></li>
+                </ul>
+              </div>
+            </div>
+
             <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/evde-saglik">EVDE SAĞLIK</NavLink>
           </nav>
           <button className="hamburger" onClick={toggleMenu}><HamburgerIcon isOpen={menuOpen} /></button>

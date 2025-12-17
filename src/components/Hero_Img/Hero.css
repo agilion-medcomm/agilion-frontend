@@ -2,11 +2,12 @@
 .hero {
   position: relative;
   width: 100vw;
-  height: 600px;
+  height: 0;
+  padding-bottom: 41.67%;
+  /* 600/1440 = 0.4167 - maintains aspect ratio */
   margin-left: calc(-50vw + 50%);
   left: 0;
   overflow: hidden;
-  animation: fadeIn 0.8s ease-out;
 }
 
 .hero__image {
@@ -21,18 +22,9 @@
   height: 100%;
   object-fit: cover;
   object-position: 20% center;
-  animation: kenburns 20s ease-in-out infinite alternate;
 }
 
-@keyframes kenburns {
-  0% {
-    transform: scale(1.1);
-  }
 
-  100% {
-    transform: scale(1.0);
-  }
-}
 
 .hero__overlay {
   position: absolute;
@@ -61,24 +53,19 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
+
+
+@media (max-width: 480px) {
   .hero {
-    height: 200px;
-    width: 200px;
+    padding-bottom: 70%;
+    /* Adjust aspect ratio for mobile */
   }
 
   .hero__searchbox {
-    top: 50%;
+    top: 70%;
   }
 
   .hero__image img {
     object-position: center top;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    height: 350px;
-    /* Reduced from 450px */
   }
 }
