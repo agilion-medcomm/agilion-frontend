@@ -77,7 +77,7 @@ const PersonnelAvatar = ({ img, firstName, lastName, initials, size = 'medium', 
       style={!img ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
     >
       {img ? (
-        <img src={`${API_BASE}${img}`} alt={`${firstName} ${lastName}`} />
+        <img src={img.startsWith('http') ? img : `${API_BASE}${img}`} alt={`${firstName} ${lastName}`} />
       ) : (
         <span className="avatar-initials">{displayInitials.toUpperCase()}</span>
       )}
