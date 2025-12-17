@@ -18,11 +18,49 @@ export default function PatientsPage() {
   const [loadingLabResults, setLoadingLabResults] = useState({});
   const [error, setError] = useState(null);
   const [searchError, setSearchError] = useState(null);
+  const [viewMode, setViewMode] = useState('search'); // 'search' or 'all'
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const token = localStorage.getItem('personnelToken');
 
   useEffect(() => {
     // No initial fetch needed - search by TCKN only
   }, []);
+
+  const fetchAllPatients = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get(`${BaseURL}/patients`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setPatients(res.data?.data || []);
+      setViewMode('all');
+    } catch (err) {
+      console.error('Error fetching all patients:', err);
+      setError(err.response?.data?.message || 'Hastalar yüklenirken hata oluştu.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeletePatient = async () => {
+    if (!selectedPatient) return;
+    
+    try {
+      await axios.delete(`${BaseURL}/patients/${selectedPatient.id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setPatients(patients.filter(p => p.id !== selectedPatient.id));
+      setSelectedPatient(null);
+      setShowDeleteConfirm(false);
+      alert('Hasta başarıyla silindi.');
+    } catch (err) {
+      console.error('Error deleting patient:', err);
+      alert(err.response?.data?.message || 'Hasta silinirken hata oluştu.');
+    }
+  };
 
   const searchPatientByTckn = async (tckn) => {
     if (!tckn.trim()) {
@@ -236,12 +274,65 @@ export default function PatientsPage() {
       </div>
 
       <div className="filters-section" style={{ marginBottom: '24px' }}>
+        <div style={{
+          display: 'flex',
+          gap: '12px',
+          alignItems: 'center',
+          marginBottom: '12px',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap'
+        }}>
+          <div>
+            <button
+              onClick={fetchAllPatients}
+              style={{
+                background: viewMode === 'all' ? '#4CAF50' : '#2196F3',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '16px',
+                cursor: 'pointer',
+                fontWeight: '600',
+                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
+              }}
+            >
+              📋 Tüm Hastaları Göster
+            </button>
+            <button
+              onClick={() => {
+                setViewMode('search');
+                setPatients([]);
+                setSearchQuery('');
+              }}
+              style={{
+                background: viewMode === 'search' ? '#2196F3' : '#94a3b8',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '16px',
+                cursor: 'pointer',
+                fontWeight: '600',
+                marginLeft: '8px',
+                boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1)'
+              }}
+            >
+              🔍 TCKN ile Ara
+            </button>
+          </div>
+          {viewMode === 'all' && patients.length > 0 && (
+            <div style={{ fontSize: '14px', color: '#64748b' }}>
+              Toplam Hasta: <strong>{patients.length}</strong>
+            </div>
+          )}
+        </div>
+        
+        {viewMode === 'search' && (
         <form
           onSubmit={handleSearch}
           style={{
             display: 'flex',
             gap: '12px',
-            alignItems: 'center', /* Dikeyde ortalar */
+            alignItems: 'center',
             flexWrap: 'nowrap',
             width: '100%'
           }}
@@ -324,6 +415,14 @@ export default function PatientsPage() {
             {error || searchError}
           </div>
         )}
+        </form>
+        )}
+        {error && viewMode === 'all' && (
+          <div style={{ color: '#ef4444', marginTop: '12px', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            {error}
+          </div>
+        )}
       </div>
 
       <div className="table-container">
@@ -372,7 +471,9 @@ export default function PatientsPage() {
                       <td>{patient.phoneNumber || '-'}</td>
                       <td>{patient.dateOfBirth ? new Date(patient.dateOfBirth).toLocaleDateString('tr-TR') : '-'}</td>
                       <td style={{ textAlign: 'center' }}>
-                        <div style={{ display: 'flex', gap: '5px', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', gap: '5px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                          {viewMode === 'search' && (
+                            <>
                           <button
                             className="expand-btn"
                             onClick={() => handleExpandRow(patient.patientId, 'appointments')}
@@ -405,6 +506,29 @@ export default function PatientsPage() {
                           >
                             ▼
                           </button>
+                          </>
+                          )}
+                          {viewMode === 'all' && (
+                          <button
+                            className="delete-btn"
+                            onClick={() => {
+                              setSelectedPatient(patient);
+                              setShowDeleteConfirm(true);
+                            }}
+                            title="Hastayı sil"
+                            style={{
+                              background: '#ef4444',
+                              color: 'white',
+                              border: 'none',
+                              padding: '6px 10px',
+                              borderRadius: '4px',
+                              cursor: 'pointer',
+                              fontSize: '14px'
+                            }}
+                          >
+                            🗑️ Sil
+                          </button>
+                          )}
                         </div>
                       </td>
                     </tr>
@@ -603,6 +727,69 @@ export default function PatientsPage() {
           </table>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && selectedPatient && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000
+        }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '8px',
+            padding: '24px',
+            maxWidth: '400px',
+            boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)'
+          }}>
+            <h3 style={{ marginTop: 0, color: '#1f2937' }}>⚠️ Hastayı Sil</h3>
+            <p style={{ color: '#6b7280', marginBottom: '24px' }}>
+              <strong>{selectedPatient.firstName} {selectedPatient.lastName}</strong>'ı silmek istediğinize emin misiniz?
+              <br/>Bu işlem geri alınamaz ve tüm verileri silecektir.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setSelectedPatient(null);
+                }}
+                style={{
+                  background: '#e5e7eb',
+                  color: '#374151',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                İptal
+              </button>
+              <button
+                onClick={handleDeletePatient}
+                style={{
+                  background: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  padding: '8px 16px',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontWeight: '600'
+                }}
+              >
+                Evet, Sil
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
