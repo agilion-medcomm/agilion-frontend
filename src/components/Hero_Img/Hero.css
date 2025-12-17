@@ -40,32 +40,31 @@
   pointer-events: none;
 }
 
-.hero__searchbox {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  z-index: 10;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
 
 
 
-@media (max-width: 480px) {
+
+@media (max-width: 768px) {
   .hero {
-    padding-bottom: 70%;
-    /* Adjust aspect ratio for mobile */
+    height: auto;
+    padding-bottom: 0;
   }
 
-  .hero__searchbox {
-    top: 70%;
+  .hero__image {
+    position: relative;
+    height: auto;
+    inset: auto;
   }
 
   .hero__image img {
-    object-position: center top;
+    position: relative;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hero__searchbox {
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
