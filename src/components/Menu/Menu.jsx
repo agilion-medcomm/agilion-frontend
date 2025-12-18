@@ -207,31 +207,45 @@ export default function Menu() {
         <>
           <div ref={menuRef} id="mobile-menu" className={`mobile-menu mobile-menu--open`}>
             <div className="mobile-menu__content">
-              {/* Top Buttons Container: Row Layout */}
-              <div className="mobile-menu__top-buttons">
-                <button className="mobile-menu__appointment" onClick={handleHizliRandevuClick}>
-                  Hızlı Randevu Al <img src="/appointment.svg" alt="" width="24" height="24" style={{ marginLeft: '8px', verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />
-                </button>
-
-                {/* Giriş Yap / User Actions */}
-                <div className="mobile-menu__auth-section">
-                  {isLoggedIn ? (
-                    <div className="mobile-menu__user-actions">
-                      <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer', margin: '0 auto' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
+              {isLoggedIn ? (
+                <>
+                  {/* A. Kişiye Özel Alan (Header) */}
+                  <div className="mobile-menu__profile-card">
+                    <div className="mobile-menu__profile-main" onClick={handleAvatarClick}>
+                      <div className="user-avatar">
                         {loggedInUser.firstName?.charAt(0).toUpperCase()}
                         {loggedInUser.lastName?.charAt(0).toUpperCase()}
                       </div>
-                      <button onClick={handleLogout} className="mobile-menu__login-btn" style={{ background: '#d32f2f', marginTop: 8 }}>
-                        Çıkış Yap ({isPersonnel ? 'Personel' : 'Hasta'})
-                      </button>
+                      <div className="mobile-menu__profile-info">
+                        <div className="mobile-menu__profile-name">{loggedInUser.firstName} {loggedInUser.lastName}</div>
+                        <div className="mobile-menu__profile-role">
+                          {isPersonnel
+                            ? (personnelUser.role === 'ADMIN' ? 'Yönetici' : (personnelUser.role === 'DOCTOR' ? 'Doktor' : 'Personel'))
+                            : (loggedInUser.tckn ? `TCKN: ${loggedInUser.tckn.substring(0, 3)}***` : 'Hasta')}
+                        </div>
+                      </div>
                     </div>
-                  ) : (
-                    <Link to="/login" className="mobile-menu__login-btn" onClick={closeMenu}>
-                      Giriş Yap
-                    </Link>
-                  )}
+                    <button className="mobile-menu__settings-btn" onClick={() => navigate(isPersonnel ? '/profile-settings' : '/profile')} title="Profil Ayarları">
+                      <img src="/angle-right.svg" alt="" width="24" height="24" />
+                    </button>
+                  </div>
+
+                  {/* B. Hızlı Randevu Al (Aksiyon Butonu) - Full Width for Logged In */}
+                  <button className="mobile-menu__hizli-randevu--full" onClick={handleHizliRandevuClick}>
+                    Hızlı Randevu Al <img src="/appointment.svg" alt="" width="24" height="24" style={{ filter: 'brightness(0) invert(1)' }} />
+                  </button>
+                </>
+              ) : (
+                /* Giriş Yapılmamışken: Yan Yana Butonlar */
+                <div className="mobile-menu__top-buttons">
+                  <button className="mobile-menu__hizli-randevu--half" onClick={handleHizliRandevuClick}>
+                    Hızlı Randevu <img src="/appointment.svg" alt="" width="20" height="20" style={{ filter: 'brightness(0) invert(1)' }} />
+                  </button>
+                  <Link to="/login" className="mobile-menu__login-btn--half" onClick={closeMenu}>
+                    Giriş Yap
+                  </Link>
                 </div>
-              </div>
+              )}
 
               <nav className="mobile-menu__nav">
                 <Link className="mobile-menu__link" to="/" onClick={closeMenu}><span>Ana Sayfa</span> <ChevronIcon /></Link>
@@ -295,6 +309,15 @@ function FbIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><path
 function IgIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="none" /><circle cx="12" cy="12" r="4" stroke="currentColor" fill="none" /><circle cx="17" cy="7" r="1.2" fill="currentColor" /></svg>; }
 function HamburgerIcon({ isOpen }) { return isOpen ? <img src="/xmark1.svg" className="xmark-icon" width="28" height="28" /> : <img src="/bars.svg" className="bars-icon" width="28" height="28" />; }
 function ChevronIcon() { return <svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }
+function SettingsIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+    </svg>
+  );
+}
+
 
 // Footer'daki gibi boş SVG'ler yerine placeholder ikon kullanıldı.
 // Bu, Menu.jsx içindeki CalendarIconPlaceholder fonksiyonu ile aynıdır.

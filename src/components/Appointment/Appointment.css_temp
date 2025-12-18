@@ -1,0 +1,141 @@
+[data-theme='dark'] .react-calendar__tile:disabled {
+    color: #5b6d87 !important;
+}
+
+/* === DOKTOR BİLGİ ALANI STİLLERİ === */
+.doctor-extra-info-section {
+    margin-top: 40px;
+    padding: 0 20px 40px;
+}
+
+.doctor-info-card {
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.info-card-header {
+    background: #f8fafc;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.info-icon {
+    width: 24px;
+    height: 24px;
+    opacity: 0.8;
+}
+
+.info-card-header h3 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    font-weight: 700;
+    margin: 0;
+}
+
+.info-card-body {
+    padding: 30px;
+}
+
+.bio-section h4,
+.expertise-item h4,
+.principles-section h4 {
+    font-size: 1rem;
+    color: #2563eb;
+    margin-bottom: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.bio-section p,
+.principles-section p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #475569;
+    margin-bottom: 30px;
+}
+
+.expertise-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.expertise-item ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.expertise-item li {
+    position: relative;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    color: #475569;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.expertise-item li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #2563eb;
+    font-weight: 900;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Karanlık Mod Uyumu */
+[data-theme='dark'] .doctor-info-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme='dark'] .info-card-header {
+    background: #111827;
+    border-bottom-color: #334155;
+}
+
+[data-theme='dark'] .info-card-header h3 {
+    color: #f1f5f9;
+}
+
+[data-theme='dark'] .bio-section p,
+[data-theme='dark'] .principles-section p,
+[data-theme='dark'] .expertise-item li {
+    color: #94a3b8;
+}
+
+[data-theme='dark'] .bio-section h4,
+[data-theme='dark'] .expertise-item h4,
+[data-theme='dark'] .principles-section h4 {
+    color: #60a5fa;
+}
+
+[data-theme='dark'] .expertise-grid {
+    border-bottom-color: #334155;
+}
+
+/* Mobil Uyumu */
+@media (max-width: 768px) {
+    .expertise-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .info-card-body {
+        padding: 20px;
+    }
+}

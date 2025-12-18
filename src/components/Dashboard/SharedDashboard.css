@@ -86,7 +86,12 @@
 .tab-button:hover {
     color: #ffffff;
     background-color: #f8fcf9;
-    border-radius: 16px;
+}
+
+/* Sadece aktif olan butonun hover durumunu hedefler */
+.tab-button.active:hover {
+    color: #ffffff;
+    background-color: none !important;
 }
 
 .tab-button.active {
@@ -95,6 +100,7 @@
     border: 1px solid #2563eb;
     border-radius: 12px;
 }
+
 
 /* --- RANDEVULAR SEKMESİ --- */
 .filters-bar {
