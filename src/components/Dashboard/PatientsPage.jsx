@@ -35,7 +35,7 @@ export default function PatientsPage() {
       const res = await axios.get(`${BaseURL}/patients`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setPatients(res.data?.data || []);
+      setPatients(res.data?.data?.users || res.data?.users || []);
       setViewMode('all');
     } catch (err) {
       console.error('Error fetching all patients:', err);

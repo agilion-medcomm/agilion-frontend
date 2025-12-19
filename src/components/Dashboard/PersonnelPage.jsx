@@ -535,7 +535,7 @@ export default function PersonnelPage() {
                   <td>
                     <div className="name-cell">
                       <PersonnelAvatar
-                        img={personnel.img}
+                        img={personnel.photoUrl}
                         firstName={personnel.firstName}
                         lastName={personnel.lastName}
                         initials={personnel.initials}
