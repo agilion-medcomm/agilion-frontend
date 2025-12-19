@@ -1,0 +1,358 @@
+.patients-filters {
+    margin-bottom: 24px;
+}
+
+.filters-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-show-all {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.btn-show-all.active {
+    background: #4CAF50;
+}
+
+.btn-search-tckn {
+    background: #94a3b8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+}
+
+.btn-search-tckn.active {
+    background: #2196F3;
+}
+
+.patient-count {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.search-form {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.search-input-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #cbd5e1;
+    border-radius: 16px;
+    padding: 0 20px;
+    height: 56px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    min-width: 0;
+    transition: all 0.2s ease;
+}
+
+.search-input-container:focus-within {
+    border-color: #2196F3;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.search-input-container input {
+    border: none;
+    outline: none;
+    width: 100%;
+    margin-left: 12px;
+    font-size: 16px;
+    color: #334155;
+    background: transparent;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.btn-search-submit {
+    flex: 0 0 auto;
+    height: 56px;
+    padding: 0 40px;
+    background: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px -1px rgba(33, 150, 243, 0.3);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+}
+
+.btn-search-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #ef4444;
+    margin-top: 12px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.empty-search-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #94a3b8;
+    background: #f8fafc;
+    border-radius: 8px;
+    border: 2px dashed #cbd5e1;
+}
+
+.empty-search-state .icon {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.empty-search-state .hint {
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+.empty-search-state .example {
+    font-size: 12px;
+    color: #64748b;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-appointments {
+    background: #2196F3;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-appointments.active {
+    background: #4CAF50;
+}
+
+.btn-lab {
+    background: #9C27B0;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-lab.active {
+    background: #FF9800;
+}
+
+.btn-delete-patient {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+.btn-delete-patient:hover {
+    background: #dc2626;
+}
+
+/* Expanded Row Styles */
+.expanded-row-container {
+    padding: 20px;
+}
+
+.expanded-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.tab-btn {
+    padding: 10px 15px;
+    background: #e9ecef;
+    color: #495057;
+    border: none;
+    border-radius: 4px 4px 0 0;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.tab-btn.active.past {
+    background: #2196F3;
+    color: white;
+}
+
+.tab-btn.active.upcoming {
+    background: #4CAF50;
+    color: white;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+.status-approved {
+    background: #4CAF50;
+}
+
+.status-cancelled {
+    background: #f44336;
+}
+
+.status-pending {
+    background: #FFC107;
+}
+
+.lab-results-title {
+    margin-bottom: 16px;
+    color: #1e293b;
+}
+
+.lab-results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.lab-results-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.lab-results-table td {
+    padding: 12px;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.btn-download {
+    padding: 6px 12px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s;
+}
+
+.btn-download:hover {
+    background: #2563eb;
+}
+
+/* Modal Styles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    max-width: 400px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-title {
+    margin-top: 0;
+    color: #1f2937;
+}
+
+.modal-text {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    background: #e5e7eb;
+    color: #374151;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-confirm-delete {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+}

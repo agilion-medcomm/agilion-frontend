@@ -33,12 +33,12 @@ export default function Footer() {
               info@zeytinburnutipmerkezi.com.tr
             </button>
 
-            <button className="footer__item" onClick={() => window.location.href = 'tel:+902120000000'}>
+            <button className="footer__item" onClick={() => window.location.href = 'tel:+902126657010'}>
               <span className="footer__icon">{/* phone */}</span>
               +90 (212) 665 70 10
             </button>
 
-            <button className="footer__item" onClick={() => window.location.href = 'tel:+902120000000'}>
+            <button className="footer__item" onClick={() => window.location.href = 'tel:+902125584052'}>
               <span className="footer__icon">{/* phone */}</span>
               +90 (212) 558 40 52
             </button>
