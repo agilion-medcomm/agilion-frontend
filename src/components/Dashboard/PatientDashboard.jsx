@@ -20,6 +20,7 @@ export default function PatientDashboard() {
 
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
+  const [labRequests, setLabRequests] = useState([]);
   // timeFilter: all, future, past, cancelled
   const [timeFilter, setTimeFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date'); // Sıralama kriteri: 'date' veya 'doctor'
@@ -64,6 +65,7 @@ export default function PatientDashboard() {
 
       fetchAppointments();
       fetchLabResults();
+      fetchLabRequests();
     }
   }, [user]);
 
@@ -146,6 +148,25 @@ export default function PatientDashboard() {
     } catch (error) {
       console.error('Tahlil sonuçları alınamadı:', error);
       setLabResults([]);
+    }
+  };
+
+  // Fetch lab requests for patient
+  const fetchLabRequests = async () => {
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      console.log('Fetching my lab requests...');
+
+      const response = await axios.get(`${BaseURL}/lab-requests`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      console.log('Lab requests response:', response.data);
+      const data = response.data.data || response.data;
+      setLabRequests(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Lab talepleri alınamadı:', error);
+      setLabRequests([]);
     }
   };
 
@@ -373,6 +394,12 @@ export default function PatientDashboard() {
           🧪 Tahlil Sonuçları
         </button>
         <button
+          className={`tab-button ${activeTab === 'lab-requests' ? 'active' : ''}`}
+          onClick={() => setActiveTab('lab-requests')}
+        >
+          📋 Lab Talepleri ({labRequests.length})
+        </button>
+        <button
           className={`tab-button ${activeTab === 'reviews' ? 'active' : ''}`}
           onClick={() => setActiveTab('reviews')}
         >
@@ -551,7 +578,101 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 3. DEĞERLENDİRMELER SEKMESİ */}
+      {/* 3. LAB TALEPLERİ SEKMESİ */}
+      {activeTab === 'lab-requests' && (
+        <div className="data-table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Talep Başlığı</th>
+                <th>Doktor</th>
+                <th>Talep Tarihi</th>
+                <th>Atanan Laborant</th>
+                <th>Durum</th>
+                <th>Detaylar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {labRequests.length === 0 ? (
+                <tr><td colSpan="6" className="no-data">Henüz lab talebi bulunmuyor.</td></tr>
+              ) : (
+                labRequests.map((request) => {
+                  const statusLabel = {
+                    'PENDING': 'Beklemede',
+                    'ASSIGNED': 'Atanmış',
+                    'COMPLETED': 'Tamamlandı',
+                    'CANCELED': 'İptal Edildi'
+                  }[request.status] || request.status;
+
+                  const statusColor = {
+                    'PENDING': { bg: '#fef3c7', color: '#92400e' },
+                    'ASSIGNED': { bg: '#dbeafe', color: '#0c4a6e' },
+                    'COMPLETED': { bg: '#dcfce7', color: '#166534' },
+                    'CANCELED': { bg: '#fee2e2', color: '#991b1b' }
+                  }[request.status] || { bg: '#f3f4f6', color: '#374151' };
+
+                  return (
+                    <tr key={request.id}>
+                      <td>
+                        <strong>{request.fileTitle}</strong>
+                        {request.notes && <div style={{ fontSize: '12px', color: '#666' }}>{request.notes}</div>}
+                      </td>
+                      <td>{request.createdByUser?.firstName} {request.createdByUser?.lastName}</td>
+                      <td>{new Date(request.requestedAt).toLocaleDateString('tr-TR')}</td>
+                      <td>
+                        {request.assigneeLaborant ? (
+                          <span style={{ fontWeight: 600, color: '#059669' }}>
+                            ✓ {request.assigneeLaborant.user.firstName} {request.assigneeLaborant.user.lastName}
+                          </span>
+                        ) : (
+                          <span style={{ color: '#666' }}>Henüz atanmadı</span>
+                        )}
+                      </td>
+                      <td>
+                        <span
+                          className="badge"
+                          style={{
+                            background: statusColor.bg,
+                            color: statusColor.color,
+                            padding: '4px 12px',
+                            borderRadius: '12px',
+                            fontWeight: 600,
+                            fontSize: '12px'
+                          }}
+                        >
+                          {statusLabel}
+                        </span>
+                      </td>
+                      <td>
+                        {request.medicalFile && (
+                          <span
+                            style={{
+                              background: '#e0f2fe',
+                              color: '#0369a1',
+                              padding: '4px 12px',
+                              borderRadius: '6px',
+                              fontSize: '12px',
+                              fontWeight: 600,
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            📄 {request.medicalFile.testName}
+                          </span>
+                        )}
+                        {!request.medicalFile && request.status !== 'CANCELED' && (
+                          <span style={{ color: '#999', fontSize: '12px' }}>Bekleniyor...</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* 4. DEĞERLENDİRMELER SEKMESİ */}
       {activeTab === 'reviews' && (
         <div className="reviews-container">
           {appointments.filter(apt => apt.hasReview).length === 0 ? (
@@ -570,7 +691,7 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 4. AYARLAR SEKMESİ */}
+      {/* 5. AYARLAR SEKMESİ */}
       {activeTab === 'settings' && (
         <div className="settings-container">
           <div className="settings-card">
