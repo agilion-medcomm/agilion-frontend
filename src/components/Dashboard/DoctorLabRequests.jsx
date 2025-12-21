@@ -476,6 +476,31 @@ export default function DoctorLabRequests() {
                             İptal Et
                           </button>
                         )}
+
+                        {req.status === 'COMPLETED' && req.medicalFile && (
+                          <button
+                            onClick={() => {
+                              const link = document.createElement('a');
+                              link.href = `${BaseURL}/medical-files/${req.medicalFile.id}/download`;
+                              link.setAttribute('Authorization', `Bearer ${token}`);
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
+                            style={{
+                              padding: '8px 16px',
+                              background: '#10b981',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              fontWeight: 600,
+                              fontSize: '13px'
+                            }}
+                          >
+                            📥 İndir
+                          </button>
+                        )}
                       </div>
                     </div>
                   );

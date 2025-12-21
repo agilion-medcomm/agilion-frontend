@@ -526,6 +526,7 @@ export default function PatientsPage() {
                                       <th>Açıklama</th>
                                       <th>Yükleyen</th>
                                       <th>Tarih</th>
+                                      <th>Durum</th>
                                       <th style={{ textAlign: 'center' }}>İşlem</th>
                                     </tr>
                                   </thead>
@@ -539,6 +540,18 @@ export default function PatientsPage() {
                                         </td>
                                         <td>
                                           {file.uploadedAt ? new Date(file.uploadedAt).toLocaleDateString('tr-TR') : '-'}
+                                        </td>
+                                        <td>
+                                          <span style={{
+                                            background: file.request?.status === 'COMPLETED' ? '#dcfce7' : '#fef3c7',
+                                            color: file.request?.status === 'COMPLETED' ? '#166534' : '#92400e',
+                                            padding: '4px 8px',
+                                            borderRadius: '4px',
+                                            fontSize: '12px',
+                                            fontWeight: 600
+                                          }}>
+                                            {file.request?.status === 'COMPLETED' ? '✓ Tamamlandı' : 'Beklemede'}
+                                          </span>
                                         </td>
                                         <td style={{ textAlign: 'center' }}>
                                           <button

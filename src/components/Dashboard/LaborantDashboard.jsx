@@ -11,7 +11,7 @@ export default function LaborantDashboard() {
   const { user, token } = usePersonnelAuth();
   
   // Tab state
-  const [activeTab, setActiveTab] = useState('requests'); // 'requests' or 'direct'
+  const [activeTab, setActiveTab] = useState('requests'); // 'requests', 'direct', or 'my-uploads'
   
   // Lab Requests tab state
   const [labRequests, setLabRequests] = useState([]);
@@ -19,6 +19,11 @@ export default function LaborantDashboard() {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [requestsMessage, setRequestsMessage] = useState({ type: '', text: '' });
   const [claimingId, setClaimingId] = useState(null);
+  
+  // My Uploads tab state
+  const [myUploads, setMyUploads] = useState([]);
+  const [uploadsLoading, setUploadsLoading] = useState(false);
+  const [uploadsMessage, setUploadsMessage] = useState({ type: '', text: '' });
   
   // Direct Upload tab state
   const [patientTckn, setPatientTckn] = useState('');
@@ -40,6 +45,13 @@ export default function LaborantDashboard() {
     fetchLabRequests();
   }, []);
 
+  // Fetch uploads when tab changes
+  useEffect(() => {
+    if (activeTab === 'my-uploads') {
+      fetchMyUploads();
+    }
+  }, [activeTab]);
+
   // Fetch lab requests for this laborant
   const fetchLabRequests = async () => {
     try {
@@ -60,6 +72,26 @@ export default function LaborantDashboard() {
       setLabRequests([]);
     } finally {
       setRequestsLoading(false);
+    }
+  };
+
+  // Fetch my uploads
+  const fetchMyUploads = async () => {
+    try {
+      setUploadsLoading(true);
+      const response = await axios.get(`${BaseURL}/medical-files/my-uploads`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setMyUploads(response.data.data || []);
+      setUploadsMessage({ type: '', text: '' });
+    } catch (error) {
+      setUploadsMessage({
+        type: 'error',
+        text: error.response?.data?.message || 'Dosyalar yüklenemedi'
+      });
+      setMyUploads([]);
+    } finally {
+      setUploadsLoading(false);
     }
   };
 
@@ -253,6 +285,22 @@ export default function LaborantDashboard() {
           }}
         >
           📤 Doğrudan Yükle
+        </button>
+        <button
+          onClick={() => setActiveTab('my-uploads')}
+          style={{
+            padding: '12px 24px',
+            background: activeTab === 'my-uploads' ? '#667eea' : '#e2e8f0',
+            color: activeTab === 'my-uploads' ? 'white' : '#374151',
+            border: 'none',
+            borderRadius: '8px',
+            cursor: 'pointer',
+            fontWeight: 600,
+            fontSize: '14px',
+            transition: 'all 0.2s'
+          }}
+        >
+          📁 Yüklediğim Dosyalar ({myUploads.length})
         </button>
       </div>
 
@@ -719,6 +767,139 @@ export default function LaborantDashboard() {
                     {loading ? 'Yükleniyor...' : '✓ Dosyayı Yükle'}
                   </button>
                 </form>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* MY UPLOADS TAB */}
+        {activeTab === 'my-uploads' && (
+          <div>
+            {uploadsMessage.text && (
+              <div style={{
+                padding: '12px 16px',
+                marginBottom: '24px',
+                borderRadius: '8px',
+                background: uploadsMessage.type === 'error' ? '#fee2e2' : '#dcfce7',
+                color: uploadsMessage.type === 'error' ? '#991b1b' : '#166534',
+                border: `1px solid ${uploadsMessage.type === 'error' ? '#fecaca' : '#86efac'}`
+              }}>
+                {uploadsMessage.text}
+              </div>
+            )}
+
+            {uploadsLoading ? (
+              <div style={{ textAlign: 'center', padding: '40px' }}>
+                <p>Yükleniyor...</p>
+              </div>
+            ) : myUploads.length === 0 ? (
+              <div style={{
+                background: 'white',
+                padding: '60px 20px',
+                borderRadius: '12px',
+                textAlign: 'center',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              }}>
+                <p style={{ fontSize: '16px', marginBottom: '8px', color: '#1f2937' }}>
+                  📭 Dosya Yok
+                </p>
+                <p style={{ color: '#94a3b8' }}>
+                  Henüz dosya yüklemediğiniz
+                </p>
+              </div>
+            ) : (
+              <div style={{
+                background: 'white',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              }}>
+                <div style={{
+                  padding: '16px 24px',
+                  background: '#f9fafb',
+                  borderBottom: '1px solid #e5e7eb'
+                }}>
+                  <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#1f2937' }}>
+                    📁 Yüklediğim Dosyalar ({myUploads.length})
+                  </h3>
+                </div>
+                <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                  <thead>
+                    <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                        Test Adı
+                      </th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                        Hasta
+                      </th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                        Talep Eden Doktor
+                      </th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                        Yükleme Tarihi
+                      </th>
+                      <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                        Durum
+                      </th>
+                      <th style={{ padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#374151' }}>
+                        İşlem
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {myUploads.map((file) => (
+                      <tr key={file.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                        <td style={{ padding: '16px', color: '#1f2937', fontWeight: 600 }}>
+                          {file.testName}
+                        </td>
+                        <td style={{ padding: '16px', color: '#374151' }}>
+                          {file.medicalFileRequest?.patient?.user?.firstName} {file.medicalFileRequest?.patient?.user?.lastName}
+                        </td>
+                        <td style={{ padding: '16px', color: '#374151' }}>
+                          Dr. {file.medicalFileRequest?.createdByUser?.firstName} {file.medicalFileRequest?.createdByUser?.lastName}
+                        </td>
+                        <td style={{ padding: '16px', color: '#374151' }}>
+                          {new Date(file.createdAt).toLocaleDateString('tr-TR')}
+                        </td>
+                        <td style={{ padding: '16px', textAlign: 'center' }}>
+                          <span style={{
+                            background: file.medicalFileRequest?.status === 'COMPLETED' ? '#dcfce7' : '#fef3c7',
+                            color: file.medicalFileRequest?.status === 'COMPLETED' ? '#166534' : '#92400e',
+                            padding: '4px 12px',
+                            borderRadius: '6px',
+                            fontSize: '12px',
+                            fontWeight: 600
+                          }}>
+                            {file.medicalFileRequest?.status === 'COMPLETED' ? '✓ Tamamlandı' : 'Beklemede'}
+                          </span>
+                        </td>
+                        <td style={{ padding: '16px', textAlign: 'center' }}>
+                          <button
+                            onClick={() => {
+                              const link = document.createElement('a');
+                              link.href = `${BaseURL}/medical-files/${file.id}/download`;
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
+                            style={{
+                              padding: '6px 12px',
+                              background: '#10b981',
+                              color: 'white',
+                              border: 'none',
+                              borderRadius: '6px',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              fontWeight: 600
+                            }}
+                          >
+                            📥 İndir
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
