@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import './LoginPage.css';
 
 // API Ayarları
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 

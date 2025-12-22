@@ -37,11 +37,13 @@ export default function HomeHealthRequestsPage() {
         headers: { Authorization: `Bearer ${token}` },
         params
       });
-      setRequests(response.data.data || []);
+      console.log('Requests API Response:', response.data);
+      setRequests(response.data.data?.requests || []);
       setError('');
     } catch (err) {
       console.error('Error fetching requests:', err);
-      setError('Talepler yüklenirken bir hata oluştu.');
+      console.error('Error response:', err.response?.data);
+      setError('Talepler yüklenirken bir hata oluştu: ' + (err.response?.data?.message || err.message));
     } finally {
       setLoading(false);
     }
@@ -53,9 +55,11 @@ export default function HomeHealthRequestsPage() {
       const response = await axios.get(`${BaseURL}/home-health/stats`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      console.log('Stats API Response:', response.data);
       setStats(response.data.data);
     } catch (err) {
       console.error('Error fetching stats:', err);
+      console.error('Error response:', err.response?.data);
     }
   };
 
@@ -73,7 +77,7 @@ export default function HomeHealthRequestsPage() {
     try {
       await axios.patch(
         `${BaseURL}/home-health/${selectedRequest.id}/approve`,
-        { note: actionNote },
+        { approvalNote: actionNote },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSelectedRequest(null);
@@ -94,7 +98,7 @@ export default function HomeHealthRequestsPage() {
     try {
       await axios.patch(
         `${BaseURL}/home-health/${selectedRequest.id}/reject`,
-        { note: actionNote },
+        { approvalNote: actionNote },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setSelectedRequest(null);

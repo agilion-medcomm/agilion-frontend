@@ -126,13 +126,29 @@ export default function EvdeSaglikPage() {
     setSubmitResult(null);
 
     try {
-      const response = await fetch(`${API_BASE}/home-health`, {
+      // Transform form data to match backend validation
+      const submitData = {
+        fullName: formData.fullName?.trim() || '',
+        tckn: formData.tckn?.trim() || '',
+        phoneNumber: formData.phoneNumber?.trim() || '',
+        email: formData.email?.trim() || '',
+        address: formData.address?.trim() || '',
+        serviceType: formData.serviceType?.trim() || '',
+        preferredDate: formData.preferredDate || '',
+        preferredTime: formData.preferredTime ? formData.preferredTime.split('-')[0].trim() : '', // Extract start time from range
+        notes: formData.notes?.trim() || '',
+        serviceDetails: formData.notes?.trim() || '' // Include both notes and serviceDetails
+      };
+
+      console.log('Submitting data:', JSON.stringify(submitData, null, 2));
+
+      const response = await fetch(`${API_BASE}/api/v1/home-health`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(submitData)
       });
 
       const data = await response.json();
@@ -286,7 +302,9 @@ export default function EvdeSaglikPage() {
             <div className="modal-body">
               {submitResult && (
                 <div className={`submit-result ${submitResult.success ? 'success' : 'error'}`}>
-                  {submitResult.message}
+                  {submitResult.message.split('\n').map((line, idx) => (
+                    <div key={idx}>{line}</div>
+                  ))}
                 </div>
               )}
 
@@ -331,7 +349,11 @@ export default function EvdeSaglikPage() {
                         value={formData.phoneNumber}
                         onChange={handleInputChange}
                         required
-                        placeholder="05XX XXX XX XX"
+                        minLength={10}
+                        maxLength={15}
+                        pattern="[+]?[0-9]{10,15}"
+                        placeholder="05XX XXX XX XX or +905XX XXX XX XX"
+                        title="Phone number must be 10-15 digits, optionally starting with +"
                       />
                     </div>
                     <div className="form-group">
