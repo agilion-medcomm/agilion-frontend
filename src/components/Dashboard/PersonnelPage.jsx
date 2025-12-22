@@ -413,7 +413,7 @@ export default function PersonnelPage() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      showMessage('success', 'Photo deleted successfully');
+      showMessage('success', 'Fotoğraf başarıyla silindi');
       setPhotoPreview(null);
       setPhotoFile(null);
       fetchPersonnel();
@@ -423,7 +423,7 @@ export default function PersonnelPage() {
         await refreshUser();
       }
     } catch (error) {
-      showMessage('error', error.response?.data?.message || 'Failed to delete photo');
+      showMessage('error', error.response?.data?.message || 'Fotoğraf silinemedi');
     } finally {
       setUploadingPhoto(false);
     }
@@ -442,11 +442,11 @@ export default function PersonnelPage() {
 
   const getRoleLabel = (role) => {
     switch (role) {
-      case 'LABORANT': return 'Lab Technician';
-      case 'DOCTOR': return 'Doctor';
-      case 'ADMIN': return 'Admin';
-      case 'CASHIER': return 'Desk Staff';
-      case 'CLEANER': return 'Cleaner';
+      case 'LABORANT': return 'Laborant';
+      case 'DOCTOR': return 'Doktor';
+      case 'ADMIN': return 'Yönetici';
+      case 'CASHIER': return 'Vezne';
+      case 'CLEANER': return 'Temizlikçi';
       default: return role;
     }
   };
@@ -455,7 +455,7 @@ export default function PersonnelPage() {
     return (
       <div className="page-loading">
         <div className="spinner"></div>
-        <p>Loading personnel...</p>
+        <p>Personel yükleniyor...</p>
       </div>
     );
   }
@@ -465,13 +465,13 @@ export default function PersonnelPage() {
       {/* Header */}
       <div className="page-header">
         <div className="page-title-section">
-          <h1 className="page-title">Personnel Management</h1>
-          <p className="page-subtitle">Manage hospital staff and their information</p>
+          <h1 className="page-title">Personel Yönetimi</h1>
+          <p className="page-subtitle">Hastane personelini ve bilgilerini yönetin</p>
         </div>
         {user?.role === 'ADMIN' && (
           <button className="btn-primary" onClick={() => setShowAddModal(true)}>
             <PlusIcon />
-            <span>Add Personnel</span>
+            <span>Personel Ekle</span>
           </button>
         )}
       </div>
@@ -489,7 +489,7 @@ export default function PersonnelPage() {
           <SearchIcon />
           <input
             type="text"
-            placeholder="Search by name, email, TCKN, or phone..."
+            placeholder="İsim, e-posta, TC veya telefon ile ara..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -502,7 +502,7 @@ export default function PersonnelPage() {
               className={`filter-chip ${roleFilter === role ? 'active' : ''}`}
               onClick={() => setRoleFilter(role)}
             >
-              {role === 'ALL' ? 'All' : getRoleLabel(role)}
+              {role === 'ALL' ? 'Tümü' : getRoleLabel(role)}
             </button>
           ))}
         </div>
@@ -513,20 +513,20 @@ export default function PersonnelPage() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>TCKN</th>
-              <th>Role</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Date of Birth</th>
-              {user?.role === 'ADMIN' && <th>Actions</th>}
+              <th>İsim</th>
+              <th>TC Kimlik</th>
+              <th>Rol</th>
+              <th>E-posta</th>
+              <th>Telefon</th>
+              <th>Doğum Tarihi</th>
+              {user?.role === 'ADMIN' && <th>İşlemler</th>}
             </tr>
           </thead>
           <tbody>
             {filteredPersonnel.length === 0 ? (
               <tr>
                 <td colSpan="7" className="no-data">
-                  No personnel found
+                  Personel bulunamadı
                 </td>
               </tr>
             ) : (
@@ -560,16 +560,16 @@ export default function PersonnelPage() {
                         <button
                           className="btn-icon btn-edit"
                           onClick={() => openEditModal(personnel)}
-                          title="Edit"
+                          title="Düzenle"
                         >
-                          <img src="/editor.svg" alt="Edit" width="30" height="30" />
+                          <img src="/editor.svg" alt="Düzenle" width="30" height="30" />
                         </button>
                         <button
                           className="btn-icon btn-delete"
                           onClick={() => openDeleteModal(personnel)}
-                          title="Delete"
+                          title="Sil"
                         >
-                          <img src="/delete.svg" alt="Delete" width="26" height="26" />
+                          <img src="/delete.svg" alt="Sil" width="26" height="26" />
                         </button>
                       </div>
                     </td>
@@ -586,7 +586,7 @@ export default function PersonnelPage() {
         <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Add New Personnel</h2>
+              <h2>Yeni Personel Ekle</h2>
               <button className="btn-close" onClick={() => setShowAddModal(false)}>
                 <XIcon />
               </button>
@@ -596,11 +596,11 @@ export default function PersonnelPage() {
               <div className="form-photo-section">
                 <div className="photo-upload-preview">
                   {photoPreview ? (
-                    <img src={photoPreview} alt="Preview" className="preview-image" />
+                    <img src={photoPreview} alt="Önizleme" className="preview-image" />
                   ) : (
                     <div className="photo-placeholder">
                       <CameraIcon />
-                      <span>Add Photo</span>
+                      <span>Fotoğraf Ekle</span>
                     </div>
                   )}
                 </div>
@@ -613,20 +613,20 @@ export default function PersonnelPage() {
                     style={{ display: 'none' }}
                   />
                   <label htmlFor="add-photo-upload" className="btn-secondary btn-small">
-                    {photoPreview ? 'Change Photo' : 'Select Photo'}
+                    {photoPreview ? 'Fotoğrafı Değiştir' : 'Fotoğraf Seç'}
                   </label>
                   {photoPreview && (
                     <button type="button" className="btn-text" onClick={() => { setPhotoFile(null); setPhotoPreview(null); }}>
-                      Remove
+                      Kaldır
                     </button>
                   )}
-                  <p className="upload-hint">Optional - Max 5MB</p>
+                  <p className="upload-hint">İsteğe bağlı - Max 5MB</p>
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>First Name *</label>
+                  <label>Ad *</label>
                   <input
                     type="text"
                     name="firstName"
@@ -636,7 +636,7 @@ export default function PersonnelPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Last Name *</label>
+                  <label>Soyad *</label>
                   <input
                     type="text"
                     name="lastName"
@@ -649,7 +649,7 @@ export default function PersonnelPage() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>TCKN *</label>
+                  <label>TC Kimlik No *</label>
                   <input
                     type="text"
                     name="tckn"
@@ -661,13 +661,13 @@ export default function PersonnelPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Role *</label>
+                  <label>Rol *</label>
                   <select name="role" value={form.role} onChange={handleInputChange} required>
-                    <option value="DOCTOR">Doctor</option>
-                    <option value="ADMIN">Admin</option>
-                    <option value="LABORANT">Lab Technician</option>
-                    <option value="CASHIER">Desk Staff</option>
-                    <option value="CLEANER">Cleaner</option>
+                    <option value="DOCTOR">Doktor</option>
+                    <option value="ADMIN">Yönetici</option>
+                    <option value="LABORANT">Laborant</option>
+                    <option value="CASHIER">Vezne</option>
+                    <option value="CLEANER">Temizlikçi</option>
                   </select>
                 </div>
               </div>
@@ -675,9 +675,9 @@ export default function PersonnelPage() {
               {form.role === 'DOCTOR' && (
                 <>
                   <div className="form-group">
-                    <label>Specialization</label>
+                    <label>Uzmanlık Alanı</label>
                     <select name="specialization" value={form.specialization} onChange={handleInputChange} required>
-                      <option value="">Select Specialization</option>
+                      <option value="">Uzmanlık Seçiniz</option>
                       <option value="Acil 7/24">Acil 7/24</option>
                       <option value="Ağız ve Diş">Ağız ve Diş</option>
                       <option value="Beslenme Diyet">Beslenme Diyet</option>
@@ -689,22 +689,22 @@ export default function PersonnelPage() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label>Biography</label>
-                    <textarea name="bio" value={form.bio} onChange={handleInputChange} rows="3" placeholder="Doctor's background and summary..."></textarea>
+                    <label>Biyografi</label>
+                    <textarea name="bio" value={form.bio} onChange={handleInputChange} rows="3" placeholder="Doktorun geçmişi ve özeti..."></textarea>
                   </div>
                   <div className="form-row">
                     <div className="form-group">
-                      <label>Expertise Areas (one per line)</label>
-                      <textarea name="expertise" value={form.expertise} onChange={handleInputChange} rows="3" placeholder="e.g. Chronic Disease Management"></textarea>
+                      <label>Uzmanlık Alanları (her satıra bir tane)</label>
+                      <textarea name="expertise" value={form.expertise} onChange={handleInputChange} rows="3" placeholder="örn: Kronik Hastalık Yönetimi"></textarea>
                     </div>
                     <div className="form-group">
-                      <label>Education & Achievements (one per line)</label>
-                      <textarea name="education" value={form.education} onChange={handleInputChange} rows="3" placeholder="e.g. PhD in Medical Sciences"></textarea>
+                      <label>Eğitim & Başarılar (her satıra bir tane)</label>
+                      <textarea name="education" value={form.education} onChange={handleInputChange} rows="3" placeholder="örn: Tıp Bilimleri Doktorası"></textarea>
                     </div>
                   </div>
                   <div className="form-group">
-                    <label>Working Principles</label>
-                    <textarea name="principles" value={form.principles} onChange={handleInputChange} rows="2" placeholder="Doctor's approach to patients..."></textarea>
+                    <label>Çalışma Prensipleri</label>
+                    <textarea name="principles" value={form.principles} onChange={handleInputChange} rows="2" placeholder="Doktorun hastalara yaklaşımı..."></textarea>
                   </div>
                 </>
               )}

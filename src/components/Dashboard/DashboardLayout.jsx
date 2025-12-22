@@ -7,8 +7,6 @@ const UserIcon = () => (
 import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
-import NotificationBadge from './NotificationBadge';
-import NotificationAlert from './NotificationAlert';
 import './DashboardLayout.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
@@ -79,13 +77,6 @@ const MenuIcon = () => (
   </svg>
 );
 
-const BellIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-  </svg>
-);
-
 const LogOutIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -145,34 +136,31 @@ export default function DashboardLayout() {
     const isDoctor = user?.role === 'DOCTOR';
 
     const baseNav = [
-      { path: '/dashboard', icon: <HomeIcon />, label: 'Dashboard' },
+      { path: '/dashboard', icon: <HomeIcon />, label: 'Ana Sayfa' },
     ];
 
     if (isAdmin) {
       return [
         ...baseNav,
-        { path: '/dashboard/personnel', icon: <PeopleIcon />, label: 'Personnel' },
-        { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Appointments' },
-        { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
-        { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
-        { path: '/dashboard/contact-forms', icon: <MailIcon />, label: 'Contact Forms' },
+        { path: '/dashboard/personnel', icon: <PeopleIcon />, label: 'Personel' },
+        { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Randevular' },
+        { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Hastalar' },
+        { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'İzin Talepleri' },
+        { path: '/dashboard/contact-forms', icon: <MailIcon />, label: 'İletişim Formları' },
         { path: '/dashboard/home-health', icon: <ActivityIcon />, label: 'Evde Sağlık' },
-        { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Cleaning' },
-        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
-        { path: '/dashboard/notifications-sender', icon: <FileTextIcon />, label: 'Send Alerts' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Temizlik' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
       ];
     }
 
     if (isDoctor) {
       return [
         ...baseNav,
-        { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Appointments' },
-        { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Patients' },
-        { path: '/dashboard/lab-requests', icon: <ClipboardIcon />, label: 'Lab Requests' },
-        { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'Leave Requests' },
-        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Randevular' },
+        { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Hastalar' },
+        { path: '/dashboard/lab-requests', icon: <ClipboardIcon />, label: 'Lab Talepleri' },
+        { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'İzin Talepleri' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
         { path: '/doctor-display', icon: <DisplayIcon />, label: 'Randevuları Yansıt', openInNewTab: true },
       ];
     }
@@ -182,28 +170,23 @@ export default function DashboardLayout() {
       return [
         { path: '/dashboard/laborant', icon: <HomeIcon />, label: 'Dosya Yükle' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Bildirimler' },
       ];
     }
 
     // Cleaner role
     if (user?.role === 'CLEANER') {
       return [
-        ...baseNav,
-        { path: '/dashboard/cleaner', icon: <ActivityIcon />, label: 'Cleaning Panel' },
-        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/dashboard/cleaner', icon: <HomeIcon />, label: 'Temizlik Paneli' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
       ];
     }
 
     // Cashier role
     if (user?.role === 'CASHIER') {
       return [
-        ...baseNav,
-        { path: '/dashboard/payments', icon: <CalendarIcon />, label: 'Randevu Oluştur' },
+        { path: '/dashboard/payments', icon: <HomeIcon />, label: 'Randevu Oluştur' },
         { path: '/dashboard/home-health', icon: <ActivityIcon />, label: 'Evde Sağlık' },
-        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
       ];
     }
 
@@ -211,9 +194,8 @@ export default function DashboardLayout() {
     if (user?.role === 'LAB_TECH') {
       return [
         ...baseNav,
-        { path: '/dashboard/lab-tests', icon: <ActivityIcon />, label: 'Lab Tests' },
-        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/dashboard/lab-tests', icon: <ActivityIcon />, label: 'Lab Testleri' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
       ];
     }
 
@@ -221,10 +203,9 @@ export default function DashboardLayout() {
     if (user?.role === 'PATIENT') {
       return [
         ...baseNav,
-        { path: '/dashboard/my-appointments', icon: <CalendarIcon />, label: 'My Appointments' },
-        { path: '/dashboard/lab-results', icon: <ActivityIcon />, label: 'Lab Results' },
-        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profile' },
-        { path: '/dashboard/notifications', icon: <BellIcon />, label: 'Notifications' },
+        { path: '/dashboard/my-appointments', icon: <CalendarIcon />, label: 'Randevularım' },
+        { path: '/dashboard/lab-results', icon: <ActivityIcon />, label: 'Lab Sonuçları' },
+        { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
       ];
     }
 
@@ -237,7 +218,7 @@ export default function DashboardLayout() {
     return (
       <div className="dashboard-loading">
         <div className="spinner"></div>
-        <p>Loading...</p>
+        <p>Yükleniyor...</p>
       </div>
     );
   }
@@ -282,7 +263,7 @@ export default function DashboardLayout() {
           {!sidebarCollapsed && (
             <div className="user-info">
               <p className="user-name">{user.firstName} {user.lastName}</p>
-              <p className="user-role">{user.role === 'ADMIN' ? 'Dept Admin' : user.role}</p>
+              <p className="user-role">{user.role === 'ADMIN' ? 'Yönetici' : user.role === 'DOCTOR' ? 'Doktor' : user.role === 'CLEANER' ? 'Temizlikçi' : user.role === 'CASHIER' ? 'Vezne' : user.role === 'LABORANT' ? 'Laborant' : user.role === 'LAB_TECH' ? 'Lab Teknisyeni' : user.role === 'PATIENT' ? 'Hasta' : user.role}</p>
             </div>
           )}
         </div>
@@ -324,17 +305,13 @@ export default function DashboardLayout() {
         <div className="sidebar-footer">
           <button className="logout-button" onClick={handleLogout}>
             <span className="nav-icon"><LogOutIcon /></span>
-            {!sidebarCollapsed && <span className="nav-label">Logout</span>}
+            {!sidebarCollapsed && <span className="nav-label">Çıkış</span>}
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
       <main className="dashboard-main">
-        <div className="main-header">
-          <NotificationBadge />
-        </div>
-        <NotificationAlert />
         <Outlet />
       </main>
     </div>
