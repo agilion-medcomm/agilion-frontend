@@ -30,7 +30,7 @@ export default function PatientDashboard() {
   // Modal ve Form State'leri
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [review, setReview] = useState({ rating: 5, comment: '' });
+  const [review, setReview] = useState({ rating: 5 });
 
   const [profileData, setProfileData] = useState({
     email: '',
@@ -109,6 +109,43 @@ export default function PatientDashboard() {
     }
   };
 
+  // Randevu Değerlendirme Modal Açma
+  const openReviewModal = (appointment) => {
+    setSelectedAppointment(appointment);
+    setReview({ rating: 5 });
+    setShowReviewModal(true);
+  };
+
+  // Değerlendirme Gönderme
+  const handleSubmitReview = async () => {
+    if (!selectedAppointment) return;
+
+    setLoading(true);
+    setMessage({ type: '', text: '' });
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      await axios.post(
+        `${BaseURL}/appointments/${selectedAppointment.id}/rate`,
+        { rating: review.rating },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setMessage({ type: 'success', text: '✅ Değerlendirmeniz başarıyla gönderildi!' });
+      
+      // Randevuları yeniden çek ve modalı kapat
+      await fetchAppointments();
+      
+      setTimeout(() => {
+        setShowReviewModal(false);
+        setSelectedAppointment(null);
+        setReview({ rating: 5 });
+        setMessage({ type: '', text: '' });
+      }, 1500);
+    } catch (error) {
+      setMessage({ type: 'error', text: error.response?.data?.message || 'Değerlendirme gönderilemedi.' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchAppointments = async () => {
     setLoading(true);
@@ -123,6 +160,7 @@ export default function PatientDashboard() {
       });
 
       const data = response.data.data || response.data;
+      console.log('📋 Randevular:', data); // Rating field kontrol için
       setAppointments(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Randevular alınamadı:', error);
@@ -296,28 +334,6 @@ export default function PatientDashboard() {
     }
   };
 
-  const handleSubmitReview = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
-
-    try {
-      await axios.post(`${BaseURL}/appointments/${selectedAppointment.id}/review`, {
-        rating: review.rating,
-        comment: review.comment
-      }, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-
-      alert('Yorumunuz başarıyla gönderildi!');
-      setShowReviewModal(false);
-      setSelectedAppointment(null);
-      setReview({ rating: 5, comment: '' });
-      fetchAppointments();
-    } catch (error) {
-      alert('Yorum gönderilemedi: ' + (error.response?.data?.message || error.message));
-    }
-  };
-
   const handleDownloadReport = (labResult) => {
     alert(`${labResult.testName} raporu indiriliyor... (Demo)`);
   };
@@ -337,6 +353,7 @@ export default function PatientDashboard() {
       if (timeFilter === 'past') return apt.status !== 'CANCELLED' && aptDate < now;
       if (timeFilter === 'future') return apt.status !== 'CANCELLED' && aptDate >= now;
       if (timeFilter === 'cancelled') return apt.status === 'CANCELLED';
+      if (timeFilter === 'done') return apt.status === 'DONE';
       return true;
     })
     .sort((a, b) => {
@@ -422,6 +439,7 @@ export default function PatientDashboard() {
                 <option value="all">Tüm Randevular</option>
                 <option value="future">Gelecek Randevular</option>
                 <option value="past">Geçmiş Randevular</option>
+                <option value="done">Tamamlananlar</option>
                 <option value="cancelled">İptal Edilenler</option>
               </select>
             </div>
@@ -449,6 +467,7 @@ export default function PatientDashboard() {
                 const avatar = doctorName.split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
                 // Renkli durum badge'i
                 const statusColors = {
+                  'COMPLETED': '#22c55e',
                   'DONE': '#22c55e',
                   'CANCELLED': '#ef4444',
                   'APPROVED': '#2563eb',
@@ -479,7 +498,7 @@ export default function PatientDashboard() {
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
                         {/* İptal butonu */}
-                        {status !== 'CANCELLED' && status !== 'DONE' && (() => {
+                        {status !== 'CANCELLED' && status !== 'COMPLETED' && status !== 'DONE' && (() => {
                           // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
                           let aptDate = new Date();
                           if (apt.date && apt.date.includes('.')) {
@@ -505,16 +524,21 @@ export default function PatientDashboard() {
                           }
                           return null;
                         })()}
-                        {/* Değerlendir butonu */}
-                        {status === 'DONE' && !apt.hasReview && (
-                          <button className="btn-primary modern-btn" style={{ background: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}>
-                            Değerlendir
+                        {/* Değerlendir butonu - Sadece DONE ve henüz değerlendirilmemiş randevular için */}
+                        {status === 'DONE' && !apt.rating && (
+                          <button 
+                            className="btn-primary modern-btn" 
+                            style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} 
+                            onClick={() => openReviewModal(apt)}
+                          >
+                            ⭐ Değerlendir
+>>>>>>> 3c1a831 (Değerlendirme eklendi.)
                           </button>
                         )}
-                        {/* Puan gösterge */}
-                        {apt.hasReview && (
-                          <div className="review-indicator" style={{ background: '#fef9c3', color: '#b45309', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }}>
-                            ⭐ Puanınız: {apt.reviewRating}/5
+                        {/* Puan göstergesi - Değerlendirilmiş randevular için */}
+                        {apt.rating && (
+                          <div className="review-indicator" style={{ background: '#d1fae5', color: '#065f46', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }}>
+                            ⭐ {apt.rating}/5
                           </div>
                         )}
                       </div>
@@ -675,16 +699,23 @@ export default function PatientDashboard() {
       {/* 4. DEĞERLENDİRMELER SEKMESİ */}
       {activeTab === 'reviews' && (
         <div className="reviews-container">
-          {appointments.filter(apt => apt.hasReview).length === 0 ? (
+          {appointments.filter(apt => apt.rating).length === 0 ? (
             <p className="no-data">Henüz bir değerlendirme yapmadınız.</p>
           ) : (
-            appointments.filter(apt => apt.hasReview).map((apt) => (
-              <div key={apt.id} className="review-card">
-                <div className="review-header">
-                  <h3>{apt.doctorName}</h3>
-                  <div className="rating-stars">{'⭐'.repeat(apt.reviewRating)}</div>
+            appointments.filter(apt => apt.rating).map((apt) => (
+              <div key={apt.id} className="review-card" style={{ background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', marginBottom: '16px' }}>
+                <div className="review-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <div>
+                    <h3 style={{ margin: '0 0 4px 0', fontSize: '18px', fontWeight: '600', color: '#1a4d5f' }}>{apt.doctorName}</h3>
+                    <p style={{ margin: 0, fontSize: '14px', color: '#5a9fb8', fontWeight: '500' }}>{apt.department || 'Genel'}</p>
+                  </div>
+                  <div className="rating-stars" style={{ fontSize: '24px' }}>{'⭐'.repeat(apt.rating)}</div>
                 </div>
-                <p className="review-date">{new Date(apt.date).toLocaleDateString('tr-TR')}</p>
+                <div style={{ display: 'flex', gap: '16px', fontSize: '14px', color: '#64748b', marginTop: '8px' }}>
+                  <div><strong>📅 Tarih:</strong> {apt.date || (apt.ratedAt ? new Date(apt.ratedAt).toLocaleDateString('tr-TR') : '')}</div>
+                  <div><strong>🕐 Saat:</strong> {apt.time || '-'}</div>
+                  <div><strong>⭐ Puan:</strong> {apt.rating}/5</div>
+                </div>
               </div>
             ))
           )}
@@ -839,43 +870,50 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {showReviewModal && (
+      {showReviewModal && selectedAppointment && (
         <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Değerlendir</h2>
+              <h2>Randevuyu Değerlendir</h2>
               <button className="modal-close" onClick={() => setShowReviewModal(false)}>×</button>
             </div>
-            <div className="appointment-info">
-              <p><strong>Doktor:</strong> {selectedAppointment?.doctorName}</p>
+            <div className="appointment-info" style={{ padding: '12px', background: '#f1f5f9', borderRadius: '8px', marginBottom: '16px' }}>
+              <p><strong>Doktor:</strong> {selectedAppointment.doctorName || 'Bilinmiyor'}</p>
+              <p><strong>Tarih:</strong> {selectedAppointment.date} {selectedAppointment.time}</p>
             </div>
-            <form onSubmit={handleSubmitReview}>
+            <form onSubmit={(e) => { e.preventDefault(); handleSubmitReview(); }}>
               <div className="form-group">
-                <label>Puanınız</label>
-                <div className="rating-input">
+                <label style={{ fontWeight: '600', marginBottom: '8px', display: 'block' }}>Puanınız (1-5 Yıldız) *</label>
+                <div className="rating-input" style={{ display: 'flex', gap: '12px', fontSize: '32px' }}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
-                      className={`star-button ${star <= review.rating ? 'active' : ''}`}
+                      className={`star-button`}
                       onClick={() => setReview({ ...review, rating: star })}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        opacity: star <= review.rating ? 1 : 0.3,
+                        transition: 'opacity 0.2s',
+                      }}
                     >
                       ⭐
                     </button>
                   ))}
                 </div>
+                <p style={{ fontSize: '14px', color: '#64748b', marginTop: '8px' }}>
+                  Seçili Puan: <strong>{review.rating} / 5</strong>
+                </p>
               </div>
-              <div className="form-group">
-                <label>Yorumunuz</label>
-                <textarea
-                  value={review.comment}
-                  onChange={(e) => setReview({ ...review, comment: e.target.value })}
-                  rows="4"
-                />
-              </div>
-              <div className="modal-actions">
-                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>İptal</button>
-                <button type="submit" className="btn-primary">Gönder</button>
+              <div className="modal-actions" style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '16px' }}>
+                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                  İptal
+                </button>
+                <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '8px 16px', borderRadius: '6px', background: '#2563eb', color: 'white', border: 'none', cursor: 'pointer' }}>
+                  {loading ? 'Gönderiliyor...' : 'Değerlendirmeyi Gönder'}
+                </button>
               </div>
             </form>
           </div>

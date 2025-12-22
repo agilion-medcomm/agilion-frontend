@@ -106,7 +106,18 @@ export default function DoctorSlider() {
                   )}
                   <h3 className="slider-doctor-name">{doc.firstName} {doc.lastName}</h3>
                   <p className="slider-doctor-specialization">{doc.specialization || doc.role || ''}</p>
-
+                  
+                  {doc.averageRating ? (
+                    <div className="slider-doctor-rating">
+                      <span className="rating-stars">⭐ {doc.averageRating.toFixed(1)}/5</span>
+                      <span className="rating-count">({doc.totalRatings || 0} değerlendirme)</span>
+                    </div>
+                  ) : (
+                    <div className="slider-doctor-rating">
+                      <span className="no-rating">Henüz değerlendirme yok</span>
+                    </div>
+                  )}
+                  
                   <button
                     className="slider-appointment-button"
                     onClick={() => handleAppointmentClick(doc)}

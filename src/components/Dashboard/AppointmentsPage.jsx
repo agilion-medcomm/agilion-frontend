@@ -276,7 +276,7 @@ export default function AppointmentsPage() {
           )}
         </div>
         <div className="role-filters">
-          {['ALL', 'APPROVED', 'DONE', 'CANCELLED'].map(status => (
+          {['ALL', 'PENDING', 'APPROVED', 'DONE', 'CANCELLED'].map(status => (
             <button
               key={status}
               className={`filter-chip ${statusFilter === status ? 'active' : ''}`}
@@ -317,7 +317,7 @@ export default function AppointmentsPage() {
                   </td>
                   <td>
                     <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                      {app.status === 'APPROVED' && user?.role === 'DOCTOR' && (
+                      {app.status === 'APPROVED' && (
                         <button
                           className="btn-sm"
                           style={{ backgroundColor: '#10b981', color: 'white', border: 'none' }}
@@ -326,7 +326,7 @@ export default function AppointmentsPage() {
                           Tamamla
                         </button>
                       )}
-                      {app.status === 'APPROVED' && (
+                      {app.status !== 'CANCELLED' && app.status !== 'DONE' && (
                         <button
                           className="btn-sm btn-danger"
                           onClick={() => openCancelModal(app.id, `${app.patientFirstName} ${app.patientLastName}`)}

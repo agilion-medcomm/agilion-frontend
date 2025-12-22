@@ -90,6 +90,33 @@
     font-weight: 500;
 }
 
+.slider-doctor-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 4px;
+}
+
+.rating-stars {
+    font-size: 16px;
+    color: #ff6600;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.rating-count {
+    font-size: 13px;
+    color: #7a8a99;
+    font-weight: 500;
+}
+
+.no-rating {
+    font-size: 13px;
+    color: #a0adb8;
+    font-style: italic;
+}
+
 .slider-appointment-button {
     background: #ff6600;
     color: #fff;
