@@ -51,7 +51,7 @@ export default function ForgotPasswordPage() {
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '440px' }}>
         <h2 className="login-title">Şifremi Unuttum</h2>
-        
+
         {success ? (
           <div className="success-message">
             <p>
@@ -64,18 +64,13 @@ export default function ForgotPasswordPage() {
           </div>
         ) : (
           <>
-            <p style={{ 
-              textAlign: 'center', 
-              color: '#6b7280', 
-              marginBottom: '24px',
-              fontSize: '15px'
-            }}>
+            <p className="login-subtitle">
               E-posta adresinizi girin, size şifre sıfırlama bağlantısı gönderelim.
             </p>
-            
+
             <form className="login-form" onSubmit={handleSubmit}>
               {error && <div className="error-message" role="alert">{error}</div>}
-              
+
               <div className="form-group">
                 <label htmlFor="email">E-posta Adresi</label>
                 <input
@@ -89,12 +84,12 @@ export default function ForgotPasswordPage() {
                   required
                 />
               </div>
-              
+
               <button type="submit" className="login-button" disabled={loading}>
                 {loading ? 'Gönderiliyor...' : 'Şifre Sıfırlama Bağlantısı Gönder'}
               </button>
             </form>
-            
+
             <div className="login-footer-link">
               Şifrenizi hatırladınız mı? <Link to="/login" className="login-link">Giriş Yap</Link>
             </div>

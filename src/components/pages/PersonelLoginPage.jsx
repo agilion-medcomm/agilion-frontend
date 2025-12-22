@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Context import yolunuzun doğru olduğundan emin olun
-import { usePersonnelAuth } from '../../context/PersonnelAuthContext'; 
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import axios from 'axios';
 import './LoginPage.css';
 
@@ -16,7 +16,7 @@ export default function PersonelLoginPage() {
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
-  
+
   // Context'ten fonksiyonları alıyoruz (Harf duyarlılığına dikkat!)
   const { loginPersonnel, user } = usePersonnelAuth();
 
@@ -32,11 +32,11 @@ export default function PersonelLoginPage() {
     const handlePopState = () => {
       navigate('/', { replace: true });
     };
-    
+
     // History'ye bir entry ekle ki geri tuşu çalışsın
     window.history.pushState(null, '', window.location.href);
     window.addEventListener('popstate', handlePopState);
-    
+
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
@@ -49,16 +49,16 @@ export default function PersonelLoginPage() {
 
     try {
       // 1. Backend'e Giriş İsteği (Endpoint ismine dikkat)
-      const response = await axios.post(`${BaseURL}/auth/personnel/login`, { 
-        tckn: tckn.replace(/\D/g, ''), 
-        password 
+      const response = await axios.post(`${BaseURL}/auth/personnel/login`, {
+        tckn: tckn.replace(/\D/g, ''),
+        password
       });
-      
-      const data = response.data?.data; 
+
+      const data = response.data?.data;
 
       // 2. Context'e Giriş Yap (Token 'personnelToken' olarak kaydedilir)
       await loginPersonnel(data.token, data.user);
-      
+
       // 3. Redirect to new dashboard system
       navigate('/dashboard');
 
@@ -71,49 +71,49 @@ export default function PersonelLoginPage() {
   }
 
   return (
-    <div className="login-container">
-      <div className="login-box" style={{ maxWidth: '440px', borderTop: '4px solid #c1272d' }}> 
+    <div className="login-container standalone">
+      <div className="login-box" style={{ maxWidth: '440px', borderTop: '3px solid #1755ffff' }}>
         <h2 className="login-title">Personel Girişi</h2>
-        <p style={{textAlign:'center', color:'#666', fontSize:'0.9rem', marginBottom:'20px'}}>
+        <p className="login-subtitle">
           Doktor, Yönetici ve Diğer Personel Girişi
         </p>
-        
+
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
-          
+
           <div className="form-group">
             <label>TC Kimlik No</label>
-            <input 
-              type="text" 
-              className="form-input" 
-              value={tckn} 
-              onChange={(e) => setTckn(e.target.value)} 
-              maxLength={11} 
-              required 
+            <input
+              type="text"
+              className="form-input"
+              value={tckn}
+              onChange={(e) => setTckn(e.target.value)}
+              maxLength={11}
+              required
               placeholder="11 haneli TCKN"
             />
           </div>
-          
+
           <div className="form-group">
             <label>Şifre</label>
-            <input 
-              type="password" 
-              className="form-input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
+            <input
+              type="password"
+              className="form-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
               placeholder="Şifreniz"
             />
           </div>
-          
+
           <button type="submit" className="login-button" disabled={loading} style={{ backgroundColor: '#c1272d' }}>
             {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </button>
-          
+
           <div style={{ textAlign: 'center', marginTop: '16px' }}>
-            <a 
-              href="/" 
-              style={{ color: '#666', fontSize: '0.9rem', textDecoration: 'none' }}
+            <a
+              href="/"
+              style={{ color: '#7f7f7fff', fontSize: '0.9rem', textDecoration: 'none' }}
               onClick={(e) => { e.preventDefault(); navigate('/'); }}
             >
               ← Ana Sayfaya Dön

@@ -274,7 +274,7 @@ export default function Menu() {
                 <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
                   <MailIcon /> info@zeytinburnutipmerkezi.com.tr
                 </a>
-                <a href="tel:2120000000" className="mobile-menu__info-item">
+                <a href="tel:2126657010" className="mobile-menu__info-item">
                   <PhoneIcon /> Çağrı Merkezi: <strong>(212) 665 70 10</strong>
                 </a>
 

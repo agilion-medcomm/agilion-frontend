@@ -49,6 +49,7 @@ import LaborantDashboard from './components/Dashboard/LaborantDashboard';
 import DoctorDisplayPage from './components/Dashboard/DoctorDisplayPage';
 import HomeHealthRequestsPage from './components/Dashboard/HomeHealthRequestsPage';
 import DoctorLabRequests from './components/Dashboard/DoctorLabRequests';
+import ScrollToTop from './components/ScrollToTop';
 
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -57,6 +58,7 @@ export default function App() {
 
   return (
     <ThemeProvider>
+      <ScrollToTop />
       <Routes>
         {/* 1. Standart Sayfalar (Menü + Footer Var) */}
         <Route path="/" element={<MainLayout />}>

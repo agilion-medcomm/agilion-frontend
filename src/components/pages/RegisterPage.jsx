@@ -72,9 +72,9 @@ export default function RegisterPage() {
     }
     // Tarih kontrolü
     if (!formData.day || !formData.month || !formData.year) {
-        setError('Lütfen doğum tarihinizi eksiksiz girin.');
-        setLoading(false);
-        return;
+      setError('Lütfen doğum tarihinizi eksiksiz girin.');
+      setLoading(false);
+      return;
     }
 
     // Backend'e gönderilecek veri formatı
@@ -95,7 +95,7 @@ export default function RegisterPage() {
 
       // 2. Başarılı ise Success ekranına geç
       setSuccess(true);
-      
+
       // Formu temizle (Güvenlik ve temizlik için)
       setFormData({
         firstName: '', lastName: '', tckn: '', day: '', month: '', year: '',
@@ -142,12 +142,12 @@ export default function RegisterPage() {
         <div className="login-box" style={{ maxWidth: '500px', textAlign: 'center', padding: '50px 30px' }}>
           <div style={{ fontSize: '64px', marginBottom: '20px', color: '#4ab43f' }}>📧</div>
           <h2 className="login-title" style={{ marginBottom: '20px', color: '#0e2b4b' }}>Kayıt Başarılı!</h2>
-          
+
           <p style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.6', marginBottom: '30px' }}>
             Aramıza hoş geldiniz. Kaydınız başarıyla alındı.<br />
             Hesabınızı aktifleştirmek ve giriş yapabilmek için lütfen <strong>e-posta adresinize</strong> gönderdiğimiz doğrulama bağlantısına tıklayın.
           </p>
-          
+
           <div className="login-footer-link">
             <Link to="/login" className="login-button" style={{ display: 'inline-block', textDecoration: 'none', padding: '12px 30px', backgroundColor: '#0e2b4b' }}>
               Giriş Sayfasına Dön
@@ -166,31 +166,29 @@ export default function RegisterPage() {
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
 
-          <div className="form-group-row" style={{ display: 'flex', gap: '15px' }}>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label htmlFor="firstName">Ad</label>
-              <input
-                type="text"
-                id="firstName"
-                className="form-input"
-                value={formData.firstName}
-                onChange={handleChange}
-                disabled={loading}
-                required
-              />
-            </div>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label htmlFor="lastName">Soyad</label>
-              <input
-                type="text"
-                id="lastName"
-                className="form-input"
-                value={formData.lastName}
-                onChange={handleChange}
-                disabled={loading}
-                required
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="firstName">Ad</label>
+            <input
+              type="text"
+              id="firstName"
+              className="form-input"
+              value={formData.firstName}
+              onChange={handleChange}
+              disabled={loading}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">Soyad</label>
+            <input
+              type="text"
+              id="lastName"
+              className="form-input"
+              value={formData.lastName}
+              onChange={handleChange}
+              disabled={loading}
+              required
+            />
           </div>
 
           <div className="form-group">

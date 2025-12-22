@@ -47,17 +47,17 @@ export default function LoginPage() {
 
     try {
       // 1. ÖNCELİKLİ YOL: /api/auth/login endpoint'ine POST isteği dene
-  console.log('Gönderilen (POST):', { tcKimlik, password });
-  // backend expects `tckn` field (11 digits). Use normalized value.
-  const payload = { tckn: normalizedTckn, password };
-  console.log('Login payload:', payload);
-  const response = await axios.post(`${BaseURL}/auth/login`, payload);
+      console.log('Gönderilen (POST):', { tcKimlik, password });
+      // backend expects `tckn` field (11 digits). Use normalized value.
+      const payload = { tckn: normalizedTckn, password };
+      console.log('Login payload:', payload);
+      const response = await axios.post(`${BaseURL}/auth/login`, payload);
 
       console.log('Login başarılı (POST), response:', response.data);
 
       // Backend returns { status, message, data: { token, user } }
       const { token, user } = response.data?.data || response.data;
-      
+
       if (!token) {
         throw new Error('Sunucudan token gelmedi.');
       }
@@ -78,7 +78,7 @@ export default function LoginPage() {
 
             // Fallback: match backend field `tckn` or older `tcKimlik`
             const user = users.find(u =>
-                (u.tckn === tcKimlik || u.tcKimlik === tcKimlik || u.identy_number === tcKimlik) && u.password === password
+              (u.tckn === tcKimlik || u.tcKimlik === tcKimlik || u.identy_number === tcKimlik) && u.password === password
             );
 
             if (user) {
@@ -128,7 +128,7 @@ export default function LoginPage() {
         <h2 className="login-title">Giriş Yap</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message" role="alert">{error}</div>}
-       <div className="form-group">
+          <div className="form-group">
             <label htmlFor="tcKimlik">Kullanıcı Adı (TC No)</label>
             <input
               type="text"
@@ -136,11 +136,11 @@ export default function LoginPage() {
               className="form-input"
               placeholder="TC No girin"
               value={tcKimlik}
-              
+
               maxLength={11} // 11 karakter sınırı (HTML tarafı)
               onChange={(e) => {
                 // Sadece rakamları kabul et ve 11 haneyi geçirme (State tarafı)
-                const val = e.target.value.replace(/\D/g, ''); 
+                const val = e.target.value.replace(/\D/g, '');
                 if (val.length <= 11) {
                   setTcKimlik(val);
                 }
@@ -166,11 +166,11 @@ export default function LoginPage() {
             {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
           </button>
         </form>
-        
+
         <div className="login-footer-links">
           <div className="login-footer-link">
             <Link to="/forgot-password" className="login-link" style={{ fontSize: '14px', color: '#0d6efd' }}>
-              🔒 Şifremi Unuttum
+              Şifremi Unuttum
             </Link>
           </div>
           <div className="login-footer-link">
