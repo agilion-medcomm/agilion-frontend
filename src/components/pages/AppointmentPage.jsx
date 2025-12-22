@@ -1,44 +1,46 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Appointment from '../Appointment/Appointment'; 
+import { useTranslation } from 'react-i18next';
+import Appointment from '../Appointment/Appointment';
 import './AppointmentPage.css'; // Temizlenmiş CSS dosyasını import et
 
 export default function AppointmentPage() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const doctor = location.state?.doctor;
+   const { t } = useTranslation(['appointment']);
+   const location = useLocation();
+   const navigate = useNavigate();
+   const doctor = location.state?.doctor;
 
-  if (!doctor) {
-     return (
-        <div className="appointment-page-wrapper" style={{alignItems:'center'}}>
-           <div style={{textAlign:'center'}}>
-                <h2 style={{color:'#c1272d', marginBottom:'20px'}}>Hata: Doktor Seçilmedi</h2>
-                <button 
-                    onClick={() => navigate('/hekimlerimiz')} 
-                    style={{ padding:'12px 24px', background:'#0d6efd', color:'white', border:'none', borderRadius:'8px', cursor:'pointer' }}
-                >
-                    Hekimlerimiz Sayfasına Git
-                </button>
-           </div>
-        </div>
-     );
-  }
+   if (!doctor) {
+      return (
+         <div className="appointment-page-wrapper" style={{ alignItems: 'center' }}>
+            <div style={{ textAlign: 'center' }}>
+               <h2 style={{ color: '#c1272d', marginBottom: '20px' }}>{t('appointment:page.error_no_doctor')}</h2>
+               <button
+                  onClick={() => navigate('/hekimlerimiz')}
+                  style={{ padding: '12px 24px', background: '#0d6efd', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
+               >
+                  {t('appointment:page.go_to_doctors')}
+               </button>
+            </div>
+         </div>
+      );
+   }
 
-  return (
-    <main className="appointment-page-wrapper">
-      <div className="appointment-page-container">
-         {/* Geri Dön Butonu */}
-         <button onClick={() => navigate(-1)} className="back-link-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Geri Dön
-         </button>
+   return (
+      <main className="appointment-page-wrapper">
+         <div className="appointment-page-container">
+            {/* Geri Dön Butonu */}
+            <button onClick={() => navigate(-1)} className="back-link-btn">
+               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+               {t('appointment:page.back_button')}
+            </button>
 
-         {/* Randevu Bileşeni */}
-         <Appointment 
-            doctor={doctor} 
-            onSuccess={() => navigate('/')} 
-         />
-      </div>
-    </main>
-  );
+            {/* Randevu Bileşeni */}
+            <Appointment
+               doctor={doctor}
+               onSuccess={() => navigate('/')}
+            />
+         </div>
+      </main>
+   );
 }

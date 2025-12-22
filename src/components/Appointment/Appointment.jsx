@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Calendar from 'react-calendar';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Appointment.css';
@@ -61,6 +62,7 @@ const generateTimeSlots = (date, bookedTimes = []) => {
 };
 
 export default function Appointment({ doctor, onClose, onSuccess }) {
+	const { t, i18n } = useTranslation(['appointment']);
 	const { user, token } = useAuth();
 	const navigate = useNavigate();
 
@@ -123,24 +125,24 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 				setWeekStartIndex(Math.max(0, Math.min(newIndex - 2, MAX_DAYS - 5)));
 			}
 		} else {
-			alert("Sadece bugünden itibaren 90 gün içinde randevu alabilirsiniz.");
+			alert(t('appointment:form.error_range'));
 		}
 	};
 
 	const handleFinalAppointment = async () => {
-		if (!selectedSlot) return alert("Lütfen bir randevu saati seçiniz.");
+		if (!selectedSlot) return alert(t('appointment:form.error_select_slot'));
 		if (!user) {
-			alert("Lütfen önce giriş yapınız.");
+			alert(t('appointment:form.error_login_required'));
 			return navigate('/login');
 		}
 
 		// Modern onay modalı
 		const confirmBooking = window.confirm(
-			'📅 Randevu Onayı\n\n' +
-			`Doktor: ${doctor.firstName} ${doctor.lastName}\n` +
-			`Tarih: ${formatDateForBackend(selectedDate)}\n` +
-			`Saat: ${selectedSlot}\n\n` +
-			'Randevuyu oluşturmak istediğinize emin misiniz?'
+			`${t('appointment:form.confirm_title')}\n\n` +
+			`${t('appointment:form.confirm_doctor')}: ${doctor.firstName} ${doctor.lastName}\n` +
+			`${t('appointment:form.confirm_date')}: ${formatDateForBackend(selectedDate)}\n` +
+			`${t('appointment:form.confirm_time')}: ${selectedSlot}\n\n` +
+			`${t('appointment:form.confirm_question')}`
 		);
 
 		if (!confirmBooking) return;
@@ -161,7 +163,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 			await axios.post(`${BaseURL}/appointments`, payload, {
 				headers: { Authorization: `Bearer ${token}` }
 			});
-			alert(`✅ Randevunuz başarıyla oluşturuldu!\n\n${payload.date} - ${payload.time}`);
+			alert(`${t('appointment:form.success_message')}\n\n${payload.date} - ${payload.time}`);
 			if (onSuccess) onSuccess(); // Başarı callback'i (örn: sayfayı yenilemek için)
 			if (onClose) onClose();     // Modalı kapat
 		} catch (error) {
@@ -191,7 +193,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 					<DoctorAvatar />
 					<div className="doctor-info-text">
 						<h2 className="doctor-name">{doctor.firstName} {doctor.lastName}</h2>
-						<p className="doctor-specialization">{doctor.specialization || 'Genel Hekim'}</p>
+						<p className="doctor-specialization">{doctor.specialization || t('appointment:placeholders.general_doctor')}</p>
 					</div>
 					<div className="randevu-onay-wrap">
 						<button
@@ -200,7 +202,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 							disabled={!selectedSlot || isSubmitting}
 							style={{ opacity: (!selectedSlot || isSubmitting) ? 0.6 : 1 }}
 						>
-							{isSubmitting ? 'İşleniyor...' : '✅ Randevuyu Onayla'}
+							{isSubmitting ? t('appointment:labels.processing') : t('appointment:labels.confirm_btn')}
 						</button>
 					</div>
 				</div>
@@ -219,7 +221,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 									onClick={() => { setSelectedDate(date); setSelectedSlot(null); }}
 								>
 									<span className="date-number">{date.getDate()}</span>
-									<span className="day-name">{date.toLocaleDateString('tr-TR', { weekday: 'short' })}</span>
+									<span className="day-name">{date.toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US', { weekday: 'short' })}</span>
 								</div>
 							))}
 						</div>
@@ -231,7 +233,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 					<div className="custom-date-selector">
 						<button className="date-select-btn" onClick={() => setCalendarVisible(!calendarVisible)}>
 							<img src="/calendar.svg" alt="Takvim" width="18" height="18" />
-							<span>Tarih Seç</span>
+							<span>{t('appointment:labels.select_date')}</span>
 						</button>
 						{calendarVisible && (
 							<div className="calendar-popup">
@@ -240,7 +242,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 									value={selectedDate}
 									minDate={minDate}
 									maxDate={maxDate}
-									locale="tr-TR"
+									locale={i18n.language === 'tr' ? 'tr-TR' : 'en-US'}
 									prevLabel={<img src="/angle-left.svg" alt="Önceki" width="16" height="16" />}
 									nextLabel={<img src="/angle-right.svg" alt="Sonraki" width="16" height="16" />}
 									prev2Label={null}
@@ -252,7 +254,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 
 					<div className="time-slots-grid-wrap">
 						<p className="selected-date-label">
-							{selectedDate.toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long' })}
+							{selectedDate.toLocaleDateString(i18n.language === 'tr' ? 'tr-TR' : 'en-US', { weekday: 'long', day: 'numeric', month: 'long' })}
 						</p>
 						<div className="time-slots-grid">
 							{currentTimeSlots.map(slot => (
@@ -275,55 +277,54 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 				<div className="doctor-info-card">
 					<div className="info-card-header">
 						<img src="/info-circle.svg" alt="Info" className="info-icon" />
-						<h3>Doktor Hakkında</h3>
+						<h3>{t('appointment:labels.about_doctor')}</h3>
 					</div>
 					<div className="info-card-body">
 						<div className="bio-section">
-							<h4>Özgeçmiş</h4>
+							<h4>{t('appointment:labels.bio')}</h4>
 							<p>
-								{doctor.bio || `Dr. ${doctor.firstName} ${doctor.lastName}, ${doctor.specialization || 'alanında'} uzmanlaşmış, 15 yılı aşkın klinik tecrübeye sahip bir hekimdir. Tıp eğitimini tamamladıktan sonra ulusal ve uluslararası pek çok seminerde yer almış, modern tedavi yöntemleri konusunda uzmanlık kazanmıştır.`}
+								{doctor.bio || t('appointment:placeholders.default_bio', {
+									name: `${doctor.firstName} ${doctor.lastName}`,
+									specialization: doctor.specialization || t('appointment:placeholders.expertise_area')
+								})}
 							</p>
 						</div>
 
 						<div className="expertise-grid">
 							<div className="expertise-item">
-								<h4>Uzmanlık Alanları</h4>
+								<h4>{t('appointment:labels.expertise')}</h4>
 								<ul>
 									{doctor.expertise ? (
 										doctor.expertise.split('\n').filter(line => line.trim()).map((item, idx) => (
 											<li key={idx}>{item}</li>
 										))
 									) : (
-										<>
-											<li>İleri Tanı ve Tedavi Yöntemleri</li>
-											<li>Kronik Hastalık Yönetimi</li>
-											<li>Modern Tıbbi Teknolojiler</li>
-										</>
+										t('appointment:placeholders.default_expertise', { returnObjects: true }).map((item, idx) => (
+											<li key={idx}>{item}</li>
+										))
 									)}
 								</ul>
 							</div>
 							<div className="expertise-item">
-								<h4>Eğitim & Başarılar</h4>
+								<h4>{t('appointment:labels.education')}</h4>
 								<ul>
 									{doctor.education ? (
 										doctor.education.split('\n').filter(line => line.trim()).map((item, idx) => (
 											<li key={idx}>{item}</li>
 										))
 									) : (
-										<>
-											<li>Tıp Fakültesi Lisans Eğitimi</li>
-											<li>Uzmanlık İhtisası</li>
-											<li>Uluslararası Board Sertifikası</li>
-										</>
+										t('appointment:placeholders.default_education', { returnObjects: true }).map((item, idx) => (
+											<li key={idx}>{item}</li>
+										))
 									)}
 								</ul>
 							</div>
 						</div>
 
 						<div className="principles-section">
-							<h4>Çalışma İlkeleri</h4>
+							<h4>{t('appointment:labels.principles')}</h4>
 							<p>
-								{doctor.principles || "Hastalarının konforu ve sağlığı her zaman önceliklidir. Güncel literatürü takip ederek kanıta dayalı tıp prensipleriyle hizmet vermekte, her hastasıyla empati kurarak en uygun tedavi sürecini yönetmektedir."}
+								{doctor.principles || t('appointment:placeholders.default_principles')}
 							</p>
 						</div>
 					</div>

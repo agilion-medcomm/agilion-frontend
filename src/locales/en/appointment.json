@@ -1,0 +1,44 @@
+{
+    "page": {
+        "error_no_doctor": "Error: No Doctor Selected",
+        "go_to_doctors": "Go to Our Doctors Page",
+        "back_button": "Go Back"
+    },
+    "form": {
+        "confirm_title": "📅 Appointment Confirmation",
+        "confirm_doctor": "Doctor",
+        "confirm_date": "Date",
+        "confirm_time": "Time",
+        "confirm_question": "Are you sure you want to create the appointment?",
+        "success_message": "✅ Your appointment has been successfully created!",
+        "error_login_required": "Please log in first.",
+        "error_select_slot": "Please select an appointment time.",
+        "error_range": "You can only book appointments within 90 days from today."
+    },
+    "labels": {
+        "confirm_btn": "✅ Confirm Appointment",
+        "processing": "Processing...",
+        "select_date": "Select Date",
+        "about_doctor": "About Doctor",
+        "bio": "Biography",
+        "expertise": "Areas of Expertise",
+        "education": "Education & Achievements",
+        "principles": "Working Principles"
+    },
+    "placeholders": {
+        "general_doctor": "General Physician",
+        "expertise_area": "in the field of",
+        "default_bio": "Dr. {{name}} is a physician with over 15 years of clinical experience, specializing {{specialization}}. After completing medical education, took part in many national and international seminars and gained expertise in modern treatment methods.",
+        "default_expertise": [
+            "Advanced Diagnosis and Treatment Methods",
+            "Chronic Disease Management",
+            "Modern Medical Technologies"
+        ],
+        "default_education": [
+            "Faculty of Medicine Undergraduate Education",
+            "Specialization Residency",
+            "International Board Certification"
+        ],
+        "default_principles": "Patients' comfort and health are always a priority. Services are provided with evidence-based medicine principles by following the current literature, and the most appropriate treatment process is managed by empathizing with each patient."
+    }
+}

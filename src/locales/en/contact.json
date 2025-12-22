@@ -1,0 +1,24 @@
+{
+    "header": {
+        "title": "GET IN TOUCH",
+        "subtitle": "Your health is our priority. We are here to be with you whenever you need, to inform you about our treatment processes and to meet your appointment requests in the fastest way. You can reach our team immediately by using the communication channels below or by filling out the form."
+    },
+    "form": {
+        "placeholders": {
+            "name": "Name",
+            "phone": "Phone",
+            "email": "Email",
+            "subject": "Subject",
+            "message": "Your message..."
+        },
+        "agreement": "I agree to the processing of my personal data within the scope of the clarification text.",
+        "submit": "Send Now",
+        "loading": "Sending..."
+    },
+    "messages": {
+        "success": "✅ Your message has been sent successfully! We will get back to you as soon as possible.",
+        "agreement_error": "Please approve the clarification text.",
+        "generic_error": "Message could not be sent. Please try again."
+    },
+    "map_title": "Our Location"
+}

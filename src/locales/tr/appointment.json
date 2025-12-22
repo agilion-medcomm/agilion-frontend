@@ -1,0 +1,44 @@
+{
+    "page": {
+        "error_no_doctor": "Hata: Doktor Seçilmedi",
+        "go_to_doctors": "Hekimlerimiz Sayfasına Git",
+        "back_button": "Geri Dön"
+    },
+    "form": {
+        "confirm_title": "📅 Randevu Onayı",
+        "confirm_doctor": "Doktor",
+        "confirm_date": "Tarih",
+        "confirm_time": "Saat",
+        "confirm_question": "Randevuyu oluşturmak istediğinize emin misiniz?",
+        "success_message": "✅ Randevunuz başarıyla oluşturuldu!",
+        "error_login_required": "Lütfen önce giriş yapınız.",
+        "error_select_slot": "Lütfen bir randevu saati seçiniz.",
+        "error_range": "Sadece bugünden itibaren 90 gün içinde randevu alabilirsiniz."
+    },
+    "labels": {
+        "confirm_btn": "✅ Randevuyu Onayla",
+        "processing": "İşleniyor...",
+        "select_date": "Tarih Seç",
+        "about_doctor": "Doktor Hakkında",
+        "bio": "Özgeçmiş",
+        "expertise": "Uzmanlık Alanları",
+        "education": "Eğitim & Başarılar",
+        "principles": "Çalışma İlkeleri"
+    },
+    "placeholders": {
+        "general_doctor": "Genel Hekim",
+        "expertise_area": "alanında",
+        "default_bio": "Dr. {{name}}, {{specialization}} uzmanlaşmış, 15 yılı aşkın klinik tecrübeye sahip bir hekimdir. Tıp eğitimini tamamladıktan sonra ulusal ve uluslararası pek çok seminerde yer almış, modern tedavi yöntemleri konusunda uzmanlık kazanmıştır.",
+        "default_expertise": [
+            "İleri Tanı ve Tedavi Yöntemleri",
+            "Kronik Hastalık Yönetimi",
+            "Modern Tıbbi Teknolojiler"
+        ],
+        "default_education": [
+            "Tıp Fakültesi Lisans Eğitimi",
+            "Uzmanlık İhtisası",
+            "Uluslararası Board Sertifikası"
+        ],
+        "default_principles": "Hastalarının konforu ve sağlığı her zaman önceliklidir. Güncel literatürü takip ederek kanıta dayalı tıp prensipleriyle hizmet vermekte, her hastasıyla empati kurarak en uygun tedavi sürecini yönetmektedir."
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "title": "Login",
+    "validation": {
+        "tckn_invalid": "Please enter a valid 11-digit TC identity number. (Numbers only)",
+        "password_too_short": "Please enter a password with at least 8 characters."
+    },
+    "error": {
+        "no_token": "Token not received from server.",
+        "invalid_credentials": "TCKN or password incorrect.",
+        "fetch_failed": "User list could not be retrieved or an error occurred.",
+        "network": "Server unreachable. Please check your network connection and server status.",
+        "unexpected": "An unexpected error occurred.",
+        "unknown": "An unknown error occurred."
+    },
+    "placeholders": {
+        "tckn": "Enter TC No",
+        "password": "Enter password"
+    },
+    "button_loading": "Logging in...",
+    "forgot_password": "🔒 Forgot Password",
+    "no_account": "Don't have an account?"
+}
