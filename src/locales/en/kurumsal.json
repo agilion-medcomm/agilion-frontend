@@ -1,0 +1,43 @@
+{
+    "intro": {
+        "p1": "We crowned our 23 years of experience with our new Medical Center project, which we brought to life in 2024. In our 2500 m² new building, we are with you 24/7 with our modern medical equipment and expert physicians.",
+        "p2": "We fulfill the requirements of modern medicine in accordance with legal standards and without compromising ethical principles. With our expert team, we have built a structure that not only our patients but also our employees trust. While providing high-quality and accessible healthcare services, we accept it as our basic duty to inform the society and popularize preventive medicine."
+    },
+    "values": {
+        "title": "OUR VALUES",
+        "items": [
+            {
+                "bold": "Respect for People:",
+                "text": " Full commitment to patient and employee rights."
+            },
+            {
+                "bold": "Happiness Oriented:",
+                "text": " Unconditional patient and employee satisfaction."
+            },
+            {
+                "bold": "Scientific Approach:",
+                "text": " Professional responsibility and ethical values."
+            },
+            {
+                "bold": "24/7 Access:",
+                "text": " Continuous and accessible health service."
+            },
+            {
+                "bold": "Open Communication:",
+                "text": " Full transparency in management and service."
+            },
+            {
+                "bold": "Current Treatment:",
+                "text": " Evidence-based, modern medical service."
+            }
+        ]
+    },
+    "mission": {
+        "title": "OUR MISSION",
+        "text": "By following all developments in the sector closely, we adopt the principle of delivering health services to the society in the light of ethical principles. With our philosophy of 'continuous renewal'; we aim to provide high quality service by integrating universal, scientific and technological innovations into our practices; and to keep patient, relative and employee satisfaction at the highest level at all times."
+    },
+    "vision": {
+        "title": "OUR VISION",
+        "text": "Our principle of excellence is to provide preventive, therapeutic and holistic health services in the light of modern medicine with our expert staff within the framework of full compliance with legal regulations. With our innovative and contemporary structure; we commit to making these standards sustainable by based on the safety and satisfaction of our patients, their relatives and our employees."
+    }
+}

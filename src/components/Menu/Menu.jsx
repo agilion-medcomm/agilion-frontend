@@ -5,15 +5,22 @@ import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useTranslation } from 'react-i18next';
 // Appointment modals removed — randevu sayfası kullanılacak
 import "./Menu.css";
 
 export default function Menu() {
+  const { t, i18n } = useTranslation(['common']);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { theme, toggleTheme } = useTheme();
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'tr' ? 'en' : 'tr';
+    i18n.changeLanguage(newLang);
+  };
 
 
 
@@ -61,7 +68,7 @@ export default function Menu() {
 
     // 1. Kural: Kullanıcı login değilse, login sayfasına yönlendir.
     if (!patientUser) {
-      alert("Randevu alabilmek için önce giriş yapınız.");
+      alert(t('common:please_login_to_book'));
       navigate('/login');
       return;
     }
@@ -121,12 +128,18 @@ export default function Menu() {
         <div className="container topbar__row">
           <div className="topbar__left">
             <span className="topbar__item"><MailIcon /><a href="mailto:info@medcommercial.com.tr">info@zeytinburnutipmerkezi.com.tr</a></span>
-            <span className="topbar__item"><PhoneIcon /> Çağrı Merkezi: <strong>(212) 665 70 10</strong></span>
+            <span className="topbar__item"><PhoneIcon /> {t('common:call_center')}: <strong>(212) 665 70 10</strong></span>
           </div>
           <div className="topbar__right">
             <a className="social" href="#"><FbIcon /></a>
             <a className="social" href="#"><IgIcon /></a>
-            <span className="lang">TR</span>
+            <button
+              className="lang-toggle-btn"
+              onClick={toggleLanguage}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'bold', fontSize: '14px', padding: '0 5px' }}
+            >
+              {i18n.language?.toUpperCase() === 'TR' ? 'EN' : 'TR'}
+            </button>
             <button
               onClick={toggleTheme}
               className="theme-toggle-btn"
@@ -139,7 +152,7 @@ export default function Menu() {
             {isLoggedIn ? (
               <div className="user-menu">
                 <button onClick={handleLogout} className="ghost-btn">
-                  Çıkış Yap ({isPersonnel ? 'Personel' : 'Hasta'})
+                  {t('common:logout')} ({isPersonnel ? t('common:personnel') : t('common:patient')})
                 </button>
                 <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
                   {loggedInUser.firstName?.charAt(0).toUpperCase()}
@@ -148,7 +161,7 @@ export default function Menu() {
 
               </div>
             ) : (
-              <Link to="/login" className="ghost-btn">Giriş Yap</Link>
+              <Link to="/login" className="ghost-btn">{t('common:login')}</Link>
             )}
           </div>
         </div>
@@ -159,45 +172,45 @@ export default function Menu() {
         <div className="container menubar__row">
           <Link className="brand" to="/"><img src={theme === 'light' ? "/logo1.png" : "/logo_dark.png"} alt="AgilionMED Logo" className="logo-img" /></Link>
           <nav className="nav">
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">ANA SAYFA</NavLink>
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">KURUMSAL</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/">{t('common:home')}</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/kurumsal">{t('common:corporate')}</NavLink>
 
             <div className="nav__dropdown-wrapper">
-              <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/bolumlerimiz">BÖLÜMLERİMİZ</NavLink>
+              <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/bolumlerimiz">{t('common:departments')}</NavLink>
               <div className="nav__dropdown">
                 <ul>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'acil' }}>Acil 7/24</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'dis' }}>Ağız ve Diş</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'diyet' }}>Beslenme ve Diyet</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'derma' }}>Dermatoloji</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'cerrahi' }}>Genel Cerrahi</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'goz' }}>Göz Sağlığı</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'dahiliye' }}>İç Hastalıklar</Link></li>
-                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'kadin' }}>Kadın Sağlığı</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'acil' }}>{t('common:depts.emergency')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'dis' }}>{t('common:depts.dental')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'diyet' }}>{t('common:depts.nutrition')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'derma' }}>{t('common:depts.dermatology')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'cerrahi' }}>{t('common:depts.surgery')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'goz' }}>{t('common:depts.eye')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'dahiliye' }}>{t('common:depts.internal')}</Link></li>
+                  <li><Link to="/bolumlerimiz" state={{ selectedId: 'kadin' }}>{t('common:depts.women')}</Link></li>
                 </ul>
               </div>
             </div>
 
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/hekimlerimiz">HEKİMLERİMİZ</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/hekimlerimiz">{t('common:doctors')}</NavLink>
 
             <div className="nav__dropdown-wrapper">
-              <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/birimlerimiz">BİRİMLERİMİZ</NavLink>
+              <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/birimlerimiz">{t('common:units')}</NavLink>
               <div className="nav__dropdown">
                 <ul>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'anestezi' }}>Anestezi & Reanimasyon</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'ameliyathane' }}>Ameliyathane</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'dogumhane' }}>Doğumhane</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'rontgen' }}>Röntgen</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'laboratuvar' }}>Laboratuvar</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'fizik' }}>Fizik Tedavi</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'saglik_raporlari' }}>Sağlık Raporları</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'ultrason' }}>Ultrasonografi</Link></li>
-                  <li><Link to="/birimlerimiz" state={{ selectedId: 'solunum' }}>Solunum Testi</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'anestezi' }}>{t('common:unit_list.anesthesia')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'ameliyathane' }}>{t('common:unit_list.surgery_room')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'dogumhane' }}>{t('common:unit_list.delivery_room')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'rontgen' }}>{t('common:unit_list.xray')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'laboratuvar' }}>{t('common:unit_list.lab')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'fizik' }}>{t('common:unit_list.pt')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'saglik_raporlari' }}>{t('common:unit_list.reports')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'ultrason' }}>{t('common:unit_list.ultrasound')}</Link></li>
+                  <li><Link to="/birimlerimiz" state={{ selectedId: 'solunum' }}>{t('common:unit_list.resp')}</Link></li>
                 </ul>
               </div>
             </div>
 
-            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/evde-saglik">EVDE SAĞLIK</NavLink>
+            <NavLink className={({ isActive }) => "nav__link" + (isActive ? " active" : "")} to="/evde-saglik">{t('common:home_health')}</NavLink>
           </nav>
           <button className="hamburger" onClick={toggleMenu}><HamburgerIcon isOpen={menuOpen} /></button>
         </div>
@@ -220,52 +233,52 @@ export default function Menu() {
                         <div className="mobile-menu__profile-name">{loggedInUser.firstName} {loggedInUser.lastName}</div>
                         <div className="mobile-menu__profile-role">
                           {isPersonnel
-                            ? (personnelUser.role === 'ADMIN' ? 'Yönetici' : (personnelUser.role === 'DOCTOR' ? 'Doktor' : 'Personel'))
-                            : (loggedInUser.tckn ? `TCKN: ${loggedInUser.tckn.substring(0, 3)}***` : 'Hasta')}
+                            ? (personnelUser.role === 'ADMIN' ? t('common:admin') : (personnelUser.role === 'DOCTOR' ? t('common:doctor') : t('common:personnel')))
+                            : (loggedInUser.tckn ? `TCKN: ${loggedInUser.tckn.substring(0, 3)}***` : t('common:patient'))}
                         </div>
                       </div>
                     </div>
-                    <button className="mobile-menu__settings-btn" onClick={() => navigate(isPersonnel ? '/profile-settings' : '/profile')} title="Profil Ayarları">
+                    <button className="mobile-menu__settings-btn" onClick={() => navigate(isPersonnel ? '/profile-settings' : '/profile')} title={t('common:profile_settings')}>
                       <img src="/angle-right.svg" alt="" width="24" height="24" />
                     </button>
                   </div>
 
                   {/* B. Hızlı Randevu Al (Aksiyon Butonu) - Full Width for Logged In */}
                   <button className="mobile-menu__hizli-randevu--full" onClick={handleHizliRandevuClick}>
-                    Hızlı Randevu Al <img src="/appointment.svg" alt="" width="24" height="24" style={{ filter: 'brightness(0) invert(1)' }} />
+                    {t('common:book_appointment')} <img src="/appointment.svg" alt="" width="24" height="24" style={{ filter: 'brightness(0) invert(1)' }} />
                   </button>
                 </>
               ) : (
                 /* Giriş Yapılmamışken: Yan Yana Butonlar */
                 <div className="mobile-menu__top-buttons">
                   <button className="mobile-menu__hizli-randevu--half" onClick={handleHizliRandevuClick}>
-                    Hızlı Randevu <img src="/appointment.svg" alt="" width="20" height="20" style={{ filter: 'brightness(0) invert(1)' }} />
+                    {t('common:book_appointment_short')} <img src="/appointment.svg" alt="" width="20" height="20" style={{ filter: 'brightness(0) invert(1)' }} />
                   </button>
                   <Link to="/login" className="mobile-menu__login-btn--half" onClick={closeMenu}>
-                    Giriş Yap
+                    {t('common:login')}
                   </Link>
                 </div>
               )}
 
               <nav className="mobile-menu__nav">
-                <Link className="mobile-menu__link" to="/" onClick={closeMenu}><span>Ana Sayfa</span> <ChevronIcon /></Link>
-                <Link className="mobile-menu__link" to="/kurumsal" onClick={closeMenu}><span>Kurumsal</span> <ChevronIcon /></Link>
-                <Link className="mobile-menu__link" to="/bolumlerimiz" onClick={closeMenu}><span>Bölümlerimiz</span> <ChevronIcon /></Link>
-                <Link className="mobile-menu__link" to="/hekimlerimiz" onClick={closeMenu}><span>Hekimlerimiz</span> <ChevronIcon /></Link>
-                <Link className="mobile-menu__link" to="/birimlerimiz" onClick={closeMenu}><span>Birimlerimiz</span> <ChevronIcon /></Link>
-                <Link className="mobile-menu__link" to="/evde-saglik" onClick={closeMenu}><span>Evde Sağlık</span> <ChevronIcon /></Link>
-                <Link className="mobile-menu__link" to="/contact" onClick={closeMenu}><span>İletişim</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/" onClick={closeMenu}><span>{t('common:home')}</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/kurumsal" onClick={closeMenu}><span>{t('common:corporate')}</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/bolumlerimiz" onClick={closeMenu}><span>{t('common:departments')}</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/hekimlerimiz" onClick={closeMenu}><span>{t('common:doctors')}</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/birimlerimiz" onClick={closeMenu}><span>{t('common:units')}</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/evde-saglik" onClick={closeMenu}><span>{t('common:home_health')}</span> <ChevronIcon /></Link>
+                <Link className="mobile-menu__link" to="/contact" onClick={closeMenu}><span>{t('common:contact')}</span> <ChevronIcon /></Link>
               </nav>
 
               {isLoggedIn ? (
                 <div style={{ borderTop: '1px solid #eee', marginTop: 16, paddingTop: 8 }}>
                   <a className="mobile-menu__link mobile-menu__link--login" href="#" style={{ color: '#d32f2f', fontWeight: 600 }} onClick={(e) => { e.preventDefault(); handleLogout(); }}>
-                    <span>Çıkış Yap</span>
+                    <span>{t('common:logout')}</span>
                   </a>
                 </div>
               ) : (
                 <div style={{ borderTop: '1px solid #eee', marginTop: 16, paddingTop: 8 }}>
-                  <Link to="/personelLogin" className="mobile-menu__link mobile-menu__link--login" onClick={closeMenu}><span>Personel Girişi</span></Link>
+                  <Link to="/personelLogin" className="mobile-menu__link mobile-menu__link--login" onClick={closeMenu}><span>{t('common:personnel_login')}</span></Link>
                 </div>
               )}
 
@@ -275,13 +288,19 @@ export default function Menu() {
                   <MailIcon /> info@zeytinburnutipmerkezi.com.tr
                 </a>
                 <a href="tel:2120000000" className="mobile-menu__info-item">
-                  <PhoneIcon /> Çağrı Merkezi: <strong>(212) 665 70 10</strong>
+                  <PhoneIcon /> {t('common:call_center')}: <strong>(212) 665 70 10</strong>
                 </a>
 
                 <div className="mobile-menu__socials-row">
                   <a className="social" href="#"><FbIcon /></a>
                   <a className="social" href="#"><IgIcon /></a>
-                  <span className="lang">TR</span>
+                  <button
+                    className="lang-toggle-btn-mobile"
+                    onClick={toggleLanguage}
+                    style={{ background: 'none', border: '1px solid #ddd', borderRadius: '50%', cursor: 'pointer', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}
+                  >
+                    {i18n.language?.toUpperCase() === 'TR' ? 'EN' : 'TR'}
+                  </button>
                   <button
                     onClick={toggleTheme}
                     className="theme-toggle-btn-mobile"

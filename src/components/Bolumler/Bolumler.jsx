@@ -1,19 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./Bolumler.css";
 
 export default function Bolumler() {
   const navigate = useNavigate();
+  const { t } = useTranslation(['home', 'common']);
 
   const services = [
-    { id: "acil", title: "Acil 7/24", img: "/b11.png", color: "red" },
-    { id: "dis", title: "Ağız ve Diş", img: "/b22.png", color: "blue" },
-    { id: "diyet", title: "Beslenme Diyet", img: "/b3diyet.png", color: "blue" },
-    { id: "derma", title: "Dermatoloji", img: "/b44.png", color: "blue" },
-    { id: "cerrahi", title: "Genel Cerrahi", img: "/b55.png", color: "blue" },
-    { id: "goz", title: "Göz Sağlığı", img: "/b6goz.png", color: "blue" },
-    { id: "dahiliye", title: "İç Hastalıklar", img: "/b77.png", color: "blue" },
-    { id: "kadin", title: "Kadın & Doğum", img: "/b88.png", color: "blue" },
+    { id: "acil", title: t('common:depts.emergency'), img: "/b11.png", color: "red" },
+    { id: "dis", title: t('common:depts.dental'), img: "/b22.png", color: "blue" },
+    { id: "diyet", title: t('common:depts.nutrition'), img: "/b3diyet.png", color: "blue" },
+    { id: "derma", title: t('common:depts.dermatology'), img: "/b44.png", color: "blue" },
+    { id: "cerrahi", title: t('common:depts.surgery'), img: "/b55.png", color: "blue" },
+    { id: "goz", title: t('common:depts.eye'), img: "/b6goz.png", color: "blue" },
+    { id: "dahiliye", title: t('common:depts.internal'), img: "/b77.png", color: "blue" },
+    { id: "kadin", title: t('common:depts.women'), img: "/b88.png", color: "blue" },
   ];
 
   const handleNavigate = (id) => {
@@ -25,7 +27,7 @@ export default function Bolumler() {
     <section className="bolumler-section">
       {/* Başlık */}
       <h2 className="bolumler-title">
-        İhtiyacınız Olan Tüm Alanlarda Hizmetinizdeyiz
+        {t('home:bolumler.title')}
       </h2>
 
       {/* Grid Kartlar */}
@@ -42,7 +44,7 @@ export default function Bolumler() {
             <button onClick={(e) => {
               e.stopPropagation();
               handleNavigate(item.id);
-            }}>İncele</button>
+            }}>{t('home:bolumler.examine')}</button>
           </div>
         ))}
       </div>
@@ -50,7 +52,7 @@ export default function Bolumler() {
       {/* Alt yazı */}
       <div className="bolumler-footer">
         <hr />
-        <span>20 yılı aşkın tecrübemizle hizmetinizdeyiz</span>
+        <span>{t('home:bolumler.cite')}</span>
       </div>
     </section>
   );

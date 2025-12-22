@@ -1,0 +1,24 @@
+{
+    "header": {
+        "title": "İLETİŞİME GEÇELİM",
+        "subtitle": "Sağlığınız bizim önceliğimiz. İhtiyaç duyduğunuz her an yanınızda olabilmek, tedavi süreçlerimiz hakkında sizi bilgilendirmek ve randevu taleplerinizi en hızlı şekilde karşılamak için buradayız. Aşağıdaki iletişim kanallarını kullanarak veya formu doldurarak ekibimize hemen ulaşabilirsiniz."
+    },
+    "form": {
+        "placeholders": {
+            "name": "İsim",
+            "phone": "Telefon",
+            "email": "Mail",
+            "subject": "Konu",
+            "message": "Mesajınız..."
+        },
+        "agreement": "Kişisel verilerimin aydınlatma metni kapsamında işlenmesini kabul ediyorum.",
+        "submit": "Hemen Gönder",
+        "loading": "Gönderiliyor..."
+    },
+    "messages": {
+        "success": "✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.",
+        "agreement_error": "Lütfen aydınlatma metnini onaylayın.",
+        "generic_error": "Mesaj gönderilemedi. Lütfen tekrar deneyin."
+    },
+    "map_title": "Konumumuz"
+}
