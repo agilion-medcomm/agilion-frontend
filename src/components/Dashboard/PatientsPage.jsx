@@ -253,8 +253,8 @@ export default function PatientsPage() {
     <div className="dashboard-page">
       <div className="page-header">
         <div className="page-title-section">
-          <h1 className="page-title">Patients</h1>
-          <p className="page-subtitle">View all registered patients</p>
+          <h1 className="page-title">Hastalar</h1>
+          <p className="page-subtitle">Kayıtlı tüm hastaları görüntüleyin</p>
         </div>
       </div>
 
@@ -346,12 +346,12 @@ export default function PatientsPage() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Name</th>
+                <th>Ad Soyad</th>
                 <th>TCKN</th>
                 <th>Email</th>
-                <th>Phone</th>
-                <th>Date of Birth</th>
-                <th style={{ width: '80px', textAlign: 'center' }}>Actions</th>
+                <th>Telefon</th>
+                <th>Doğum Tarihi</th>
+                <th style={{ width: '80px', textAlign: 'center' }}>İşlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -383,14 +383,14 @@ export default function PatientsPage() {
                                 <button
                                   className={`btn-appointments ${expandedPatient === patientIdentifier && expandedTab === 'appointments' ? 'active' : ''}`}
                                   onClick={() => handleExpandRow(patientIdentifier, 'appointments')}
-                                  title="Show appointments"
+                                  title="Randevuları göster"
                                 >
                                   ▼
                                 </button>
                                 <button
                                   className={`btn-lab ${expandedPatient === patientIdentifier && expandedTab === 'labResults' ? 'active' : ''}`}
                                   onClick={() => handleExpandRow(patientIdentifier, 'labResults')}
-                                  title="Show lab results"
+                                  title="Lab sonuçlarını göster"
                                 >
                                   ▼
                                 </button>
@@ -459,7 +459,7 @@ export default function PatientsPage() {
                                           <td>{apt.time}</td>
                                           <td>
                                             <span className={`status-badge ${apt.status === 'APPROVED' ? 'status-approved' :
-                                                apt.status === 'CANCELLED' ? 'status-cancelled' : 'status-pending'
+                                              apt.status === 'CANCELLED' ? 'status-cancelled' : 'status-pending'
                                               }`}>
                                               {apt.status}
                                             </span>
@@ -492,7 +492,7 @@ export default function PatientsPage() {
                                           <td>{apt.time}</td>
                                           <td>
                                             <span className={`status-badge ${apt.status === 'APPROVED' ? 'status-approved' :
-                                                apt.status === 'CANCELLED' ? 'status-cancelled' : 'status-pending'
+                                              apt.status === 'CANCELLED' ? 'status-cancelled' : 'status-pending'
                                               }`}>
                                               {apt.status}
                                             </span>

@@ -1,0 +1,35 @@
+{
+    "kvkk": {
+        "title": "Aydınlatma Metni (KVKK)",
+        "section1_title": "1. Veri Sorumlusu",
+        "section1_text": "Bu Aydınlatma Metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") uyarınca, Zeytinburnu Cerrahi Tıp Merkezi (\"Tıp Merkezi\") tarafından hazırlanmıştır.",
+        "address": "Adres: Yenidoğan Mah. 50 Sok. No: 22 Zeytinburnu / İstanbul",
+        "email": "E-posta: info@zeytinburnutipmerkezi.com.tr",
+        "phone": "Telefon: +90 (212) 558 40 52 – +90 (212) 665 70 10",
+        "section2_title": "2. İşlenen Kişisel Veriler",
+        "section2_text": "Tıp Merkezi tarafından; ad, soyad, T.C. kimlik numarası, doğum tarihi, iletişim bilgileri (telefon numarası, e-posta adresi), randevu bilgileri, hasta kayıt bilgileri ve sağlık hizmetlerinin sunulması kapsamında gerekli olan sağlık verileri işlenebilmektedir.",
+        "section3_title": "3. Kişisel Verilerin İşlenme Amaçları",
+        "section3_items": [
+            "Sağlık hizmetlerinin sunulması, planlanması ve yürütülmesi,",
+            "Online randevu sisteminin işletilmesi,",
+            "İletişim formları üzerinden gelen taleplerin yanıtlanması,",
+            "Hasta kayıt ve kabul süreçlerinin yürütülmesi,",
+            "Mevzuattan doğan hukuki yükümlülüklerin yerine getirilmesi"
+        ],
+        "section4_title": "4. Kişisel Verilerin Aktarılması",
+        "section4_text": "Kişisel verileriniz, KVKK ve ilgili sağlık mevzuatına uygun olarak; Sağlık Bakanlığı, yetkili kamu kurum ve kuruluşları ile yalnızca yasal yükümlülükler kapsamında sınırlı olarak paylaşılabilir. Yurt dışına kişisel veri aktarımı yapılmamaktadır.",
+        "section5_title": "5. Kişisel Verilerin Toplanma Yöntemi ve Hukuki Sebebi",
+        "section5_text": "Kişisel verileriniz; web sitesi üzerindeki online randevu ve iletişim formları, çağrı merkezi ve yüz yüze başvurular aracılığıyla, KVKK’nın 5. ve 6. maddelerinde belirtilen hukuki sebeplere dayanarak toplanmaktadır.",
+        "section6_title": "6. KVKK Kapsamındaki Haklarınız",
+        "section6_subtitle": "KVKK’nın 11. maddesi uyarınca;",
+        "section6_items": [
+            "Kişisel verilerinizin işlenip işlenmediğini öğrenme,",
+            "İşlenmişse buna ilişkin bilgi talep etme,",
+            "İşlenme amacını ve amaca uygun kullanılıp kullanılmadığını öğrenme,",
+            "Yanlış veya eksik işlenen verilerin düzeltilmesini isteme,",
+            "Kanuni şartlar çerçevesinde silinmesini veya yok edilmesini talep etme"
+        ],
+        "section7_title": "7. Başvuru Yöntemi",
+        "section7_text": "KVKK kapsamındaki haklarınıza ilişkin taleplerinizi; yazılı olarak Tıp Merkezimizin adresine veya elektronik posta yoluyla info@zeytinburnutipmerkezi.com.tr adresine iletebilirsiniz."
+    }
+}

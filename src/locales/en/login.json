@@ -17,6 +17,6 @@
         "password": "Enter password"
     },
     "button_loading": "Logging in...",
-    "forgot_password": "🔒 Forgot Password",
+    "forgot_password": "Forgot Password",
     "no_account": "Don't have an account?"
 }

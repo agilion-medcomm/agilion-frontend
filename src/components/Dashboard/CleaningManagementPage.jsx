@@ -8,19 +8,20 @@ const BaseURL = `${API_BASE}/api/v1`;
 
 // Available areas matching what cleaners can select
 const areas = [
-  'Zemin Kat Koridor',
-  'Zemin Kat Tuvalet',
-  '1. Kat Koridor', 
-  '1. Kat Tuvalet',
-  '2. Kat Koridor',
-  '2. Kat Tuvalet',
-  'Acil Servis',
-  'Ameliyathane',
-  'Yoğun Bakım',
-  'Laboratuvar',
-  'Radyoloji',
-  'Kafeterya',
-  'Bekleme Salonu'
+  "Zemin Kat Koridor",
+  "Zemin Kat Tuvalet",
+  "1. Kat Koridor",
+  "1. Kat Tuvalet",
+  "2. Kat Koridor",
+  "2. Kat Tuvalet",
+  "3. Kat Koridor",
+  "Acil Servis",
+  "Ameliyathane",
+  "Yoğun Bakım",
+  "Laboratuvar",
+  "Radyoloji",
+  "Kafeterya",
+  "Bekleme Salonu"
 ];
 
 export default function CleaningManagementPage() {
@@ -41,7 +42,7 @@ export default function CleaningManagementPage() {
   const fetchData = async () => {
     setLoading(true);
     const token = localStorage.getItem('personnelToken');
-    
+
     try {
       // Fetch personnel to get cleaners
       const personnelRes = await axios.get(`${BaseURL}/personnel`, {
@@ -49,12 +50,12 @@ export default function CleaningManagementPage() {
       });
       const allCleaners = (personnelRes.data?.data || []).filter(p => p.role === 'CLEANER');
       setCleaners(allCleaners);
-      
+
       // Fetch real cleaning records from API
       const cleaningRes = await axios.get(`${BaseURL}/cleaning`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       const records = (cleaningRes.data?.data || []).map(record => ({
         id: record.id,
         cleanerId: record.cleaner?.user?.id,
@@ -67,7 +68,7 @@ export default function CleaningManagementPage() {
         photoUrl: record.photoUrl,
         createdAt: record.createdAt
       }));
-      
+
       setCleaningRecords(records);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -104,24 +105,24 @@ export default function CleaningManagementPage() {
 
       {/* Filters */}
       <div className="filters-section">
-        <div style={{display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap'}}>
-          <div className="form-group" style={{margin: 0, flex: 1, minWidth: '200px'}}>
-            <label style={{display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600'}}>Alana Göre Filtrele</label>
-            <select 
+        <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
+          <div className="form-group" style={{ margin: 0, flex: 1, minWidth: '200px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600' }}>Alana Göre Filtrele</label>
+            <select
               value={areaFilter}
               onChange={(e) => setAreaFilter(e.target.value)}
-              style={{width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px'}}
+              style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
             >
               <option value="ALL">Tüm Alanlar</option>
               {areas.map(area => <option key={area} value={area}>{area}</option>)}
             </select>
           </div>
-          <div className="form-group" style={{margin: 0, flex: 1, minWidth: '200px'}}>
-            <label style={{display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600'}}>Temizlikçiye Göre Filtrele</label>
-            <select 
+          <div className="form-group" style={{ margin: 0, flex: 1, minWidth: '200px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600' }}>Temizlikçiye Göre Filtrele</label>
+            <select
               value={cleanerFilter}
               onChange={(e) => setCleanerFilter(e.target.value)}
-              style={{width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px'}}
+              style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
             >
               <option value="ALL">Tüm Temizlikçiler</option>
               {cleaners.map(cleaner => (
@@ -131,20 +132,20 @@ export default function CleaningManagementPage() {
               ))}
             </select>
           </div>
-          <div className="form-group" style={{margin: 0, flex: 1, minWidth: '200px'}}>
-            <label style={{display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600'}}>Tarihe Göre Filtrele</label>
+          <div className="form-group" style={{ margin: 0, flex: 1, minWidth: '200px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontSize: '13px', fontWeight: '600' }}>Tarihe Göre Filtrele</label>
             <input
               type="date"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              style={{width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px'}}
+              style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
             />
           </div>
           {(areaFilter !== 'ALL' || cleanerFilter !== 'ALL' || dateFilter) && (
-            <div className="form-group" style={{margin: 0, display: 'flex', alignItems: 'flex-end'}}>
-              <button 
+            <div className="form-group" style={{ margin: 0, display: 'flex', alignItems: 'flex-end' }}>
+              <button
                 onClick={() => { setAreaFilter('ALL'); setCleanerFilter('ALL'); setDateFilter(''); }}
-                style={{padding: '10px 16px', background: '#94a3b8', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer'}}
+                style={{ padding: '10px 16px', background: '#94a3b8', color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}
               >
                 Filtreleri Temizle
               </button>
@@ -155,7 +156,7 @@ export default function CleaningManagementPage() {
 
       {/* Cleaning Records Table */}
       <div>
-        <h2 style={{fontSize: '20px', fontWeight: '700', marginBottom: '16px'}}>Temizlik Kayıtları</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '16px' }}>Temizlik Kayıtları</h2>
         <div className="table-container">
           <table className="data-table">
             <thead>
@@ -181,15 +182,15 @@ export default function CleaningManagementPage() {
                     <td><span className="badge badge-completed">Tamamlandı</span></td>
                     <td>
                       {record.photoUrl ? (
-                        <button 
-                          className="btn-sm" 
-                          style={{background: '#3b82f6', color: 'white', padding: '6px 12px', border: 'none', borderRadius: '6px', cursor: 'pointer'}}
+                        <button
+                          className="btn-sm"
+                          style={{ background: '#3b82f6', color: 'white', padding: '6px 12px', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
                           onClick={() => handleViewPhoto(record.photoUrl)}
                         >
                           📷 Görüntüle
                         </button>
                       ) : (
-                        <span style={{color: '#94a3b8'}}>Fotoğraf yok</span>
+                        <span style={{ color: '#94a3b8' }}>Fotoğraf yok</span>
                       )}
                     </td>
                   </tr>
@@ -202,8 +203,8 @@ export default function CleaningManagementPage() {
 
       {/* Photo View Modal */}
       {showPhotoModal && (
-        <div 
-          className="modal-overlay" 
+        <div
+          className="modal-overlay"
           onClick={() => setShowPhotoModal(false)}
           style={{
             position: 'fixed',
@@ -218,7 +219,7 @@ export default function CleaningManagementPage() {
             zIndex: 1000
           }}
         >
-          <div 
+          <div
             onClick={(e) => e.stopPropagation()}
             style={{
               background: 'white',
@@ -229,9 +230,9 @@ export default function CleaningManagementPage() {
               position: 'relative'
             }}
           >
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px'}}>
-              <h3 style={{margin: 0}}>Temizlik Fotoğrafı</h3>
-              <button 
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+              <h3 style={{ margin: 0 }}>Temizlik Fotoğrafı</h3>
+              <button
                 onClick={() => setShowPhotoModal(false)}
                 style={{
                   background: 'none',
@@ -244,8 +245,8 @@ export default function CleaningManagementPage() {
                 ×
               </button>
             </div>
-            <div style={{textAlign: 'center'}}>
-              <img 
+            <div style={{ textAlign: 'center' }}>
+              <img
                 src={`${API_BASE}${selectedPhoto}`}
                 alt="Temizlik fotoğrafı"
                 style={{
@@ -265,18 +266,18 @@ export default function CleaningManagementPage() {
       )}
 
       {/* Stats Summary */}
-      <div style={{marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px'}}>
-        <div style={{padding: '20px', background: '#f0fdf4', borderRadius: '12px', border: '1px solid #86efac'}}>
-          <p style={{margin: 0, fontSize: '14px', color: '#166534'}}>Toplam Kayıt</p>
-          <p style={{margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#166534'}}>{cleaningRecords.length}</p>
+      <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+        <div style={{ padding: '20px', background: '#f0fdf4', borderRadius: '12px', border: '1px solid #86efac' }}>
+          <p style={{ margin: 0, fontSize: '14px', color: '#166534' }}>Toplam Kayıt</p>
+          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#166534' }}>{cleaningRecords.length}</p>
         </div>
-        <div style={{padding: '20px', background: '#eff6ff', borderRadius: '12px', border: '1px solid #93c5fd'}}>
-          <p style={{margin: 0, fontSize: '14px', color: '#1e40af'}}>Aktif Temizlikçi</p>
-          <p style={{margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#1e40af'}}>{cleaners.length}</p>
+        <div style={{ padding: '20px', background: '#eff6ff', borderRadius: '12px', border: '1px solid #93c5fd' }}>
+          <p style={{ margin: 0, fontSize: '14px', color: '#1e40af' }}>Aktif Temizlikçi</p>
+          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#1e40af' }}>{cleaners.length}</p>
         </div>
-        <div style={{padding: '20px', background: '#fefce8', borderRadius: '12px', border: '1px solid #fde047'}}>
-          <p style={{margin: 0, fontSize: '14px', color: '#854d0e'}}>Bugünkü Kayıtlar</p>
-          <p style={{margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#854d0e'}}>
+        <div style={{ padding: '20px', background: '#fefce8', borderRadius: '12px', border: '1px solid #fde047' }}>
+          <p style={{ margin: 0, fontSize: '14px', color: '#854d0e' }}>Bugünkü Kayıtlar</p>
+          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#854d0e' }}>
             {cleaningRecords.filter(r => r.date === new Date().toISOString().split('T')[0]).length}
           </p>
         </div>

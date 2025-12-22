@@ -237,7 +237,7 @@ export default function DashboardHome() {
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return 'Günaydın';
-    if (hour < 18) return 'İyi Öğleden Sonra';
+    if (hour < 18) return 'İyi Günler';
     return 'İyi Akşamlar';
   };
 

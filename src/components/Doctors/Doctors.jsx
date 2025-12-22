@@ -7,16 +7,17 @@ import "./Doctors.css";
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 // 8 Bölüm
-const DEPARTMENTS = [
-  'Acil 7/24',
-  'Ağız ve Diş',
-  'Beslenme Diyet',
-  'Dermatoloji',
-  'Genel Cerrahi',
-  'Göz Sağlığı',
-  'İç Hastalıklar',
-  'Kadın & Doğum'
-];
+// Mappings for translation keys
+const DEPARTMENT_KEYS = {
+  'Acil 7/24': 'acil',
+  'Ağız ve Diş': 'dis',
+  'Beslenme Diyet': 'diyet',
+  'Dermatoloji': 'derma',
+  'Genel Cerrahi': 'cerrahi',
+  'Göz Sağlığı': 'goz',
+  'İç Hastalıklar': 'dahiliye',
+  'Kadın & Doğum': 'kadin'
+};
 
 export default function Doctors() {
   const { t } = useTranslation(['medical']);
@@ -78,8 +79,10 @@ export default function Doctors() {
           className="department-select"
         >
           <option value="">{t('medical:doctors.all_departments')}</option>
-          {DEPARTMENTS.map(dept => (
-            <option key={dept} value={dept}>{dept}</option>
+          {Object.keys(DEPARTMENT_KEYS).map(dept => (
+            <option key={dept} value={dept}>
+              {t(`medical:departments.list.${DEPARTMENT_KEYS[dept]}.title`)}
+            </option>
           ))}
         </select>
       </div>

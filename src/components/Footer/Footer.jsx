@@ -74,7 +74,7 @@ export default function Footer() {
 
       <div className="container footer__row">
         <small>{t('footer:copyright', { year: new Date().getFullYear() })}</small>
-        <a href="#"> {t('footer:lighting_text')}</a>
+        <a href="/aydinlatma-metni" target="_blank" rel="noopener noreferrer"> {t('footer:lighting_text')}</a>
       </div>
 
     </footer>

@@ -9,15 +9,19 @@ const BaseURL = `${API_BASE}${API_PREFIX}`;
 // 9. [FE] Cleaning Areas List (Static Data)
 const AREAS = [
   "Zemin Kat Koridor",
+  "Zemin Kat Tuvalet",
+  "1. Kat Koridor",
   "1. Kat Tuvalet",
-  "Acil Servis Girişi",
-  "Kafeterya",
-  "Poliklinik Bekleme Alanı",
-  "Ameliyathane Koridoru",
-  "Laboratuvar Girişi",
-  "Röntgen Bekleme Salonu",
   "2. Kat Koridor",
-  "3. Kat Koridor"
+  "2. Kat Tuvalet",
+  "3. Kat Koridor",
+  "Acil Servis",
+  "Ameliyathane",
+  "Yoğun Bakım",
+  "Laboratuvar",
+  "Radyoloji",
+  "Kafeterya",
+  "Bekleme Salonu"
 ];
 
 export default function CleanerDashboard() {

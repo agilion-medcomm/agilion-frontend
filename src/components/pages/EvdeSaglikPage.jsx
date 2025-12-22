@@ -200,7 +200,7 @@ export default function EvdeSaglikPage() {
                   className="service-card-button"
                   onClick={() => handleServiceClick(card)}
                 >
-                  {t('medical:common.examine')}
+                  {t('medical:home_health.modal.book_btn')}
                 </button>
               </div>
             ))}

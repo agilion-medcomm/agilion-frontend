@@ -69,7 +69,7 @@ export default function CashierDashboard() {
   // === SEARCH PATIENT ===
   const handleSearchPatient = async (e) => {
     e.preventDefault();
-    
+
     if (!searchTckn.trim() || searchTckn.length !== 11) {
       setSearchError('Geçerli bir TC Kimlik Numarası giriniz (11 haneli).');
       return;
@@ -206,7 +206,7 @@ export default function CashierDashboard() {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
-        
+
         // Check if within 90-day bookable range
         const daysFromToday = Math.floor((date - today) / (1000 * 60 * 60 * 24));
         const isBookable = daysFromToday >= 1 && daysFromToday <= 90;
@@ -235,7 +235,7 @@ export default function CashierDashboard() {
         try {
           // selectedDate is now an object with formatted date
           const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
-          
+
           const response = await axios.get(`${BaseURL}/appointments`, {
             params: {
               doctorId: selectedDoctor,
@@ -245,7 +245,7 @@ export default function CashierDashboard() {
           });
 
           const bookedTimes = response.data?.data?.bookedTimes || [];
-          
+
           const allTimes = [];
           for (let hour = 9; hour < 18; hour++) {
             for (let minute = 0; minute < 60; minute += 30) {
@@ -303,7 +303,7 @@ export default function CashierDashboard() {
     try {
       // selectedDate is now an object with formatted date
       const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
-      
+
       const appointmentData = {
         doctorId: parseInt(selectedDoctor),
         patientId: parseInt(foundPatient.patientId || foundPatient.id),
@@ -317,7 +317,7 @@ export default function CashierDashboard() {
       });
 
       setAppointmentSuccess('✅ Randevu başarıyla oluşturuldu!');
-      
+
       // Reset form
       setTimeout(() => {
         setFoundPatient(null);
@@ -352,7 +352,7 @@ export default function CashierDashboard() {
         marginBottom: '20px'
       }}>
         <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>🔍 Adım 1: Hastayı Ara</h2>
-        
+
         <form onSubmit={handleSearchPatient} style={{ display: 'flex', gap: '12px', marginBottom: '15px' }}>
           <input
             type="text"
@@ -411,7 +411,7 @@ export default function CashierDashboard() {
           marginBottom: '20px'
         }}>
           <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>📝 Adım 1b: Yeni Hasta Kaydı</h2>
-          
+
           <form onSubmit={handleRegisterSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
               <input
@@ -477,10 +477,10 @@ export default function CashierDashboard() {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px', marginBottom: '15px' }}>
-              <div style={{ 
-                padding: '10px', 
-                background: '#f5f5f5', 
-                border: '1px solid #ddd', 
+              <div style={{
+                padding: '10px',
+                background: '#f5f5f5',
+                border: '1px solid #ddd',
                 borderRadius: '6px',
                 fontSize: '14px',
                 color: '#666'
@@ -531,7 +531,7 @@ export default function CashierDashboard() {
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
         }}>
           <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>📅 Adım 2: Randevu Oluştur</h2>
-          
+
           <div style={{ marginBottom: '20px', padding: '15px', background: '#e3f2fd', borderRadius: '6px' }}>
             <p style={{ margin: 0, fontWeight: 'bold', color: '#1976d2' }}>
               👤 Hasta: {foundPatient.firstName} {foundPatient.lastName}
@@ -600,11 +600,11 @@ export default function CashierDashboard() {
               </div>
             )}
 
-            {/* Date Selection - Calendar View */}
+            {/* Tarih Seçimi - Takvim Görünümü */}
             {selectedDoctor && availableDates.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
                 <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px', fontSize: '13px' }}>📅 Tarih Seçiniz *</label>
-                
+
                 {/* Calendar Grid */}
                 <div style={{
                   background: '#f9f9f9',
@@ -624,7 +624,7 @@ export default function CashierDashboard() {
                     const monthDate = monthDates[0].date;
                     const currentMonthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth()}`;
                     const isCurrentMonth = monthKey === currentMonthKey;
-                    
+
                     // Calculate bounds for month navigation
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
@@ -632,15 +632,15 @@ export default function CashierDashboard() {
                     minMonth.setDate(minMonth.getDate() - 30);
                     const maxMonth = new Date(today);
                     maxMonth.setDate(maxMonth.getDate() + 90);
-                    
+
                     // Create dates for the first day of each month for comparison
                     const currentMonthStart = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
                     const minMonthStart = new Date(minMonth.getFullYear(), minMonth.getMonth(), 1);
                     const maxMonthStart = new Date(maxMonth.getFullYear(), maxMonth.getMonth(), 1);
-                    
+
                     const canGoPrev = currentMonthStart > minMonthStart;
                     const canGoNext = currentMonthStart < maxMonthStart;
-                    
+
                     return isCurrentMonth ? (
                       <div key={monthKey}>
                         {/* Month Navigation */}
@@ -671,11 +671,11 @@ export default function CashierDashboard() {
                           >
                             ← Önceki
                           </button>
-                          
+
                           <h4 style={{ margin: 0, color: '#667eea', fontSize: '13px', fontWeight: '600' }}>
                             {monthDate.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
                           </h4>
-                          
+
                           <button
                             type="button"
                             onClick={() => {
@@ -698,7 +698,7 @@ export default function CashierDashboard() {
                             Sonraki →
                           </button>
                         </div>
-                        
+
                         {/* Days of week header - Starting from Monday */}
                         <div style={{
                           display: 'grid',
@@ -729,12 +729,12 @@ export default function CashierDashboard() {
                           {Array.from({ length: ((monthDates[0].date.getDay() - 1 + 7) % 7) }).map((_, i) => (
                             <div key={`empty-${i}`}></div>
                           ))}
-                          
+
                           {monthDates.map(dateObj => {
                             const isSelected = selectedDate?.formatted === dateObj.formatted;
                             const isWeekend = dateObj.dayOfWeek === 0 || dateObj.dayOfWeek === 6;
                             const isDisabled = !dateObj.isBookable;
-                            
+
                             return (
                               <button
                                 key={dateObj.formatted}
@@ -772,7 +772,7 @@ export default function CashierDashboard() {
               </div>
             )}
 
-            {/* Time Selection */}
+            {/* Saat Seçimi */}
             {selectedDate && availableTimes.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
                 <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Saat Seçiniz *</label>
