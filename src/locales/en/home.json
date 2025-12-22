@@ -1,0 +1,62 @@
+{
+    "hero": {
+        "alt": "AgilionMED Hero Image"
+    },
+    "expert": {
+        "title": "We are at your service with our expert doctors!",
+        "text": "With our expert staff, in accordance with legal regulations; In line with the latest developments in modern medicine, with an innovative and contemporary understanding, we aim to provide protective and therapeutic health services at quality and economic conditions, gaining the trust of patients and their relatives without compromising ethical values.",
+        "call_center_title": "Patient Call Center",
+        "call_center_sub": "We are with you whenever you need",
+        "explore": "Explore",
+        "address": "Our Address"
+    },
+    "bolumler": {
+        "title": "At Your Service in All Specialized Areas",
+        "examine": "Examine",
+        "cite": "At your service with over 20 years of experience"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "items": [
+            {
+                "question": "01. Is it necessary to make an appointment before applying to your institution?",
+                "answer": "All our polyclinics, except for the emergency department, serve with an appointment system."
+            },
+            {
+                "question": "02. How to Make an Appointment?",
+                "answer": "To make an appointment from all our departments, you can use our online appointment system through our website or easily make an appointment by calling our call center."
+            },
+            {
+                "question": "03. Which laboratory tests can be performed in your institution?",
+                "answer": "In our modern laboratory, a wide range of tests such as blood tests, urine tests, and biochemical tests can be performed. In addition, imaging services include X-ray and ultrasound."
+            },
+            {
+                "question": "04. After being examined, is it necessary to make an appointment again to show the results of the tests requested by the doctor or to come for a check-up?",
+                "answer": "Our practice on this issue varies according to the density of our polyclinics. For this reason, if your doctor has requested tests or called for a check-up, please learn from the polyclinic secretary whether you need to make an appointment to show your results or come for a check-up when you leave the examination."
+            },
+            {
+                "question": "05. Do you have an agreement with SGK or private health insurances?",
+                "answer": "Yes, our institution has an agreement with SGK (Social Security Institution). In addition, we have agreements with many private health insurances and complementary health insurances. You can contact our information unit for detailed information."
+            },
+            {
+                "question": "06. What are your companion and visitor rules?",
+                "answer": "For the health and comfort of our patients, our visiting hours are between 10:00 - 22:00 every day. One companion is accepted for each patient, and the visiting rules in our intensive care units are determined by the doctor's approval according to the patient's condition."
+            }
+        ]
+    },
+    "stats": {
+        "happy_patients": "Happy Patient",
+        "experienced_doctors": "Experienced Physician",
+        "successful_operations": "Successful Operation",
+        "lab_procedures": "Laboratory Procedure"
+    },
+    "doctor_slider": {
+        "title": "Our expert and experienced doctors",
+        "loading": "Loading...",
+        "error": "Error: {{error}}",
+        "back": "Back",
+        "next": "Next",
+        "book": "Book Fast Appointment",
+        "alert_login": "You must login first to book an appointment."
+    }
+}

@@ -1,0 +1,475 @@
+{
+    "doctors": {
+        "title": "Alanında Uzman Hekimlerimiz",
+        "filter_label": "Bölüme Göre Filtrele:",
+        "all_departments": "Tüm Bölümler",
+        "quick_appointment": "Hızlı Randevu al",
+        "loading": "Yükleniyor...",
+        "login_required": "Randevu almak için önce giriş yapınız."
+    },
+    "departments": {
+        "title": "Tüm Bölümlerimiz",
+        "list": {
+            "acil": {
+                "title": "Acil 7/24",
+                "content_title": "Acil Polikliniği",
+                "p1": "Ani gelişen ve yaşam bütünlüğünü tehdit eden tüm sağlık sorunlarında, ilk müdahalenin hayati önem taşıdığının bilincindeyiz. Acil Servis Ünitemiz; alanında uzman hekimlerimiz ve deneyimli sağlık personelimizle, 7 gün 24 saat kesintisiz hizmet sunmaktadır.",
+                "p2": "Tam donanımlı muayene ve müşahede odalarımızda, modern tıbbi cihazlarla hastalarımızın ilk değerlendirmesi, takibi ve tedavisi titizlikle yapılmaktadır. İleri tetkik veya tedavi gerektiren durumlarda ise hastalarımızın bir üst basamak sağlık kuruluşlarına güvenle sevki sağlanmaktadır.",
+                "tags": [
+                    "Muayene",
+                    "Müdahale",
+                    "Müşahede",
+                    "Enjeksiyon",
+                    "Pansuman",
+                    "Tansiyon Ölçümü",
+                    "EKG",
+                    "Dikiş Alma",
+                    "Şeker Ölçümü",
+                    "Sürücü Raporu",
+                    "İş Göremezlik Raporu",
+                    "Sağlık Raporu"
+                ]
+            },
+            "dis": {
+                "title": "Ağız ve Diş",
+                "content_title": "Ağız ve Diş Sağlığı",
+                "p1": "Uzman hekimlerimiz ve donanımlı kliniklerimizle diş sağlığınızı korumak için çalışıyoruz. Çocuk diş hekimliğinden estetik uygulamalara, kanal tedavisinden implant cerrahisine kadar tüm ihtiyaçlarınızda, deneyimli kadromuzla güvenilir tedavi hizmeti sunuyoruz.",
+                "tags": [
+                    "İmplant",
+                    "Cerrahi Diş Çekimi",
+                    "Panoramik Röntgen",
+                    "Pedodonti",
+                    "Endodonti",
+                    "Restoratif Diş Tedavisi",
+                    "Diş Beyazlatma",
+                    "Zirkonyum",
+                    "Gülüş Tasarımı"
+                ]
+            },
+            "diyet": {
+                "title": "Beslenme Diyet",
+                "content_title": "Beslenme ve Diyet",
+                "p1": "Beslenme ve Diyet Polikliniğimizde sağlıklı yaşamı desteklemek, kilo yönetimi sağlamak, hastalıkların önlenmesi ve tedavi süreçlerini desteklemek için profesyonel bir diyet ve beslenme danışmanlığı sunuyoruz. Her bireyin sağlığına ve yaşam tarzına uygun, kişiye özel beslenme planları oluşturarak, sürdürülebilir bir sağlıklı yaşam alışkanlığı kazanmanıza yardımcı oluyoruz.",
+                "p2": "Polikliniğimizde uzman diyetisyenlerimiz tarafından yapılan kapsamlı değerlendirmeler sonrasında, vücut analizi, metabolik hız ve ihtiyaç analizleri yapılmakta, kilo yönetiminden hastalıklara özel beslenme planlarına kadar birçok alanda destek sağlanmaktadır. Sağlıklı bir geleceğe adım atarken, yaşam kalitenizi artıracak diyet ve beslenme önerilerimizle yanınızdayız.",
+                "services_header": "HİZMETLERİMİZ",
+                "tags": [
+                    "Beslenme",
+                    "Tiroit Hastalıklarında Beslenme",
+                    "Sindirim Ağırlık kaybı",
+                    "Ağırlık kazanımı",
+                    "Gebelikte ve Laktasyon Döneminde Beslenme",
+                    "Diyabette Sistemi Hastalıklarında Beslenme",
+                    "PKOS/Besin Alerjileri",
+                    "Kalp ve Damar Hastalıklarında",
+                    "Beslenme Karaciğer Hastalıklarında Beslenme",
+                    "Böbrek Hastalıklarında",
+                    "Beslenme Bebeklik/Çocukluk ve Ergenlik Çağı Beslenmesi",
+                    "Obezitede Beslenme",
+                    "Sporcu Beslenmesi",
+                    "Engelli Bireylerde",
+                    "Beslenme Enteral ve Parenteral Beslenme",
+                    "Fitoterapi"
+                ],
+                "details": [
+                    {
+                        "title": "Kişiye Özel Beslenme Programı",
+                        "text": "Kişiye özel hazırlanan beslenme programları, detaylı bir çalışma sonucu ortaya çıkmış ve tamamen bireyin yaşam şekli ve değerlerine göre hazırlanmış bir diyet programıdır."
+                    },
+                    {
+                        "title": "Yaşam Koçluğu",
+                        "text": "Yaşam koçu, gerekli eğitimleri tamamlamış, alanında uzman kişidir. Danışanıyla bire bir ilgilenerek kişinin kendi potansiyelini keşfetmesi, geliştirmesi, kişisel hedeflerini tanımlaması üzerine doğru soruları sorar ve danışanı harekete geçirmek için uygun stratejiler geliştirir."
+                    },
+                    {
+                        "title": "Sağlık Beslenme ve Kilo Alma",
+                        "text": "Diyet veya Diyetisyenlik hizmeti yalnızca kilo vermek olarak algılanmamalıdır. Sağlıklı kilo almakta diyetisyen hizmetleri arasındadır. Travma sonrası, hastalık veya başka sebeplerden kaynaklanan kilo kaybını sağlıklı bir şekilde engellemek için sunulan hizmettir."
+                    },
+                    {
+                        "title": "Sağlıklı Beslenme ve Kilo Verme",
+                        "text": "Diyetisyenlik hizmeti denildiğinde akla ilk gelen işlem “Kilo vermek” tir. Kas kütlesinden kaybetmeden, besinlerin ve fiziksel aktivitelerin düzenlenerek danışanın sağlıklı kilosuna inmesine yardımcı olmak üzere sunulan hizmettir."
+                    },
+                    {
+                        "title": "İştah Yönetimi ve Kilo Kontrolü",
+                        "text": "Kilo vermede en önemli unsur iştah kontrolüdür. Bu psikolojik şartlanma gerektirdiği kadar fiziksel olarak ta desteklenmelidir. Sindirimi uzun süren ve kan şekerini artırmayan gıdalar bu süreçte tercih edilmelidir. Kişinin metabolik hızına ve yaşam tarzına bağlı olarak bu bağlamda sunulan hizmettir."
+                    },
+                    {
+                        "title": "Çocuk Beslenmesi",
+                        "text": "Bulunduğu yaş ve detaylı vücut analizi sonucunda genç bireyin eksiksiz bir gelişim adına tüketmesi gereken tüm gıdaları içeren özel diyet sistemidir."
+                    },
+                    {
+                        "title": "Diyabet Hastalığında Beslenme",
+                        "text": "Beyaz ekmek, makarna, pirinç, mısır, mısır gevreği, şekerli gıdalar yerine meyve, sebze, tam tahıl, kuru baklagiller (fasulye, nohut, bezelye ve mercimek) ve düşük yağ içeren süt ürünleri gibi sağlıklı karbonhidratlar tercih edilmelidir."
+                    },
+                    {
+                        "title": "Kurumsal Beslenme Danışmanlığı",
+                        "text": "Kurumsal beslenme danışmanlığı; beslenme alanındaki sağlık profesyonelleri tarafından uygulanan, çalışların ve yöneticilerin iş hayatlarındaki performansını ve yaşam kalitelerini artırmak için alınan hizmettir."
+                    },
+                    {
+                        "title": "Sporcu Beslenmesi",
+                        "text": "Sporcunun fiziksel aktivite yoğunluğu göz önünde bulundurularak düzenlenen özel diyetisyenlik hizmetidir. Proteinin maksimum emilimini ve minimum kas kaybını hedefler."
+                    },
+                    {
+                        "title": "Hamilelik Döneminde Beslenme",
+                        "text": "Hamilelik döneminin başından sonuna kadar devam eden, hem annenin hem de bebeğin ihtiyacı olan tüm besinlerin özel olarak hesaplandığı özel diyetisyenlik hizmetidir."
+                    },
+                    {
+                        "title": "Emzirme Döneminde Beslenme",
+                        "text": "Anne sütünün en verimli formunda olması bebeğin beyin gelişimi, fiziksel ve metabolik sağlığı için oldukça önemlidir."
+                    },
+                    {
+                        "title": "Hipertansyonda beslenme",
+                        "text": "Hipertansiyon hastası bireylerin taze sebze ve meyve, kurubaklagil, düşük yağlı süt ürünleri, tam tahıllı ürünler, balık ve doymamış yağlardan zengin sağlıklı ve dengeli bir diyet tüketmesi önerilmektedir."
+                    },
+                    {
+                        "title": "Ayrıntılı Vücut Analizi ve Yorumlanması",
+                        "text": "Diyetinize başlamadan önce yapılması gereken, vücudun kas, yağ ve su oranını belirleyen ölçüme vücut analizi denir."
+                    }
+                ]
+            },
+            "derma": {
+                "title": "Dermatoloji",
+                "content_title": "Dermatoloji",
+                "p1": "Dermatoloji bir diğer ismi ile Deri ve Zührevi Hastalıkları, vücudumuzun en büyük organı olan ve birçok önemli görevi yerine getiren “deri” ile ilgili tıbbi birimdir.",
+                "p2": "Dermatoloji yalnızca derinin kendisini değil derinin bir uzantısı halinde gelişen saçı ve tırnakları, ağız ve burun mukozalarını, cinsel yolla bulaşan hastalıkların tespit ve tedavisini gerçekleştirmektedir.",
+                "p3": "Dış görünüşte dikkat çeken dermatolojik rahatsızlıklar kimi zaman estetik olarak da sorun olabilmekte ve daha ciddi bir sağlık sorununa dönüşebilmektedirler. Bundan dolayı hastalığın ileri seviyelere ulaşmaması için hızlı bir tedavi sürecine geçilmelidir.",
+                "tags": [
+                    "Sivilceler(akne)",
+                    "Pruritus (kaşıntı)",
+                    "Ürtiker (Kurdeşen)",
+                    "Parazit kaynaklı deri hastalıkları",
+                    "Mantar hastalıkları",
+                    "Egzama rahatsızlıkları",
+                    "Sedef, liken ve benzeri dermatitler",
+                    "Saç hastalıkları",
+                    "Behçet hastalığı",
+                    "Büllü hastalıklar",
+                    "Deride iyi ve kötü huylu tümörler",
+                    "Bağ dokusunda meydana gelen hastalıklar",
+                    "Pigmentasyon bozuklukları",
+                    "Enfeksiyöz/bulaşıcı döküntülü hastalıklar",
+                    "Alerjik cilt hastalıkları",
+                    "Cinsel yolla bulaşan hastalıklar",
+                    "Güneş alerjisi",
+                    "Hirşutizm",
+                    "Hiperhidroz",
+                    "Nasırlar ve siğiller",
+                    "Benler",
+                    "Damarsal deri hastalıkları",
+                    "Tırnak hastalıkları",
+                    "Dudak, dil ve ağız içi hastalıkları",
+                    "Beslenme ve metabolik bozukluklara bağlı cilt hastalıkları",
+                    "Psikolojik sebeplere bağlı cilt hastalıkları",
+                    "Sistemik hastalıklarda ortaya çıkan cilt bulguları",
+                    "Genetik sebeplere bağlı deri hastalıkları",
+                    "Fiziksel faktörlere bağlı rahatsızlıklar"
+                ]
+            },
+            "cerrahi": {
+                "title": "Genel Cerrahi",
+                "content_title": "Genel Cerrahi",
+                "p1": "Genel cerrahi, vücuttaki sistemik ve yerel hastalıkları cerrahi yöntemle tedavi eden, pek çok tıbbi branş ile entegre olarak çalışan bir disiplindir.",
+                "p2": "Guatr (Tiroid bezi), Mide, İnce Bağırsak, Kalın Bağırsak, Meme, Yemek Borusu(Özofagus), Fıtıklar, Karaciğer, Rektum, Anüs, Safra Kesesi, Safra Yolları, Endoskopik ve Laparoskopik Cerrahi girişimleri Genel Cerrahi alanına giren bölümler olarak sayılabilir.",
+                "tags": [
+                    "Endoskopi",
+                    "Kolonoskopi",
+                    "Tırnak Çekimi",
+                    "Genel/Lokal Anestezi Sünnet",
+                    "Hemoroid",
+                    "Anal Fissür",
+                    "Anal Fistül",
+                    "Pilonidal Kist",
+                    "İnguinal Herni",
+                    "Umbilikal Herni",
+                    "Perianal Apse",
+                    "Kitle Çıkarılması",
+                    "Et Beni Alımı",
+                    "Guatr",
+                    "Varis",
+                    "Mide Karın Ve Kasık Fıtığı",
+                    "Karın Ağrısı",
+                    "Mide Ağrısı",
+                    "Vücutta Kızarıklık",
+                    "Göğüste Ağrı/Kitle",
+                    "Koltuk Altında Kitle",
+                    "Makatta Ağrı Kanama",
+                    "Kuyruk Sokumu Ağrı Şişlik"
+                ]
+            },
+            "goz": {
+                "title": "Göz Sağlığı",
+                "content_title": "Göz Sağlığı",
+                "p1": "Göz Sağlığı ve Hastalıkları, yaşam kalitesi açısından oldukça büyük öneme sahiptir. Bazı göz hastalıkları erken dönemde tedavi edilmediklerinde ilerleyerek görme kaybına varan kalıcı hasarlara neden olabilir.",
+                "p2": "Bu nedenle düzenli göz muayenesi yaptırmak ve gözlerdeki olası hastalıkları ilerlemeden tespit etmek büyük önem taşır. Sağlıklı insanlar yılda bir kez göz taramasından geçmeli.",
+                "tags": [
+                    "Genel Muayene",
+                    "Göz Kızarıklığı",
+                    "Kaşıntı",
+                    "Yanma",
+                    "Batma",
+                    "Glokom",
+                    "Gözlük / Lens Reçetesi",
+                    "Renk Görme",
+                    "Şaşılık",
+                    "Diyabetik Retinopati",
+                    "Katarakt Tespiti",
+                    "Nistagmus Tespiti",
+                    "Arpacık",
+                    "Keratit",
+                    "İlaç Raporu",
+                    "Sürücü Belgesi",
+                    "Şoför Kartı"
+                ]
+            },
+            "dahiliye": {
+                "title": "İç Hastalıklar",
+                "content_title": "İç Hastalıkları (Dahiliye)",
+                "p1": "Kurumumuzun Dahiliye polikliniğinde; uzman doktorumuz ile Bronşit, Nezle, Sistit vb. enfeksiyon hastalıkları, Diyabet, Hipertansiyon, Guatr gibi metabolik hastalıklar çarpıntı, Kalp Yetmezliği gibi kalp hastalıkları teşhis ve tedavisi yapılabilmektedir.",
+                "tags": [
+                    "Kan Hastalıkları",
+                    "Solunum Enfeksiyonları",
+                    "Böbrek Hastalıkları",
+                    "Kalp Yetersizliği",
+                    "Ritm Bozuklukları",
+                    "Hipertansiyon",
+                    "Lipid düzeyi Bozuklukları",
+                    "Diabetus Mellitus",
+                    "KOAH",
+                    "Tiroid Bezi Bozuklukları",
+                    "Obezite",
+                    "Karaciğer Hastalıkları",
+                    "Sindirim Sistemi Hastalıkları",
+                    "Geriatri",
+                    "Ateşli Hastalıklar",
+                    "Romatizmal Hastalıklar"
+                ]
+            },
+            "kadin": {
+                "title": "Kadın & Doğum",
+                "content_title": "Kadın Hastalıkları ve Doğum",
+                "p1": "Kendi alanında, tıp dünyasındaki her gelişimi yakından izleyen ve uygulayan kliniğimiz, hamilelik, doğum öncesi ve doğumla ilgili problemlerin çözümünde de modern tıbbın tüm olanaklarıyla hizmet vermektedir.",
+                "tags": [
+                    "Genel Muayene",
+                    "Kist Muayene",
+                    "Myom Muayene",
+                    "Ec Muayene",
+                    "Gebelik Takibi",
+                    "Ria Takılması",
+                    "Ria Çıkarılması",
+                    "Servikal Smear",
+                    "Servikal Koter",
+                    "İlaç Muafiyet Raporu",
+                    "Mirena Takılması",
+                    "Pc Terapötik Küretaj",
+                    "Endometrial Biyopsi",
+                    "Hpv Dna Smear",
+                    "Hpv Genotipleme",
+                    "Servikal Polip Çıkarılması",
+                    "Tıbbi Nedenli Tahliye",
+                    "Bartholin Apse Drenajı",
+                    "Labioplasti",
+                    "Rektosel",
+                    "Sistosel",
+                    "Sistorektosel",
+                    "Mcdonald – Schirodkar",
+                    "Gartner/İnklüzyon Kisti",
+                    "Normal Doğum",
+                    "Sezaryen Doğum"
+                ]
+            }
+        }
+    },
+    "units": {
+        "title": "Birimlerimiz",
+        "list": {
+            "anestezi": {
+                "title": "Anestezi & Reanimasyon",
+                "content_title": "Anestezi ve Reanimasyon",
+                "text": "Anestezi ve reanimasyon, cerrahi veya diğer tıbbi müdahaleler sırasında hastanın bilincini kaybetmesini sağlamak ve hayati fonksiyonlarını sürdürmek için kullanılan tıbbi uygulamalardır. Anestezi, hastanın ağrı duymasını önlemek için kullanılır. Reanimasyon ise acil durumlarda hayat kurtarmak için yapılan tıbbi müdahalelerdir."
+            },
+            "ameliyathane": {
+                "title": "Ameliyathane",
+                "content_title": "Ameliyathane",
+                "text": "Ameliyathane, tıbbi müdahalelerin gerçekleştirildiği özel bir bölümdür. Burada pek çok farklı işlem yapılmaktadır ve ameliyat süreci titizlikle planlanır ve uygulanır. Ameliyathane işlevleri, hastanın sağlığını korumak ve ameliyatın başarılı bir şekilde gerçekleşmesini sağlamak için çeşitli aşamalardan oluşur."
+            },
+            "dogumhane": {
+                "title": "Doğumhane",
+                "content_title": "Doğumhane",
+                "text": "Hastaneye başvurduğunuzda öncelikle doktorunuz sizi muayene eder ve doğumun gerçekten başlayıp başlamadığını tespit eder. Doğumun başlaması ancak vajinal muayene ile anlaşılır. Doğum zamanı uygunsa hasta doğumhaneye yönlendirilir."
+            },
+            "rontgen": {
+                "title": "Röntgen",
+                "content_title": "Röntgen",
+                "text": "Röntgen, insan vücudunu ve diğer nesneleri görüntülemek için kullanılan bir tıbbi görüntüleme teknolojisidir. Bu teknoloji, X-ışınlarının kullanımıyla çalışır. Röntgen cihazları, vücut dokularının iç yapısını görüntülemek için kullanılır."
+            },
+            "laboratuvar": {
+                "title": "Laboratuvar",
+                "content_title": "Laboratuvar",
+                "text": "Zeytinburnu Tıp Merkezi, hastalarına acil ve rutin laboratuvar hizmeti verirken, özellikle güvenilir sonuç üretmeyi hedef edinmiş olmanın gereklerini yerine getiren merkez laboratuvarı, haftanın 7 günü hizmetini sürdürmektedir."
+            },
+            "fizik": {
+                "title": "Fizik Tedavi",
+                "content_title": "Fizik Tedavi",
+                "text": "Fizik Tedavi ve Rehabilitasyon ünitemizde; kas, eklem, kemik ve omurga hastalıkları, felçler, ortopedik ameliyatlar sonrası rehabilitasyon, spor yaralanmaları ve romatizmal hastalıkların tanı ve tedavisi uygulanmaktadır."
+            },
+            "saglik_raporlari": {
+                "title": "Sağlık Raporları",
+                "content_title": "Sağlık Raporları",
+                "text": "Kurumumuz Tarafından Verilen Sağlık Raporları",
+                "tags": [
+                    "Evlilik için sağlık raporu",
+                    "Sürücü olur sağlık raporu",
+                    "Spor için sağlık raporu",
+                    "Havuz için sağlık raporu",
+                    "İş için sağlık raporu",
+                    "Yol Belgesi"
+                ]
+            },
+            "ultrason": {
+                "title": "Ultrasonografi",
+                "content_title": "Ultrasonografi",
+                "text": "Ultrason (USG) ile hem iç organlar hakkında bilgi edilebilir, hem de gebelik tanı ve kontrolünde fetüsü izlemek amacıyla kullanılmaktadır."
+            },
+            "solunum": {
+                "title": "Solunum Testi",
+                "content_title": "Solunum Testi",
+                "text": "Solunum fonksiyon testi temel anlamda akciğerlerinizin performansını ölçmek için yapılan bir testtir. Bu testlerle akciğerlere ne kadar hava girip çıktığı, kanınıza giden oksijen miktarı ölçülür."
+            },
+            "odyometri": {
+                "title": "Odyometri ve Timpanometri",
+                "content_title": "Odyometri ve Timpanometri",
+                "text": "Odyometri, kişinin işitme yeteneğini değerlendirmek için kullanılan bir testtir. Timpanometri ise, kulak zarının ve orta kulak basıncının ölçüldüğü bir testtir. Bu testler, işitme sağlığının değerlendirilmesinde önemli bir rol oynar."
+            }
+        }
+    },
+    "home_health": {
+        "banner_title": "Evde Sağlık",
+        "cards": {
+            "nurse": {
+                "title": "Evde Hemşirelik Hizmetleri",
+                "desc": "Profesyonel hemşirelerimiz tarafından evinizde enjeksiyon, pansuman, serum takma ve tüm hemşirelik hizmetleri sunulmaktadır.",
+                "items": [
+                    "Enjeksiyon Uygulaması",
+                    "Pansuman",
+                    "Serum Takma",
+                    "Kan Basıncı Takibi",
+                    "İlaç Düzenleme",
+                    "Yara Bakımı"
+                ]
+            },
+            "serum": {
+                "title": "Evde Serum Hizmetleri",
+                "desc": "Hastane ortamına gerek kalmadan, evinizin konforunda güvenli ve hijyenik serum hizmeti alabilirsiniz.",
+                "items": [
+                    "İV Serum Uygulaması",
+                    "Vitamin Serum",
+                    "Antibiyotik Serum",
+                    "Serum Takip ve Kontrol",
+                    "Acil Serum Desteği"
+                ]
+            },
+            "lab": {
+                "title": "Evde Laboratuvar Hizmetleri",
+                "desc": "Evde kan alma, idrar tahlili ve diğer laboratuvar testleriniz için randevu alın.",
+                "items": [
+                    "Evde Kan Alma",
+                    "Rutin Tahliller",
+                    "Check-Up Paketleri",
+                    "Covid-19 Testi",
+                    "Hormon Testleri",
+                    "Vitamin Analizleri"
+                ]
+            },
+            "wound": {
+                "title": "Evde Yara Bakımı Hizmetleri",
+                "desc": "Ameliyat sonrası, kronik yaralar ve yanık tedavisi için uzman yara bakım hizmetleri.",
+                "items": [
+                    "Ameliyat Sonrası Bakım",
+                    "Bası Yarası Tedavisi",
+                    "Diyabetik Yara Bakımı",
+                    "Yanık Tedavisi",
+                    "Dikiş Alma/Atma",
+                    "Peg Bakımı"
+                ]
+            }
+        },
+        "what_is": {
+            "title": "Evde Sağlık Nedir",
+            "p1": "Evde Bakım ve Sağlık Hizmetleri ile tedavisini evde sürdürmek isteyen hastalar, doğum öncesi ve sonrası destek talep eden anneler, yaşlı ve bakıma ihtiyacı olan kişiler için yüksek konforlu bir yaşam hizmeti sunulmaktadır.",
+            "p2": "Zeytinburnu Tıp Merkezi olarak sunduğumuz evde bakım hizmetlerinde, doktor muayenesinden uzun süreli hemşirelik hizmetlerine kadar geniş bir yelpaze sunulmaktadır."
+        },
+        "covers": {
+            "title": "Evde Sağlık Hizmeti Neleri Kapsar?",
+            "text": "Evde Sağlık Hizmeti neleri kapsar konusu en çok merak edilen konular arasındadır. Geniş bir hizmet yelpazesi altında şu hizmetlerden yararlanabilirsiniz:",
+            "list": [
+                "Evde Pet Ve Antikor Testi",
+                "Evde Doktor Hizmeti",
+                "Enjeksiyon",
+                "Pansuman",
+                "Serum Takma",
+                "Evde Kan Alma",
+                "Küçük Cerrahi Müdahale",
+                "Tırnak Çekimi",
+                "Kulak Delme",
+                "Nazır Tedavisi",
+                "Trakeostomi Değişimi Ve Bakımı",
+                "Kolostomi / Stoma Bakımı",
+                "Nebülizatör Uygulamaları",
+                "Sütur (Dikiş) Atma / Alma",
+                "Delik Tırnak Tedavisi",
+                "Nazogastrik Sonda Uygulaması",
+                "Yaşlı Bakımı",
+                "Anne - Bebek Bakımı",
+                "Lavman Uygulama Ve Takibi",
+                "İdrar Sondası Takma",
+                "İdrar Sondası Çıkarma",
+                "Peg Bakımı Ve Pansumanı",
+                "Yara Ve Yanık Tedavisi",
+                "Laboratuvar Tahlilleri",
+                "Tansiyon Ve Nabız Takibi",
+                "Kan Şekeri Takibi",
+                "Evde Check-Up"
+            ]
+        },
+        "doctor_service": {
+            "title": "Evde Doktor Hizmeti",
+            "p1": "Zeytinburnu Tıp Merkezi olarak, rutin sağlık muayenesi, hastalık takibi gibi hizmetleri kapsayan Evde Doktor Hizmeti sunuyoruz.",
+            "p2": "Özellikle yatağa bağımlı veya hareket kabiliyeti kısıtlı bireyler için idealdir."
+        },
+        "modal": {
+            "service_detail": "Hizmet Detayı",
+            "offered_services": "Sunulan Hizmetler",
+            "book_btn": "Randevu Al"
+        },
+        "form": {
+            "title": "Evde Sağlık Hizmeti Talebi",
+            "full_name": "Ad Soyad *",
+            "name_placeholder": "Adınız ve soyadınız",
+            "tckn": "T.C. Kimlik No *",
+            "tckn_placeholder": "11 haneli TC kimlik numaranız",
+            "phone": "Telefon Numarası *",
+            "address": "Adres *",
+            "address_placeholder": "Hizmet alacağınız adres",
+            "service_type": "Hizmet Türü *",
+            "select_service": "Hizmet seçiniz",
+            "other": "Diğer",
+            "doctor_svc": "Evde Doktor Hizmeti",
+            "preferred_date": "Tercih Edilen Tarih",
+            "preferred_time": "Tercih Edilen Saat",
+            "select_time": "Saat seçiniz",
+            "notes": "Ek Notlar",
+            "notes_placeholder": "Varsa ek bilgiler...",
+            "cancel": "İptal",
+            "submit": "Talep Gönder",
+            "sending": "Gönderiliyor...",
+            "success_msg": "Talebiniz başarıyla alındı! En kısa sürede sizinle iletişime geçeceğiz.",
+            "error_msg": "Bir hata oluştu. Lütfen tekrar deneyin.",
+            "network_error": "Bağlantı hatası. Lütfen internet bağlantınızı kontrol edin.",
+            "ok": "Tamam"
+        },
+        "login_prompt": {
+            "title": "Giriş Yapmanız Gerekiyor",
+            "msg": "Evde sağlık hizmeti talebinde bulunabilmek için önce giriş yapmanız gerekmektedir.",
+            "submsg": "Hesabınız yoksa kayıt olabilirsiniz.",
+            "login_btn": "Giriş Yap"
+        }
+    }
+}

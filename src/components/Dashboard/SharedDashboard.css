@@ -3,14 +3,30 @@
     padding: 2rem;
     max-width: 1200px;
     margin: 0 auto;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        'SF Pro Text',
+        'SF Pro Display',
+        'Helvetica Neue',
+        Helvetica,
+        Arial,
+        sans-serif;
+
     color: #334155;
     animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .page-header {
@@ -35,11 +51,21 @@
 /* --- SEKMELER (TABS) --- */
 .tabs-container {
     display: flex;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid #e2e8f0;
-    padding-bottom: 2px;
-    overflow-x: auto; /* Mobilde taşarsa kaydır */
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+@media (max-width: 1000px) {
+    .tab-button {
+        width: calc(50% - 10px);
+        text-align: center;
+        justify-content: center;
+        display: flex;
+    }
 }
 
 .tab-button {
@@ -48,29 +74,40 @@
     padding: 0.8rem 1.2rem;
     font-size: 1rem;
     font-weight: 600;
-    color: #64748b;
+    color: #455060;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 3px solid transparent;
-    margin-bottom: -4px; /* Çizgiyi border üzerine oturtmak için */
+    border: 1px solid rgb(192, 192, 192);
+    margin-bottom: -4px;
+    /* Çizgiyi border üzerine oturtmak için */
     white-space: nowrap;
 }
 
 .tab-button:hover {
-    color: #3b82f6;
-    background-color: #f8fafc;
-    border-radius: 8px 8px 0 0;
+    color: #ffffff;
+    background-color: #f8fcf9;
+}
+
+/* Sadece aktif olan butonun hover durumunu hedefler */
+.tab-button.active:hover {
+    color: #ffffff;
+    background-color: none !important;
 }
 
 .tab-button.active {
-    color: #3b82f6;
-    border-bottom-color: #3b82f6;
+    color: #2563eb;
+    background-color: #eff6ff;
+    border: 1px solid #2563eb;
+    border-radius: 12px;
 }
+
 
 /* --- RANDEVULAR SEKMESİ --- */
 .filters-bar {
-    margin-bottom: 1.5rem;
     display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
     justify-content: flex-end;
 }
 
@@ -78,9 +115,9 @@
     padding: 0.6rem 1rem;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    background-color: white;
+    background-color: rgb(240, 240, 240);
     color: #334155;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     cursor: pointer;
 }
 
@@ -95,7 +132,7 @@
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
@@ -140,11 +177,31 @@
     letter-spacing: 0.5px;
 }
 
-.badge-confirmed, .badge-approved { background: #dcfce7; color: #166534; }
-.badge-completed { background: #f1f5f9; color: #64748b; }
-.badge-cancelled { background: #fee2e2; color: #991b1b; }
-.badge-pending { background: #ffedd5; color: #9a3412; }
-.badge-success { background: #dcfce7; color: #166534; }
+.badge-confirmed,
+.badge-approved {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.badge-completed {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.badge-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.badge-pending {
+    background: #ffedd5;
+    color: #9a3412;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #166534;
+}
 
 /* --- LAB SONUÇLARI (TABLO) --- */
 .data-table-container {
@@ -161,7 +218,8 @@
     min-width: 600px;
 }
 
-.data-table th, .data-table td {
+.data-table th,
+.data-table td {
     padding: 1rem;
     text-align: left;
     border-bottom: 1px solid #f1f5f9;
@@ -278,7 +336,8 @@
     color: #334155;
     font-size: 0.95rem;
     transition: all 0.2s ease;
-    box-sizing: border-box; /* Padding taşmasını önler */
+    box-sizing: border-box;
+    /* Padding taşmasını önler */
 }
 
 .form-input:focus {
@@ -295,7 +354,8 @@
 }
 
 /* Butonlar */
-.btn-primary, .btn-save {
+.btn-primary,
+.btn-save {
     background: #3b82f6;
     color: white;
     padding: 0.8rem 1.5rem;
@@ -310,13 +370,18 @@
     gap: 8px;
 }
 
-.btn-save { width: 100%; margin-top: 1rem; }
+.btn-save {
+    width: 100%;
+    margin-top: 1rem;
+}
 
-.btn-primary:hover, .btn-save:hover {
+.btn-primary:hover,
+.btn-save:hover {
     background: #2563eb;
 }
 
-.btn-primary:disabled, .btn-save:disabled {
+.btn-primary:disabled,
+.btn-save:disabled {
     background: #94a3b8;
     cursor: not-allowed;
 }
@@ -327,15 +392,14 @@
     border: 1px solid #fecaca;
     width: 100%;
     padding: 0.8rem;
-    border-radius: 8px;
+    border-radius: 16px;
     font-weight: 600;
     cursor: pointer;
     margin-top: 1rem;
 }
 
 .btn-danger-action:hover {
-    background: #fef2f2;
-    border-color: #ef4444;
+    background: #ff8f8f;
 }
 
 .btn-secondary {
@@ -356,7 +420,10 @@
 /* --- MODAL --- */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
@@ -371,7 +438,7 @@
     border-radius: 16px;
     width: 100%;
     max-width: 500px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 .modal-header {
@@ -416,79 +483,111 @@
     margin-top: 1.5rem;
 }
 
-/* Mobil Uyumluluk */
 @media (max-width: 768px) {
     .settings-container {
         grid-template-columns: 1fr;
     }
+
     .form-row {
         grid-template-columns: 1fr;
     }
+
     .filters-bar {
         justify-content: stretch;
     }
+
     .filter-group {
         width: 100%;
     }
+
     .filter-group select {
         width: 100%;
     }
 }
 
-/* --- EXPANDED ROWS --- */
-.expanded-row {
-    background-color: #f8f9fa;
-    border-top: 2px solid #e9ecef;
+/* --- DARK MODE --- */
+[data-theme='dark'] .settings-card {
+    background: #1f2937;
+    border-color: #374151;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
 }
 
-.expanded-row td {
-    padding: 0 !important;
+[data-theme='dark'] .settings-header {
+    border-bottom-color: #374151;
 }
 
-.expanded-content {
-    padding: 20px;
-    background-color: #f8f9fa;
+[data-theme='dark'] .settings-header h3 {
+    color: #f3f4f6;
 }
 
-.expanded-content h3 {
-    margin: 0 0 15px 0;
-    color: #1e293b;
-    font-size: 1.1rem;
-    font-weight: 600;
+[data-theme='dark'] .form-label {
+    color: #cbd5e1;
 }
 
-.nested-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-    background-color: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-    overflow: hidden;
+[data-theme='dark'] .form-input {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #f3f4f6;
 }
 
-.nested-table thead {
-    background-color: #e9ecef;
+[data-theme='dark'] .form-input:focus {
+    border-color: #60a5fa;
+    background-color: #4b5563;
 }
 
-.nested-table thead th {
-    padding: 10px;
-    text-align: left;
-    font-weight: 600;
-    color: #495057;
-    font-size: 0.9rem;
+[data-theme='dark'] .form-input:disabled {
+    background-color: #1f2937;
+    color: #6b7280;
+    border-color: #374151;
 }
 
-.nested-table tbody tr {
-    border-bottom: 1px solid #e2e8f0;
+[data-theme='dark'] .btn-danger-action {
+    background-color: #1f2937;
+    color: #f87171;
+    border-color: #7f1d1d;
 }
 
-.nested-table tbody tr:hover {
-    background-color: #f8f9fa;
+[data-theme='dark'] .btn-danger-action:hover {
+    background-color: #7f1d1d;
+    color: white;
 }
 
-.nested-table tbody td {
-    padding: 10px;
-    color: #495057;
-    font-size: 0.9rem;
+/* Tablo Dark Mode */
+[data-theme='dark'] .data-table-container {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+[data-theme='dark'] .data-table th {
+    background-color: #374151;
+    color: #e5e7eb;
+    border-bottom-color: #4b5563;
+}
+
+[data-theme='dark'] .data-table td {
+    color: #cbd5e1;
+    border-bottom-color: #374151;
+}
+
+[data-theme='dark'] .no-data {
+    color: #9ca3af;
+}
+
+/* Tab Düğmeleri Dark Mode (Seçili Olmayanlar) */
+[data-theme='dark'] .tab-button {
+    color: #9ca3af;
+    border-color: #4b5563;
+}
+
+[data-theme='dark'] .tab-button:hover {
+    background-color: #374151;
+    color: #f3f4f6;
+    border-color: #60a5fa;
+}
+
+/* Tab Düğmesi Aktif */
+[data-theme='dark'] .tab-button.active {
+    background-color: #2563eb;
+    color: white;
+    border-color: #2563eb;
 }

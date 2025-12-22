@@ -20,6 +20,14 @@
   max-width: 420px;
 }
 
+@media screen and (min-width: 1200px) {
+  .expert-image {
+    max-width: 520px;
+  }
+}
+
+
+
 .expert-image img {
   width: 100%;
   height: auto;
@@ -152,7 +160,7 @@
   }
 
   .expert-image {
-    max-width: 90%;
+    max-width: 75%;
   }
 
   .expert-content {

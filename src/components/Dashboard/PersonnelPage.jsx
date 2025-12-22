@@ -51,7 +51,7 @@ const CameraIcon = () => (
 );
 
 // Avatar component with photo or initials
-const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medium', onClick }) => {
+const PersonnelAvatar = ({ img, firstName, lastName, initials, size = 'medium', onClick }) => {
   const displayInitials = initials || `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
 
   // Generate consistent color from name
@@ -74,10 +74,10 @@ const PersonnelAvatar = ({ photoUrl, firstName, lastName, initials, size = 'medi
     <div
       className={`personnel-avatar ${sizeClasses[size]} ${onClick ? 'clickable' : ''}`}
       onClick={onClick}
-      style={!photoUrl ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
+      style={!img ? { backgroundColor: getAvatarColor(firstName + lastName) } : {}}
     >
-      {photoUrl ? (
-        <img src={`${API_BASE}${photoUrl}`} alt={`${firstName} ${lastName}`} />
+      {img ? (
+        <img src={img.startsWith('http') ? img : `${API_BASE}${img}`} alt={`${firstName} ${lastName}`} />
       ) : (
         <span className="avatar-initials">{displayInitials.toUpperCase()}</span>
       )}
@@ -120,7 +120,11 @@ export default function PersonnelPage() {
     dateOfBirth: '',
     password: '',
     role: 'DOCTOR',
-    specialization: ''
+    specialization: '',
+    bio: '',
+    expertise: '',
+    education: '',
+    principles: ''
   });
 
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -198,7 +202,11 @@ export default function PersonnelPage() {
       dateOfBirth: '',
       password: '',
       role: 'DOCTOR',
-      specialization: ''
+      specialization: '',
+      bio: '',
+      expertise: '',
+      education: '',
+      principles: ''
     });
   };
 
@@ -259,8 +267,12 @@ export default function PersonnelPage() {
       dateOfBirth: form.dateOfBirth,
     };
 
-    if (form.role === 'DOCTOR' && form.specialization) {
-      updateData.specialization = form.specialization;
+    if (form.role === 'DOCTOR') {
+      if (form.specialization) updateData.specialization = form.specialization;
+      if (form.bio !== undefined) updateData.bio = form.bio;
+      if (form.expertise !== undefined) updateData.expertise = form.expertise;
+      if (form.education !== undefined) updateData.education = form.education;
+      if (form.principles !== undefined) updateData.principles = form.principles;
     }
 
     if (form.password) {
@@ -315,7 +327,11 @@ export default function PersonnelPage() {
       dateOfBirth: personnel.dateOfBirth || '',
       password: '',
       role: personnel.role,
-      specialization: personnel.specialization || ''
+      specialization: personnel.specialization || '',
+      bio: personnel.bio || '',
+      expertise: personnel.expertise || '',
+      education: personnel.education || '',
+      principles: personnel.principles || ''
     });
     setShowEditModal(true);
   };
@@ -519,7 +535,7 @@ export default function PersonnelPage() {
                   <td>
                     <div className="name-cell">
                       <PersonnelAvatar
-                        photoUrl={personnel.photoUrl}
+                        img={personnel.photoUrl}
                         firstName={personnel.firstName}
                         lastName={personnel.lastName}
                         initials={personnel.initials}
@@ -546,14 +562,14 @@ export default function PersonnelPage() {
                           onClick={() => openEditModal(personnel)}
                           title="Edit"
                         >
-                          <EditIcon />
+                          <img src="/editor.svg" alt="Edit" width="30" height="30" />
                         </button>
                         <button
                           className="btn-icon btn-delete"
                           onClick={() => openDeleteModal(personnel)}
                           title="Delete"
                         >
-                          <TrashIcon />
+                          <img src="/delete.svg" alt="Delete" width="26" height="26" />
                         </button>
                       </div>
                     </td>
@@ -657,20 +673,40 @@ export default function PersonnelPage() {
               </div>
 
               {form.role === 'DOCTOR' && (
-                <div className="form-group">
-                  <label>Specialization</label>
-                  <select name="specialization" value={form.specialization} onChange={handleInputChange} required>
-                    <option value="">Select Specialization</option>
-                    <option value="Acil 7/24">Acil 7/24</option>
-                    <option value="Ağız ve Diş">Ağız ve Diş</option>
-                    <option value="Beslenme Diyet">Beslenme Diyet</option>
-                    <option value="Dermatoloji">Dermatoloji</option>
-                    <option value="Genel Cerrahi">Genel Cerrahi</option>
-                    <option value="Göz Sağlığı">Göz Sağlığı</option>
-                    <option value="İç Hastalıklar">İç Hastalıklar</option>
-                    <option value="Kadın & Doğum">Kadın & Doğum</option>
-                  </select>
-                </div>
+                <>
+                  <div className="form-group">
+                    <label>Specialization</label>
+                    <select name="specialization" value={form.specialization} onChange={handleInputChange} required>
+                      <option value="">Select Specialization</option>
+                      <option value="Acil 7/24">Acil 7/24</option>
+                      <option value="Ağız ve Diş">Ağız ve Diş</option>
+                      <option value="Beslenme Diyet">Beslenme Diyet</option>
+                      <option value="Dermatoloji">Dermatoloji</option>
+                      <option value="Genel Cerrahi">Genel Cerrahi</option>
+                      <option value="Göz Sağlığı">Göz Sağlığı</option>
+                      <option value="İç Hastalıklar">İç Hastalıklar</option>
+                      <option value="Kadın & Doğum">Kadın & Doğum</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Biography</label>
+                    <textarea name="bio" value={form.bio} onChange={handleInputChange} rows="3" placeholder="Doctor's background and summary..."></textarea>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Expertise Areas (one per line)</label>
+                      <textarea name="expertise" value={form.expertise} onChange={handleInputChange} rows="3" placeholder="e.g. Chronic Disease Management"></textarea>
+                    </div>
+                    <div className="form-group">
+                      <label>Education & Achievements (one per line)</label>
+                      <textarea name="education" value={form.education} onChange={handleInputChange} rows="3" placeholder="e.g. PhD in Medical Sciences"></textarea>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Working Principles</label>
+                    <textarea name="principles" value={form.principles} onChange={handleInputChange} rows="2" placeholder="Doctor's approach to patients..."></textarea>
+                  </div>
+                </>
               )}
 
               <div className="form-row">
@@ -764,15 +800,35 @@ export default function PersonnelPage() {
               </div>
 
               {form.role === 'DOCTOR' && (
-                <div className="form-group">
-                  <label>Specialization</label>
-                  <input
-                    type="text"
-                    name="specialization"
-                    value={form.specialization}
-                    onChange={handleInputChange}
-                  />
-                </div>
+                <>
+                  <div className="form-group">
+                    <label>Specialization</label>
+                    <input
+                      type="text"
+                      name="specialization"
+                      value={form.specialization}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Biography</label>
+                    <textarea name="bio" value={form.bio} onChange={handleInputChange} rows="3" placeholder="Doctor's background and summary..."></textarea>
+                  </div>
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Expertise Areas (one per line)</label>
+                      <textarea name="expertise" value={form.expertise} onChange={handleInputChange} rows="3" placeholder="e.g. Chronic Disease Management"></textarea>
+                    </div>
+                    <div className="form-group">
+                      <label>Education & Achievements (one per line)</label>
+                      <textarea name="education" value={form.education} onChange={handleInputChange} rows="3" placeholder="e.g. PhD in Medical Sciences"></textarea>
+                    </div>
+                  </div>
+                  <div className="form-group">
+                    <label>Working Principles</label>
+                    <textarea name="principles" value={form.principles} onChange={handleInputChange} rows="2" placeholder="Doctor's approach to patients..."></textarea>
+                  </div>
+                </>
               )}
 
               <div className="form-row">

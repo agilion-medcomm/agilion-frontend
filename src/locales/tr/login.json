@@ -1,0 +1,22 @@
+{
+    "title": "Giriş Yap",
+    "validation": {
+        "tckn_invalid": "Lütfen 11 haneli geçerli bir TC kimlik numarası girin. (Sadece rakamlar)",
+        "password_too_short": "Lütfen en az 8 karakterli bir şifre girin."
+    },
+    "error": {
+        "no_token": "Sunucudan token gelmedi.",
+        "invalid_credentials": "TC veya şifre yanlış.",
+        "fetch_failed": "Kullanıcı listesi alınamadı veya bir hata oluştu.",
+        "network": "Sunucuya ulaşılamıyor. Lütfen ağ bağlantınızı ve sunucunun çalıştığını kontrol edin.",
+        "unexpected": "Beklenmedik bir hata oluştu.",
+        "unknown": "Bilinmeyen bir hata oluştu."
+    },
+    "placeholders": {
+        "tckn": "TC No girin",
+        "password": "Şifre girin"
+    },
+    "button_loading": "Giriş Yapılıyor...",
+    "forgot_password": "🔒 Şifremi Unuttum",
+    "no_account": "Hesabınız yok mu?"
+}

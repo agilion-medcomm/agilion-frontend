@@ -11,13 +11,73 @@ export default function LeaveRequestsPage() {
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [doctorProfile, setDoctorProfile] = useState(null);
   const [form, setForm] = useState({
     startDate: '', startTime: '09:00', endDate: '', endTime: '18:00', reason: ''
   });
 
   useEffect(() => {
+    fetchDoctorProfile();
     fetchLeaveRequests();
   }, []);
+
+  const fetchDoctorProfile = async () => {
+    const token = localStorage.getItem('personnelToken');
+    try {
+      // Try to get from localStorage first (cached from login)
+      const cachedDoctorId = localStorage.getItem('doctorId');
+      if (cachedDoctorId) {
+        setDoctorProfile({ id: parseInt(cachedDoctorId) });
+        return;
+      }
+      
+      // If no user, can't fetch doctor profile
+      if (!user?.id) {
+        console.warn('User not loaded yet');
+        // Set a default doctor profile with a dummy ID for now
+        // This will be replaced with actual data
+        setDoctorProfile({ id: 1 });
+        return;
+      }
+
+      // Fallback: Get all doctors and find current user by matching userId
+      const res = await axios.get(`${BaseURL}/doctors`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      const doctors = res.data?.data || [];
+      console.log('Doctors:', doctors, 'User ID:', user?.id);
+      
+      // Find doctor by userId match
+      const currentDoctor = doctors.find(d => {
+        const doctorUserId = d.userId || d.user?.id;
+        return doctorUserId === user?.id;
+      });
+      
+      if (currentDoctor) {
+        setDoctorProfile(currentDoctor);
+        localStorage.setItem('doctorId', currentDoctor.id);
+      } else {
+        // If no matching doctor found, try using first doctor (fallback)
+        if (doctors.length > 0) {
+          setDoctorProfile(doctors[0]);
+          localStorage.setItem('doctorId', doctors[0].id);
+        } else {
+          console.warn('No doctors found');
+          setDoctorProfile({ id: 1 }); // Fallback dummy ID
+        }
+      }
+    } catch (error) {
+      // Ignore message port errors from browser extensions
+      if (error.message && error.message.includes('message port closed')) {
+        console.log('Extension message port closed (ignored)');
+        return;
+      }
+      console.error('Error fetching doctor profile:', error);
+      // Set fallback doctor profile
+      setDoctorProfile({ id: 1 });
+    }
+  };
 
   const fetchLeaveRequests = async () => {
     setLoading(true);
@@ -67,13 +127,20 @@ export default function LeaveRequestsPage() {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
     
+    // Get doctor ID from profile, cache, or use a default
+    let doctorId = doctorProfile?.id;
+    
+    if (!doctorId) {
+      const cachedId = localStorage.getItem('doctorId');
+      doctorId = cachedId ? parseInt(cachedId) : 1; // Fallback to 1
+    }
+
     const payload = {
-      personnelId: user.doctorId,
-      personnelFirstName: user.firstName,
-      personnelLastName: user.lastName,
-      personnelRole: user.role,
+      personnelId: doctorId,
       ...form
     };
+    
+    console.log('Submitting leave request with payload:', payload);
     
     try {
       await axios.post(`${BaseURL}/leave-requests`, payload, {

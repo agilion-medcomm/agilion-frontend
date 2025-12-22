@@ -40,7 +40,7 @@
 .bolum-card {
   background: #ffffff !important;
   border-radius: 32px;
-  border: 1px solid #eaeaea !important;
+  border: 1px solid #d8d8d8 !important;
   padding: 24px 18px 28px;
   display: flex;
   flex-direction: column;
@@ -123,11 +123,18 @@
 @media (max-width: 900px) {
   .bolumler-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    /* 24px might be too wide for small mobile */
   }
-}
 
-@media (max-width: 550px) {
-  .bolumler-grid {
-    grid-template-columns: 1fr;
+  .bolum-card {
+    padding: 16px 12px 20px;
+    /* Reduced padding for mobile */
+  }
+
+  .bolum-card button {
+    padding: 8px 16px;
+    width: 90%;
+    font-size: 0.85rem;
   }
 }

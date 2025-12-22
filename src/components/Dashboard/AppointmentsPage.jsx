@@ -14,10 +14,63 @@ export default function AppointmentsPage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [cancelModal, setCancelModal] = useState({ open: false, appointmentId: null, patientName: '' });
+  const [searchTckn, setSearchTckn] = useState('');
+  const [searchPatient, setSearchPatient] = useState(null);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   useEffect(() => {
-    fetchAppointments();
+    if (!searchPatient) {
+      fetchAppointments();
+    }
   }, []);
+
+  const searchPatientByTckn = async () => {
+    if (!searchTckn || searchTckn.length !== 11) {
+      alert('Lütfen geçerli 11 haneli TC numarası girin');
+      return;
+    }
+
+    setSearchLoading(true);
+    const token = localStorage.getItem('personnelToken');
+
+    try {
+      // Get patient ID from TCKN
+      const patientRes = await axios.get(`${BaseURL}/patients/search`, {
+        params: { tckn: searchTckn },
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (!patientRes.data?.data) {
+        alert('Hasta bulunamadı');
+        setSearchLoading(false);
+        return;
+      }
+
+      const patientId = patientRes.data.data.id;
+      setSearchPatient(patientRes.data.data);
+
+      // Fetch appointments for this patient
+      const appointmentsRes = await axios.get(`${BaseURL}/appointments`, {
+        params: { list: 'true', patientId },
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      
+      setAppointments(appointmentsRes.data?.data || []);
+    } catch (error) {
+      console.error('Error searching appointments:', error);
+      alert('Arama sırasında hata: ' + (error.response?.data?.message || error.message));
+    } finally {
+      setSearchLoading(false);
+    }
+  };
+
+  const clearSearch = () => {
+    setSearchTckn('');
+    setSearchPatient(null);
+    setAppointments([]);
+    setStatusFilter('ALL');
+    fetchAppointments();
+  };
 
   const fetchAppointments = async () => {
     setLoading(true);
@@ -107,6 +160,82 @@ export default function AppointmentsPage() {
         </div>
       </div>
 
+      {/* TC Search Section */}
+      {user?.role === 'ADMIN' && (
+        <div className="search-section" style={{
+          backgroundColor: '#f8fafc',
+          border: '1px solid #e2e8f0',
+          borderRadius: '8px',
+          padding: '16px',
+          marginBottom: '20px'
+        }}>
+          <h3 style={{marginBottom: '12px', fontSize: '14px', fontWeight: '600'}}>TC Numarası İle Randevu Ara</h3>
+          <div style={{display: 'flex', gap: '8px', alignItems: 'center'}}>
+            <input
+              type="text"
+              placeholder="11 haneli TC numarası"
+              value={searchTckn}
+              onChange={(e) => setSearchTckn(e.target.value)}
+              maxLength="11"
+              style={{
+                flex: 1,
+                padding: '10px',
+                border: '1px solid #e2e8f0',
+                borderRadius: '6px',
+                fontSize: '14px'
+              }}
+              onKeyPress={(e) => e.key === 'Enter' && searchPatientByTckn()}
+            />
+            <button
+              onClick={searchPatientByTckn}
+              disabled={searchLoading}
+              style={{
+                padding: '10px 16px',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: searchLoading ? 'not-allowed' : 'pointer',
+                fontSize: '14px',
+                fontWeight: '600'
+              }}
+            >
+              {searchLoading ? 'Aranıyor...' : 'Ara'}
+            </button>
+            {searchPatient && (
+              <button
+                onClick={clearSearch}
+                style={{
+                  padding: '10px 16px',
+                  backgroundColor: '#ef4444',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '600'
+              }}
+            >
+              Temizle
+            </button>
+            )}
+          </div>
+          {searchPatient && (
+            <div style={{
+              marginTop: '12px',
+              padding: '10px',
+              backgroundColor: 'white',
+              border: '1px solid #dbeafe',
+              borderRadius: '6px'
+            }}>
+              <p style={{margin: 0, fontSize: '14px'}}>
+                <strong>{searchPatient.name || 'Hasta'}</strong> - TC: {searchPatient.tckn}
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="filters-section">
         <div style={{marginBottom: '16px', display: 'flex', gap: '16px', alignItems: 'center'}}>
           <div className="form-group" style={{margin: 0, flex: 1}}>
@@ -147,13 +276,13 @@ export default function AppointmentsPage() {
           )}
         </div>
         <div className="role-filters">
-          {['ALL', 'PENDING', 'APPROVED', 'CANCELLED'].map(status => (
+          {['ALL', 'APPROVED', 'DONE', 'CANCELLED'].map(status => (
             <button
               key={status}
               className={`filter-chip ${statusFilter === status ? 'active' : ''}`}
               onClick={() => setStatusFilter(status)}
             >
-              {status}
+              {status === 'ALL' ? 'Tümü' : status === 'APPROVED' ? 'Onaylı' : status === 'DONE' ? 'Tamamlandı' : 'İptal'}
             </button>
           ))}
         </div>
@@ -187,14 +316,25 @@ export default function AppointmentsPage() {
                     </span>
                   </td>
                   <td>
-                    {app.status !== 'CANCELLED' && (
-                      <button
-                        className="btn-sm btn-danger"
-                        onClick={() => openCancelModal(app.id, `${app.patientFirstName} ${app.patientLastName}`)}
-                      >
-                        Cancel
-                      </button>
-                    )}
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                      {app.status === 'APPROVED' && user?.role === 'DOCTOR' && (
+                        <button
+                          className="btn-sm"
+                          style={{ backgroundColor: '#10b981', color: 'white', border: 'none' }}
+                          onClick={() => handleUpdateStatus(app.id, 'DONE')}
+                        >
+                          Tamamla
+                        </button>
+                      )}
+                      {app.status === 'APPROVED' && (
+                        <button
+                          className="btn-sm btn-danger"
+                          onClick={() => openCancelModal(app.id, `${app.patientFirstName} ${app.patientLastName}`)}
+                        >
+                          İptal
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))

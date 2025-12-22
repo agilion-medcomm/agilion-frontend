@@ -1,7 +1,7 @@
 /* Modern gradient footer */
 .footer {
   width: 100%;
-  background: linear-gradient(135deg, #0e2b4b 0%, #1a4d5f 70%, #2d6b7f 100%);
+  background: linear-gradient(to bottom, #1e3a8a 0%, #111827 100%);
   color: #eaf1ff;
   padding: 70px 20px 120px;
   box-sizing: border-box;

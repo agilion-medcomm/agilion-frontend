@@ -84,10 +84,10 @@ export default function ProfilePage() {
             if (!token) {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış.");
             }
-            
+
             // Personel kendi profilini güncelliyor
-            const endpoint = `${BaseURL}/personnel/profile`;
-            
+            const endpoint = `${BaseURL}/personnel/${user.id}`;
+
             // Sadece dolu alanları gönder
             const payload = {};
             if (formData.email?.trim()) payload.email = formData.email.trim();
@@ -101,10 +101,9 @@ export default function ProfilePage() {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            // Context güncelleme (opsiyonel)
-            if (loginPersonnel) {
-                const updatedUser = { ...user, ...payload };
-                loginPersonnel(token, updatedUser);
+            // Profil bilgilerini yenile
+            if (refreshUser) {
+                await refreshUser();
             }
 
             setSuccessMsg('Profil bilgileriniz başarıyla güncellendi.');
@@ -143,13 +142,13 @@ export default function ProfilePage() {
             }
 
             // Personel kendi şifresini güncelliyor
-            const endpoint = `${BaseURL}/personnel/profile/password`;
+            const endpoint = `${BaseURL}/personnel/${user.id}`;
 
             console.log("Şifre güncelleme isteği gönderiliyor...", { endpoint });
 
-            await axios.patch(endpoint, { 
-                currentPassword: passData.currentPassword, 
-                newPassword: passData.newPassword 
+            await axios.put(endpoint, {
+                currentPassword: passData.currentPassword,
+                newPassword: passData.newPassword
             }, {
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -180,12 +179,12 @@ export default function ProfilePage() {
 
             <div className="profile-grid">
 
-                {/* SOL KOLON: KİMLİK KARTI */}
+                {/* LEFT: IDENTITY CARD */}
                 <div className="profile-card identity-card">
                     <div className="card-header">
                         <div className="avatar-circle" style={user?.photoUrl ? { padding: 0, overflow: 'hidden' } : {}}>
                             {user?.photoUrl ? (
-                                <img 
+                                <img
                                     src={user.photoUrl.startsWith('http') ? user.photoUrl : `${API_BASE}${user.photoUrl}`}
                                     alt={`${user.firstName} ${user.lastName}`}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
@@ -216,10 +215,10 @@ export default function ProfilePage() {
                     </div>
                 </div>
 
-                {/* SAĞ KOLON */}
+                {/* RIGHT COLUMN */}
                 <div className="profile-right-column">
 
-                    {/* İLETİŞİM */}
+                    {/* CONTACT */}
                     <div className="profile-card settings-card">
                         <div className="card-title">
                             <UserIcon /> İletişim Bilgileri
@@ -271,7 +270,7 @@ export default function ProfilePage() {
                         </form>
                     </div>
 
-                    {/* ŞİFRE */}
+                    {/* PASSWORD */}
                     <div className="profile-card security-card">
                         <div className="card-title">
                             <LockIcon /> Şifre Değiştir

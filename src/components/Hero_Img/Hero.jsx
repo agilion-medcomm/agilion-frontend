@@ -1,33 +1,18 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import "./Hero.css";
 
 export default function Hero() {
+  const { t } = useTranslation(['home']);
   return (
     <section className="hero">
       <div className="hero__image">
-        <img src="/cover.png" alt="AgilionMED Hero Görseli" />
+        <picture>
+          <source media="(max-width: 768px)" srcSet="/mobil-cover.png" />
+          <img src="/cover.png" alt={t('home:hero.alt')} />
+        </picture>
         <div className="hero__overlay"></div>
       </div>
-
-      <div className="hero__searchbox">
-        <div className="search">
-          <input
-            className="search__input"
-            type="text"
-            placeholder="Size nasıl yardımcı olabiliriz?"
-            aria-label="Soru veya hizmet arayın"
-          />
-          <button className="search__btn" aria-label="Ara">
-            <SearchIcon />
-          </button>
-        </div>
-      </div>
     </section>
-  );
-}
-
-function SearchIcon() {
-  return (
-    <img src="/sengine.svg" alt="" width="22" height="22" />
   );
 }

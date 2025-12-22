@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import './ContactPage.css'; // Stil dosyamızı import ediyoruz
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
@@ -13,6 +14,7 @@ const LocationIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill=
 
 export default function ContactPage() {
   const { user } = useAuth();
+  const { t } = useTranslation(['contact']);
 
   const [formData, setFormData] = useState({
     name: '',
@@ -50,7 +52,7 @@ export default function ContactPage() {
     setSubmitMessage({ type: '', text: '' });
 
     if (!formData.agreed) {
-      setSubmitMessage({ type: 'error', text: 'Lütfen aydınlatma metnini onaylayın.' });
+      setSubmitMessage({ type: 'error', text: t('contact:messages.agreement_error') });
       return;
     }
 
@@ -59,13 +61,13 @@ export default function ContactPage() {
       const { agreed, ...payload } = formData; // agreed alanını çıkar
       await axios.post(`${BaseURL}/contact`, payload);
 
-      setSubmitMessage({ type: 'success', text: '✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.' });
+      setSubmitMessage({ type: 'success', text: t('contact:messages.success') });
       // Form başarılı gönderildikten sonra sadece konu ve mesajı temizle (kullanıcı bilgileri kalsın)
       setFormData(prev => ({ ...prev, subject: '', message: '', agreed: false }));
     } catch (error) {
       setSubmitMessage({
         type: 'error',
-        text: error.response?.data?.message || 'Mesaj gönderilemedi. Lütfen tekrar deneyin.'
+        text: error.response?.data?.message || t('contact:messages.generic_error')
       });
     } finally {
       setLoading(false);
@@ -85,9 +87,9 @@ export default function ContactPage() {
       <div className="container page-section">
         {/* Başlık ve Açıklama */}
         <div className="contact-header">
-          <h1 className="contact-title">İLETİŞİME GEÇELİM</h1>
+          <h1 className="contact-title">{t('contact:header.title')}</h1>
           <p className="contact-subtitle">
-            Sağlığınız bizim önceliğimiz. İhtiyaç duyduğunuz her an yanınızda olabilmek, tedavi süreçlerimiz hakkında sizi bilgilendirmek ve randevu taleplerinizi en hızlı şekilde karşılamak için buradayız. Aşağıdaki iletişim kanallarını kullanarak veya formu doldurarak ekibimize hemen ulaşabilirsiniz.
+            {t('contact:header.subtitle')}
           </p>
         </div>
 
@@ -128,22 +130,22 @@ export default function ContactPage() {
           )}
           <form onSubmit={handleSubmit}>
             <div className="form-row">
-              <input type="text" name="name" placeholder="İsim" value={formData.name} onChange={handleChange} required />
-              <input type="tel" name="phone" placeholder="Telefon" value={formData.phone} onChange={handleChange} required />
+              <input type="text" name="name" placeholder={t('contact:form.placeholders.name')} value={formData.name} onChange={handleChange} required />
+              <input type="tel" name="phone" placeholder={t('contact:form.placeholders.phone')} value={formData.phone} onChange={handleChange} required />
             </div>
             <div className="form-row">
-              <input type="email" name="email" placeholder="Mail" value={formData.email} onChange={handleChange} required />
-              <input type="text" name="subject" placeholder="Konu" value={formData.subject} onChange={handleChange} required />
+              <input type="email" name="email" placeholder={t('contact:form.placeholders.email')} value={formData.email} onChange={handleChange} required />
+              <input type="text" name="subject" placeholder={t('contact:form.placeholders.subject')} value={formData.subject} onChange={handleChange} required />
             </div>
-            <textarea name="message" placeholder="Mesajınız..." rows="6" value={formData.message} onChange={handleChange} required></textarea>
+            <textarea name="message" placeholder={t('contact:form.placeholders.message')} rows="6" value={formData.message} onChange={handleChange} required></textarea>
             <div className="form-agreement">
               <input type="checkbox" id="agreed" name="agreed" checked={formData.agreed} onChange={handleChange} />
               <label htmlFor="agreed">
-                Kişisel verilerimin aydınlatma metni kapsamında işlenmesini kabul ediyorum.
+                {t('contact:form.agreement')}
               </label>
             </div>
             <button type="submit" className="form-submit-btn" disabled={loading}>
-              {loading ? 'Gönderiliyor...' : 'Hemen Gönder'}
+              {loading ? t('contact:form.loading') : t('contact:form.submit')}
             </button>
           </form>
         </div>
@@ -157,7 +159,7 @@ export default function ContactPage() {
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Konumumuz"
+            title={t('contact:map_title')}
           ></iframe>
         </div>
       </div>

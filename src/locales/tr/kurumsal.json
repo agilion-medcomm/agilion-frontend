@@ -1,0 +1,43 @@
+{
+    "intro": {
+        "p1": "23 yıllık tecrübemizi, 2024 yılında hayata geçirdiğimiz yeni Tıp Merkezi projemizle taçlandırdık. 2500 m² genişliğindeki yeni binamızda, modern tıbbi donanımımız ve uzman hekimlerimizle 7/24 yanınızdayız.",
+        "p2": "Çağdaş tıbbın gerekliliklerini, yasal standartlara uygun ve etik ilkelerden taviz vermeden yerine getiriyoruz. Uzman ekibimizle, sadece hastalarımızın değil çalışanlarımızın da güven duyduğu bir yapı inşa ettik. Kaliteli ve ulaşılabilir sağlık hizmeti sunarken, toplumu bilgilendirmeyi ve koruyucu hekimliği yaygınlaştırmayı temel görevimiz kabul ediyoruz."
+    },
+    "values": {
+        "title": "DEĞERLERİMİZ",
+        "items": [
+            {
+                "bold": "İnsana Saygı:",
+                "text": " Hasta ve çalışan haklarına tam bağlılık."
+            },
+            {
+                "bold": "Mutluluk Odaklı:",
+                "text": " Koşulsuz hasta ve çalışan memnuniyeti."
+            },
+            {
+                "bold": "Bilimsel Yaklaşım:",
+                "text": " Mesleki sorumluluk ve etik değerler."
+            },
+            {
+                "bold": "7/24 Erişim:",
+                "text": " Kesintisiz ve ulaşılabilir sağlık hizmeti."
+            },
+            {
+                "bold": "Açık İletişim:",
+                "text": " Yönetimde ve hizmette tam şeffaflık."
+            },
+            {
+                "bold": "Güncel Tedavi:",
+                "text": " Kanıta dayalı, modern tıbbi hizmet."
+            }
+        ]
+    },
+    "mission": {
+        "title": "MİSYONUMUZ",
+        "text": "Sektördeki tüm gelişmeleri yakından takip ederek, etik ilkeler ışığında sağlık hizmetlerini topluma ulaştırmayı ilke ediniyoruz. 'Sürekli yenilenme' felsefemizle; evrensel, bilimsel ve teknolojik yenilikleri uygulamalarımıza entegre ederek yüksek kalitede hizmet sunmayı; hasta, hasta yakını ve çalışan memnuniyetini her zaman en üst düzeyde tutmayı hedefliyoruz."
+    },
+    "vision": {
+        "title": "VİZYONUMUZ",
+        "text": "Mükemmeliyet ilkemiz; yasal düzenlemelere tam uyum çerçevesinde, uzman kadromuzla modern tıbbın ışığında koruyucu, tedavi edici ve bütüncül sağlık hizmetleri sunmaktır. Yenilikçi ve çağdaş yapımızla; hasta, hasta yakını ve çalışanlarımızın güvenliğini ve memnuniyetini esas alarak bu standartları sürdürülebilir kılmayı taahhüt ediyoruz"
+    }
+}

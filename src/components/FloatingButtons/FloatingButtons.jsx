@@ -2,23 +2,24 @@
 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from '../../context/AuthContext';
 import "./FloatingButtons.css";
 
 export default function FloatingButtons() {
+  const { t } = useTranslation(['common']);
   const { user: patientUser } = useAuth();
   const navigate = useNavigate();
 
   const handleHizliRandevuClick = () => {
     // 1. Kural: Kullanıcı login değilse, login sayfasına yönlendir.
     if (!patientUser) {
-      alert("Randevu alabilmek için önce giriş yapınız.");
+      alert(t('common:please_login_to_book'));
       navigate('/login');
       return;
     }
 
     // 2. Kural: Kullanıcı login ise, DOKTOR SEÇME sayfasına yönlendir.
-    // (Modal açmak yerine yeni sisteme bağlıyoruz)
     navigate('/doktor-sec');
   };
 
@@ -31,13 +32,13 @@ export default function FloatingButtons() {
         onClick={handleHizliRandevuClick}
       >
         <img src="/calendar.svg" alt="" className="icon" />
-        <span>Hızlı Randevu</span>
+        <span>{t('common:book_appointment_short')}</span>
       </button>
 
       {/* İletişim Butonu */}
       <Link to="/contact" className="floating-btn floating-btn--contact">
         <img src="/call.svg" alt="" className="icon" />
-        <span>İletişim</span>
+        <span>{t('common:contact')}</span>
       </Link>
     </div>
   );

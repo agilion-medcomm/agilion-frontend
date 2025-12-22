@@ -20,6 +20,7 @@ export default function PatientDashboard() {
 
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
+  const [labRequests, setLabRequests] = useState([]);
   // timeFilter: all, future, past, cancelled
   const [timeFilter, setTimeFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date'); // Sıralama kriteri: 'date' veya 'doctor'
@@ -64,6 +65,7 @@ export default function PatientDashboard() {
 
       fetchAppointments();
       fetchLabResults();
+      fetchLabRequests();
     }
   }, [user]);
 
@@ -107,7 +109,7 @@ export default function PatientDashboard() {
     }
   };
 
-  // ✅ ARTIK EN TEMİZ YÖNTEMİ KULLANIYORUZ
+
   const fetchAppointments = async () => {
     setLoading(true);
     try {
@@ -146,6 +148,25 @@ export default function PatientDashboard() {
     } catch (error) {
       console.error('Tahlil sonuçları alınamadı:', error);
       setLabResults([]);
+    }
+  };
+
+  // Fetch lab requests for patient
+  const fetchLabRequests = async () => {
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      console.log('Fetching my lab requests...');
+
+      const response = await axios.get(`${BaseURL}/lab-requests`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      console.log('Lab requests response:', response.data);
+      const data = response.data.data || response.data;
+      setLabRequests(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Lab talepleri alınamadı:', error);
+      setLabRequests([]);
     }
   };
 
@@ -373,6 +394,12 @@ export default function PatientDashboard() {
           🧪 Tahlil Sonuçları
         </button>
         <button
+          className={`tab-button ${activeTab === 'lab-requests' ? 'active' : ''}`}
+          onClick={() => setActiveTab('lab-requests')}
+        >
+          📋 Lab Talepleri ({labRequests.length})
+        </button>
+        <button
           className={`tab-button ${activeTab === 'reviews' ? 'active' : ''}`}
           onClick={() => setActiveTab('reviews')}
         >
@@ -417,19 +444,23 @@ export default function PatientDashboard() {
                 const department = apt.departmentName || (apt.department && apt.department.name) || 'Genel';
                 const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'));
                 const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }));
-                const status = apt.status || 'PENDING';
+                const status = apt.status || 'APPROVED';
                 // Avatar için ilk harfler
                 const avatar = doctorName.split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
                 // Renkli durum badge'i
                 const statusColors = {
-                  'COMPLETED': '#22c55e',
+                  'DONE': '#22c55e',
                   'CANCELLED': '#ef4444',
-                  'PENDING': '#f59e42',
                   'APPROVED': '#2563eb',
-                  'WAITING': '#fbbf24',
                   'DEFAULT': '#64748b'
                 };
+                const statusLabels = {
+                  'DONE': 'Tamamlandı',
+                  'CANCELLED': 'İptal Edildi',
+                  'APPROVED': 'Onaylandı'
+                };
                 const badgeColor = statusColors[status] || statusColors['DEFAULT'];
+                const statusLabel = statusLabels[status] || status;
                 return (
                   <div key={apt.id} className={`appointment-card modern-appointment-card status-${status.toLowerCase()}`}
                     style={{ boxShadow: '0 2px 12px 0 #e0e7ef', borderRadius: 16, background: '#fff', marginBottom: 24, border: `1.5px solid ${badgeColor}22` }}>
@@ -439,7 +470,7 @@ export default function PatientDashboard() {
                         <div style={{ fontWeight: 600, fontSize: 18, color: '#222' }}>{doctorName}</div>
                         <div style={{ fontSize: 14, color: '#64748b' }}>{department}</div>
                       </div>
-                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{status}</span>
+                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{statusLabel}</span>
                     </div>
                     <div className="modern-apt-body" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
                       <div style={{ fontSize: 15 }}>
@@ -448,7 +479,7 @@ export default function PatientDashboard() {
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
                         {/* İptal butonu */}
-                        {status !== 'CANCELLED' && status !== 'COMPLETED' && (() => {
+                        {status !== 'CANCELLED' && status !== 'DONE' && (() => {
                           // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
                           let aptDate = new Date();
                           if (apt.date && apt.date.includes('.')) {
@@ -459,8 +490,13 @@ export default function PatientDashboard() {
                           } else if (apt.startTime) {
                             aptDate = new Date(apt.startTime);
                           }
-                          const now = new Date();
-                          if (aptDate >= now) {
+                          // Bugünün başlangıcını al (saat 00:00)
+                          const today = new Date();
+                          today.setHours(0, 0, 0, 0);
+                          aptDate.setHours(0, 0, 0, 0);
+                          
+                          // Bugün veya gelecekteki randevular iptal edilebilir
+                          if (aptDate >= today) {
                             return (
                               <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => handleCancelAppointment(apt.id)}>
                                 İptal Et
@@ -470,7 +506,7 @@ export default function PatientDashboard() {
                           return null;
                         })()}
                         {/* Değerlendir butonu */}
-                        {status === 'COMPLETED' && !apt.hasReview && (
+                        {status === 'DONE' && !apt.hasReview && (
                           <button className="btn-primary modern-btn" style={{ background: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => { setSelectedAppointment(apt); setShowReviewModal(true); }}>
                             Değerlendir
                           </button>
@@ -493,7 +529,7 @@ export default function PatientDashboard() {
 
       {/* 2. TAHLİL SONUÇLARI SEKMESİ */}
       {activeTab === 'lab-results' && (
-        <div className="table-container">
+        <div className="data-table-container">
           <table className="data-table">
             <thead>
               <tr>
@@ -542,7 +578,101 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 3. DEĞERLENDİRMELER SEKMESİ */}
+      {/* 3. LAB TALEPLERİ SEKMESİ */}
+      {activeTab === 'lab-requests' && (
+        <div className="data-table-container">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Talep Başlığı</th>
+                <th>Doktor</th>
+                <th>Talep Tarihi</th>
+                <th>Atanan Laborant</th>
+                <th>Durum</th>
+                <th>Detaylar</th>
+              </tr>
+            </thead>
+            <tbody>
+              {labRequests.length === 0 ? (
+                <tr><td colSpan="6" className="no-data">Henüz lab talebi bulunmuyor.</td></tr>
+              ) : (
+                labRequests.map((request) => {
+                  const statusLabel = {
+                    'PENDING': 'Beklemede',
+                    'ASSIGNED': 'Atanmış',
+                    'COMPLETED': 'Tamamlandı',
+                    'CANCELED': 'İptal Edildi'
+                  }[request.status] || request.status;
+
+                  const statusColor = {
+                    'PENDING': { bg: '#fef3c7', color: '#92400e' },
+                    'ASSIGNED': { bg: '#dbeafe', color: '#0c4a6e' },
+                    'COMPLETED': { bg: '#dcfce7', color: '#166534' },
+                    'CANCELED': { bg: '#fee2e2', color: '#991b1b' }
+                  }[request.status] || { bg: '#f3f4f6', color: '#374151' };
+
+                  return (
+                    <tr key={request.id}>
+                      <td>
+                        <strong>{request.fileTitle}</strong>
+                        {request.notes && <div style={{ fontSize: '12px', color: '#666' }}>{request.notes}</div>}
+                      </td>
+                      <td>{request.createdByUser?.firstName} {request.createdByUser?.lastName}</td>
+                      <td>{new Date(request.requestedAt).toLocaleDateString('tr-TR')}</td>
+                      <td>
+                        {request.assigneeLaborant ? (
+                          <span style={{ fontWeight: 600, color: '#059669' }}>
+                            ✓ {request.assigneeLaborant.user.firstName} {request.assigneeLaborant.user.lastName}
+                          </span>
+                        ) : (
+                          <span style={{ color: '#666' }}>Henüz atanmadı</span>
+                        )}
+                      </td>
+                      <td>
+                        <span
+                          className="badge"
+                          style={{
+                            background: statusColor.bg,
+                            color: statusColor.color,
+                            padding: '4px 12px',
+                            borderRadius: '12px',
+                            fontWeight: 600,
+                            fontSize: '12px'
+                          }}
+                        >
+                          {statusLabel}
+                        </span>
+                      </td>
+                      <td>
+                        {request.medicalFile && (
+                          <span
+                            style={{
+                              background: '#e0f2fe',
+                              color: '#0369a1',
+                              padding: '4px 12px',
+                              borderRadius: '6px',
+                              fontSize: '12px',
+                              fontWeight: 600,
+                              whiteSpace: 'nowrap'
+                            }}
+                          >
+                            📄 {request.medicalFile.testName}
+                          </span>
+                        )}
+                        {!request.medicalFile && request.status !== 'CANCELED' && (
+                          <span style={{ color: '#999', fontSize: '12px' }}>Bekleniyor...</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* 4. DEĞERLENDİRMELER SEKMESİ */}
       {activeTab === 'reviews' && (
         <div className="reviews-container">
           {appointments.filter(apt => apt.hasReview).length === 0 ? (
@@ -561,7 +691,7 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 4. AYARLAR SEKMESİ */}
+      {/* 5. AYARLAR SEKMESİ */}
       {activeTab === 'settings' && (
         <div className="settings-container">
           <div className="settings-card">
@@ -659,7 +789,7 @@ export default function PatientDashboard() {
                 />
               </div>
 
-              <button type="submit" className="btn-save" style={{ background: 'linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%)', color: 'white' }} disabled={loading}>
+              <button type="submit" className="btn-save" style={{ background: '#2563eb', color: 'white', borderRadius: '100px' }} disabled={loading}>
                 {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
               </button>
             </form>
@@ -701,7 +831,7 @@ export default function PatientDashboard() {
                 />
               </div>
 
-              <button type="submit" className="btn-save btn-danger-action" style={{ background: 'white', color: '#ef4444', border: '1px solid #fecaca' }} disabled={loading}>
+              <button type="submit" className="btn-save btn-danger-action" style={{ background: 'white', color: '#ef4444', border: '1px solid #fecaca', borderRadius: '100px' }} disabled={loading}>
                 {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
               </button>
             </form>

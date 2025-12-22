@@ -46,9 +46,9 @@ import NotificationsPage from './components/Dashboard/NotificationsPage';
 import AdminNotificationSender from './components/Dashboard/AdminNotificationSender';
 import ProfilePage from './components/Dashboard/ProfilePage';
 import LaborantDashboard from './components/Dashboard/LaborantDashboard';
-import MedicalFilesPage from './components/Dashboard/MedicalFilesPage';
 import DoctorDisplayPage from './components/Dashboard/DoctorDisplayPage';
 import HomeHealthRequestsPage from './components/Dashboard/HomeHealthRequestsPage';
+import DoctorLabRequests from './components/Dashboard/DoctorLabRequests';
 
 import { ThemeProvider } from './context/ThemeContext';
 
@@ -103,7 +103,9 @@ export default function App() {
             <Route path="lab-results" element={<LabResultsPage />} />
             <Route path="cleaning" element={<CleaningManagementPage />} />
             <Route path="notifications-sender" element={<AdminNotificationSender />} />
-            <Route path="medical-files" element={<MedicalFilesPage />} />
+
+            {/* Doctor Routes */}
+            <Route path="lab-requests" element={<DoctorLabRequests />} />
 
             {/* Role Based Dashboards */}
             <Route path="cleaner" element={<CleanerDashboard />} />

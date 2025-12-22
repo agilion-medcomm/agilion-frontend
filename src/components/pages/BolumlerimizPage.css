@@ -32,19 +32,20 @@
 /* Card Styles */
 .bolum-card {
     background: white;
-    border-radius: 32px;
-    padding: 20px 6px 6px 6px;
-    /* Adjusted padding for bottom button */
+    border-radius: 20px;
+    padding: 12px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s ease;
     border: 2px solid transparent;
-    min-height: 180px;
-    /* Increased slightly */
+    position: relative;
+    /* relative for absolute arrow */
+    min-height: 90px;
+    /* Further reduced height, compact */
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -54,68 +55,82 @@
 }
 
 .bolum-card__icon {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     object-fit: contain;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
+    /* Transform black icon to #1c345f */
+    filter: invert(18%) sepia(21%) saturate(2852%) hue-rotate(192deg) brightness(96%) contrast(90%);
 }
 
 .bolum-card__title {
-    font-size: 1.2rem;
+    font-size: 1.05rem;
+    /* Slightly smaller font */
     font-weight: 700;
-    color: #0052cc;
-    margin-bottom: 12px;
+    color: #475569;
+    /* Neutral dark gray by default */
+    margin-bottom: 0;
     line-height: 1.2;
+    padding: 0 10px;
+    /* Space for text */
 }
 
-/* Button inside card */
-.bolum-card__btn {
-    background: white;
-    border: 1px solid #0052cc;
-    color: #0052cc;
-    padding: 10px 0;
-    /* Taller button */
-    border-radius: 32px;
-    /* Matches card roundness */
-    font-size: 0.95rem;
-    font-weight: 600;
-    width: 90%;
-    /* Full width */
-    max-width: none;
-    transition: all 0.2s;
-    margin-top: 12px;
+/* The Absolute Positioned Arrow */
+.card-arrow-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    /* Reduced to 14px */
+    height: 14px;
+    opacity: 0.4;
+    transition: all 0.2s ease;
 }
 
-/* Selected State (Red for Acil, Blue for others - but design shows Acil is special) */
-/* Actually, the design shows Acil has a red background/border theme when selected */
+.bolum-card:hover .card-arrow-icon {
+    opacity: 1;
+    transform: translateY(-50%) translateX(2px);
+}
+
+/* Button styles removed */
+
+/* Selected State (Red for Acil) */
 .bolum-card.selected.is-acil {
-    background-color: #fce8e8;
-    /* Light red bg */
-    border-color: #cc0000;
+    background-color: #ffb0b0 !important;
+    /* Very light red */
+    border-color: #ef4444;
 }
 
 .bolum-card.selected.is-acil .bolum-card__title {
-    color: #cc0000;
+    color: #b91c1c;
 }
 
-.bolum-card.selected.is-acil .bolum-card__btn {
-    background-color: #cc0000;
-    color: white;
-    border-color: #cc0000;
+.bolum-card.selected.is-acil .card-arrow-icon {
+    filter: invert(16%) sepia(73%) saturate(5474%) hue-rotate(356deg) brightness(88%) contrast(98%);
+    /* Red tint */
+    opacity: 1;
 }
 
-/* Selected State for others */
+/* Selected State for others - Distinct Light Blue */
 .bolum-card.selected:not(.is-acil) {
-    border-color: #0052cc;
-    background-color: #eef4ff;
+    background-color: #e0f2fe !important;
+    /* Sky blue 100 with !important */
+    border-color: #0ea5e9;
+    /* Sky blue 500 */
+    box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.2);
 }
 
-.bolum-card.selected:not(.is-acil) .bolum-card__btn {
-    background-color: #003380;
-    color: white;
-    border-color: #003380;
+.bolum-card.selected:not(.is-acil) .bolum-card__title {
+    color: #0369a1;
+    /* Sky blue 700 */
 }
 
+.bolum-card.selected:not(.is-acil) .card-arrow-icon {
+    filter: invert(34%) sepia(87%) saturate(1639%) hue-rotate(183deg) brightness(96%) contrast(93%);
+    /* Blue tint */
+    opacity: 1;
+}
 
 /* Content Section */
 .bolum-content-section {
@@ -296,12 +311,19 @@
     box-shadow: none;
 }
 
-/* Force Acil Card Red */
-[data-theme="dark"] .bolum-card.is-acil,
-[data-theme="dark"] .bolum-card.is-acil.selected {
+/* Force Acil Card Red (Unselected) */
+[data-theme="dark"] .bolum-card.is-acil {
     background: #b91c1c !important;
-    /* Red card variant */
     border-color: #ef4444 !important;
+}
+
+/* Force Acil Card Red (Selected) */
+[data-theme="dark"] .bolum-card.is-acil.selected {
+    background: #7f1d1d !important;
+    /* Darker red */
+    border-color: #ff5d5d !important;
+    box-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
+    transform: translateY(-2px);
 }
 
 [data-theme="dark"] .bolum-card:hover {
@@ -313,12 +335,23 @@
 }
 
 /* Selected state overrides for dark mode */
+/* Selected state overrides for dark mode */
 [data-theme="dark"] .bolum-card.selected:not(.is-acil) {
-    background: #2563eb;
-    border-color: #93c5fd;
+    background: #1d4ed8 !important;
+    /* Proper dark mode blue - darker than light mode blue */
+    border-color: #60a5fa !important;
     box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
-    /* Glow effect */
     transform: translateY(-2px);
+}
+
+[data-theme="dark"] .bolum-card.selected:not(.is-acil) .bolum-card__title {
+    color: #ffffff !important;
+}
+
+[data-theme="dark"] .bolum-card.selected:not(.is-acil) .card-arrow-icon {
+    /* Make array white/light for dark bg */
+    filter: brightness(0) invert(1) !important;
+    opacity: 1;
 }
 
 [data-theme="dark"] .bolum-card__title {
@@ -430,80 +463,83 @@
 
 /* Fix mobile overflow/layout issues */
 @media (max-width: 768px) {
-    /* Fix mobile overflow/layout issues */
-    @media (max-width: 768px) {
-        .bolumlerimiz-page {
-            overflow-x: hidden;
-        }
+    .bolumlerimiz-page {
+        overflow-x: hidden;
+    }
 
-        .bolumlerimiz-header {
-            padding: 0 10px;
-            margin-top: 20px;
-        }
+    .bolumlerimiz-header {
+        padding: 0 16px;
+        margin-top: 20px;
+    }
 
-        .bolumlerimiz-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            /* Prevent content from expanding width */
-            gap: 12px;
-            /* Increased gap to slightly shrink cards */
-            margin-bottom: 20px;
-            padding: 0 0px;
-            /* Add side padding to shrink cards further */
-            box-sizing: border-box;
-        }
+    .bolumlerimiz-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        .bolum-card {
-            height: 180px;
-            /* Fixed height for uniformity */
-            min-height: 180px;
-            padding: 10px 4px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            /* Ensure content is spaced evenly */
-            box-sizing: border-box;
-        }
+    .bolum-card {
+        height: auto;
+        min-height: 100px;
+        padding: 12px 8px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        gap: 8px;
+    }
 
-        .bolum-card__title {
-            font-size: 0.9rem;
-            margin-bottom: 4px;
-            flex-grow: 1;
-            /* Allow title to take flexible space */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+    .bolum-card__title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        flex-grow: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 4px;
+    }
 
-        .bolum-card__icon {
-            width: 42px;
-            height: 42px;
-            margin-bottom: 4px;
-            flex-shrink: 0;
-        }
+    .bolum-card__icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
 
-        .bolum-card__btn {
-            margin-top: auto;
-            /* Push to bottom */
-            padding: 8px 0;
-            font-size: 0.8rem;
-            width: 90%;
-            max-width: 100%;
-        }
+    /* Adjust arrow for mobile */
+    .card-arrow-icon {
+        width: 38px !important;
+        /* Smaller arrow */
+        height: 38px !important;
+        right: 8px;
+    }
 
+    .bolum-card__btn {
+        display: none;
+    }
 
-        /* Force full-width background on mobile */
-        .bolum-detail-list {
-            width: 100vw;
-            position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
-            border-radius: 0;
-            padding: 40px 15px;
-            box-sizing: border-box;
-        }
+    .bolum-detail-list {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        border-radius: 0;
+        padding: 40px 15px;
+        box-sizing: border-box;
+    }
+
+    /* Force Selected bg on mobile too */
+    .bolum-card.selected:not(.is-acil) {
+        background-color: #e0f2fe !important;
+        /* Sky blue */
+        border-color: #0ea5e9 !important;
     }
 }

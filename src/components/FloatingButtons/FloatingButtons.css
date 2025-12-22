@@ -48,6 +48,7 @@
 
 .floating-btn--appointment:hover {
   background: linear-gradient(135deg, #4d6391 0%, #34579e 100%);
+  transform: translateY(0px) !important;
 }
 
 
@@ -58,7 +59,13 @@
 }
 
 .floating-btn--contact:hover {
-  background: linear-gradient(135deg, #2c812f 0%, hsl(114, 95%, 32%) 100%);
+  /* Daha açık ve canlı bir yeşil tonuna geçiş */
+  background: linear-gradient(135deg, #0abe04 0%, #0c8907 100%);
+
+
+  /* Yeşil bir parlama efekti */
+  box-shadow: 0 8px 15px rgba(10, 190, 4, 0.4);
+
   color: white;
 }
 
