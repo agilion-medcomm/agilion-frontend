@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext"; 
 import "./DoctorSlider.css"; 
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const ITEMS_PER_PAGE = 4; // Her sayfada maksimum 4 doktor
 
 export default function DoctorSlider() {

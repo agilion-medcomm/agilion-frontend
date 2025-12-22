@@ -3,7 +3,7 @@ import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LoginPage.css'; // Mevcut stilleri kullanalım
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
