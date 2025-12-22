@@ -179,7 +179,7 @@ export default function EvdeSaglikPage() {
         console.error('API Error Response:', JSON.stringify(data, null, 2));
         console.error('Form Data Sent:', JSON.stringify(submitData, null, 2));
         console.error('Response Status:', response.status);
-        let errorMsg = t('medical:home_health.form.error_msg');
+        let errorMsg = 'İstek gönderilirken hata oluştu. Lütfen tekrar deneyin.';
         
         // Check for validation errors from backend
         if (data.errors && Array.isArray(data.errors)) {
@@ -415,7 +415,7 @@ export default function EvdeSaglikPage() {
                       required
                       minLength={10}
                       maxLength={500}
-                      placeholder={t('medical:home_health.form.address_placeholder') + ' (min 10 characters)'}
+                      placeholder="Tam adresinizi yazınız (min 10 characters)"
                       rows={3}
                     />
                   </div>
