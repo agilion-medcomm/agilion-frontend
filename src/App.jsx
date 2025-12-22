@@ -42,8 +42,6 @@ import CleanerDashboard from './components/Dashboard/CleanerDashboard';
 import CashierDashboard from './components/Dashboard/CashierDashboard';
 import LabTechDashboard from './components/Dashboard/LabTechDashboard';
 import PatientDashboard from './components/Dashboard/PatientDashboard';
-import NotificationsPage from './components/Dashboard/NotificationsPage';
-import AdminNotificationSender from './components/Dashboard/AdminNotificationSender';
 import ProfilePage from './components/Dashboard/ProfilePage';
 import LaborantDashboard from './components/Dashboard/LaborantDashboard';
 import DoctorDisplayPage from './components/Dashboard/DoctorDisplayPage';
@@ -102,7 +100,6 @@ export default function App() {
             <Route path="home-health" element={<HomeHealthRequestsPage />} />
             <Route path="lab-results" element={<LabResultsPage />} />
             <Route path="cleaning" element={<CleaningManagementPage />} />
-            <Route path="notifications-sender" element={<AdminNotificationSender />} />
 
             {/* Doctor Routes */}
             <Route path="lab-requests" element={<DoctorLabRequests />} />
@@ -118,9 +115,6 @@ export default function App() {
 
             {/* Personel Profil Sayfası */}
             <Route path="profile" element={<ProfilePage />} />
-
-            {/* Bildirimler */}
-            <Route path="notifications" element={<NotificationsPage />} />
           </Route>
         </Route>
       </Routes>

@@ -92,6 +92,18 @@ const DollarIcon = () => (
 export default function DashboardHome() {
   const { user } = usePersonnelAuth();
   const navigate = useNavigate();
+
+  // Redirect CLEANER, LABORANT, and CASHIER to their specific panels
+  useEffect(() => {
+    if (user?.role === 'CLEANER') {
+      navigate('/dashboard/cleaner', { replace: true });
+    } else if (user?.role === 'LABORANT') {
+      navigate('/dashboard/laborant', { replace: true });
+    } else if (user?.role === 'CASHIER') {
+      navigate('/dashboard/payments', { replace: true });
+    }
+  }, [user, navigate]);
+
   const [stats, setStats] = useState({
     patients: 0,
     surgeries: 0,
@@ -224,21 +236,21 @@ export default function DashboardHome() {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return 'Good Morning';
-    if (hour < 18) return 'Good Afternoon';
-    return 'Good Evening';
+    if (hour < 12) return 'Günaydın';
+    if (hour < 18) return 'İyi Öğleden Sonra';
+    return 'İyi Akşamlar';
   };
 
   const getTimeLabel = () => {
     switch (timeFilter) {
-      case 'today': return 'today';
-      case '7d': return 'this week';
-      case '2w': return 'last 2 weeks';
-      case '1m': return 'this month';
-      case '3m': return 'last 3 months';
-      case '6m': return 'last 6 months';
-      case '1y': return 'this year';
-      default: return 'today';
+      case 'today': return 'bugün';
+      case '7d': return 'bu hafta';
+      case '2w': return 'son 2 hafta';
+      case '1m': return 'bu ay';
+      case '3m': return 'son 3 ay';
+      case '6m': return 'son 6 ay';
+      case '1y': return 'bu yıl';
+      default: return 'bugün';
     }
   };
 
@@ -246,7 +258,7 @@ export default function DashboardHome() {
     return (
       <div className="dashboard-loading">
         <div className="spinner"></div>
-        <p>Loading dashboard...</p>
+        <p>Yükleniyor...</p>
       </div>
     );
   }
@@ -262,7 +274,7 @@ export default function DashboardHome() {
               className={`time-filter-btn ${timeFilter === filter ? 'active' : ''}`}
               onClick={() => setTimeFilter(filter)}
             >
-              {filter === 'today' ? 'Today' : filter === '7d' ? '7d' : filter === '2w' ? '2w' : filter === '1m' ? '1m' : filter === '3m' ? '3m' : filter === '6m' ? '6m' : '1y'}
+              {filter === 'today' ? 'Bugün' : filter === '7d' ? '7g' : filter === '2w' ? '2h' : filter === '1m' ? '1a' : filter === '3m' ? '3a' : filter === '6m' ? '6a' : '1y'}
             </button>
           ))}
         </div>
@@ -274,7 +286,7 @@ export default function DashboardHome() {
           <div className="hero-text">
             <p className="hero-greeting">{getGreeting()},</p>
             <h1 className="hero-name">Dr. {user?.firstName} {user?.lastName}</h1>
-            <p className="hero-schedule">Your schedule {getTimeLabel()}.</p>
+            <p className="hero-schedule">{getTimeLabel()} için programınız.</p>
           </div>
 
           <div className="hero-stats">
@@ -284,7 +296,7 @@ export default function DashboardHome() {
               </div>
               <div className="hero-stat-info">
                 <h3>{stats.patients}</h3>
-                <p>Patients</p>
+                <p>Hastalar</p>
               </div>
             </div>
 
@@ -294,7 +306,7 @@ export default function DashboardHome() {
               </div>
               <div className="hero-stat-info">
                 <h3>{stats.surgeries}</h3>
-                <p>Surgeries</p>
+                <p>Ameliyatlar</p>
               </div>
             </div>
 
@@ -304,7 +316,7 @@ export default function DashboardHome() {
               </div>
               <div className="hero-stat-info">
                 <h3>{stats.discharges}</h3>
-                <p>Discharges</p>
+                <p>Taburcular</p>
               </div>
             </div>
           </div>
@@ -325,11 +337,11 @@ export default function DashboardHome() {
           </div>
           <div className="stat-card-body">
             <h2 className="stat-number">{stats.newPatients}</h2>
-            <p className="stat-label">New Patients</p>
+            <p className="stat-label">Yeni Hastalar</p>
             <div className="stat-footer">
               <span className="stat-change positive">+40%</span>
               <span className="stat-period">{getTimeLabel()}</span>
-              <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>View All →</button>
+              <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
             </div>
           </div>
         </div>
@@ -342,11 +354,11 @@ export default function DashboardHome() {
           </div>
           <div className="stat-card-body">
             <h2 className="stat-number">{stats.opdPatients}</h2>
-            <p className="stat-label">OPD Patients</p>
+            <p className="stat-label">Poliklinik Hastaları</p>
             <div className="stat-footer">
               <span className="stat-change positive">+30%</span>
               <span className="stat-period">{getTimeLabel()}</span>
-              <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>View All →</button>
+              <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
             </div>
           </div>
         </div>
@@ -359,11 +371,11 @@ export default function DashboardHome() {
           </div>
           <div className="stat-card-body">
             <h2 className="stat-number">{stats.labTests}</h2>
-            <p className="stat-label">Lab tests</p>
+            <p className="stat-label">Lab Testleri</p>
             <div className="stat-footer">
               <span className="stat-change positive">+60%</span>
               <span className="stat-period">{getTimeLabel()}</span>
-              <button className="stat-view-all" onClick={() => navigate('/dashboard/lab-results')}>View All →</button>
+              <button className="stat-view-all" onClick={() => navigate('/dashboard/lab-results')}>Tümünü Gör →</button>
             </div>
           </div>
         </div>
@@ -376,7 +388,7 @@ export default function DashboardHome() {
             <CalendarIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Appointments</p>
+            <p className="bottom-stat-label">Randevular</p>
             <h3 className="bottom-stat-number">{stats.appointments}</h3>
           </div>
         </div>
@@ -386,7 +398,7 @@ export default function DashboardHome() {
             <UsersIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Doctors</p>
+            <p className="bottom-stat-label">Doktorlar</p>
             <h3 className="bottom-stat-number">{stats.doctors}</h3>
           </div>
         </div>
@@ -396,7 +408,7 @@ export default function DashboardHome() {
             <PeopleIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Staff</p>
+            <p className="bottom-stat-label">Personel</p>
             <h3 className="bottom-stat-number">{stats.staff}</h3>
           </div>
         </div>
@@ -406,7 +418,7 @@ export default function DashboardHome() {
             <ActivityIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Operations</p>
+            <p className="bottom-stat-label">Operasyonlar</p>
             <h3 className="bottom-stat-number">{stats.operations}</h3>
           </div>
         </div>
@@ -416,7 +428,7 @@ export default function DashboardHome() {
             <BedIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Admitted</p>
+            <p className="bottom-stat-label">Yatan Hasta</p>
             <h3 className="bottom-stat-number">{stats.admitted}</h3>
           </div>
         </div>
@@ -426,7 +438,7 @@ export default function DashboardHome() {
             <UserXIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Discharged</p>
+            <p className="bottom-stat-label">Taburcu</p>
             <h3 className="bottom-stat-number">{stats.discharged}</h3>
           </div>
         </div>
