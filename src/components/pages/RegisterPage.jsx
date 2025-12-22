@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import './LoginPage.css';
 
 // API Ayarları
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
@@ -22,6 +23,7 @@ function isValidPhoneNumber(phoneNumber) {
 }
 
 export default function RegisterPage() {
+  const { t } = useTranslation(['auth', 'common']);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -56,23 +58,23 @@ export default function RegisterPage() {
 
     // --- İstemci Tarafı Doğrulamaları ---
     if (formData.password !== formData.confirmPassword) {
-      setError('Şifreler uyuşmuyor.');
+      setError(t('auth:register.errors.password_mismatch'));
       setLoading(false);
       return;
     }
     if (!isValidEmail(formData.email)) {
-      setError('Lütfen geçerli bir e-posta adresi girin.');
+      setError(t('auth:register.errors.invalid_email'));
       setLoading(false);
       return;
     }
     if (formData.phoneNumber && !isValidPhoneNumber(formData.phoneNumber)) {
-      setError('Lütfen geçerli bir telefon numarası girin.');
+      setError(t('auth:register.errors.invalid_phone'));
       setLoading(false);
       return;
     }
     // Tarih kontrolü
     if (!formData.day || !formData.month || !formData.year) {
-      setError('Lütfen doğum tarihinizi eksiksiz girin.');
+      setError(t('auth:register.errors.incomplete_dob'));
       setLoading(false);
       return;
     }
@@ -113,9 +115,9 @@ export default function RegisterPage() {
           setError(resp?.message || `Sunucu hatası: ${err.response.status}`);
         }
       } else if (err.request) {
-        setError('Sunucuya ulaşılamıyor. Lütfen bağlantınızı kontrol edin.');
+        setError(t('auth:register.errors.network'));
       } else {
-        setError('Beklenmedik bir hata oluştu.');
+        setError(t('auth:register.errors.generic'));
       }
     } finally {
       setLoading(false);
@@ -125,10 +127,10 @@ export default function RegisterPage() {
   // Doğum Tarihi dropdownları için yardımcı diziler
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
-    { value: 1, name: 'Ocak' }, { value: 2, name: 'Şubat' }, { value: 3, name: 'Mart' },
-    { value: 4, name: 'Nisan' }, { value: 5, name: 'Mayıs' }, { value: 6, name: 'Haziran' },
-    { value: 7, name: 'Temmuz' }, { value: 8, name: 'Ağustos' }, { value: 9, name: 'Eylül' },
-    { value: 10, name: 'Ekim' }, { value: 11, name: 'Kasım' }, { value: 12, name: 'Aralık' }
+    { value: 1, name: t('auth:months.jan') }, { value: 2, name: t('auth:months.feb') }, { value: 3, name: t('auth:months.mar') },
+    { value: 4, name: t('auth:months.apr') }, { value: 5, name: t('auth:months.may') }, { value: 6, name: t('auth:months.jun') },
+    { value: 7, name: t('auth:months.jul') }, { value: 8, name: t('auth:months.aug') }, { value: 9, name: t('auth:months.sep') },
+    { value: 10, name: t('auth:months.oct') }, { value: 11, name: t('auth:months.nov') }, { value: 12, name: t('auth:months.dec') }
   ];
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i); // 18 yaşından büyükler için
@@ -141,16 +143,16 @@ export default function RegisterPage() {
       <div className="login-container">
         <div className="login-box" style={{ maxWidth: '500px', textAlign: 'center', padding: '50px 30px' }}>
           <div style={{ fontSize: '64px', marginBottom: '20px', color: '#4ab43f' }}>📧</div>
-          <h2 className="login-title" style={{ marginBottom: '20px', color: '#0e2b4b' }}>Kayıt Başarılı!</h2>
+          <h2 className="login-title" style={{ marginBottom: '20px', color: '#0e2b4b' }}>{t('auth:register.success.title')}</h2>
 
-          <p style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.6', marginBottom: '30px' }}>
-            Aramıza hoş geldiniz. Kaydınız başarıyla alındı.<br />
-            Hesabınızı aktifleştirmek ve giriş yapabilmek için lütfen <strong>e-posta adresinize</strong> gönderdiğimiz doğrulama bağlantısına tıklayın.
-          </p>
+          <p
+            style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.6', marginBottom: '30px' }}
+            dangerouslySetInnerHTML={{ __html: t('auth:register.success.text') }}
+          />
 
           <div className="login-footer-link">
             <Link to="/login" className="login-button" style={{ display: 'inline-block', textDecoration: 'none', padding: '12px 30px', backgroundColor: '#0e2b4b' }}>
-              Giriş Sayfasına Dön
+              {t('auth:register.success.button')}
             </Link>
           </div>
         </div>
@@ -162,12 +164,12 @@ export default function RegisterPage() {
   return (
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '500px' }}>
-        <h2 className="login-title">Kayıt Ol</h2>
+        <h2 className="login-title">{t('auth:register.title')}</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
 
           <div className="form-group">
-            <label htmlFor="firstName">Ad</label>
+            <label htmlFor="firstName">{t('auth:register.form.first_name')}</label>
             <input
               type="text"
               id="firstName"
@@ -179,7 +181,7 @@ export default function RegisterPage() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="lastName">Soyad</label>
+            <label htmlFor="lastName">{t('auth:register.form.last_name')}</label>
             <input
               type="text"
               id="lastName"
@@ -192,7 +194,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="tckn">TC Kimlik Numarası</label>
+            <label htmlFor="tckn">{t('auth:register.form.tckn')}</label>
             <input
               type="text"
               id="tckn"
@@ -205,12 +207,12 @@ export default function RegisterPage() {
               title="TC Kimlik 11 haneli olmalıdır."
               maxLength={11}
               minLength={11}
-              placeholder="11 haneli TC kimlik no"
+              placeholder={t('auth:register.form.tckn_placeholder')}
             />
           </div>
 
           <div className="form-group">
-            <label>Doğum Tarihi</label>
+            <label>{t('auth:register.form.dob')}</label>
             <div className="dob-group" style={{ display: 'flex', gap: '10px' }}>
               <select
                 name="day"
@@ -221,7 +223,7 @@ export default function RegisterPage() {
                 required
                 style={{ flex: 1 }}
               >
-                <option value="" disabled>Gün</option>
+                <option value="" disabled>{t('auth:register.form.day')}</option>
                 {days.map(d => <option key={d} value={d}>{d}</option>)}
               </select>
               <select
@@ -233,7 +235,7 @@ export default function RegisterPage() {
                 required
                 style={{ flex: 1 }}
               >
-                <option value="" disabled>Ay</option>
+                <option value="" disabled>{t('auth:register.form.month')}</option>
                 {months.map(m => <option key={m.value} value={m.value}>{m.name}</option>)}
               </select>
               <select
@@ -245,14 +247,14 @@ export default function RegisterPage() {
                 required
                 style={{ flex: 1 }}
               >
-                <option value="" disabled>Yıl</option>
+                <option value="" disabled>{t('auth:register.form.year')}</option>
                 {years.map(y => <option key={y} value={y}>{y}</option>)}
               </select>
             </div>
           </div>
 
           <div className="form-group">
-            <label htmlFor="email">E-posta</label>
+            <label htmlFor="email">{t('auth:register.form.email')}</label>
             <input
               type="email"
               id="email"
@@ -266,7 +268,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="phoneNumber">Telefon Numarası</label>
+            <label htmlFor="phoneNumber">{t('auth:register.form.phone')}</label>
             <input
               type="tel"
               id="phoneNumber"
@@ -279,7 +281,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Şifre</label>
+            <label htmlFor="password">{t('auth:register.form.password')}</label>
             <input
               type="password"
               id="password"
@@ -289,12 +291,12 @@ export default function RegisterPage() {
               disabled={loading}
               required
               minLength="8"
-              placeholder="En az 8 karakter"
+              placeholder={t('auth:register.form.password_placeholder')}
             />
           </div>
 
           <div className="form-group">
-            <label htmlFor="confirmPassword">Şifre Tekrarı</label>
+            <label htmlFor="confirmPassword">{t('auth:register.form.confirm_password')}</label>
             <input
               type="password"
               id="confirmPassword"
@@ -303,17 +305,17 @@ export default function RegisterPage() {
               onChange={handleChange}
               disabled={loading}
               required
-              placeholder="Şifrenizi tekrar girin"
+              placeholder={t('auth:register.form.confirm_password_placeholder')}
             />
           </div>
 
           <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Kaydediliyor...' : 'Kayıt Ol'}
+            {loading ? t('auth:register.form.loading') : t('auth:register.form.submit')}
           </button>
         </form>
 
         <div className="register-footer-link">
-          Zaten hesabınız var mı? <Link to="/login" className="login-link">Giriş Yap</Link>
+          {t('auth:register.footer_text')} <Link to="/login" className="login-link">{t('auth:register.footer_link')}</Link>
         </div>
       </div>
     </div>

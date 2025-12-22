@@ -5,10 +5,10 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import { PersonnelAuthProvider } from './context/PersonnelAuthContext'
-import { NotificationProvider } from './context/NotificationContext'
 import './index.css'
 import './styles/DarkMode.css'
 import App from './App.jsx'
+import './i18n'
 
 // Suppress browser extension message port warnings
 window.addEventListener('error', (event) => {
@@ -20,13 +20,11 @@ window.addEventListener('error', (event) => {
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <PersonnelAuthProvider>
-      <NotificationProvider>
-        <AuthProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </AuthProvider>
-      </NotificationProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AuthProvider>
     </PersonnelAuthProvider>
   </StrictMode>,
 )

@@ -1,0 +1,472 @@
+{
+    "doctors": {
+        "title": "Our Expert Doctors",
+        "filter_label": "Filter by Department:",
+        "all_departments": "All Departments",
+        "quick_appointment": "Quick Appointment",
+        "loading": "Loading...",
+        "login_required": "Please log in first to book an appointment."
+    },
+    "departments": {
+        "title": "All Our Departments",
+        "list": {
+            "acil": {
+                "title": "Emergency 7/24",
+                "content_title": "Emergency Polyclinic",
+                "p1": "We are aware that the first intervention is vital in all health problems that develop suddenly and threaten the integrity of life. Our Emergency Service Unit serves 24/7 with our expert physicians and experienced health personnel.",
+                "p2": "In our fully equipped examination and observation rooms, the first evaluation, follow-up, and treatment of our patients are carried out meticulously with modern medical devices.",
+                "tags": [
+                    "Examination",
+                    "Intervention",
+                    "Observation",
+                    "Injection",
+                    "Dressing",
+                    "Blood Pressure Measurement",
+                    "ECG",
+                    "Suture Removal",
+                    "Glucose Measurement",
+                    "Driver Report",
+                    "Disability Report",
+                    "Health Report"
+                ]
+            },
+            "dis": {
+                "title": "Oral and Dental",
+                "content_title": "Oral and Dental Health",
+                "p1": "We work to protect your dental health with our expert physicians and equipped clinics. We offer reliable treatment services with our experienced staff in all your needs, from pediatric dentistry to aesthetic applications, from root canal treatment to implant surgery.",
+                "tags": [
+                    "Implant",
+                    "Surgical Tooth Extraction",
+                    "Panoramic X-Ray",
+                    "Pedodontics",
+                    "Endodontics",
+                    "Restorative Dental Treatment",
+                    "Teeth Whitening",
+                    "Zirconium",
+                    "Smile Design"
+                ]
+            },
+            "diyet": {
+                "title": "Nutrition and Diet",
+                "content_title": "Nutrition and Diet",
+                "p1": "In our Nutrition and Diet Polyclinic, we offer professional diet and nutrition consultancy to support healthy life, provide weight management, and support the prevention and treatment processes of diseases.",
+                "p2": "Comprehensive evaluations are carried out by our expert dietitians, and support is provided in many areas from weight management to nutrition plans specific to diseases.",
+                "services_header": "OUR SERVICES",
+                "tags": [
+                    "Nutrition",
+                    "Nutrition in Thyroid Diseases",
+                    "Weight Loss",
+                    "Weight Gain",
+                    "Nutrition in Pregnancy and Lactation",
+                    "Nutrition in Diabetes",
+                    "PCOS/Food Allergies",
+                    "Nutrition in Cardiovascular Diseases",
+                    "Nutrition in Liver Diseases",
+                    "Nutrition in Kidney Diseases",
+                    "Baby/Child and Adolescent Nutrition",
+                    "Nutrition in Obesity",
+                    "Sports Nutrition",
+                    "Nutrition in Disabled Individuals",
+                    "Enteral and Parenteral Nutrition",
+                    "Phytotherapy"
+                ],
+                "details": [
+                    {
+                        "title": "Personalized Nutrition Program",
+                        "text": "Personalized nutrition programs are diet programs prepared entirely according to the individual's lifestyle and values."
+                    },
+                    {
+                        "title": "Life Coaching",
+                        "text": "A life coach is an expert in the field who has completed the necessary training. Helps the person discover and develop their own potential."
+                    },
+                    {
+                        "title": "Healthy Nutrition and Weight Gain",
+                        "text": "Diet or Dietetics service should not be perceived only as losing weight. Healthy weight gain is also among the services."
+                    },
+                    {
+                        "title": "Healthy Nutrition and Weight Loss",
+                        "text": "The most common action when it comes to dietetics service is 'Losing weight'."
+                    },
+                    {
+                        "title": "Appetite Management and Weight Control",
+                        "text": "The most important factor in weight loss is appetite control."
+                    },
+                    {
+                        "title": "Child Nutrition",
+                        "text": "A special diet system that includes all the foods that the young individual should consume for complete development."
+                    },
+                    {
+                        "title": "Nutrition in Diabetes",
+                        "text": "Healthy carbohydrates should be preferred instead of white bread and sugary foods."
+                    },
+                    {
+                        "title": "Corporate Nutrition Consultancy",
+                        "text": "Service taken to increase the performance and life quality of employees and managers."
+                    },
+                    {
+                        "title": "Sports Nutrition",
+                        "text": "Special dietetics service organized by considering the physical activity intensity of the athlete."
+                    },
+                    {
+                        "title": "Nutrition in Pregnancy",
+                        "text": "Special dietetics service where all the nutrients needed by both the mother and the baby are specially calculated."
+                    },
+                    {
+                        "title": "Nutrition in Breastfeeding",
+                        "text": "It is very important for the baby's brain development and physical health that breast milk is in its most efficient form."
+                    },
+                    {
+                        "title": "Nutrition in Hypertension",
+                        "text": "It is recommended for individuals with hypertension to consume a healthy and balanced diet rich in fresh vegetables and fruits."
+                    },
+                    {
+                        "title": "Detailed Body Analysis",
+                        "text": "The measurement that determines the muscle, fat and water ratio of the body."
+                    }
+                ]
+            },
+            "derma": {
+                "title": "Dermatology",
+                "content_title": "Dermatology",
+                "p1": "Dermatology is the medical unit related to the 'skin', which is the largest organ of our body and fulfills many important tasks.",
+                "p2": "Dermatology performs the detection and treatment of not only the skin itself but also hair, nails, and sexually transmitted diseases.",
+                "p3": "Dermatological diseases that attract attention in external appearance can sometimes be an aesthetic problem and turn into a more serious health problem.",
+                "tags": [
+                    "Acne",
+                    "Pruritus",
+                    "Urticaria",
+                    "Parasitic Skin Diseases",
+                    "Fungal Diseases",
+                    "Eczema",
+                    "Psoriasis",
+                    "Hair Diseases",
+                    "Behcet's Disease",
+                    "Bullous Diseases",
+                    "Benign/Malignant Tumors",
+                    "Connective Tissue Diseases",
+                    "Pigmentation Disorders",
+                    "Infectious Rashes",
+                    "Allergic Skin Diseases",
+                    "Sexually Transmitted Diseases",
+                    "Sun Allergy",
+                    "Hirsutism",
+                    "Hyperhidrosis",
+                    "Calluses and Warts",
+                    "Moles",
+                    "Vascular Skin Diseases",
+                    "Nail Diseases",
+                    "Oral Diseases",
+                    "Metabolic Skin Disorders",
+                    "Psychological Skin Diseases",
+                    "Systemic Skin Findings",
+                    "Genetic Skin Diseases",
+                    "Physical Factor Reactions"
+                ]
+            },
+            "cerrahi": {
+                "title": "General Surgery",
+                "content_title": "General Surgery",
+                "p1": "General surgery is a discipline that treats systemic and local diseases in the body with surgical methods.",
+                "p2": "Goiter, Stomach, Small Intestine, Large Intestine, Breast, Esophagus, Hernias, Liver, Rectum, Anus, Gallbladder, Bile Ducts, Endoscopic and Laparoscopic Surgery interventions.",
+                "tags": [
+                    "Endoscopy",
+                    "Colonoscopy",
+                    "Nail Removal",
+                    "Circumcision",
+                    "Hemorrhoids",
+                    "Anal Fissure",
+                    "Anal Fistula",
+                    "Pilonidal Cyst",
+                    "Inguinal Hernia",
+                    "Umbilical Hernia",
+                    "Perianal Abscess",
+                    "Mass Removal",
+                    "Mole Removal",
+                    "Goiter",
+                    "Varicose Veins",
+                    "Stomach/Hernia",
+                    "Abdominal Pain",
+                    "Stomach Pain",
+                    "Skin Redness",
+                    "Breast Mass",
+                    "Axillary Mass",
+                    "Anal Pain/Bleeding",
+                    "Coccyx Pain"
+                ]
+            },
+            "goz": {
+                "title": "Eye Health",
+                "content_title": "Eye Health",
+                "p1": "Eye Health and Diseases are of great importance in terms of quality of life. Some eye diseases can cause permanent damage when not treated early.",
+                "p2": "Therefore, it is of great importance to have regular eye check-ups. Healthy people should have eye screenings once a year.",
+                "tags": [
+                    "General Examination",
+                    "Eye Redness",
+                    "Itching",
+                    "Burning",
+                    "Stinging",
+                    "Glaucoma",
+                    "Glasses / Lens Prescription",
+                    "Color Vision",
+                    "Strabismus",
+                    "Diabetic Retinopathy",
+                    "Cataract Detection",
+                    "Nystagmus",
+                    "Stye",
+                    "Keratitis",
+                    "Medication Report",
+                    "Driver's License"
+                ]
+            },
+            "dahiliye": {
+                "title": "Internal Medicine",
+                "content_title": "Internal Medicine",
+                "p1": "In the Internal Medicine polyclinic of our institution; diagnosis and treatment of infectious, metabolic, cardiac and hematological diseases can be performed with our expert doctor.",
+                "tags": [
+                    "Blood Diseases",
+                    "Respiratory Infections",
+                    "Kidney Diseases",
+                    "Heart Failure",
+                    "Arrhythmia",
+                    "Hypertension",
+                    "Lipid Disorders",
+                    "Diabetes Mellitus",
+                    "COPD",
+                    "Thyroid Disorders",
+                    "Obesity",
+                    "Liver Diseases",
+                    "Digestive System Diseases",
+                    "Geriatrics",
+                    "Febrile Diseases",
+                    "Rheumatic Diseases"
+                ]
+            },
+            "kadin": {
+                "title": "Obstetrics & Gynecology",
+                "content_title": "Obstetrics & Gynecology",
+                "p1": "Our clinic provides services with all the facilities of modern medicine in the solution of pregnancy, prenatal and delivery problems.",
+                "tags": [
+                    "General Examination",
+                    "Cyst Examination",
+                    "Myoma Examination",
+                    "Pregnancy Follow-up",
+                    "IUD Insertion",
+                    "IUD Removal",
+                    "Cervical Smear",
+                    "Cervical Cautery",
+                    "Report",
+                    "Mirena Insertion",
+                    "Curettage",
+                    "Endometrial Biopsy",
+                    "HPV DNA Smear",
+                    "HPV Genotyping",
+                    "Polyp Removal",
+                    "Medical Termination",
+                    "Abscess Drainage",
+                    "Labioplasty",
+                    "Rectocele",
+                    "Cystocele",
+                    "McDonald Shirodkar",
+                    "Cyst",
+                    "Normal Delivery",
+                    "Cesarean Section"
+                ]
+            }
+        }
+    },
+    "units": {
+        "title": "Our Units",
+        "list": {
+            "anestezi": {
+                "title": "Anesthesiology & Reanimation",
+                "content_title": "Anesthesiology and Reanimation",
+                "text": "Anesthesiology and reanimation are medical practices used to ensure the patient loses consciousness during surgery or other medical interventions and to maintain vital functions. Anesthesia is used to prevent the patient from feeling pain. Reanimation refers to medical interventions performed to save lives in emergencies."
+            },
+            "ameliyathane": {
+                "title": "Operating Room",
+                "content_title": "Operating Room",
+                "text": "The operating room is a special department where medical interventions are performed. Many different procedures are carried out here and the surgical process is meticulously planned and implemented."
+            },
+            "dogumhane": {
+                "title": "Delivery Room",
+                "content_title": "Delivery Room",
+                "text": "When you apply to the hospital, your doctor first examines you and determines whether labor has actually started. The onset of labor is only understood by vaginal examination."
+            },
+            "rontgen": {
+                "title": "X-Ray",
+                "content_title": "X-Ray",
+                "text": "X-ray is a medical imaging technology used to image the human body and other objects. This technology works with the use of X-rays."
+            },
+            "laboratuvar": {
+                "title": "Laboratory",
+                "content_title": "Laboratory",
+                "text": "Zeytinburnu Medical Center, while providing emergency and routine laboratory services to its patients, continues its service 7 days a week."
+            },
+            "fizik": {
+                "title": "Physical Therapy",
+                "content_title": "Physical Therapy",
+                "text": "In our Physical Therapy and Rehabilitation unit; diagnosis and treatment of muscle, joint, bone and spine diseases are applied."
+            },
+            "saglik_raporlari": {
+                "title": "Health Reports",
+                "content_title": "Health Reports",
+                "text": "Health Reports Given by Our Institution",
+                "tags": [
+                    "Marriage health report",
+                    "Driver health report",
+                    "Sports health report",
+                    "Pool health report",
+                    "Work health report",
+                    "Travel Document"
+                ]
+            },
+            "ultrason": {
+                "title": "Ultrasonography",
+                "content_title": "Ultrasonography",
+                "text": "With Ultrasound (USG), information about internal organs can be obtained and it is used to monitor the fetus in pregnancy diagnosis and control."
+            },
+            "solunum": {
+                "title": "Pulmonary Function Test",
+                "content_title": "Pulmonary Function Test",
+                "text": "Pulmonary function test is basically a test performed to measure the performance of your lungs. These tests measure how much air enters and leaves the lungs."
+            },
+            "odyometri": {
+                "title": "Audiometry and Tympanometry",
+                "content_title": "Audiometry and Tympanometry",
+                "text": "Audiometry is a test used to evaluate a person's hearing ability. Tympanometry is a test where ear drum and middle ear pressure are measured."
+            }
+        }
+    },
+    "home_health": {
+        "banner_title": "Home Health",
+        "cards": {
+            "nurse": {
+                "title": "Home Nursing Services",
+                "desc": "Injection, dressing, serum application and all nursing services are offered in your home by our professional nurses.",
+                "items": [
+                    "Injection Application",
+                    "Dressing",
+                    "Serum Application",
+                    "Blood Pressure Follow-up",
+                    "Medication Management",
+                    "Wound Care"
+                ]
+            },
+            "serum": {
+                "title": "Home Serum Services",
+                "desc": "You can receive safe and hygienic serum service in the comfort of your home without the need for a hospital environment.",
+                "items": [
+                    "IV Serum Application",
+                    "Vitamin Serum",
+                    "Antibiotic Serum",
+                    "Serum Follow-up",
+                    "Emergency Serum Support"
+                ]
+            },
+            "lab": {
+                "title": "Home Laboratory Services",
+                "desc": "Make an appointment for home blood collection, urine analysis and other laboratory tests.",
+                "items": [
+                    "Home Blood Collection",
+                    "Routine Tests",
+                    "Check-Up Packages",
+                    "Covid-19 Test",
+                    "Hormone Tests",
+                    "Vitamin Analysis"
+                ]
+            },
+            "wound": {
+                "title": "Home Wound Care Services",
+                "desc": "Expert wound care services for post-operative, chronic wounds and burn treatment.",
+                "items": [
+                    "Post-Operative Care",
+                    "Pressure Ulcer Treatment",
+                    "Diabetic Wound Care",
+                    "Burn Treatment",
+                    "Suture Removal/Insertion",
+                    "PEG Care"
+                ]
+            }
+        },
+        "what_is": {
+            "title": "What is Home Health",
+            "p1": "A high-comfort living service is provided for patients who want to continue their treatment at home, mothers who request pre- and post-natal support, and elderly people in need of care.",
+            "p2": "As Zeytinburnu Medical Center, a wide range of home care services from doctor examinations to long-term nursing services are provided."
+        },
+        "covers": {
+            "title": "What Does Home Health Service Cover?",
+            "text": "The subject of what home health service covers is among the most curious topics. You can benefit from the following services under a wide service range:",
+            "list": [
+                "Home PET and Antibody Test",
+                "Home Doctor Service",
+                "Injection",
+                "Dressing",
+                "Serum Application",
+                "Home Blood Collection",
+                "Minor Surgical Intervention",
+                "Nail Removal",
+                "Ear Piercing",
+                "Corn Treatment",
+                "Tracheostomy Change/Care",
+                "Colostomy/Stoma Care",
+                "Nebulizer Applications",
+                "Suture Insertion/Removal",
+                "Nail Hole Treatment",
+                "Nasogastric Tube Application",
+                "Elderly Care",
+                "Mother-Baby Care",
+                "Enema Application",
+                "Urinary Catheter Insertion",
+                "Urinary Catheter Removal",
+                "PEG Care and Dressing",
+                "Wound and Burn Treatment",
+                "Laboratory Tests",
+                "Blood Pressure Follow-up",
+                "Blood Glucose Follow-up",
+                "Home Check-Up"
+            ]
+        },
+        "doctor_service": {
+            "title": "Home Doctor Service",
+            "p1": "As Zeytinburnu Medical Center, we offer Home Doctor Service covering services such as routine health examination and disease follow-up.",
+            "p2": "Ideal especially for bedridden or mobility-impaired individuals."
+        },
+        "modal": {
+            "service_detail": "Service Detail",
+            "offered_services": "Offered Services",
+            "book_btn": "Book Appointment"
+        },
+        "form": {
+            "title": "Home Health Service Request",
+            "full_name": "Full Name *",
+            "name_placeholder": "Your full name",
+            "tckn": "ID Number *",
+            "tckn_placeholder": "11-digit ID number",
+            "phone": "Phone Number *",
+            "address": "Address *",
+            "address_placeholder": "The address where you will receive the service",
+            "service_type": "Service Type *",
+            "select_service": "Select service",
+            "other": "Other",
+            "doctor_svc": "Home Doctor Service",
+            "preferred_date": "Preferred Date",
+            "preferred_time": "Preferred Time",
+            "select_time": "Select time",
+            "notes": "Additional Notes",
+            "notes_placeholder": "Any additional info, special cases or questions",
+            "cancel": "Cancel",
+            "submit": "Submit Request",
+            "sending": "Sending...",
+            "success_msg": "Your request has been received successfully! We will contact you as soon as possible.",
+            "error_msg": "An error occurred. Please try again.",
+            "network_error": "Connection error. Please check your internet connection.",
+            "ok": "OK"
+        },
+        "login_prompt": {
+            "title": "Login Required",
+            "msg": "You must log in first to request a home health service.",
+            "submsg": "If you don't have an account, you can register.",
+            "login_btn": "Login"
+        }
+    }
+}

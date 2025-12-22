@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import './BirimlerimizPage.css';
 
 const BirimlerimizPage = () => {
+  const { t } = useTranslation(['medical']);
   const location = useLocation();
   const [selectedId, setSelectedId] = useState(location.state?.selectedId || 'anestezi');
 
@@ -12,129 +14,94 @@ const BirimlerimizPage = () => {
     }
   }, [location.state]);
 
-  const units = [
+  const units = useMemo(() => [
     {
       id: 'anestezi',
-      title: 'Anestezi & Reanimasyon',
-      icon: '/d1.png', // Placeholder
-      contentTitle: 'Anestezi ve Reanimasyon',
-      content: <p>Anestezi ve reanimasyon, cerrahi veya diğer tıbbi müdahaleler sırasında hastanın bilincini kaybetmesini sağlamak ve hayati fonksiyonlarını sürdürmek için kullanılan tıbbi uygulamalardır.
-        Anestezi, hastanın ağrı duymasını önlemek, vücut fonksiyonlarını kontrol etmek ve cerrahi işlem sırasında rahatlık sağlamak amacıyla kullanılır.
-
-        Reanimasyon ise kalp durması veya solunum durması gibi acil durumlarda hayat kurtarmak için yapılan tıbbi müdahalelerdir. Hızlı ve etkili reanimasyon, hastanın hayatta kalma şansını artırabilir. Anestezi ve reanimasyon, tıbbi ekipler tarafından dikkatle uygulanmalı ve sürekli bir gözetim altında gerçekleştirilmelidir.</p>
+      title: t('medical:units.list.anestezi.title'),
+      icon: '/d1.png',
+      contentTitle: t('medical:units.list.anestezi.content_title'),
+      content: <p>{t('medical:units.list.anestezi.text')}</p>
     },
     {
       id: 'ameliyathane',
-      title: 'Ameliyathane',
+      title: t('medical:units.list.ameliyathane.title'),
       icon: '/d2.png',
-      contentTitle: 'Ameliyathane',
-      content: <p>Ameliyathane, tıbbi müdahalelerin gerçekleştirildiği özel bir bölümdür. Burada pek çok farklı işlem yapılmaktadır ve ameliyat süreci titizlikle planlanır ve uygulanır. Ameliyathane işlevleri, hastanın sağlığını korumak ve ameliyatın başarılı bir şekilde gerçekleşmesini sağlamak için çeşitli aşamalardan oluşur.
-
-        Ameliyathane işlevlerinin ilk adımı, hastanın ameliyat öncesi hazırlıklarının yapılmasıdır. Bu aşamada, hastanın tıbbi geçmişi incelenir, gerekli tetkikler yapılır ve ameliyat için gerekli olan tüm bilgiler toplanır. Ayrıca, hastanın ameliyat öncesi beslenmesi ve ilaç kullanımı gibi faktörler de dikkate alınır.
-        Ameliyat sürecinde, ameliyatın gerçekleştirileceği oda sterilize edilir ve ameliyat masası hazırlanır. Ameliyat sırasında kullanılacak olan cerrahi aletler ve ekipmanlar da özenle seçilir ve hazırlanır. Ameliyathane ekibi, ameliyatın başarılı bir şekilde gerçekleşmesi için sıkı bir iş birliği içinde çalışır.
-
-        Ameliyatın gerçekleştirilmesi aşamasında, cerrahın talimatlarına göre hareket edilir ve gerekli olan tüm prosedürler uygulanır. Ameliyat sürecinde hastanın vital bulguları izlenir ve gerektiğinde müdahaleler yapılır. Ameliyat sonrası ise hastanın iyileşme süreci takip edilir ve gerekli olan tüm destek sağlanır.
-
-        Ameliyathane işlevleri, hastanın sağlığını korumak ve ameliyatın başarılı bir şekilde gerçekleşmesini sağlamak için büyük bir öneme sahiptir. Bu nedenle, ameliyathane ekibi, deneyimli ve uzman bir şekilde çalışmalı ve her aşamada titizlikle hareket etmelidir.</p>
+      contentTitle: t('medical:units.list.ameliyathane.content_title'),
+      content: <p>{t('medical:units.list.ameliyathane.text')}</p>
     },
     {
       id: 'dogumhane',
-      title: 'Doğumhane',
+      title: t('medical:units.list.dogumhane.title'),
       icon: '/d3.png',
-      contentTitle: 'Doğumhane',
-      content: <p>ÖHastaneye başvurduğunuzda öncelikle doktorunuz sizi muayene eder ve doğumun gerçekten başlayıp başlamadığını tespit eder. Doğumun başlaması ancak vajinal muayene (elle muayene) ile anlaşılır, ultrason ile anlaşılmaz.
-
-        Vajinal muayene ile rahim ağzında açıklık var mı, su gelmesi veya kanama var mı bakılır ve buna göre doğumun başladığına karar verilirse hasta doğumhaneye yönlendirilir. Eğer doğum başlamamışsa, rahim ağzında açılma yoksa, su gelmesi yoksa, kanama yoksa ve bebeğin ultrason ve NST muayenesinde bir anormallik yoksa anne tekrar evine yönlendirilir, sancıları arttığında veya su geldiğinde tekrar hastaneye gelmesi önerilir.
-
-        Tabii bu durumda kaç haftalık gebe olduğunuz da önemlidir, bunun da tespiti yatıştan önce yapılır. Kaç haftalık hamile olduğunuzu anlamak için ultrason yapılır ve bazen eskiden girdiğiniz ultrasonların raporları ve tahlillere de bakılır. Bu nedenle doğuma giderken bunları mutlaka yanınızda götürün.
-
-        Bu hesaplamalara göre eğer bebeğin doğum zamanının erken olduğuna karar verilirse hasta doğumhaneye gönderilmez, sancıların durdurulması için ayrı bir servise ilaç tedavisi için gönderilir. Eğer doğum zamanı uygunsa veya erken olsa bile doğum çok ilerlemiş ve durdurulması imkansız görünüyorsa hasta doğumhaneye yönlendirilir.</p>
+      contentTitle: t('medical:units.list.dogumhane.content_title'),
+      content: <p>{t('medical:units.list.dogumhane.text')}</p>
     },
     {
       id: 'rontgen',
-      title: 'Röntgen',
+      title: t('medical:units.list.rontgen.title'),
       icon: '/d4.png',
-      contentTitle: 'Röntgen',
-      content: <p>Röntgen, insan vücudunu ve diğer nesneleri görüntülemek için kullanılan bir tıbbi görüntüleme teknolojisidir. Bu teknoloji, X-ışınlarının kullanımıyla çalışır. Röntgen cihazları, vücut dokularının iç yapısını görüntülemek için kullanılır ve birçok tıbbi durumun teşhisinde önemli bir araçtır.
-
-        Röntgen, vücutta kemikler, organlar ve diğer dokular gibi farklı yoğunluğa sahip yapıları ayırt etmek için kullanılır. Bu görüntüleme teknolojisi, tıbbi uzmanlara hastalıkları teşhis etme ve tedavi planlarını oluşturma konusunda yardımcı olur. Ayrıca, cerrahlarve diğer sağlık profesyonelleri için önemli bir rehberlik aracıdır.</p>
+      contentTitle: t('medical:units.list.rontgen.content_title'),
+      content: <p>{t('medical:units.list.rontgen.text')}</p>
     },
     {
       id: 'laboratuvar',
-      title: 'Laboratuvar',
+      title: t('medical:units.list.laboratuvar.title'),
       icon: '/d5.png',
-      contentTitle: 'Laboratuvar',
-      content: <p>Zeytinburnu Tıp Merkezi,  hastalarına acil ve rutin laboratuvar hizmeti verirken, özellikle güvenilir sonuç üretmeyi hedef edinmiş olmanın gereklerini yerine getiren merkez laboratuvarı, haftanın 7 günü hizmetini sürdürmektedir. </p>
+      contentTitle: t('medical:units.list.laboratuvar.content_title'),
+      content: <p>{t('medical:units.list.laboratuvar.text')}</p>
     },
     {
       id: 'fizik',
-      title: 'Fizik Tedavi',
-      icon: '/d1.png', // Placeholder
-      contentTitle: 'Fizik Tedavi',
-      content: <p>Fizik Tedavi ve Rehabilitasyon ünitemizde; kas, eklem, kemik ve omurga hastalıkları, felçler, ortopedik ameliyatlar sonrası rehabilitasyon, spor yaralanmaları ve romatizmal hastalıkların tanı ve tedavisi uygulanmaktadır. Modern cihazlar ve deneyimli fizyoterapistler eşliğinde kişiye özel egzersiz ve tedavi programları ile hastalarımızın yaşam kalitesini artırmayı hedefliyoruz.</p>
+      title: t('medical:units.list.fizik.title'),
+      icon: '/d1.png',
+      contentTitle: t('medical:units.list.fizik.content_title'),
+      content: <p>{t('medical:units.list.fizik.text')}</p>
     },
     {
       id: 'saglik_raporlari',
-      title: 'Sağlık Raporları',
+      title: t('medical:units.list.saglik_raporlari.title'),
       icon: '/d6.png',
-      contentTitle: 'Sağlık Raporları',
+      contentTitle: t('medical:units.list.saglik_raporlari.content_title'),
       content: (
         <>
-          <p>Kurumumuz Tarafından Verilen Sağlık Raporları</p>
+          <p>{t('medical:units.list.saglik_raporlari.text')}</p>
           <div className="birim-tags">
-            <span>Evlilik için sağlık raporu</span>
-            <span>Sürücü olur sağlık raporu</span>
-            <span>Spor için sağlık raporu</span>
-            <span>Havuz için sağlık raporu</span>
-            <span>İş için sağlık raporu</span>
-            <span>Yol Belgesi (EK-7 Raporu)</span>
+            {t('medical:units.list.saglik_raporlari.tags', { returnObjects: true }).map((tag, idx) => (
+              <span key={idx}>{tag}</span>
+            ))}
           </div>
         </>
       )
     },
     {
       id: 'ultrason',
-      title: 'Ultrasonografi',
+      title: t('medical:units.list.ultrason.title'),
       icon: '/d7.png',
-      contentTitle: 'Ultrasonografi',
-      content: <p>Ultrason (USG) ile hem iç organlar hakkında bilgi edilebilir, hem de gebelik tanı ve kontrolünde fetüsü izlemek amacıyla kullanılmaktadır. Radyasyon içermediği için düzenli olarak yaptırılmasının hiçbir sakıncası yoktur.</p>
+      contentTitle: t('medical:units.list.ultrason.content_title'),
+      content: <p>{t('medical:units.list.ultrason.text')}</p>
     },
     {
       id: 'solunum',
-      title: 'Solunum Testi',
+      title: t('medical:units.list.solunum.title'),
       icon: '/d8.png',
-      contentTitle: 'Solunum Testi',
-      content: <p>Solunum fonksiyon testi temel anlamda akciğerlerinizin performansını ölçmek için yapılan bir testtir.
-
-        Soluk alıp verme sırasında oluşan akım ya da volüm değişikliklerinin zamanın türevi olarak ölçülmesi esasına dayanan fizyolojik bir testtir.
-        Solunum fonksiyon testinin yaygın kullanılan adlarından biri de akciğer fonksiyon testidir.
-
-        Bu testlerle akciğerlere ne kadar hava girip çıktığı, kanınıza giden oksijen miktarı, efor sırasında akciğerlerinizin ne kadar iyi çalıştığı ölçülür.
-
-        Solunum fonsiyon testleri arasında en yaygın kullanılanı spirometridir. Bu yöntemde soluduğunuz havanın giriş – çıkış hacmi ve hızı ölçülür. </p>
+      contentTitle: t('medical:units.list.solunum.content_title'),
+      content: <p>{t('medical:units.list.solunum.text')}</p>
     },
     {
       id: 'odyometri',
-      title: 'Odyometri ve Timpanometri',
+      title: t('medical:units.list.odyometri.title'),
       icon: '/d9.png',
-      contentTitle: 'Odyometri ve Timpanometri',
-      content: <p>Odyometri, kişinin işitme yeteneğini değerlendirmek için kullanılan bir testtir. Bu testte, kişinin işitme eşiği ölçülür ve işitme kaybı tespit edilir. Odyometri testi, kulaklıklar ve sesli uyarıcılar kullanılarak gerçekleştirilir.
-
-        Timpanometri ise, kulak zarının ve orta kulak basıncının ölçüldüğü bir testtir. Bu testte, bir prob kulak kanalına yerleştirilir ve basınç değişiklikleri kaydedilir. Timpanometri, kulak zarı problemlerini tespit etmek için kullanılır.
-        Timpanometri testi sırasında, probun kulak kanalına yerleştirilmesiyle birlikte basınç değişiklikleri kaydedilir ve bu sayede kulak zarının ve orta kulak basıncının durumu değerlendirilir.
-
-        Odyometri ve timpanometri testleri, genellikle birlikte yapılır ve birbirlerini tamamlayıcıdır. Odyometri testi, kişinin işitme eşiğini belirlemek ve işitme kaybını tespit etmek için kullanılırken, timpanometri testi kulak zarı problemlerini tespit etmek için kullanılır.
-
-        Bu testler, işitme sağlığının değerlendirilmesinde önemli bir rol oynar ve işitme sorunlarına erken müdahale için önemli bir adımdır.</p>
+      contentTitle: t('medical:units.list.odyometri.content_title'),
+      content: <p>{t('medical:units.list.odyometri.text')}</p>
     }
-  ];
+  ], [t]);
 
   const selectedUnit = units.find(u => u.id === selectedId);
 
   return (
     <div className="birimlerimiz-page">
       <div className="birimlerimiz-header">
-        <h1 className="birimlerimiz-title">Birimlerimiz</h1>
+        <h1 className="birimlerimiz-title">{t('medical:units.title')}</h1>
 
         <div className="birimlerimiz-grid">
           {units.map((unit) => (

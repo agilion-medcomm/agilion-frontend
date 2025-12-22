@@ -1,0 +1,16 @@
+{
+    "logo_text": "Zeytinburnu Tıp Merkezi",
+    "desc": "Yenilenen yüzümüz ve uzman hekimlerimizle hizmetinizdeyiz!",
+    "address": "Yenidoğan Mah. 50 Sok. No :22 Zeytinburnu/İstanbul",
+    "headings": {
+        "corporate": "KURUMSAL",
+        "departments": "BÖLÜMLERİMİZ"
+    },
+    "links": {
+        "about": "Hakkımızda",
+        "doctors": "Hekimlerimiz",
+        "contact": "İletişim"
+    },
+    "copyright": "© {{year}} Zeytinburnu Tıp Merkezi",
+    "lighting_text": "Aydınlatma Metni"
+}

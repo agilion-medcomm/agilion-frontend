@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios'; // axios import edildi
 import './LoginPage.css';
 
@@ -11,6 +12,7 @@ const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 export default function LoginPage() {
+  const { t } = useTranslation(['login', 'common']);
   const [tcKimlik, setTcKimlik] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,12 +36,12 @@ export default function LoginPage() {
     // Normalize and validate TCKN: only digits, length 11
     const normalizedTckn = (tcKimlik || '').replace(/\D/g, '');
     if (!normalizedTckn || normalizedTckn.length !== 11) {
-      setError('Lütfen 11 haneli geçerli bir TC kimlik numarası girin. (Sadece rakamlar)');
+      setError(t('login:validation.tckn_invalid'));
       return;
     }
 
     if (!password || password.length < 8) {
-      setError('Lütfen en az 8 karakterli bir şifre girin.');
+      setError(t('login:validation.password_too_short'));
       return;
     }
 
@@ -59,7 +61,7 @@ export default function LoginPage() {
       const { token, user } = response.data?.data || response.data;
 
       if (!token) {
-        throw new Error('Sunucudan token gelmedi.');
+        throw new Error(t('login:error.no_token'));
       }
 
       // Use token and user directly
@@ -87,11 +89,11 @@ export default function LoginPage() {
               login({ token: mockToken, user: withoutPassword(user) });
               navigate('/');
             } else {
-              setError('TC veya şifre yanlış.');
+              setError(t('login:error.invalid_credentials'));
             }
           } catch (fallbackErr) {
             console.error('Fallback GET /patients hatası:', fallbackErr);
-            setError('Kullanıcı listesi alınamadı veya bir hata oluştu.');
+            setError(t('login:error.fetch_failed'));
           }
         } else if (err.response) {
           // 2b. DİĞER API HATALARI: 401 (yetkisiz), 400 (hatalı istek) vb.
@@ -101,21 +103,21 @@ export default function LoginPage() {
           if (respData && respData.errors && Array.isArray(respData.errors) && respData.errors.length) {
             setError(respData.errors.map(e => e.message).join('; '));
           } else {
-            setError(respData?.message || `Sunucu hatası: ${err.response.status}`);
+            setError(respData?.message || t('common:server_error_with_status', { status: err.response.status }));
           }
         } else if (err.request) {
           // 2c. NETWORK HATASI: Sunucuya ulaşılamadı
           console.error('Network Hatası:', err.request);
-          setError('Sunucuya ulaşılamıyor. Lütfen ağ bağlantınızı ve sunucunun çalıştığını kontrol edin.');
+          setError(t('login:error.network'));
         } else {
           // 2d. BEKLENMEDİK HATA
           console.error('Beklenmedik Hata:', err.message);
-          setError('Beklenmedik bir hata oluştu.');
+          setError(t('login:error.unexpected'));
         }
       } else {
         // axios dışı bir hata
         console.error('Genel Hata:', err);
-        setError(err.message || 'Bilinmeyen bir hata oluştu.');
+        setError(err.message || t('login:error.unknown'));
       }
     } finally {
       setLoading(false);
@@ -125,16 +127,16 @@ export default function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '440px' }}>
-        <h2 className="login-title">Giriş Yap</h2>
+        <h2 className="login-title">{t('login:title')}</h2>
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message" role="alert">{error}</div>}
           <div className="form-group">
-            <label htmlFor="tcKimlik">Kullanıcı Adı (TC No)</label>
+            <label htmlFor="tcKimlik">{t('common:username')}</label>
             <input
               type="text"
               id="tcKimlik"
               className="form-input"
-              placeholder="TC No girin"
+              placeholder={t('login:placeholders.tckn')}
               value={tcKimlik}
 
               maxLength={11} // 11 karakter sınırı (HTML tarafı)
@@ -150,12 +152,12 @@ export default function LoginPage() {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Şifre</label>
+            <label htmlFor="password">{t('common:password')}</label>
             <input
               type="password"
               id="password"
               className="form-input"
-              placeholder="Şifre girin"
+              placeholder={t('login:placeholders.password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
@@ -163,18 +165,18 @@ export default function LoginPage() {
             />
           </div>
           <button type="submit" className="login-button" disabled={loading}>
-            {loading ? 'Giriş Yapılıyor...' : 'Giriş Yap'}
+            {loading ? t('login:button_loading') : t('common:login')}
           </button>
         </form>
 
         <div className="login-footer-links">
           <div className="login-footer-link">
             <Link to="/forgot-password" className="login-link" style={{ fontSize: '14px', color: '#0d6efd' }}>
-              Şifremi Unuttum
+              {t('login:forgot_password')}
             </Link>
           </div>
           <div className="login-footer-link">
-            Hesabınız yok mu? <Link to="/register" className="login-link">Kaydol</Link>
+            {t('login:no_account')} <Link to="/register" className="login-link">{t('common:register')}</Link>
           </div>
         </div>
       </div>

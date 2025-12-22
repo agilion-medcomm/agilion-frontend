@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./ExpertSection.css";
 
 export default function ExpertSection() {
   const navigate = useNavigate();
+  const { t } = useTranslation(['home']);
 
   return (
     <section className="expert-section">
@@ -15,20 +17,16 @@ export default function ExpertSection() {
 
         {/* SAĞ: İçerik */}
         <div className="expert-content">
-          <h2>Uzman Hekimlerimizle Hizmetinizdeyiz!</h2>
+          <h2>{t('home:expert.title')}</h2>
           <p>
-            Uzman kadromuzla, yasal mevzuatlara uygun biçimde; modern tıbbın son
-            gelişmeleri doğrultusunda yenilikçi ve çağdaş bir anlayışla, hasta
-            ve yakınlarının güvenini kazanan, etik değerlerden ödün vermeden
-            kaliteli ve ekonomik koşullarda koruyucu ve iyileştirici sağlık
-            hizmetleri sunmayı hedefliyoruz.
+            {t('home:expert.text')}
           </p>
 
           <div className="expert-actions">
             {/* Hasta Çağrı Merkezi Kartı */}
             <div className="call-box">
-              <h4>Hasta Çağrı Merkezi</h4>
-              <p className="subtitle">İhtiyacınız olan her an yanınızdayız</p>
+              <h4>{t('home:expert.call_center_title')}</h4>
+              <p className="subtitle">{t('home:expert.call_center_sub')}</p>
               <p className="phone">
                 <img src="/phone.svg" alt="" className="phone-icon" /> (0212) 665 70 10
               </p>
@@ -37,10 +35,10 @@ export default function ExpertSection() {
             {/* Sağ Butonlar */}
             <div className="expert-buttons">
               <button className="outline-btn" onClick={() => navigate('/hekimlerimiz')}>
-                <img src="/details.svg" alt="" className="btn-icon" /> İnceleyin
+                <img src="/details.svg" alt="" className="btn-icon" /> {t('home:expert.explore')}
               </button>
               <button className="outline-btn" onClick={() => window.open('https://maps.app.goo.gl/Y4Sd4PxT5nv51niW6', '_blank')}>
-                <img src="/map.svg" alt="" className="btn-icon" /> Adresimiz
+                <img src="/map.svg" alt="" className="btn-icon" /> {t('home:expert.address')}
               </button>
             </div>
           </div>

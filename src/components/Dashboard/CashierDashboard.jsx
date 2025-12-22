@@ -170,7 +170,7 @@ export default function CashierDashboard() {
       const fetchDoctors = async () => {
         try {
           const response = await axios.get(`${BaseURL}/doctors`, {
-            params: { department: selectedDepartment },
+            params: { specialization: selectedDepartment },
             headers: { Authorization: `Bearer ${token}` }
           });
           setDoctorsList(response.data?.data || []);

@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import "./Footer.css";
 
 export default function Footer() {
   const navigate = useNavigate();
+  const { t } = useTranslation(['footer', 'common']);
 
   return (
     <footer className="footer">
@@ -12,20 +14,19 @@ export default function Footer() {
         <div className="footer__col footer__col--left">
           {/* Logo bloğu */}
           <div className="footer__logoBlock" onClick={() => navigate('/')}>
-            <h2 className="footer__logoText">Zeytinburnu Tıp Merkezi</h2>
+            <h2 className="footer__logoText">{t('footer:logo_text')}</h2>
           </div>
 
           {/* Açıklama */}
           <p className="footer__desc">
-            Yenilenen yüzümüz ve uzman hekimlerimizle hizmetinizdeyiz!
+            {t('footer:desc')}
           </p>
 
           {/* Bilgi butonları */}
           <div className="footer__list">
             <button className="footer__item" onClick={() => window.location.href = 'https://maps.google.com'}>
               <span className="footer__icon">{/* pin */}</span>
-              Yenidoğan Mah. 50 Sok. No :22
-              Zeytinburnu/İstanbul
+              {t('footer:address')}
             </button>
 
             <button className="footer__item" onClick={() => window.location.href = 'mailto:info@agilionmedtıpmerkezi.com.tr'}>
@@ -47,33 +48,33 @@ export default function Footer() {
 
         {/* ORTA SÜTUN */}
         <div className="footer__col">
-          <h4 className="footer__heading">KURUMSAL</h4>
+          <h4 className="footer__heading">{t('footer:headings.corporate')}</h4>
           <div className="footer__menu">
-            <button className="footer__link" onClick={() => navigate('/kurumsal')}>Hakkımızda</button>
-            <button className="footer__link" onClick={() => navigate('/hekimlerimiz')}>Hekimlerimiz</button>
-            <button className="footer__link" onClick={() => navigate('/contact')}>İletişim</button>
+            <button className="footer__link" onClick={() => navigate('/kurumsal')}>{t('footer:links.about')}</button>
+            <button className="footer__link" onClick={() => navigate('/hekimlerimiz')}>{t('footer:links.doctors')}</button>
+            <button className="footer__link" onClick={() => navigate('/contact')}>{t('footer:links.contact')}</button>
           </div>
         </div>
 
         {/* SAĞ SÜTUN */}
         <div className="footer__col">
-          <h4 className="footer__heading">BÖLÜMLERİMİZ</h4>
+          <h4 className="footer__heading">{t('footer:headings.departments')}</h4>
           <div className="footer__menu">
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'acil' } })}>Acil 7/24</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'dis' } })}>Ağız ve Diş Sağlığı</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'diyet' } })}>Beslenme ve Diyet</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'derma' } })}>Dermatoloji</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'cerrahi' } })}>Genel Cerrahi</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'goz' } })}>Göz Sağlığı</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'dahiliye' } })}>İç Hastalıklar/Dahiliye</button>
-            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'kadin' } })}>Kadın Hastalıkları ve Doğum</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'acil' } })}>{t('common:depts.emergency')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'dis' } })}>{t('common:depts.dental')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'diyet' } })}>{t('common:depts.nutrition')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'derma' } })}>{t('common:depts.dermatology')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'cerrahi' } })}>{t('common:depts.surgery')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'goz' } })}>{t('common:depts.eye')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'dahiliye' } })}>{t('common:depts.internal')}</button>
+            <button className="footer__link" onClick={() => navigate('/bolumlerimiz', { state: { selectedId: 'kadin' } })}>{t('common:depts.women')}</button>
           </div>
         </div>
       </div>
 
       <div className="container footer__row">
-        <small>© {new Date().getFullYear()} Zeytinburnu Tıp Merkezi</small>
-        <a href="#"> Aydınlatma Metni</a>
+        <small>{t('footer:copyright', { year: new Date().getFullYear() })}</small>
+        <a href="#"> {t('footer:lighting_text')}</a>
       </div>
 
     </footer>

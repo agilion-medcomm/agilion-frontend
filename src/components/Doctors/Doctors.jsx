@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
 import "./Doctors.css";
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 // 8 Bölüm
 const DEPARTMENTS = [
@@ -18,6 +19,7 @@ const DEPARTMENTS = [
 ];
 
 export default function Doctors() {
+  const { t } = useTranslation(['medical']);
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -31,7 +33,7 @@ export default function Doctors() {
     // API'den doktorları çek
     fetch(`${API_BASE}/api/v1/doctors`)
       .then(res => {
-        if (!res.ok) throw new Error('Sunucu hatası');
+        if (!res.ok) throw new Error(t('medical:doctors.loading_error'));
         return res.json();
       })
       .then(data => {
@@ -42,7 +44,7 @@ export default function Doctors() {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
+  }, [t]);
 
   // Doktor kartına (veya içindeki butona) tıklayınca çalışacak fonksiyon
   const handleDoctorCardClick = (doc) => {
@@ -50,7 +52,7 @@ export default function Doctors() {
 
     // 1. Giriş kontrolü
     if (!patientUser) {
-      alert('Randevu almak için önce giriş yapınız.');
+      alert(t('medical:doctors.login_required'));
       navigate('/login');
       return;
     }
@@ -63,19 +65,19 @@ export default function Doctors() {
     <section className="doctors-section" id="hekimlerimiz">
       <div className="doctors-header">
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 20px', textAlign: 'left' }}>
-          <h2>Alanında Uzman Hekimlerimiz</h2>
+          <h2>{t('medical:doctors.title')}</h2>
         </div>
       </div>
 
       {/* BÖLÜMLERİ GÖRE FİLTER */}
       <div className="doctors-filter-container">
-        <label className="filter-label">Bölüme Göre Filtrele:</label>
+        <label className="filter-label">{t('medical:doctors.filter_label')}</label>
         <select
           value={selectedDepartment}
           onChange={(e) => setSelectedDepartment(e.target.value)}
           className="department-select"
         >
-          <option value="">Tüm Bölümler</option>
+          <option value="">{t('medical:doctors.all_departments')}</option>
           {DEPARTMENTS.map(dept => (
             <option key={dept} value={dept}>{dept}</option>
           ))}
@@ -83,7 +85,7 @@ export default function Doctors() {
       </div>
 
       {loading ? (
-        <div style={{ textAlign: 'center', padding: 32 }}>Yükleniyor...</div>
+        <div style={{ textAlign: 'center', padding: 32 }}>{t('medical:doctors.loading')}</div>
       ) : error ? (
         <div style={{ color: 'red', textAlign: 'center', padding: 32 }}>{error}</div>
       ) : (
@@ -117,7 +119,7 @@ export default function Doctors() {
                     handleDoctorCardClick(doc);
                   }}
                 >
-                  Hızlı Randevu al
+                  {t('medical:doctors.quick_appointment')}
                 </button>
               </div>
             ))}

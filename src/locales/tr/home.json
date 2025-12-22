@@ -1,0 +1,62 @@
+{
+    "hero": {
+        "alt": "AgilionMED Hero Görseli"
+    },
+    "expert": {
+        "title": "Uzman Hekimlerimizle Hizmetinizdeyiz!",
+        "text": "Uzman kadromuzla, yasal mevzuatlara uygun biçimde; modern tıbbın son gelişmeleri doğrultusunda yenilikçi ve çağdaş bir anlayışla, hasta ve yakınlarının güvenini kazanan, etik değerlerden ödün vermeden kaliteli ve ekonomik koşullarda koruyucu ve iyileştirici sağlık hizmetleri sunmayı hedefliyoruz.",
+        "call_center_title": "Hasta Çağrı Merkezi",
+        "call_center_sub": "İhtiyacınız olan her an yanınızdayız",
+        "explore": "İnceleyin",
+        "address": "Adresimiz"
+    },
+    "bolumler": {
+        "title": "İhtiyacınız Olan Tüm Alanlarda Hizmetinizdeyiz",
+        "examine": "İncele",
+        "cite": "20 yılı aşkın tecrübemizle hizmetinizdeyiz"
+    },
+    "faq": {
+        "title": "Merak Edilenler",
+        "items": [
+            {
+                "question": "01. Kurumunuza başvurmadan önce randevu almak gerekiyor mu?",
+                "answer": "Acil servis dışındaki tüm polikliniklerimiz randevu sistemi ile hizmet vermektedir."
+            },
+            {
+                "question": "02. Nasıl Randevu Alınır?",
+                "answer": "Tüm bölümlerimizden randevu almak için sitemiz üzerinden çevrimiçi randevu sistemimizi kullanabilir veya çağrı merkezimizi arayarak kolayca randevu alabilirsiniz."
+            },
+            {
+                "question": "03. Kurumunuzda hangi laboratuvar testleri yapılabilir?",
+                "answer": "Modern laboratuvarımızda kan testleri, idrar testleri, biyokimyasal testler gibi geniş bir yelpazede testler yapılabilmektedir. Ayrıca, görüntüleme hizmetleri arasında röntgen ve ultrason da bulunmaktadır."
+            },
+            {
+                "question": "04. Muayene olduktan sonra, doktorun istediği tetkiklerin sonuçlarını göstermek ya da kontrole gelmek için tekrar randevu almaya gerek var mı?",
+                "answer": "Bu konudaki uygulamamız polikliniklerimizin yoğunluğuna göre değişmektedir. Bu nedenle, eğer doktorunuz tetkik istemiş veya kontrole çağırmış ise muayeneden çıktığınızda sonuçlarınızı göstermek veya kontrole gelmek için randevu almanız gerekip gerekmediğini poliklinik sekreterinden öğreniniz."
+            },
+            {
+                "question": "05. SGK veya özel sağlık sigortaları ile anlaşmanız var mı?",
+                "answer": "Evet, kurumumuzun SGK (Sosyal Güvenlik Kurumu) ile anlaşması bulunmaktadır. Ayrıca birçok özel sağlık sigortası ve tamamlayıcı sağlık sigortası ile de anlaşmamız mevcuttur. Detaylı bilgi için danışma birimimizle iletişime geçebilirsiniz."
+            },
+            {
+                "question": "06. Refakatçi ve ziyaretçi kurallarınız nelerdir?",
+                "answer": "Hastalarımızın sağlığı ve konforu için ziyaret saatlerimiz her gün 10:00 - 22:00 arasındadır. Her hasta için bir refakatçi kabul edilmekte olup, yoğun bakım ünitelerimizde ziyaret kuralları hastanın durumuna göre doktor onayı ile belirlenmektedir."
+            }
+        ]
+    },
+    "stats": {
+        "happy_patients": "Mutlu Hasta",
+        "experienced_doctors": "Deneyimli Hekim",
+        "successful_operations": "Başarılı Operasyon",
+        "lab_procedures": "Laboratuvar işlemi"
+    },
+    "doctor_slider": {
+        "title": "Alanında uzman, deneyimli hekimlerimiz",
+        "loading": "Yükleniyor...",
+        "error": "Hata: {{error}}",
+        "back": "Geri",
+        "next": "İleri",
+        "book": "Hızlı Randevu al",
+        "alert_login": "Randevu almak için önce giriş yapmalısınız."
+    }
+}
