@@ -643,8 +643,8 @@ input[type="button"] {
 
   .hamburger {
     display: flex !important;
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     margin-right: 0;
   }
 
@@ -691,8 +691,8 @@ input[type="button"] {
   }
 
   .hamburger {
-    width: 46px;
-    height: 46px;
+    width: 38px;
+    height: 38px;
     margin-right: 0;
   }
 }
@@ -1038,7 +1038,7 @@ input[type="button"] {
   /* Light blue tint */
   color: #2563eb;
   /* Brand blue */
-  transform: translateX(4px);
+  transform: translateX(0px);
   /* Subtle move */
 }
 

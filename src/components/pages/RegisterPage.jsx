@@ -168,31 +168,29 @@ export default function RegisterPage() {
         <form className="login-form" onSubmit={handleSubmit}>
           {error && <div className="error-message">{error}</div>}
 
-          <div className="form-group-row" style={{ display: 'flex', gap: '15px' }}>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label htmlFor="firstName">{t('auth:register.form.first_name')}</label>
-              <input
-                type="text"
-                id="firstName"
-                className="form-input"
-                value={formData.firstName}
-                onChange={handleChange}
-                disabled={loading}
-                required
-              />
-            </div>
-            <div className="form-group" style={{ flex: 1 }}>
-              <label htmlFor="lastName">{t('auth:register.form.last_name')}</label>
-              <input
-                type="text"
-                id="lastName"
-                className="form-input"
-                value={formData.lastName}
-                onChange={handleChange}
-                disabled={loading}
-                required
-              />
-            </div>
+          <div className="form-group">
+            <label htmlFor="firstName">{t('auth:register.form.first_name')}</label>
+            <input
+              type="text"
+              id="firstName"
+              className="form-input"
+              value={formData.firstName}
+              onChange={handleChange}
+              disabled={loading}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="lastName">{t('auth:register.form.last_name')}</label>
+            <input
+              type="text"
+              id="lastName"
+              className="form-input"
+              value={formData.lastName}
+              onChange={handleChange}
+              disabled={loading}
+              required
+            />
           </div>
 
           <div className="form-group">

@@ -65,12 +65,7 @@ export default function ForgotPasswordPage() {
           </div>
         ) : (
           <>
-            <p style={{
-              textAlign: 'center',
-              color: '#6b7280',
-              marginBottom: '24px',
-              fontSize: '15px'
-            }}>
+            <p className="login-subtitle">
               {t('auth:forgot_password.description')}
             </p>
 

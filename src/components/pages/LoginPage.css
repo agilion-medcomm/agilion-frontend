@@ -14,9 +14,25 @@
   padding: 80px 20px;
   background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f9fafb 100%);
   position: relative;
-  min-height: calc(100vh - var(--topbar-h) - var(--menubar-h));
+  min-height: 100vh;
   box-sizing: border-box;
 }
+
+/* If the page is used within MainLayout, we can slightly adjust it to avoid excessive scrolling, 
+   but 100vh is safer to ensure no white space at the bottom. */
+@media (min-height: 600px) {
+  .login-container {
+    /* For pages with headers, we want to at least fill the remaining space */
+    min-height: calc(100vh - var(--topbar-h, 0px) - var(--menubar-h, 0px));
+    /* But for standalone pages, these variables won't be applied correctly if they are only in :root here */
+  }
+}
+
+/* Specific fix for standalone pages where we want absolute full height */
+.login-container.standalone {
+  min-height: 100vh !important;
+}
+
 
 /* Add subtle pattern background */
 .login-container::before {
@@ -35,7 +51,7 @@
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-radius: 32px;
+  border-radius: 24px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08),
     0 8px 24px rgba(0, 0, 0, 0.04),
     0 0 0 1px rgba(255, 255, 255, 0.5);
@@ -59,15 +75,21 @@
 .login-title {
   font-size: clamp(26px, 5vw, 32px);
   font-weight: 800;
-  background: linear-gradient(135deg, #0e2b4b 0%, #4a63d1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #4a63d1;
   text-align: center;
-  margin-bottom: 36px;
+  margin-bottom: 12px;
   letter-spacing: -0.02em;
   line-height: 1.2;
 }
+
+.login-subtitle {
+  text-align: center;
+  color: #707070;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
 
 .login-form {
   display: flex;
@@ -84,7 +106,7 @@
 .form-group label {
   font-size: 14px;
   font-weight: 600;
-  color: #374151;
+  color: #37513f;
   margin-bottom: 8px;
 }
 
@@ -116,7 +138,7 @@
   border-color: #4a63d1;
   box-shadow: 0 0 0 4px rgba(74, 99, 209, 0.1),
     0 4px 12px rgba(74, 99, 209, 0.08);
-  transform: translateY(-1px);
+  transform: translateY(0px);
 }
 
 .login-button {
@@ -292,10 +314,11 @@
 }
 
 [data-theme='dark'] .login-title {
-  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #60a5fa;
+}
+
+[data-theme='dark'] .login-subtitle {
+  color: #a3a3a3;
 }
 
 [data-theme='dark'] .form-group label {
@@ -309,7 +332,7 @@
 }
 
 [data-theme='dark'] .form-input::placeholder {
-  color: #9ca3af;
+  color: #9cafa3;
 }
 
 [data-theme='dark'] .form-input:hover {
@@ -318,13 +341,13 @@
 
 [data-theme='dark'] .form-input:focus {
   border-color: #60a5fa;
-  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.2),
-    0 4px 12px rgba(96, 165, 250, 0.08);
+  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2),
+    0 4px 8px rgba(96, 165, 250, 0.08);
 }
 
 [data-theme='dark'] .login-footer-link,
 [data-theme='dark'] .register-footer-link {
-  color: #9ca3af;
+  color: #9cafa4;
 }
 
 [data-theme='dark'] .login-footer-link .login-link,

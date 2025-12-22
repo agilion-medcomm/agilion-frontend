@@ -494,7 +494,7 @@ export default function PatientDashboard() {
                           const today = new Date();
                           today.setHours(0, 0, 0, 0);
                           aptDate.setHours(0, 0, 0, 0);
-                          
+
                           // Bugün veya gelecekteki randevular iptal edilebilir
                           if (aptDate >= today) {
                             return (
@@ -558,7 +558,7 @@ export default function PatientDashboard() {
                         background: result.fileType?.includes('pdf') ? '#fee2e2' : '#dbeafe',
                         color: result.fileType?.includes('pdf') ? '#991b1b' : '#1e40af'
                       }}>
-                        {result.fileType?.includes('pdf') ? '📄 PDF' : '🖼️ Resim'}
+                        {result.fileType?.includes('pdf') ? 'PDF' : 'Resim'}
                       </span>
                     </td>
                     <td>{result.fileSizeKB?.toFixed(0)} KB</td>
@@ -567,7 +567,7 @@ export default function PatientDashboard() {
                         className="btn-sm btn-secondary"
                         onClick={() => handleDownloadFile(result.id, result.fileName)}
                       >
-                        📥 İndir
+                        İndir
                       </button>
                     </td>
                   </tr>
