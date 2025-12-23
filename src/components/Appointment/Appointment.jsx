@@ -269,6 +269,18 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 							))}
 						</div>
 					</div>
+
+					{/* Mobil İçin Alt Tarafta Onay Butonu */}
+					<div className="randevu-onay-wrap-mobile">
+						<button
+							className="confirm-appointment-btn"
+							onClick={handleFinalAppointment}
+							disabled={!selectedSlot || isSubmitting}
+							style={{ opacity: (!selectedSlot || isSubmitting) ? 0.6 : 1 }}
+						>
+							{isSubmitting ? t('appointment:labels.processing') : t('appointment:labels.confirm_btn')}
+						</button>
+					</div>
 				</div>
 			</div>
 
