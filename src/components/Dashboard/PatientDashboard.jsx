@@ -6,7 +6,7 @@ import './SharedDashboard.css';
 
 export default function PatientDashboard() {
   // ✅ Vite uyumlu API adresi
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
   const BaseURL = `${API_BASE}/api/v1`;
 
   const { user, updateUser } = useAuth();
@@ -130,10 +130,10 @@ export default function PatientDashboard() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       setMessage({ type: 'success', text: '✅ Değerlendirmeniz başarıyla gönderildi!' });
-      
+
       // Randevuları yeniden çek ve modalı kapat
       await fetchAppointments();
-      
+
       setTimeout(() => {
         setShowReviewModal(false);
         setSelectedAppointment(null);
@@ -526,13 +526,12 @@ export default function PatientDashboard() {
                         })()}
                         {/* Değerlendir butonu - Sadece DONE ve henüz değerlendirilmemiş randevular için */}
                         {status === 'DONE' && !apt.rating && (
-                          <button 
-                            className="btn-primary modern-btn" 
-                            style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} 
+                          <button
+                            className="btn-primary modern-btn"
+                            style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }}
                             onClick={() => openReviewModal(apt)}
                           >
                             ⭐ Değerlendir
->>>>>>> 3c1a831 (Değerlendirme eklendi.)
                           </button>
                         )}
                         {/* Puan göstergesi - Değerlendirilmiş randevular için */}

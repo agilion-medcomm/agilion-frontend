@@ -72,8 +72,8 @@ export default function Menu() {
       navigate('/login');
       return;
     }
-    // 2. Kural: Kullanıcı login ise, randevu sayfasına yönlendir.
-    navigate('/randevu');
+    // 2. Kural: Kullanıcı login ise, doktor seçme sayfasına yönlendir.
+    navigate('/doktor-sec');
   };
 
   // artık modal state'leri yok

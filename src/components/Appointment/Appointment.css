@@ -118,8 +118,11 @@
 /* Onay Butonu Alanı */
 .randevu-onay-wrap {
     margin-top: auto;
-    /* En alta iter */
     width: 100%;
+}
+
+.randevu-onay-wrap-mobile {
+    display: none;
 }
 
 .confirm-appointment-btn {
@@ -467,6 +470,12 @@
     /* İsim ve uzmanlık için kapsayıcı gerekebilir */
     .randevu-onay-wrap {
         display: none;
+    }
+
+    .randevu-onay-wrap-mobile {
+        display: block;
+        margin-top: 25px;
+        width: 100%;
     }
 }
 
