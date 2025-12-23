@@ -69,6 +69,25 @@ const ActivityIcon = () => (
   </svg>
 );
 
+const BroomIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M18 3l-6.5 6.5" />
+    <path d="M9.5 11l-3 3" />
+    <path d="M6.5 14L2 22h8l-3.5-8" />
+    <path d="M14 11l-3-3" />
+    <path d="M11 14l-3-3" />
+  </svg>
+);
+
 const MenuIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -106,17 +125,10 @@ import { useTheme } from '../../context/ThemeContext'; // Import useTheme
 
 export default function DashboardLayout() {
   const { user, logoutPersonnel } = usePersonnelAuth();
-  const { theme, toggleTheme } = useTheme(); // Use theme hook
+  const { theme } = useTheme(); // Get theme if needed, but don't toggle
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 1024);
-
-  // Force light mode in Dashboard
-  useEffect(() => {
-    if (theme === 'dark') {
-      toggleTheme();
-    }
-  }, [theme, toggleTheme]);
 
   useEffect(() => {
     if (window.innerWidth <= 1024) {
@@ -148,7 +160,7 @@ export default function DashboardLayout() {
         { path: '/dashboard/leave-requests', icon: <ClipboardIcon />, label: 'İzin Talepleri' },
         { path: '/dashboard/contact-forms', icon: <MailIcon />, label: 'İletişim Formları' },
         { path: '/dashboard/home-health', icon: <ActivityIcon />, label: 'Evde Sağlık' },
-        { path: '/dashboard/cleaning', icon: <ActivityIcon />, label: 'Temizlik' },
+        { path: '/dashboard/cleaning', icon: <BroomIcon />, label: 'Temizlik' },
         { path: '/dashboard/profile', icon: <UserIcon />, label: 'Profil' },
       ];
     }
@@ -224,7 +236,15 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className={`dashboard-container ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`}>
+    <div className={`dashboard-container ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`} data-theme="light">
+      {/* Backdrop for mobile */}
+      {!sidebarCollapsed && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setSidebarCollapsed(true)}
+        ></div>
+      )}
+
       {/* Sidebar */}
       <aside className={`dashboard-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
@@ -294,6 +314,11 @@ export default function DashboardLayout() {
                 className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
                 title={sidebarCollapsed ? item.label : ''}
                 end={item.path === '/dashboard'}
+                onClick={() => {
+                  if (window.innerWidth <= 1024) {
+                    setSidebarCollapsed(true);
+                  }
+                }}
               >
                 <span className="nav-icon">{item.icon}</span>
                 {!sidebarCollapsed && <span className="nav-label">{item.label}</span>}
