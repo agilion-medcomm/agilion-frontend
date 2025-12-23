@@ -1,0 +1,35 @@
+{
+    "kvkk": {
+        "title": "Clarification Text (KVKK)",
+        "section1_title": "1. Data Controller",
+        "section1_text": "This Clarification Text has been prepared by Zeytinburnu Surgical Medical Center (\"Medical Center\") in accordance with the Law on the Protection of Personal Data No. 6698 (\"KVKK\").",
+        "address": "Address: Yenidoğan Mah. 50 Sok. No: 22 Zeytinburnu / Istanbul",
+        "email": "Email: info@zeytinburnutipmerkezi.com.tr",
+        "phone": "Phone: +90 (212) 558 40 52 – +90 (212) 665 70 10",
+        "section2_title": "2. Processed Personal Data",
+        "section2_text": "Personal data such as name, surname, T.R. identity number, date of birth, contact information (phone number, email address), appointment information, patient registration information, and health data required for the provision of health services may be processed by the Medical Center.",
+        "section3_title": "3. Purposes of Processing Personal Data",
+        "section3_items": [
+            "Provision, planning, and execution of health services,",
+            "Operation of the online appointment system,",
+            "Responding to requests received through contact forms,",
+            "Execution of patient registration and admission processes,",
+            "Fulfillment of legal obligations arising from the legislation"
+        ],
+        "section4_title": "4. Transfer of Personal Data",
+        "section4_text": "Your personal data may only be shared with the Ministry of Health, authorized public institutions, and organizations within the scope of legal obligations in accordance with KVKK and relevant health legislation. No personal data is transferred abroad.",
+        "section5_title": "5. Method and Legal Basis for Collecting Personal Data",
+        "section5_text": "Your personal data is collected through online appointment and contact forms on the website, the call center, and face-to-face applications based on the legal grounds specified in Articles 5 and 6 of the KVKK.",
+        "section6_title": "6. Your Rights Under KVKK",
+        "section6_subtitle": "In accordance with Article 11 of the KVKK, you have the following rights;",
+        "section6_items": [
+            "To learn whether your personal data is processed,",
+            "To request information if it has been processed,",
+            "To learn the purpose of processing and whether it is used in accordance with its purpose,",
+            "To request correction of personal data if it is processed incompletely or incorrectly,",
+            "To request the deletion or destruction of personal data within the framework of legal conditions"
+        ],
+        "section7_title": "7. Application Method",
+        "section7_text": "You can submit your requests regarding your rights under KVKK in writing to the address of our Medical Center or via email to info@zeytinburnutipmerkezi.com.tr."
+    }
+}

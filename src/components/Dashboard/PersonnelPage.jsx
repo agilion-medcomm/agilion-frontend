@@ -711,7 +711,7 @@ export default function PersonnelPage() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Email</label>
+                  <label>E-posta</label>
                   <input
                     type="email"
                     name="email"
@@ -720,7 +720,7 @@ export default function PersonnelPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Phone</label>
+                  <label>Telefon</label>
                   <input
                     type="text"
                     name="phoneNumber"
@@ -732,7 +732,7 @@ export default function PersonnelPage() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Date of Birth</label>
+                  <label>Doğum Tarihi</label>
                   <input
                     type="date"
                     name="dateOfBirth"
@@ -741,7 +741,7 @@ export default function PersonnelPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Password *</label>
+                  <label>Şifre *</label>
                   <input
                     type="password"
                     name="password"
@@ -755,10 +755,10 @@ export default function PersonnelPage() {
 
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowAddModal(false)}>
-                  Cancel
+                  İptal
                 </button>
                 <button type="submit" className="btn-primary">
-                  Add Personnel
+                  Personel Ekle
                 </button>
               </div>
             </form>
@@ -771,7 +771,7 @@ export default function PersonnelPage() {
         <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Edit Personnel</h2>
+              <h2>Personeli Düzenle</h2>
               <button className="btn-close" onClick={() => setShowEditModal(false)}>
                 <XIcon />
               </button>
@@ -779,22 +779,22 @@ export default function PersonnelPage() {
             <form onSubmit={handleEditPersonnel} className="modal-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label>First Name (Read-only)</label>
+                  <label>Ad (Yalnızca Okunur)</label>
                   <input type="text" value={form.firstName} disabled />
                 </div>
                 <div className="form-group">
-                  <label>Last Name (Read-only)</label>
+                  <label>Soyad (Yalnızca Okunur)</label>
                   <input type="text" value={form.lastName} disabled />
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>TCKN (Read-only)</label>
+                  <label>TCKN (Yalnızca Okunur)</label>
                   <input type="text" value={form.tckn} disabled />
                 </div>
                 <div className="form-group">
-                  <label>Role (Read-only)</label>
+                  <label>Rol (Yalnızca Okunur)</label>
                   <input type="text" value={getRoleLabel(form.role)} disabled />
                 </div>
               </div>

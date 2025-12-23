@@ -30,7 +30,7 @@ export default function LabTechDashboard() {
       //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       //   params: { status: filter === 'pending' ? 'PENDING,IN_PROGRESS' : undefined }
       // });
-      
+
       // Mock data
       const mockTests = [
         {
@@ -66,7 +66,7 @@ export default function LabTechDashboard() {
         },
       ];
 
-      setTests(filter === 'pending' 
+      setTests(filter === 'pending'
         ? mockTests.filter(t => t.status === 'PENDING' || t.status === 'IN_PROGRESS')
         : mockTests
       );
@@ -83,7 +83,7 @@ export default function LabTechDashboard() {
       // await axios.put(`${BaseURL}/api/v1/lab-tests/${testId}/start`, {}, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       // });
-      
+
       alert('Test started!');
       fetchTests();
     } catch (error) {
@@ -98,7 +98,7 @@ export default function LabTechDashboard() {
 
   const handleSubmitResults = async (e) => {
     e.preventDefault();
-    
+
     try {
       const formData = new FormData();
       formData.append('results', resultData.results);
@@ -114,7 +114,7 @@ export default function LabTechDashboard() {
       //     'Content-Type': 'multipart/form-data'
       //   }
       // });
-      
+
       alert('Results uploaded successfully!');
       setShowResultModal(false);
       setSelectedTest(null);
@@ -127,8 +127,8 @@ export default function LabTechDashboard() {
 
   const pendingCount = tests.filter(t => t.status === 'PENDING').length;
   const inProgressCount = tests.filter(t => t.status === 'IN_PROGRESS').length;
-  const completedToday = tests.filter(t => 
-    t.status === 'COMPLETED' && 
+  const completedToday = tests.filter(t =>
+    t.status === 'COMPLETED' &&
     new Date(t.completedAt).toDateString() === new Date().toDateString()
   ).length;
 
@@ -136,8 +136,8 @@ export default function LabTechDashboard() {
     <div className="dashboard-page">
       <div className="page-header">
         <div>
-          <h1>Lab Technician Dashboard</h1>
-          <p>Manage laboratory tests and results</p>
+          <h1>Lab Teknisyeni Paneli</h1>
+          <p>Laboratuvar testlerini ve sonuçlarını yönetin</p>
         </div>
       </div>
 
@@ -146,7 +146,7 @@ export default function LabTechDashboard() {
         <div className="stat-card" style={{ background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)' }}>
           <div className="stat-icon">⏳</div>
           <div className="stat-info">
-            <h3>Pending Tests</h3>
+            <h3>Bekleyen Testler</h3>
             <p className="stat-value">{pendingCount}</p>
           </div>
         </div>
@@ -154,7 +154,7 @@ export default function LabTechDashboard() {
         <div className="stat-card" style={{ background: 'linear-gradient(135deg, #feca57 0%, #ff9ff3 100%)' }}>
           <div className="stat-icon">🔬</div>
           <div className="stat-info">
-            <h3>In Progress</h3>
+            <h3>Devam Eden</h3>
             <p className="stat-value">{inProgressCount}</p>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function LabTechDashboard() {
         <div className="stat-card" style={{ background: 'linear-gradient(135deg, #48dbfb 0%, #0abde3 100%)' }}>
           <div className="stat-icon">✅</div>
           <div className="stat-info">
-            <h3>Completed Today</h3>
+            <h3>Bugün Tamamlanan</h3>
             <p className="stat-value">{completedToday}</p>
           </div>
         </div>
@@ -170,7 +170,7 @@ export default function LabTechDashboard() {
         <div className="stat-card" style={{ background: 'linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%)' }}>
           <div className="stat-icon">📊</div>
           <div className="stat-info">
-            <h3>Total Tests</h3>
+            <h3>Toplam Test</h3>
             <p className="stat-value">{tests.length}</p>
           </div>
         </div>
@@ -179,10 +179,10 @@ export default function LabTechDashboard() {
       {/* Filters */}
       <div className="filters-bar">
         <div className="filter-group">
-          <label>View:</label>
+          <label>Görünüm:</label>
           <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-            <option value="pending">Pending & In Progress</option>
-            <option value="all">All Tests</option>
+            <option value="pending">Bekleyen & Devam Eden</option>
+            <option value="all">Tüm Testler</option>
           </select>
         </div>
       </div>
@@ -192,23 +192,23 @@ export default function LabTechDashboard() {
         <table className="data-table">
           <thead>
             <tr>
-              <th>Patient</th>
-              <th>Test Type</th>
-              <th>Ordered By</th>
-              <th>Ordered At</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Actions</th>
+              <th>Hasta</th>
+              <th>Test Türü</th>
+              <th>Talep Eden</th>
+              <th>Talep Tarihi</th>
+              <th>Öncelik</th>
+              <th>Durum</th>
+              <th>İşlemler</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan="7" style={{ textAlign: 'center' }}>Loading...</td>
+                <td colSpan="7" style={{ textAlign: 'center' }}>Yükleniyor...</td>
               </tr>
             ) : tests.length === 0 ? (
               <tr>
-                <td colSpan="7" style={{ textAlign: 'center' }}>No tests found</td>
+                <td colSpan="7" style={{ textAlign: 'center' }}>Test bulunamadı</td>
               </tr>
             ) : (
               tests.map((test) => (
@@ -233,27 +233,27 @@ export default function LabTechDashboard() {
                   </td>
                   <td>
                     {test.status === 'PENDING' && (
-                      <button 
+                      <button
                         className="btn-small btn-primary"
                         onClick={() => handleStartTest(test.id)}
                       >
-                        Start Test
+                        Testi Başlat
                       </button>
                     )}
                     {test.status === 'IN_PROGRESS' && (
-                      <button 
+                      <button
                         className="btn-small btn-success"
                         onClick={() => handleUploadResults(test)}
                       >
-                        Upload Results
+                        Sonuçları Yükle
                       </button>
                     )}
                     {test.status === 'COMPLETED' && (
-                      <button 
+                      <button
                         className="btn-small btn-secondary"
-                        onClick={() => alert('View results')}
+                        onClick={() => alert('Sonuçları gör')}
                       >
-                        View Results
+                        Sonuçları Gör
                       </button>
                     )}
                   </td>
@@ -269,54 +269,54 @@ export default function LabTechDashboard() {
         <div className="modal-overlay" onClick={() => setShowResultModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Upload Test Results</h2>
+              <h2>Test Sonuçlarını Yükle</h2>
               <button className="modal-close" onClick={() => setShowResultModal(false)}>×</button>
             </div>
 
             <div className="test-info">
-              <p><strong>Patient:</strong> {selectedTest?.patientName}</p>
+              <p><strong>Hasta:</strong> {selectedTest?.patientName}</p>
               <p><strong>Test:</strong> {selectedTest?.testType}</p>
             </div>
 
             <form onSubmit={handleSubmitResults}>
               <div className="form-group">
-                <label>Results (JSON format)</label>
+                <label>Sonuçlar (JSON formatı)</label>
                 <textarea
                   required
                   value={resultData.results}
-                  onChange={(e) => setResultData({...resultData, results: e.target.value})}
+                  onChange={(e) => setResultData({ ...resultData, results: e.target.value })}
                   placeholder='{"hemoglobin": "14.2", "wbc": "7500", ...}'
                   rows="6"
                 />
-                <small>Enter test results in JSON format</small>
+                <small>Test sonuçlarını JSON formatında giriniz</small>
               </div>
 
               <div className="form-group">
-                <label>Upload Result File (PDF)</label>
+                <label>Sonuç Dosyası Yükle (PDF)</label>
                 <input
                   type="file"
                   accept=".pdf,.jpg,.png"
-                  onChange={(e) => setResultData({...resultData, resultFile: e.target.files[0]})}
+                  onChange={(e) => setResultData({ ...resultData, resultFile: e.target.files[0] })}
                 />
-                <small>Optional: Upload detailed report (PDF, Image)</small>
+                <small>İsteğe bağlı: Detaylı rapor yükle (PDF, Resim)</small>
               </div>
 
               <div className="form-group">
-                <label>Technician Notes</label>
+                <label>Teknisyen Notları</label>
                 <textarea
                   value={resultData.notes}
-                  onChange={(e) => setResultData({...resultData, notes: e.target.value})}
-                  placeholder="Additional notes or observations..."
+                  onChange={(e) => setResultData({ ...resultData, notes: e.target.value })}
+                  placeholder="Ek notlar veya gözlemler..."
                   rows="3"
                 />
               </div>
 
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowResultModal(false)}>
-                  Cancel
+                  İptal
                 </button>
                 <button type="submit" className="btn-primary">
-                  Upload Results
+                  Sonuçları Yükle
                 </button>
               </div>
             </form>
@@ -326,14 +326,14 @@ export default function LabTechDashboard() {
 
       {/* API Notice */}
       <div className="api-notice">
-        <p><strong>⚠️ Backend API Required:</strong></p>
+        <p><strong>⚠️ Backend API Gereksinimi:</strong></p>
         <ul>
-          <li>GET /api/v1/lab-tests - Fetch lab tests with filtering</li>
-          <li>PUT /api/v1/lab-tests/:id/start - Start a test</li>
-          <li>PUT /api/v1/lab-tests/:id/results - Upload results</li>
-          <li>GET /api/v1/lab-tests/:id/results - View results</li>
+          <li>GET /api/v1/lab-tests - Filtreleme ile lab testlerini çekme</li>
+          <li>PUT /api/v1/lab-tests/:id/start - Testi başlat</li>
+          <li>PUT /api/v1/lab-tests/:id/results - Sonuçları yükle</li>
+          <li>GET /api/v1/lab-tests/:id/results - Sonuçları görüntüle</li>
         </ul>
-        <p>See IMPLEMENTATION_CHECKLIST.md for database schema and details</p>
+        <p>Veritabanı şeması ve detaylar için IMPLEMENTATION_CHECKLIST.md dosyasını inceleyin</p>
       </div>
     </div>
   );

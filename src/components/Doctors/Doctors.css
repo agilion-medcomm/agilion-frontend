@@ -38,7 +38,8 @@
   font-weight: 800;
   margin: 0;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  color: #ffffff;
+  text-shadow: none;
   position: relative;
   z-index: 1;
 }
@@ -250,6 +251,8 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
+  color: #ffffff;
+  text-shadow: none;
 }
 
 @media (max-width: 700px) {

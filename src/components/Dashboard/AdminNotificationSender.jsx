@@ -30,7 +30,7 @@ export default function AdminNotificationSender() {
       // const response = await axios.get(`${BaseURL}/api/v1/personnel`, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       // });
-      
+
       // Mock data
       const mockPersonnel = [
         { id: 1, firstName: 'John', lastName: 'Doe', role: 'DOCTOR' },
@@ -38,7 +38,7 @@ export default function AdminNotificationSender() {
         { id: 3, firstName: 'Mike', lastName: 'Johnson', role: 'CASHIER' },
         { id: 4, firstName: 'Sarah', lastName: 'Williams', role: 'LAB_TECH' },
       ];
-      
+
       setPersonnelList(mockPersonnel);
     } catch (error) {
       console.error('Error fetching personnel:', error);
@@ -51,7 +51,7 @@ export default function AdminNotificationSender() {
       // const response = await axios.get(`${BaseURL}/api/v1/notifications/sent`, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       // });
-      
+
       // Mock data
       const mockSent = [
         {
@@ -70,7 +70,7 @@ export default function AdminNotificationSender() {
           sentAt: new Date(Date.now() - 86400000).toISOString()
         },
       ];
-      
+
       setSentNotifications(mockSent);
     } catch (error) {
       console.error('Error fetching sent notifications:', error);
@@ -93,15 +93,15 @@ export default function AdminNotificationSender() {
       // await axios.post(`${BaseURL}/api/v1/notifications`, payload, {
       //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       // });
-      
+
       alert('Notification sent successfully!');
-      
+
       // Reset form
       setNotification({ title: '', message: '', type: 'GENERAL' });
       setTargetType('ALL');
       setTargetRole('');
       setTargetUsers([]);
-      
+
       fetchSentNotifications();
     } catch (error) {
       alert('Error sending notification: ' + error.message);
@@ -119,8 +119,8 @@ export default function AdminNotificationSender() {
   };
 
   const handleUserToggle = (userId) => {
-    setTargetUsers(prev => 
-      prev.includes(userId) 
+    setTargetUsers(prev =>
+      prev.includes(userId)
         ? prev.filter(id => id !== userId)
         : [...prev, userId]
     );
@@ -138,33 +138,33 @@ export default function AdminNotificationSender() {
       <div className="notification-sender-container">
         {/* Send Form */}
         <div className="sender-form-card">
-          <h2>Create Notification</h2>
-          
+          <h2>Bildirim Oluştur</h2>
+
           <form onSubmit={handleSendNotification}>
             {/* Target Selection */}
             <div className="form-group">
-              <label>Send To:</label>
+              <label>Şunlara Gönder:</label>
               <div className="target-type-selector">
                 <button
                   type="button"
                   className={`target-btn ${targetType === 'ALL' ? 'active' : ''}`}
                   onClick={() => setTargetType('ALL')}
                 >
-                  👥 All Personnel
+                  Bütün Personel
                 </button>
                 <button
                   type="button"
                   className={`target-btn ${targetType === 'ROLE' ? 'active' : ''}`}
                   onClick={() => setTargetType('ROLE')}
                 >
-                  🎭 Specific Role
+                  Belirli Rol
                 </button>
                 <button
                   type="button"
                   className={`target-btn ${targetType === 'SPECIFIC' ? 'active' : ''}`}
                   onClick={() => setTargetType('SPECIFIC')}
                 >
-                  👤 Specific People
+                  Belirli Kişi
                 </button>
               </div>
             </div>
@@ -172,17 +172,17 @@ export default function AdminNotificationSender() {
             {/* Role Selection */}
             {targetType === 'ROLE' && (
               <div className="form-group">
-                <label>Select Role:</label>
-                <select 
-                  required 
+                <label>Rol Seç:</label>
+                <select
+                  required
                   value={targetRole}
                   onChange={(e) => setTargetRole(e.target.value)}
                 >
-                  <option value="">Choose a role...</option>
-                  <option value="DOCTOR">Doctors</option>
-                  <option value="CLEANER">Cleaners</option>
-                  <option value="CASHIER">Cashiers</option>
-                  <option value="LAB_TECH">Lab Technicians</option>
+                  <option value="">Bir rol seç...</option>
+                  <option value="DOCTOR">Doktor</option>
+                  <option value="CLEANER">Temizlikçi</option>
+                  <option value="CASHIER">Kasa</option>
+                  <option value="LAB_TECH">Lab Teknikeri</option>
                 </select>
               </div>
             )}
@@ -190,7 +190,7 @@ export default function AdminNotificationSender() {
             {/* User Selection */}
             {targetType === 'SPECIFIC' && (
               <div className="form-group">
-                <label>Select Personnel:</label>
+                <label>Personel Seç:</label>
                 <div className="user-selector-list">
                   {personnelList.map((person) => (
                     <label key={person.id} className="user-checkbox">
@@ -209,55 +209,55 @@ export default function AdminNotificationSender() {
 
             {/* Recipient Count */}
             <div className="recipient-count-display">
-              📨 Will be sent to <strong>{getRecipientCount()}</strong> {getRecipientCount() === 1 ? 'person' : 'people'}
+              Şuna Gönderilecek: <strong>{getRecipientCount()}</strong> {getRecipientCount() === 1 ? 'person' : 'people'}
             </div>
 
             {/* Notification Type */}
             <div className="form-group">
-              <label>Notification Type:</label>
-              <select 
+              <label>Bildirim Türü:</label>
+              <select
                 required
                 value={notification.type}
-                onChange={(e) => setNotification({...notification, type: e.target.value})}
+                onChange={(e) => setNotification({ ...notification, type: e.target.value })}
               >
-                <option value="GENERAL">General</option>
-                <option value="ADMIN_MESSAGE">Admin Message</option>
-                <option value="LEAVE_REQUEST">Leave Request</option>
-                <option value="APPOINTMENT">Appointment</option>
-                <option value="CLEANING">Cleaning</option>
+                <option value="GENERAL">Genel</option>
+                <option value="ADMIN_MESSAGE">Admin Mesajı</option>
+                <option value="LEAVE_REQUEST">İzin Talebi</option>
+                <option value="APPOINTMENT">Randevu</option>
+                <option value="CLEANING">Temizlik</option>
               </select>
             </div>
 
             {/* Title */}
             <div className="form-group">
-              <label>Title:</label>
+              <label>Bildirim Başlığı:</label>
               <input
                 type="text"
                 required
                 maxLength="100"
                 value={notification.title}
-                onChange={(e) => setNotification({...notification, title: e.target.value})}
-                placeholder="Notification title..."
+                onChange={(e) => setNotification({ ...notification, title: e.target.value })}
+                placeholder="Bildirim başlığı..."
               />
             </div>
 
             {/* Message */}
             <div className="form-group">
-              <label>Message:</label>
+              <label>Bildirim Mesajı:</label>
               <textarea
                 required
                 rows="5"
                 maxLength="500"
                 value={notification.message}
-                onChange={(e) => setNotification({...notification, message: e.target.value})}
-                placeholder="Notification message..."
+                onChange={(e) => setNotification({ ...notification, message: e.target.value })}
+                placeholder="Bildirim mesajı..."
               />
-              <small>{notification.message.length}/500 characters</small>
+              <small>{notification.message.length}/500 karakter</small>
             </div>
 
             {/* Preview */}
             <div className="notification-preview">
-              <h4>Preview:</h4>
+              <h4>Önizleme:</h4>
               <div className="preview-card">
                 <strong>{notification.title || 'Title will appear here'}</strong>
                 <p>{notification.message || 'Message will appear here'}</p>
@@ -265,22 +265,22 @@ export default function AdminNotificationSender() {
             </div>
 
             {/* Submit */}
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="btn-primary btn-large"
               disabled={loading || getRecipientCount() === 0}
             >
-              {loading ? 'Sending...' : '📤 Send Notification'}
+              {loading ? 'Sending...' : 'Gönder'}
             </button>
           </form>
         </div>
 
         {/* Sent History */}
         <div className="sent-history-card">
-          <h2>Sent Notifications</h2>
-          
+          <h2>Gönderilen Bildirimler</h2>
+
           {sentNotifications.length === 0 ? (
-            <p className="empty-message">No notifications sent yet</p>
+            <p className="empty-message">Gönderilen bildirim yok</p>
           ) : (
             <div className="history-list">
               {sentNotifications.map((sent) => (
@@ -288,7 +288,7 @@ export default function AdminNotificationSender() {
                   <div className="history-header">
                     <h4>{sent.title}</h4>
                     <span className="recipient-badge">
-                      {sent.recipientCount} recipients
+                      {sent.recipientCount} alıcı
                     </span>
                   </div>
                   <div className="history-details">

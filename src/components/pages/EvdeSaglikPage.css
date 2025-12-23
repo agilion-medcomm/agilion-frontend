@@ -3,9 +3,9 @@
 }
 
 .evde-saglik-page .container {
-  max-width: 1600px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 0 40px;
 }
 
 .evde-saglik-page .bg-light {
@@ -48,14 +48,14 @@
 .service-card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 30px;
+  gap: 20px;
 }
 
 .service-card {
   background-color: #fff;
   border-radius: 32px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  padding: 30px;
+  padding: 20px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #ced4da;
@@ -107,6 +107,7 @@
   line-height: 1.5;
   margin-bottom: 10px;
   display: -webkit-box;
+  line-clamp: 4;
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -115,7 +116,7 @@
 
 /* İçerik Stilleri */
 .content-container {
-  max-width: 800px;
+  max-width: 850px !important;
 }
 
 .content-section {
@@ -126,9 +127,8 @@
   font-size: 2rem;
   color: #0d3d6a;
   /* Koyu mavi */
-  margin-bottom: 20px;
-  border-left: 4px solid #0d6efd;
-  padding-left: 15px;
+  margin-bottom: 24px;
+  text-align: left;
 }
 
 .content-image {
@@ -138,10 +138,10 @@
 }
 
 .content-section p {
-  font-size: 1.2em;
-  line-height: 1.6;
-  color: #555;
-  margin-bottom: 15px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #4a5568;
+  margin-bottom: 20px;
   font-weight: 500;
 }
 
@@ -352,29 +352,30 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  /* Arka planı biraz daha kararttık */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+  z-index: 9999 !important;
+  padding: 130px 20px 60px;
   animation: fadeIn 0.2s ease;
+  overflow-y: auto;
 }
 
 .modal-content {
   background: white;
-  border-radius: 16px;
-  /* BURASI ÖNEMLİ: Genişliği zorla artırıyoruz */
+  border: 1px solid rgb(228, 228, 228);
+  border-radius: 20px;
   width: 95% !important;
   max-width: 950px !important;
-  /* Yükseklik ayarı: İçeriğe göre uzasın ama ekran taşmasın */
   height: auto;
-  max-height: 85vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  min-height: 400px;
+  max-height: none;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-bottom: 50px;
 }
 
 .modal-header {
@@ -495,12 +496,22 @@
 @media (max-width: 768px) {
   .modal-row {
     flex-direction: column;
-    /* Mobilde yine alt alta olsun */
+    align-items: stretch !important;
+    gap: 20px;
+  }
+
+  .modal-col-left,
+  .modal-col-right {
+    width: 100% !important;
+    flex: none !important;
+  }
+
+  .modal-body {
+    padding: 20px;
   }
 
   .service-list {
     grid-template-columns: 1fr;
-    /* Mobilde tek sütun olsun */
   }
 
   .modal-content {
@@ -676,6 +687,8 @@
 [data-theme="dark"] .modal-content {
   background-color: #1a1a1a;
   color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7), 0 0 15px rgba(59, 130, 246, 0.1);
 }
 
 [data-theme="dark"] .modal-header {
@@ -726,7 +739,7 @@
   /* 1. Kare Form (Hafif yumuşatılmış köşeler) */
   border-radius: 32px !important;
   /* 2. Zemin Rengi & Gradyan (Aşağıdan yukarıya hafif açılan koyu ton) */
-  background: linear-gradient(to top, rgba(50, 78, 142, 0.9), rgba(60, 120, 215, 0.8)) !important;
+  background: rgba(3, 60, 153, 0.8) !important;
   /* 3. Liquid Glass Etkisi için Kenarlık */
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   /* Gölgeyi sıfırla, sadece hoverda gelsin */
@@ -786,8 +799,8 @@
 .request-form-modal {
   max-width: 600px;
   width: 90%;
-  max-height: 85vh;
-  overflow-y: auto;
+  height: auto;
+  margin-bottom: 50px;
 }
 
 .request-form {
@@ -951,8 +964,7 @@
   }
 
   .request-form-modal {
-    max-height: 90vh;
-    overflow-y: auto;
+    margin-bottom: 30px;
   }
 
   .form-actions {

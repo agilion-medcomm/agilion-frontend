@@ -131,12 +131,11 @@ export default function Menu() {
             <span className="topbar__item"><PhoneIcon /> {t('common:call_center')}: <strong>(212) 665 70 10</strong></span>
           </div>
           <div className="topbar__right">
-            <a className="social" href="#"><FbIcon /></a>
-            <a className="social" href="#"><IgIcon /></a>
+            <a className="social" href="https://www.facebook.com/people/Zeytinburnu-Cerrahi-Tıp/100010762208927/" target="_blank" rel="noopener noreferrer"><FbIcon /></a>
+            <a className="social" href="https://www.instagram.com/zeytinburnucerrahitip/" target="_blank" rel="noopener noreferrer"><IgIcon /></a>
             <button
               className="lang-toggle-btn"
               onClick={toggleLanguage}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'inherit', fontWeight: 'bold', fontSize: '14px', padding: '0 5px' }}
             >
               {i18n.language?.toUpperCase() === 'TR' ? 'EN' : 'TR'}
             </button>
@@ -144,9 +143,8 @@ export default function Menu() {
               onClick={toggleTheme}
               className="theme-toggle-btn"
               title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', marginLeft: '10px', padding: '0', display: 'flex', alignItems: 'center' }}
             >
-              <img src={theme === 'light' ? "/sun.svg" : "/moon.svg"} width="20" height="20" alt="Theme Toggle" style={{ filter: 'brightness(0) invert(1)' }} />
+              <img src={theme === 'light' ? "/sun.svg" : "/moon.svg"} width="20" height="20" alt="Theme Toggle" />
             </button>
 
             {isLoggedIn ? (
@@ -284,7 +282,7 @@ export default function Menu() {
 
               {/* 950px ve altı için Topbar İçerikleri - Moved to Bottom */}
               <div className="mobile-menu__topbar-items">
-                <a href="mailto:info@medcommercial.com.tr" className="mobile-menu__info-item">
+                <a href="mailto:info@zeytinburnutipmerkezi.com.tr" className="mobile-menu__info-item">
                   <MailIcon /> info@zeytinburnutipmerkezi.com.tr
                 </a>
                 <a href="tel:2126657010" className="mobile-menu__info-item">
@@ -292,19 +290,18 @@ export default function Menu() {
                 </a>
 
                 <div className="mobile-menu__socials-row">
-                  <a className="social" href="#"><FbIcon /></a>
-                  <a className="social" href="#"><IgIcon /></a>
+                  <a className="social" href="https://www.facebook.com/people/Zeytinburnu-Cerrahi-Tıp/100010762208927/" target="_blank" rel="noopener noreferrer"><FbIcon /></a>
+                  <a className="social" href="https://www.instagram.com/zeytinburnucerrahitip/" target="_blank" rel="noopener noreferrer"><IgIcon /></a>
                   <button
                     className="lang-toggle-btn-mobile"
                     onClick={toggleLanguage}
-                    style={{ background: 'none', border: '1px solid #ddd', borderRadius: '50%', cursor: 'pointer', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}
                   >
                     {i18n.language?.toUpperCase() === 'TR' ? 'EN' : 'TR'}
                   </button>
                   <button
                     onClick={toggleTheme}
                     className="theme-toggle-btn-mobile"
-                    style={{ background: 'none', border: '1px solid #ddd', borderRadius: '50%', cursor: 'pointer', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginLeft: '10px' }}
+                    title={theme === 'light' ? 'Karanlık Mod' : 'Aydınlık Mod'}
                   >
                     <img src={theme === 'light' ? "/sun.svg" : "/moon.svg"} width="18" height="18" alt="Theme Toggle" />
                   </button>
@@ -324,8 +321,8 @@ export default function Menu() {
 // --- İKONLAR ---
 function MailIcon() { return <img src="/mailicon.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
 function PhoneIcon() { return <img src="/phone.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
-function FbIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M13 22v-9h3l1-4h-4V7c0-1.1.9-2 2-2h2V1h-3a5 5 0 00-5 5v3H6v4h3v9h4z" /></svg>; }
-function IgIcon() { return <svg width="18" height="18" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4" ry="4" stroke="currentColor" fill="none" /><circle cx="12" cy="12" r="4" stroke="currentColor" fill="none" /><circle cx="17" cy="7" r="1.2" fill="currentColor" /></svg>; }
+function FbIcon() { return <img src="/facebook1.svg" width="20" height="20" alt="Facebook" style={{ verticalAlign: 'middle' }} />; }
+function IgIcon() { return <img src="/insta1.svg" width="20" height="20" alt="Instagram" style={{ verticalAlign: 'middle' }} />; }
 function HamburgerIcon({ isOpen }) { return isOpen ? <img src="/xmark1.svg" className="xmark-icon" width="28" height="28" /> : <img src="/bars.svg" className="bars-icon" width="28" height="28" />; }
 function ChevronIcon() { return <svg width="20" height="20" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }
 function SettingsIcon() {

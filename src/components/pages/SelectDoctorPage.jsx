@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // API Adresini diğer sayfalardaki gibi tanımlıyoruz
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// 8 Bölüm
-const DEPARTMENTS = [
-  'Acil 7/24',
-  'Ağız ve Diş',
-  'Beslenme Diyet',
-  'Dermatoloji',
-  'Genel Cerrahi',
-  'Göz Sağlığı',
-  'İç Hastalıklar',
-  'Kadın & Doğum'
-];
+// Mappings for translation keys
+const DEPARTMENT_KEYS = {
+  'Acil 7/24': 'acil',
+  'Ağız ve Diş': 'dis',
+  'Beslenme Diyet': 'diyet',
+  'Dermatoloji': 'derma',
+  'Genel Cerrahi': 'cerrahi',
+  'Göz Sağlığı': 'goz',
+  'İç Hastalıklar': 'dahiliye',
+  'Kadın & Doğum': 'kadin'
+};
 
 import { useTheme } from "../../context/ThemeContext";
 
 const SelectDoctorPage = () => {
+  const { t } = useTranslation(['medical']);
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -97,7 +98,7 @@ const SelectDoctorPage = () => {
             marginBottom: '10px',
             fontWeight: '600',
             color: isDark ? '#e5e7eb' : '#0e2b4b'
-          }}>Bölüme Göre Filtrele:</label>
+          }}>{t('medical:doctors.filter_label')}</label>
           <select
             value={selectedDepartment}
             onChange={(e) => setSelectedDepartment(e.target.value)}
@@ -113,9 +114,11 @@ const SelectDoctorPage = () => {
               color: isDark ? '#f3f4f6' : '#334155'
             }}
           >
-            <option value="">Tüm Bölümler</option>
-            {DEPARTMENTS.map(dept => (
-              <option key={dept} value={dept}>{dept}</option>
+            <option value="">{t('medical:doctors.all_departments')}</option>
+            {Object.keys(DEPARTMENT_KEYS).map(dept => (
+              <option key={dept} value={dept}>
+                {t(`medical:departments.list.${DEPARTMENT_KEYS[dept]}.title`)}
+              </option>
             ))}
           </select>
         </div>

@@ -19,6 +19,7 @@ import ContactPage from './components/pages/ContactPage';
 import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
 import PersonelLoginPage from './components/pages/PersonelLoginPage';
 import VerifyEmailPage from './components/pages/VerifyEmailPage';
+import ClarificationTextPage from './components/pages/ClarificationTextPage';
 
 // Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout';
@@ -119,6 +120,7 @@ export default function App() {
             <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Route>
+        <Route path="/aydinlatma-metni" element={<ClarificationTextPage />} />
       </Routes>
     </ThemeProvider>
   );

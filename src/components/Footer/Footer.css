@@ -125,12 +125,11 @@
 .footer__heading::after {
   content: "";
   display: block;
-  width: 64px;
+  width: 68px;
   height: 3px;
-  background: linear-gradient(90deg, #45b5c4 0%, #4a63d1 100%);
+  background: #45b5c4aa;
   margin-top: 12px;
   border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(69, 181, 196, 0.3);
 }
 
 /* Menü link butonları */

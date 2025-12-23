@@ -1,32 +1,33 @@
 /* Bolumlerimiz Page Styles */
 .bolumlerimiz-page {
     font-family: 'Inter', sans-serif;
-    background-color: #f0f4f8;
-    min-height: 100vh;
-    padding-bottom: 40px;
+    background-color: #fff;
 }
 
 /* Header Section */
 .bolumlerimiz-header {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    background-color: #f0f4f8;
+    padding: 40px 0;
 }
 
 .bolumlerimiz-title {
+    max-width: 1200px;
+    margin: 0 auto 20px auto;
+    padding: 0 20px;
     font-size: 1.5rem;
     font-weight: 700;
     color: #0044cc;
-    /* Blue title */
-    margin-bottom: 20px;
 }
 
 /* Grid Layout */
 .bolumlerimiz-grid {
+    max-width: 1200px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 40px;
 }
 
 /* Card Styles */

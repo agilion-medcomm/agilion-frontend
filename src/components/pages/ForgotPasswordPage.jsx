@@ -9,7 +9,7 @@ const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
 export default function ForgotPasswordPage() {
-  const { t } = useTranslation(['auth']);
+  const { t } = useTranslation(['auth', 'common']);
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -92,7 +92,7 @@ export default function ForgotPasswordPage() {
             </form>
 
             <div className="login-footer-link">
-              {t('auth:forgot_password.remembered')} <Link to="/login" className="login-link">{t('common:buttons.login')}</Link>
+              {t('auth:forgot_password.remembered')} <Link to="/login" className="login-link">{t('common:login')}</Link>
             </div>
           </>
         )}
