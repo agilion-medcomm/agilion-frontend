@@ -2,7 +2,8 @@
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: #f0f2f5;
+  background: #f0f2f5 !important;
+  color: #1e293b !important;
 }
 
 .dashboard-loading {
@@ -179,20 +180,17 @@
 
 .nav-item.active {
   background: linear-gradient(to bottom, #2b4de3 0%, #1b339b 100%);
-}
-
-.nav-item.active .nav-icon {
   color: white !important;
 }
 
+.nav-item.active .nav-icon,
 .nav-item.active .nav-icon svg {
-  color: #fff !important;
-  stroke: #fff !important;
-  fill: #fff !important;
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
 
 .nav-item.active .nav-label {
-  color: white !important;
+  color: #ffffff !important;
 }
 
 .nav-icon {
@@ -279,69 +277,117 @@
 }
 
 /* Responsive */
-@media (max-width: 1024px) {
+.sidebar-backdrop {
+  display: none;
+}
 
-  /* Allow wider sidebar when expanded, but keep absolute to save space on small screens if needed, 
-     or just let it flow. For 880px, flow is fine. */
+@media (max-width: 1024px) {
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+  }
+
   .dashboard-sidebar {
     position: fixed;
     z-index: 1000;
     height: 100vh;
   }
 
-  /* Add a backdrop when sidebar is open on mobile */
+  .dashboard-main {
+    margin-left: 80px;
+    width: calc(100% - 80px);
+    transition: none;
+  }
+
+  /* When expanded, it covers content WITHOUT narrowing it */
+  .dashboard-container.sidebar-expanded .dashboard-main {
+    margin-left: 80px;
+  }
+
   .dashboard-sidebar:not(.collapsed) {
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+    width: 320px;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-sidebar:not(.collapsed) {
+    width: 100%;
+  }
+
+  /* "En dar versiyonda bütün yapılar alt alta hizalansınlar" */
+  .dashboard-sidebar:not(.collapsed) .sidebar-header {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .dashboard-sidebar:not(.collapsed) .sidebar-user {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 20px;
+  }
+
+  .dashboard-sidebar:not(.collapsed) .sidebar-nav {
+    padding: 12px 0;
+  }
+
+  .dashboard-sidebar:not(.collapsed) .nav-item {
+    flex-direction: column;
+    padding: 20px 16px;
+    gap: 8px;
+    text-align: center;
+    border-radius: 0;
+    margin-bottom: 0;
+    width: 100%;
+  }
+
+  .dashboard-sidebar:not(.collapsed) .nav-icon {
+    margin: 0;
+  }
+
+  .dashboard-sidebar:not(.collapsed) .nav-label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .dashboard-sidebar:not(.collapsed) .logout-button {
+    flex-direction: column;
+    padding: 16px;
+    gap: 8px;
   }
 
   .dashboard-main {
-    transition: margin-left 0.3s ease;
-    margin-left: 80px;
-    /* Default for collapsed state */
+    margin-left: 0;
+    width: 100%;
+    position: relative;
+    padding-top: 70px;
+    /* Space for the floating toggle if needed, or just padding */
+  }
+
+  /* When collapsed in mobile, maybe hide the sidebar entirely or keep it minimal? 
+     The user said it's currently on the side. 
+     If it's already narrow (80px), we can keep it or make it even narrower. */
+
+  .dashboard-sidebar.collapsed {
+    width: 60px;
+  }
+
+  .dashboard-main {
+    margin-left: 60px;
+    width: calc(100% - 60px);
   }
 
   .dashboard-container.sidebar-expanded .dashboard-main {
-    margin-left: 260px;
-    /* Push content to right when sidebar is expanded, effectively narrowing it */
-  }
-
-  /* When expanded, it covers content. */
-
-  .dashboard-sidebar.collapsed {
-    position: sticky;
-    /* Revert to sticky when collapsed so it sits in the layout? */
-    width: 80px;
-    z-index: 100;
-  }
-
-  /* Adjust sidebar header for collapsed state */
-  .dashboard-sidebar.collapsed .sidebar-header {
-    justify-content: center;
-    padding: 20px 10px;
-  }
-
-  .dashboard-sidebar.collapsed .sidebar-toggle {
-    width: 100%;
-    justify-content: center;
-  }
-
-  /* Hide elements ONLY when collapsed (inherits from main CSS mostly, but reinforcing for mobile specific adjustments if any) */
-  .dashboard-sidebar.collapsed .logo-section,
-  .dashboard-sidebar.collapsed .user-info,
-  .dashboard-sidebar.collapsed .nav-label {
-    display: none;
-  }
-
-  /* Ensure toggle button fits in header when expanded */
-  .main-header {
-    right: 16px;
-  }
-
-  /* Center items when collapsed */
-  .dashboard-sidebar.collapsed .nav-item,
-  .dashboard-sidebar.collapsed .logout-button {
-    justify-content: center;
-    padding: 12px;
+    margin-left: 60px;
   }
 }
 

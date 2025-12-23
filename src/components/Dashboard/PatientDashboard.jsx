@@ -30,7 +30,8 @@ export default function PatientDashboard() {
   // Modal ve Form State'leri
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [review, setReview] = useState({ rating: 5 });
+  const [review, setReview] = useState({ rating: 0 }); // Default to 0 for selection
+  const [hoverRating, setHoverRating] = useState(0); // State for hover preview
 
   const [profileData, setProfileData] = useState({
     email: '',
@@ -112,7 +113,8 @@ export default function PatientDashboard() {
   // Randevu Değerlendirme Modal Açma
   const openReviewModal = (appointment) => {
     setSelectedAppointment(appointment);
-    setReview({ rating: 5 });
+    setReview({ rating: 0 });
+    setHoverRating(0);
     setShowReviewModal(true);
   };
 
@@ -482,16 +484,16 @@ export default function PatientDashboard() {
                 const statusLabel = statusLabels[status] || status;
                 return (
                   <div key={apt.id} className={`appointment-card modern-appointment-card status-${status.toLowerCase()}`}
-                    style={{ boxShadow: '0 2px 12px 0 #e0e7ef', borderRadius: 16, background: '#fff', marginBottom: 24, border: `1.5px solid ${badgeColor}22` }}>
-                    <div className="modern-apt-header" style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                      <div className="doctor-avatar" style={{ width: 48, height: 48, borderRadius: '50%', background: '#e0e7ef', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 22, color: '#2563eb' }} title={doctorName}>{avatar}</div>
+                    style={{ border: `1.5px solid ${badgeColor}22` }}>
+                    <div className="modern-apt-header">
+                      <div className="doctor-avatar" title={doctorName}>{avatar}</div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 600, fontSize: 18, color: '#222' }}>{doctorName}</div>
-                        <div style={{ fontSize: 14, color: '#64748b' }}>{department}</div>
+                        <div className="doctor-info-name">{doctorName}</div>
+                        <div className="doctor-info-dept">{department}</div>
                       </div>
                       <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{statusLabel}</span>
                     </div>
-                    <div className="modern-apt-body" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 12 }}>
+                    <div className="modern-apt-body">
                       <div style={{ fontSize: 15 }}>
                         <div><strong>Tarih:</strong> {dateStr}</div>
                         <div><strong>Saat:</strong> {timeStr}</div>
@@ -528,15 +530,15 @@ export default function PatientDashboard() {
                         {status === 'DONE' && !apt.rating && (
                           <button
                             className="btn-primary modern-btn"
-                            style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }}
+                            style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 100, padding: '6px 14px', fontWeight: 600 }}
                             onClick={() => openReviewModal(apt)}
                           >
-                            ⭐ Değerlendir
+                            Değerlendir
                           </button>
                         )}
                         {/* Puan göstergesi - Değerlendirilmiş randevular için */}
                         {apt.rating && (
-                          <div className="review-indicator" style={{ background: '#d1fae5', color: '#065f46', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }}>
+                          <div className="review-indicator">
                             ⭐ {apt.rating}/5
                           </div>
                         )}
@@ -702,11 +704,11 @@ export default function PatientDashboard() {
             <p className="no-data">Henüz bir değerlendirme yapmadınız.</p>
           ) : (
             appointments.filter(apt => apt.rating).map((apt) => (
-              <div key={apt.id} className="review-card" style={{ background: '#fff', padding: '20px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)', marginBottom: '16px' }}>
-                <div className="review-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <div key={apt.id} className="review-card">
+                <div className="review-header">
                   <div>
-                    <h3 style={{ margin: '0 0 4px 0', fontSize: '18px', fontWeight: '600', color: '#1a4d5f' }}>{apt.doctorName}</h3>
-                    <p style={{ margin: 0, fontSize: '14px', color: '#5a9fb8', fontWeight: '500' }}>{apt.department || 'Genel'}</p>
+                    <h3 className="review-doctor-name">{apt.doctorName}</h3>
+                    <p className="review-doctor-dept">{apt.department || 'Genel'}</p>
                   </div>
                   <div className="rating-stars" style={{ fontSize: '24px' }}>{'⭐'.repeat(apt.rating)}</div>
                 </div>
@@ -876,42 +878,43 @@ export default function PatientDashboard() {
               <h2>Randevuyu Değerlendir</h2>
               <button className="modal-close" onClick={() => setShowReviewModal(false)}>×</button>
             </div>
-            <div className="appointment-info" style={{ padding: '12px', background: '#f1f5f9', borderRadius: '8px', marginBottom: '16px' }}>
+            <div className="appointment-info">
               <p><strong>Doktor:</strong> {selectedAppointment.doctorName || 'Bilinmiyor'}</p>
               <p><strong>Tarih:</strong> {selectedAppointment.date} {selectedAppointment.time}</p>
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleSubmitReview(); }}>
-              <div className="form-group">
-                <label style={{ fontWeight: '600', marginBottom: '8px', display: 'block' }}>Puanınız (1-5 Yıldız) *</label>
-                <div className="rating-input" style={{ display: 'flex', gap: '12px', fontSize: '32px' }}>
+              <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                <label className="form-label">Puanınız (1-5 Yıldız) *</label>
+                <div
+                  className="rating-input"
+                  onMouseLeave={() => setHoverRating(0)}
+                >
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
-                      className={`star-button`}
+                      className={`star-button ${star <= (hoverRating || review.rating) ? 'is-hovered' : ''} ${star <= review.rating ? 'is-selected' : ''}`}
+                      onMouseEnter={() => setHoverRating(star)}
                       onClick={() => setReview({ ...review, rating: star })}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                        opacity: star <= review.rating ? 1 : 0.3,
-                        transition: 'opacity 0.2s',
-                      }}
                     >
-                      ⭐
+                      <img
+                        src="/star.svg"
+                        alt="star icon"
+                        className="star-icon-img"
+                      />
                     </button>
                   ))}
                 </div>
-                <p style={{ fontSize: '14px', color: '#64748b', marginTop: '8px' }}>
+                <p className="dash-text-muted" style={{ fontSize: '14px', marginTop: '0.5rem' }}>
                   Seçili Puan: <strong>{review.rating} / 5</strong>
                 </p>
               </div>
-              <div className="modal-actions" style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)} style={{ padding: '8px 16px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
-                  İptal
-                </button>
-                <button type="submit" className="btn-primary" disabled={loading} style={{ padding: '8px 16px', borderRadius: '6px', background: '#2563eb', color: 'white', border: 'none', cursor: 'pointer' }}>
+              <div className="modal-actions">
+                <button type="submit" className="btn-primary" disabled={loading}>
                   {loading ? 'Gönderiliyor...' : 'Değerlendirmeyi Gönder'}
+                </button>
+                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>
+                  İptal
                 </button>
               </div>
             </form>

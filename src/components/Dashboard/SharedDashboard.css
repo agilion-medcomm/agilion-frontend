@@ -1,3 +1,37 @@
+/* --- THEME VARIABLES --- */
+:root {
+    --dash-bg: #f8fafc;
+    --dash-card-bg: #ffffff;
+    --dash-text: #1e293b;
+    --dash-text-muted: #64748b;
+    --dash-border: #e2e8f0;
+    --dash-input-bg: #f8fafc;
+    --dash-input-border: #cbd5e1;
+    --dash-tab-bg: transparent;
+    --dash-tab-text: #455060;
+    --dash-tab-active-bg: #eff6ff;
+    --dash-tab-active-border: #2563eb;
+    --dash-tab-active-text: #2563eb;
+    --dash-header-bg: #f8fafc;
+}
+
+[data-theme='dark'],
+body.dark {
+    --dash-bg: #0f172a;
+    --dash-card-bg: #1e293b;
+    --dash-text: #f1f5f9;
+    --dash-text-muted: #94a3b8;
+    --dash-border: rgba(255, 255, 255, 0.1);
+    --dash-input-bg: rgba(15, 23, 42, 0.6);
+    --dash-input-border: rgba(255, 255, 255, 0.2);
+    --dash-tab-bg: rgba(255, 255, 255, 0.03);
+    --dash-tab-text: #94a3b8;
+    --dash-tab-active-bg: rgba(37, 99, 235, 0.2);
+    --dash-tab-active-border: #3b82f6;
+    --dash-tab-active-text: #3b82f6;
+    --dash-header-bg: #1e293b;
+}
+
 /* --- GENEL SAYFA DÜZENİ --- */
 .dashboard-page {
     padding: 2rem;
@@ -12,7 +46,7 @@
         Helvetica,
         Arial,
         sans-serif;
-    color: #334158;
+    color: var(--dash-text);
     animation: fadeIn 0.5s ease-out;
 }
 
@@ -30,19 +64,19 @@
 
 .page-header {
     margin-bottom: 2rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--dash-border);
     padding-bottom: 1rem;
 }
 
 .page-header h1 {
     font-size: 1.8rem;
-    color: #1e293b;
+    color: var(--dash-text);
     margin: 0 0 0.5rem 0;
     font-weight: 700;
 }
 
 .page-header p {
-    color: #64748b;
+    color: var(--dash-text-muted);
     margin: 0;
     font-size: 1rem;
 }
@@ -55,7 +89,7 @@
     gap: 15px;
     margin-bottom: 25px;
     padding: 10px 0;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--dash-border);
 }
 
 @media (max-width: 1000px) {
@@ -68,36 +102,27 @@
 }
 
 .tab-button {
-    background: none;
-    border: none;
+    background: var(--dash-tab-bg);
+    border: 1px solid var(--dash-border);
     padding: 0.8rem 1.2rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    color: #455060;
+    color: var(--dash-tab-text);
     cursor: pointer;
     transition: all 0.2s ease;
-    border: 1px solid rgb(192, 192, 192);
-    margin-bottom: -4px;
-    /* Çizgiyi border üzerine oturtmak için */
+    border-radius: 12px;
     white-space: nowrap;
 }
 
 .tab-button:hover {
-    color: #ffffff;
-    background-color: #f8fcf9;
-}
-
-/* Sadece aktif olan butonun hover durumunu hedefler */
-.tab-button.active:hover {
-    color: #ffffff;
-    background-color: none !important;
+    background-color: rgba(37, 99, 235, 0.05);
+    border-color: var(--dash-tab-active-border);
 }
 
 .tab-button.active {
-    color: #2563eb;
-    background-color: #eff6ff;
-    border: 1px solid #2563eb;
-    border-radius: 12px;
+    color: var(--dash-tab-active-text);
+    background-color: var(--dash-tab-active-bg);
+    border: 1px solid var(--dash-tab-active-border);
 }
 
 
@@ -112,31 +137,85 @@
 
 .filter-group select {
     padding: 0.6rem 1rem;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--dash-input-border);
     border-radius: 8px;
-    background-color: rgb(240, 240, 240);
-    color: #334155;
-    font-size: 1.1rem;
+    background-color: var(--dash-input-bg);
+    color: var(--dash-text);
+    font-size: 0.95rem;
     cursor: pointer;
 }
 
 .appointments-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 1.5rem;
 }
 
 .appointment-card {
-    background: white;
-    border: 1px solid #e2e8f0;
+    background: var(--dash-card-bg);
+    border: 1px solid var(--dash-border);
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    color: var(--dash-text);
 }
+
+.modern-appointment-card {
+    background: var(--dash-card-bg) !important;
+    box-shadow: 0 2px 12px 0 var(--dash-border) !important;
+    border-radius: 16px !important;
+    margin-bottom: 24px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+[data-theme='dark'] .modern-appointment-card,
+body.dark .modern-appointment-card {
+    box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.4) !important;
+}
+
+.modern-apt-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.doctor-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--dash-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 22px;
+    color: #2563eb;
+}
+
+.doctor-info-name {
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--dash-text) !important;
+}
+
+.doctor-info-dept {
+    font-size: 14px;
+    color: var(--dash-text-muted) !important;
+}
+
+.modern-apt-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    color: var(--dash-text);
+}
+
 
 .appointment-card:hover {
     transform: translateY(-3px);
@@ -153,18 +232,19 @@
 .appointment-header h3 {
     margin: 0;
     font-size: 1.1rem;
-    color: #0f172a;
+    color: var(--dash-text);
 }
 
 .appointment-details p {
     margin: 0.3rem 0;
     font-size: 0.9rem;
-    color: #64748b;
+    color: var(--dash-text-muted);
 }
 
 .appointment-details strong {
-    color: #334155;
+    color: var(--dash-text);
 }
+
 
 /* Badge (Etiketler) */
 .badge {
@@ -204,9 +284,9 @@
 
 /* --- LAB SONUÇLARI (TABLO) --- */
 .data-table-container {
-    background: white;
+    background: var(--dash-card-bg);
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--dash-border);
     overflow: hidden;
     overflow-x: auto;
 }
@@ -219,21 +299,23 @@
 
 .data-table th,
 .data-table td {
-    padding: 1rem;
+    padding: 1.25rem 1rem;
     text-align: left;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--dash-border);
+    color: var(--dash-text);
 }
 
 .data-table th {
-    background-color: #f8fafc;
-    font-weight: 600;
-    color: #475569;
-    font-size: 0.85rem;
+    background-color: var(--dash-header-bg);
+    font-weight: 700;
+    color: var(--dash-text-muted);
+    font-size: 0.75rem;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.data-table tr:last-child td {
-    border-bottom: none;
+.data-table tr:hover td {
+    background-color: rgba(255, 255, 255, 0.02);
 }
 
 /* --- YORUMLAR (REVIEWS) --- */
@@ -243,43 +325,66 @@
 }
 
 .review-card {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    background: var(--dash-card-bg);
+    padding: 24px;
+    border-radius: 16px;
+    border: 1px solid var(--dash-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.review-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
-.review-header h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.1rem;
+.review-header h3,
+.review-doctor-name {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--dash-text);
 }
+
+.review-doctor-dept {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--dash-text-muted);
+    font-weight: 500;
+}
+
 
 .rating-stars {
     font-size: 1.2rem;
 }
 
 .review-date {
-    color: #94a3b8;
+    color: var(--dash-text-muted);
     font-size: 0.9rem;
 }
 
-/* --- AYARLAR SEKMESİ (MODERN FORM) --- */
+.review-indicator {
+    background: rgba(34, 197, 94, 0.15);
+    color: #22c55e;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 600;
+}
+
 .settings-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 2rem;
     margin-top: 1rem;
 }
 
 .settings-card {
-    background: #ffffff;
-    border-radius: 16px;
+    background: var(--dash-card-bg);
+    border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
+    border: 1px solid var(--dash-border);
 }
 
 .settings-header {
@@ -288,19 +393,19 @@
     gap: 12px;
     margin-bottom: 1.5rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--dash-border);
 }
 
 .settings-header h3 {
     font-size: 1.2rem;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--dash-text);
     margin: 0;
 }
 
 .settings-header svg {
     color: #3b82f6;
-    background: #eff6ff;
+    background: #eff6ff88;
     padding: 8px;
     border-radius: 10px;
     width: 24px;
@@ -322,7 +427,7 @@
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #64748b;
+    color: var(--dash-text-muted);
     margin-bottom: 0.5rem;
 }
 
@@ -330,9 +435,9 @@
     width: 100%;
     padding: 0.75rem 1rem;
     border-radius: 8px;
-    border: 1px solid #cbd5e1;
-    background-color: #f8fafc;
-    color: #334155;
+    border: 1px solid var(--dash-input-border);
+    background-color: var(--dash-input-bg);
+    color: var(--dash-text);
     font-size: 0.95rem;
     transition: all 0.2s ease;
     box-sizing: border-box;
@@ -342,32 +447,51 @@
 .form-input:focus {
     outline: none;
     border-color: #3b82f6;
-    background-color: #ffffff;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background-color: var(--dash-card-bg);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .form-input:disabled {
-    background-color: #f1f5f9;
-    color: #94a3b8;
+    background-color: var(--dash-bg);
+    opacity: 0.6;
+    color: var(--dash-text-muted);
     cursor: not-allowed;
 }
 
 /* Butonlar */
 .btn-primary,
-.btn-save {
-    background: #3b82f6;
-    color: white;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
+.btn-save,
+.btn-secondary {
+    padding: 0 1.5rem;
+    border-radius: 100px;
     font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    height: 44px;
+    box-sizing: border-box;
+    width: fit-content !important;
+    white-space: nowrap !important;
 }
+
+
+
+
+
+.btn-primary,
+.btn-save {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 0 2rem !important;
+    /* Increased padding to prevent edge contact */
+}
+
+
 
 .btn-save {
     width: 100%;
@@ -386,29 +510,37 @@
 }
 
 .btn-danger-action {
-    background: white;
+    background: rgba(239, 68, 68, 0.1);
     color: #ef4444;
-    border: 1px solid #fecaca;
+    border: 1px solid rgba(239, 68, 68, 0.2);
     width: 100%;
     padding: 0.8rem;
-    border-radius: 16px;
+    border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
     margin-top: 1rem;
+    transition: all 0.2s;
 }
 
 .btn-danger-action:hover {
-    background: #ff8f8f;
+    background: #ef4444;
+    color: white;
 }
 
 .btn-secondary {
-    background: #f1f5f9;
-    color: #475569;
-    border: 1px solid #e2e8f0;
-    padding: 0.6rem 1.2rem;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
+    background: var(--dash-card-bg);
+    color: var(--dash-text);
+    border: 1px solid var(--dash-border);
+    padding: 0 1rem !important;
+}
+
+
+
+
+
+.btn-secondary:hover {
+    background: var(--dash-bg);
+    border-color: var(--dash-tab-active-border);
 }
 
 .btn-small {
@@ -423,64 +555,132 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 2050;
+    /* Above floating buttons */
     animation: fadeIn 0.2s;
 }
 
 .modal-content {
-    background: white;
+    background: var(--dash-card-bg);
+    color: var(--dash-text);
     padding: 2rem;
-    border-radius: 16px;
-    width: 100%;
+    border-radius: 20px;
+    width: 90%;
     max-width: 500px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--dash-border);
 }
+
+.appointment-info {
+    padding: 1rem;
+    background: var(--dash-bg);
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--dash-border);
+}
+
+.appointment-info p {
+    margin: 5px 0;
+    color: var(--dash-text);
+}
+
+.appointment-info strong {
+    color: var(--dash-text-muted);
+}
+
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--dash-border);
 }
+
+.modal-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--dash-text);
+}
+
 
 .modal-close {
     background: none;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #94a3b8;
+    color: var(--dash-text-muted);
 }
 
 .rating-input {
     display: flex;
-    gap: 0.5rem;
-    margin: 0.5rem 0 1.5rem;
+    gap: 1.25rem;
+    margin: 1rem 0;
 }
 
 .star-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
+    background: none !important;
+    border: none !important;
+    padding: 0;
     cursor: pointer;
-    opacity: 0.3;
-    transition: opacity 0.2s;
+    transition: transform 0.2s ease;
+    outline: none !important;
 }
 
-.star-button.active {
-    opacity: 1;
-    transform: scale(1.1);
+.star-button:hover {
+    transform: scale(1.15);
 }
+
+.star-icon-img {
+    width: 38px;
+    height: 38px;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    filter: grayscale(100%) brightness(0.8) opacity(0.3);
+}
+
+.star-button.is-selected .star-icon-img,
+.star-button.is-hovered .star-icon-img {
+    filter: none !important;
+    opacity: 1 !important;
+}
+
+
+.star-icon-img {
+    width: 38px;
+    height: 38px;
+    pointer-events: none;
+    transition: all 0.2s ease;
+}
+
+
+
+
+
+.dash-text-muted {
+    color: var(--dash-text-muted) !important;
+}
+
+
 
 .modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1rem;
-    margin-top: 1.5rem;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+    margin-top: 2rem !important;
+    padding: 0 !important;
+    border: none !important;
 }
+
+
 
 @media (max-width: 768px) {
     .settings-container {
@@ -502,91 +702,4 @@
     .filter-group select {
         width: 100%;
     }
-}
-
-/* --- DARK MODE --- */
-[data-theme='dark'] .settings-card {
-    background: #1f2937;
-    border-color: #374151;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-}
-
-[data-theme='dark'] .settings-header {
-    border-bottom-color: #374151;
-}
-
-[data-theme='dark'] .settings-header h3 {
-    color: #f3f4f6;
-}
-
-[data-theme='dark'] .form-label {
-    color: #cbd5e1;
-}
-
-[data-theme='dark'] .form-input {
-    background-color: #374151;
-    border-color: #4b5563;
-    color: #f3f4f6;
-}
-
-[data-theme='dark'] .form-input:focus {
-    border-color: #60a5fa;
-    background-color: #4b5563;
-}
-
-[data-theme='dark'] .form-input:disabled {
-    background-color: #1f2937;
-    color: #6b7280;
-    border-color: #374151;
-}
-
-[data-theme='dark'] .btn-danger-action {
-    background-color: #1f2937;
-    color: #f87171;
-    border-color: #7f1d1d;
-}
-
-[data-theme='dark'] .btn-danger-action:hover {
-    background-color: #7f1d1d;
-    color: white;
-}
-
-/* Tablo Dark Mode */
-[data-theme='dark'] .data-table-container {
-    background: #1f2937;
-    border-color: #374151;
-}
-
-[data-theme='dark'] .data-table th {
-    background-color: #374151;
-    color: #e5e7eb;
-    border-bottom-color: #4b5563;
-}
-
-[data-theme='dark'] .data-table td {
-    color: #cbd5e1;
-    border-bottom-color: #374151;
-}
-
-[data-theme='dark'] .no-data {
-    color: #9ca3af;
-}
-
-/* Tab Düğmeleri Dark Mode (Seçili Olmayanlar) */
-[data-theme='dark'] .tab-button {
-    color: #9ca3af;
-    border-color: #4b5563;
-}
-
-[data-theme='dark'] .tab-button:hover {
-    background-color: #374151;
-    color: #f3f4f6;
-    border-color: #60a5fa;
-}
-
-/* Tab Düğmesi Aktif */
-[data-theme='dark'] .tab-button.active {
-    background-color: #2563eb;
-    color: white;
-    border-color: #2563eb;
 }

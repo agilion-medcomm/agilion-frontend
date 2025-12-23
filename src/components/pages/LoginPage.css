@@ -322,27 +322,45 @@
 }
 
 [data-theme='dark'] .form-group label {
-  color: #e5e7eb;
+  color: #94a3af;
+  /* Muted color initially */
+  transition: color 0.2s ease;
+}
+
+[data-theme='dark'] .form-group:focus-within label {
+  color: #60a5fa;
+  /* Subtle accent color when focused */
 }
 
 [data-theme='dark'] .form-input {
-  background-color: #374151;
-  border-color: #4b5563;
+  background-color: #1f2937 !important;
+  /* Darker bg */
+  border-color: #374151;
   color: #f3f4f6;
 }
 
 [data-theme='dark'] .form-input::placeholder {
-  color: #9cafa3;
+  color: #6b7280;
 }
 
 [data-theme='dark'] .form-input:hover {
-  border-color: #6b7280;
+  border-color: #4b5563;
 }
 
 [data-theme='dark'] .form-input:focus {
+  background-color: #1f2937 !important;
+  /* Keep it dark on focus! */
   border-color: #60a5fa;
-  box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.2),
-    0 4px 8px rgba(96, 165, 250, 0.08);
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Fix for autofill in dark mode */
+[data-theme='dark'] input:-webkit-autofill,
+[data-theme='dark'] input:-webkit-autofill:hover,
+[data-theme='dark'] input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f3f4f6 !important;
+  -webkit-box-shadow: 0 0 0px 1000px #1f2937 inset !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 [data-theme='dark'] .login-footer-link,
