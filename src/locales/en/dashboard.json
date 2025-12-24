@@ -1,0 +1,101 @@
+{
+    "title": "Patient Dashboard",
+    "logout": "Logout",
+    "tabs": {
+        "appointments": "My Appointments",
+        "labResults": "Lab Results",
+        "labRequests": "Lab Requests",
+        "reviews": "My Reviews",
+        "settings": "Profile Settings"
+    },
+    "filters": {
+        "all": "All Appointments",
+        "future": "Future Appointments",
+        "past": "Past Appointments",
+        "done": "Completed",
+        "cancelled": "Cancelled",
+        "sortByDate": "Sort by Date",
+        "sortByDoctor": "Sort by Doctor Name"
+    },
+    "appointments": {
+        "loading": "Loading...",
+        "noData": "No appointments found.",
+        "doctor": "Doctor",
+        "date": "Date",
+        "time": "Time",
+        "cancel": "Cancel",
+        "rate": "Rate",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "approved": "Approved",
+        "notSpecified": "Doctor Not Specified",
+        "general": "General"
+    },
+    "labResults": {
+        "testName": "Test Name",
+        "date": "Date",
+        "uploadedBy": "Uploaded By",
+        "fileType": "FILE TYPE",
+        "size": "SIZE",
+        "action": "ACTION",
+        "download": "Download",
+        "noData": "No lab results yet.",
+        "pdf": "PDF",
+        "image": "Image"
+    },
+    "labRequests": {
+        "title": "REQUEST TITLE",
+        "doctor": "Doctor",
+        "date": "Request Date",
+        "laborant": "ASSIGNED LABORANT",
+        "status": "Status",
+        "details": "DETAILS",
+        "pending": "PENDING",
+        "assigned": "ASSIGNED",
+        "notAssigned": "Not assigned yet",
+        "waiting": "Waiting...",
+        "noData": "No lab requests found."
+    },
+    "reviews": {
+        "noData": "You haven't made any reviews yet.",
+        "rating": "Rating"
+    },
+    "settings": {
+        "personalInfo": "Personal Information",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "birthDate": "Date of Birth",
+        "bloodType": "Blood Type",
+        "select": "Select",
+        "address": "Address",
+        "addressPlaceholder": "City, district, neighborhood, street...",
+        "emergencyContact": "Emergency Contact",
+        "security": "Security & Password",
+        "currentPassword": "Current Password",
+        "newPassword": "New Password",
+        "newPasswordConfirm": "Confirm New Password",
+        "updatePassword": "Update Password",
+        "updateProfile": "Update Profile"
+    },
+    "messages": {
+        "cancelConfirmTitle": "⚠️ Appointment Cancellation",
+        "cancelConfirmText": "Are you sure you want to cancel this appointment?\n\n• Cancelled appointments cannot be undone\n• You will need to apply again for a new appointment\n\nDo you want to continue?",
+        "cancelSuccess": "✅ Appointment cancelled successfully.",
+        "cancelError": "Appointment could not be cancelled.",
+        "reviewSuccess": "✅ Your review has been submitted successfully!",
+        "reviewError": "Review could not be submitted.",
+        "profileUpdateSuccess": "Your profile information has been updated successfully.",
+        "profileUpdateError": "Update failed",
+        "passwordSuccess": "Your password has been changed successfully.",
+        "passwordError": "Password could not be changed.",
+        "passwordMismatch": "New passwords do not match.",
+        "passwordLength": "Password must be at least 6 characters.",
+        "noFieldToUpdate": "No fields found to update.",
+        "errorOccurred": "An error occurred.",
+        "fileDownloadError": "File could not be downloaded.",
+        "fileIdNotFound": "File ID not found.",
+        "demoDownload": "{{testName}} report is being downloaded... (Demo)"
+    }
+}

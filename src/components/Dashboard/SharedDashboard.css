@@ -17,11 +17,11 @@
 
 [data-theme='dark'],
 body.dark {
-    --dash-bg: #0f172a;
-    --dash-card-bg: #1e293b;
-    --dash-text: #f1f5f9;
+    --dash-bg: var(--dashboard-bg, #0f172a);
+    --dash-card-bg: var(--dashboard-card-bg, #1e293b);
+    --dash-text: var(--dashboard-text, #f1f5f9);
     --dash-text-muted: #94a3b8;
-    --dash-border: rgba(255, 255, 255, 0.1);
+    --dash-border: var(--dashboard-border, rgba(255, 255, 255, 0.1));
     --dash-input-bg: rgba(15, 23, 42, 0.6);
     --dash-input-border: rgba(255, 255, 255, 0.2);
     --dash-tab-bg: rgba(255, 255, 255, 0.03);
@@ -63,9 +63,93 @@ body.dark {
 }
 
 .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--dash-border);
     padding-bottom: 1rem;
+}
+
+.logout-btn-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border: 1.5px solid rgba(220, 38, 38, 0.2);
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.logout-btn-header:hover {
+    background: #dc2626 !important;
+    color: white;
+}
+
+.exit-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+.logout-btn-header:hover .exit-icon {
+    transform: translateX(2px);
+}
+
+[data-theme='dark'] .logout-btn-header {
+    background: rgba(255, 107, 107, 0.12);
+    /* Daha açık kırmızı */
+    border-color: rgba(255, 135, 135, 0.25);
+}
+
+[data-theme='dark'] .logout-btn-header:hover {
+    background: #cb0000;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .dashboard-page .page-header {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        text-align: left !important;
+        padding-bottom: 1.25rem !important;
+        margin-bottom: 1.5rem !important;
+        gap: 0.75rem !important;
+    }
+
+    .dashboard-page .page-header div {
+        text-align: left !important;
+    }
+
+    .dashboard-page .page-header h1 {
+        font-size: 1.4rem !important;
+        margin-bottom: 2px !important;
+        text-align: left !important;
+    }
+
+    .dashboard-page .page-header p {
+        font-size: 0.9rem !important;
+        text-align: left !important;
+    }
+
+    .logout-btn-header {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+        gap: 5px;
+    }
+
+    .exit-icon {
+        width: 16px;
+        height: 16px;
+    }
 }
 
 .page-header h1 {
@@ -109,7 +193,6 @@ body.dark {
     font-weight: 600;
     color: var(--dash-tab-text);
     cursor: pointer;
-    transition: all 0.2s ease;
     border-radius: 12px;
     white-space: nowrap;
     display: flex;
@@ -118,20 +201,13 @@ body.dark {
 }
 
 .tab-icon {
-    width: 20px;
-    height: 20px;
-    /* #3662E3 rengini simüle etmek için (mavi tonu) */
-    filter: invert(36%) sepia(84%) saturate(4156%) hue-rotate(218deg) brightness(95%) contrast(92%);
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
 }
 
-.tab-button.active .tab-icon {
-    /* Aktif modda veya koyu modda belki farklı filtre gerekirse buraya eklenebilir */
-    filter: invert(33%) sepia(91%) saturate(2257%) hue-rotate(217deg) brightness(93%) contrast(98%);
-}
-
 [data-theme='dark'] .tab-icon {
-    filter: brightness(0) invert(1) opacity(0.8);
+    filter: brightness(0) invert(1);
 }
 
 .tab-button:hover {
@@ -341,8 +417,20 @@ body.dark .modern-appointment-card {
     letter-spacing: 0.05em;
 }
 
-.data-table tr:hover td {
-    background-color: rgba(255, 255, 255, 0.02);
+.no-data {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--dash-text-muted);
+    font-style: italic;
+}
+
+.dashboard-page .data-table tr:hover td {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme='dark'] .dashboard-page .data-table tr:hover td,
+body.dark .dashboard-page .data-table tr:hover td {
+    background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
 /* --- YORUMLAR (REVIEWS) --- */

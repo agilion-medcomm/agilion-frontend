@@ -56,7 +56,7 @@
         "error": "Error: {{error}}",
         "back": "Back",
         "next": "Next",
-        "book": "Book Fast Appointment",
+        "book": "Book an Appointment",
         "alert_login": "You must login first to book an appointment."
     }
 }

@@ -149,14 +149,10 @@ export default function Menu() {
 
             {isLoggedIn ? (
               <div className="user-menu">
-                <button onClick={handleLogout} className="ghost-btn">
-                  {t('common:logout')} ({isPersonnel ? t('common:personnel') : t('common:patient')})
-                </button>
                 <div className="user-avatar" onClick={handleAvatarClick} style={{ cursor: 'pointer' }} title={`${loggedInUser.firstName} ${loggedInUser.lastName}`}>
                   {loggedInUser.firstName?.charAt(0).toUpperCase()}
                   {loggedInUser.lastName?.charAt(0).toUpperCase()}
                 </div>
-
               </div>
             ) : (
               <Link to="/login" className="ghost-btn">{t('common:login')}</Link>

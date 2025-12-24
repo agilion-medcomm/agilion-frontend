@@ -1,9 +1,31 @@
 /* Dashboard Layout */
+:root {
+  --dashboard-bg: #f0f2f5;
+  --dashboard-text: #1e293b;
+  --dashboard-text-secondary: #64748b;
+  --dashboard-card-bg: #ffffff;
+  --dashboard-border: #e2e8f0;
+  --dashboard-input-bg: #ffffff;
+}
+
+[data-theme='dark'] {
+  --dashboard-bg: #0f172a;
+  --dashboard-text: #f8fafc;
+  --dashboard-text-secondary: #94a3b8;
+  --dashboard-card-bg: #1e293b;
+  --dashboard-border: rgba(255, 255, 255, 0.1);
+  --dashboard-input-bg: rgba(15, 23, 42, 0.6);
+  --dashboard-gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  --dashboard-button-text: #ffffff;
+}
+
+
+
 .dashboard-container {
   display: flex;
   min-height: 100vh;
-  background: #f0f2f5 !important;
-  color: #1e293b !important;
+  background: var(--dashboard-bg) !important;
+  color: var(--dashboard-text) !important;
 }
 
 .dashboard-loading {
@@ -13,7 +35,8 @@
   justify-content: center;
   height: 100vh;
   font-size: 18px;
-  color: #0e2b4b;
+  color: var(--dashboard-text);
+  background: var(--dashboard-bg);
 }
 
 .spinner {
@@ -45,6 +68,15 @@
   height: 100vh;
   overflow-y: auto;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
+}
+
+.dashboard-sidebar::-webkit-scrollbar {
+  display: none !important;
+  /* Chrome, Safari and Opera */
 }
 
 .dashboard-sidebar.collapsed {
@@ -96,8 +128,19 @@
 }
 
 .dashboard-sidebar.collapsed .sidebar-header {
-  padding: 20px 10px;
+  padding: 20px 0;
   justify-content: center;
+}
+
+.dashboard-sidebar.collapsed .sidebar-user {
+  justify-content: center;
+  padding: 20px 0;
+  gap: 0;
+  width: 100%;
+}
+
+.dashboard-sidebar.collapsed .user-avatar {
+  margin: 0 auto;
 }
 
 .sidebar-user {
@@ -157,6 +200,15 @@
   flex: 1;
   padding: 16px 12px;
   overflow-y: auto;
+  -ms-overflow-style: none !important;
+  /* IE and Edge */
+  scrollbar-width: none !important;
+  /* Firefox */
+}
+
+.sidebar-nav::-webkit-scrollbar {
+  display: none !important;
+  /* Chrome, Safari and Opera */
 }
 
 .nav-item {
@@ -264,6 +316,8 @@
   overflow-y: auto;
   max-width: 100%;
   position: relative;
+  background: var(--dashboard-bg);
+  color: var(--dashboard-text);
 }
 
 .main-header {

@@ -163,8 +163,8 @@ export default function AppointmentsPage() {
       {/* TC Search Section */}
       {user?.role === 'ADMIN' && (
         <div className="search-section" style={{
-          backgroundColor: '#f8fafc',
-          border: '1px solid #e2e8f0',
+          backgroundColor: 'var(--dashboard-card-bg)',
+          border: '1px solid var(--dashboard-border)',
           borderRadius: '8px',
           padding: '16px',
           marginBottom: '20px'
@@ -180,9 +180,11 @@ export default function AppointmentsPage() {
               style={{
                 flex: 1,
                 padding: '10px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid var(--dashboard-border)',
                 borderRadius: '6px',
-                fontSize: '14px'
+                fontSize: '14px',
+                backgroundColor: 'var(--dashboard-input-bg)',
+                color: 'var(--dashboard-text)'
               }}
               onKeyPress={(e) => e.key === 'Enter' && searchPatientByTckn()}
             />
@@ -224,8 +226,8 @@ export default function AppointmentsPage() {
             <div style={{
               marginTop: '12px',
               padding: '10px',
-              backgroundColor: 'white',
-              border: '1px solid #dbeafe',
+              backgroundColor: 'var(--dashboard-bg)',
+              border: '1px solid var(--dashboard-border)',
               borderRadius: '6px'
             }}>
               <p style={{ margin: 0, fontSize: '14px' }}>
@@ -358,12 +360,14 @@ export default function AppointmentsPage() {
           zIndex: 1000
         }}>
           <div className="modal-content" style={{
-            background: 'white',
+            background: 'var(--dashboard-card-bg)',
+            color: 'var(--dashboard-text)',
             borderRadius: '12px',
             padding: '24px',
             maxWidth: '400px',
             width: '90%',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.3)',
+            border: '1px solid var(--dashboard-border)'
           }}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
               <div style={{
@@ -391,9 +395,9 @@ export default function AppointmentsPage() {
                 style={{
                   padding: '10px 24px',
                   borderRadius: '8px',
-                  border: '1px solid #e5e7eb',
-                  backgroundColor: 'white',
-                  color: '#374151',
+                  border: '1px solid var(--dashboard-border)',
+                  backgroundColor: 'var(--dashboard-bg)',
+                  color: 'var(--dashboard-text)',
                   fontSize: '14px',
                   fontWeight: '500',
                   cursor: 'pointer',

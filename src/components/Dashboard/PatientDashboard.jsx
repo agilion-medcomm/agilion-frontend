@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 import './SharedDashboard.css';
 
 export default function PatientDashboard() {
-  // ✅ Vite uyumlu API adresi
+  const { t } = useTranslation('dashboard');
+  const navigate = useNavigate();
   const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
   const BaseURL = `${API_BASE}/api/v1`;
 
-  const { user, updateUser } = useAuth();
+  const { user, updateUser, logout } = useAuth();
   const location = useLocation();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
 
   // URL'e göre başlangıç sekmesi
   const [activeTab, setActiveTab] = useState(() => {
@@ -85,11 +92,13 @@ export default function PatientDashboard() {
   const handleCancelAppointment = async (appointmentId) => {
     // Modern onay modalı
     const confirmCancel = window.confirm(
-      '⚠️ Randevu İptali\n\n' +
-      'Bu randevuyu iptal etmek istediğinize emin misiniz?\n\n' +
-      '• İptal edilen randevular geri alınamaz\n' +
-      '• Yeni randevu için tekrar başvuru yapmanız gerekir\n\n' +
-      'Devam etmek istiyor musunuz?'
+      t('messages.cancelConfirmText', {
+        defaultValue: '⚠️ Randevu İptali\n\n' +
+          'Bu randevuyu iptal etmek istediğinize emin misiniz?\n\n' +
+          '• İptal edilen randevular geri alınamaz\n' +
+          '• Yeni randevu için tekrar başvuru yapmanız gerekir\n\n' +
+          'Devam etmek istiyor musunuz?'
+      })
     );
 
     if (!confirmCancel) return;
@@ -101,10 +110,10 @@ export default function PatientDashboard() {
       await axios.put(`${BaseURL}/appointments/${appointmentId}/status`, { status: 'CANCELLED' }, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setMessage({ type: 'success', text: '✅ Randevu başarıyla iptal edildi.' });
+      setMessage({ type: 'success', text: t('messages.cancelSuccess') });
       fetchAppointments();
     } catch (error) {
-      setMessage({ type: 'error', text: error.response?.data?.message || 'Randevu iptal edilemedi.' });
+      setMessage({ type: 'error', text: error.response?.data?.message || t('messages.cancelError') });
     } finally {
       setLoading(false);
     }
@@ -131,7 +140,7 @@ export default function PatientDashboard() {
         { rating: review.rating },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage({ type: 'success', text: '✅ Değerlendirmeniz başarıyla gönderildi!' });
+      setMessage({ type: 'success', text: t('messages.reviewSuccess') });
 
       // Randevuları yeniden çek ve modalı kapat
       await fetchAppointments();
@@ -143,7 +152,7 @@ export default function PatientDashboard() {
         setMessage({ type: '', text: '' });
       }, 1500);
     } catch (error) {
-      setMessage({ type: 'error', text: error.response?.data?.message || 'Değerlendirme gönderilemedi.' });
+      setMessage({ type: 'error', text: error.response?.data?.message || t('messages.reviewError') });
     } finally {
       setLoading(false);
     }
@@ -153,8 +162,8 @@ export default function PatientDashboard() {
     setLoading(true);
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
-      if (!token) throw new Error("Oturum anahtarı bulunamadı.");
-      if (!user?.id) throw new Error("Kullanıcı ID'si bulunamadı.");
+      if (!token) throw new Error(t('messages.errorOccurred'));
+      if (!user?.id) throw new Error(t('messages.errorOccurred'));
 
       // Doğru endpoint: /appointments?list=true&patientId=...
       const response = await axios.get(`${BaseURL}/appointments?list=true&patientId=${user.id}`, {
@@ -214,7 +223,7 @@ export default function PatientDashboard() {
   const handleDownloadFile = async (fileId, fileName) => {
     try {
       if (!fileId) {
-        setMessage({ type: 'error', text: 'Dosya Id bulunamadı' });
+        setMessage({ type: 'error', text: t('messages.fileIdNotFound') });
         return;
       }
 
@@ -246,7 +255,7 @@ export default function PatientDashboard() {
       window.URL.revokeObjectURL(blobUrl);
     } catch (error) {
       console.error('Dosya indirme hatası:', error);
-      setMessage({ type: 'error', text: 'Dosya indirilemedi' });
+      setMessage({ type: 'error', text: t('messages.fileDownloadError') });
     }
   };
 
@@ -279,7 +288,7 @@ export default function PatientDashboard() {
 
       // En az bir alan doluysa gönder
       if (Object.keys(payload).length === 0) {
-        setMessage({ type: 'error', text: 'Güncellenecek bir alan bulunamadı.' });
+        setMessage({ type: 'error', text: t('messages.noFieldToUpdate') });
         setLoading(false);
         return;
       }
@@ -293,11 +302,11 @@ export default function PatientDashboard() {
       // Context'i güncelle
       updateUser(payload);
 
-      setMessage({ type: 'success', text: response.data?.message || 'Profil bilgileriniz başarıyla güncellendi.' });
+      setMessage({ type: 'success', text: response.data?.message || t('messages.profileUpdateSuccess') });
     } catch (error) {
       console.error('❌ Profil güncelleme hatası:', error.response?.data);
-      const errorMsg = error.response?.data?.errors?.[0]?.message || error.response?.data?.message || 'Hata oluştu';
-      setMessage({ type: 'error', text: 'Güncelleme başarısız: ' + errorMsg });
+      const errorMsg = error.response?.data?.errors?.[0]?.message || error.response?.data?.message || t('messages.errorOccurred');
+      setMessage({ type: 'error', text: t('messages.profileUpdateError') + ': ' + errorMsg });
     } finally {
       setLoading(false);
     }
@@ -308,11 +317,11 @@ export default function PatientDashboard() {
     setMessage({ type: '', text: '' });
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setMessage({ type: 'error', text: 'Yeni şifreler birbiriyle uyuşmuyor.' });
+      setMessage({ type: 'error', text: t('messages.passwordMismatch') });
       return;
     }
     if (passwordData.newPassword.length < 6) {
-      setMessage({ type: 'error', text: 'Şifre en az 6 karakter olmalıdır.' });
+      setMessage({ type: 'error', text: t('messages.passwordLength') });
       return;
     }
 
@@ -327,17 +336,17 @@ export default function PatientDashboard() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      setMessage({ type: 'success', text: response.data?.message || 'Şifreniz başarıyla değiştirildi.' });
+      setMessage({ type: 'success', text: response.data?.message || t('messages.passwordSuccess') });
       setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
     } catch (error) {
-      setMessage({ type: 'error', text: error.response?.data?.message || 'Şifre değiştirilemedi.' });
+      setMessage({ type: 'error', text: error.response?.data?.message || t('messages.passwordError') });
     } finally {
       setLoading(false);
     }
   };
 
   const handleDownloadReport = (labResult) => {
-    alert(`${labResult.testName} raporu indiriliyor... (Demo)`);
+    alert(t('messages.demoDownload', { testName: labResult.testName }));
   };
 
   // Randevuları filtreleme ve sıralama
@@ -370,7 +379,7 @@ export default function PatientDashboard() {
       }
     });
 
-  if (!user) return <div className="dashboard-loading"><div className="spinner"></div><p>Yükleniyor...</p></div>;
+  if (!user) return <div className="dashboard-loading"><div className="spinner"></div><p>{t('appointments.loading')}</p></div>;
 
   return (
     <div className="dashboard-page">
@@ -379,8 +388,14 @@ export default function PatientDashboard() {
           <h1 style={{ marginBottom: '5px' }}>
             {profileData.firstName} {profileData.lastName}
           </h1>
-          <p style={{ color: '#64748b', fontSize: '1.1rem' }}>Hasta Paneli</p>
+          <p style={{ color: '#64748b', fontSize: '1.1rem' }}>{t('title')}</p>
         </div>
+        <button onClick={handleLogout} className="logout-btn-header">
+          <svg className="exit-icon" viewBox="0 0 640 640" fill="currentColor">
+            <path d="M224 160C241.7 160 256 145.7 256 128C256 110.3 241.7 96 224 96L160 96C107 96 64 139 64 192L64 448C64 501 107 544 160 544L224 544C241.7 544 256 529.7 256 512C256 494.3 241.7 480 224 480L160 480C142.3 480 128 465.7 128 448L128 192C128 174.3 142.3 160 160 160L224 160zM566.6 342.6C579.1 330.1 579.1 309.8 566.6 297.3L438.6 169.3C426.1 156.8 405.8 156.8 393.3 169.3C380.8 181.8 380.8 202.1 393.3 214.6L466.7 288L256 288C238.3 288 224 302.3 224 320C224 337.7 238.3 352 256 352L466.7 352L393.3 425.4C380.8 437.9 380.8 458.2 393.3 470.7C405.8 483.2 426.1 483.2 438.6 470.7L566.6 342.7z" />
+          </svg>
+          <span>{t('logout')}</span>
+        </button>
       </div>
 
       {message.text && (
@@ -405,35 +420,35 @@ export default function PatientDashboard() {
           onClick={() => setActiveTab('appointments')}
         >
           <img src="/appointment.svg" alt="" className="tab-icon" />
-          <span>Randevularım</span>
+          <span>{t('tabs.appointments')}</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'lab-results' ? 'active' : ''}`}
           onClick={() => setActiveTab('lab-results')}
         >
           <img src="/lab2.svg" alt="" className="tab-icon" />
-          <span>Tahlil Sonuçları</span>
+          <span>{t('tabs.labResults')}</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'lab-requests' ? 'active' : ''}`}
           onClick={() => setActiveTab('lab-requests')}
         >
           <img src="/request1.svg" alt="" className="tab-icon" />
-          <span>Lab Talepleri ({labRequests.length})</span>
+          <span>{t('tabs.labRequests')} ({labRequests.length})</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'reviews' ? 'active' : ''}`}
           onClick={() => setActiveTab('reviews')}
         >
           <img src="/star.svg" alt="" className="tab-icon" />
-          <span>Değerlendirmelerim</span>
+          <span>{t('tabs.reviews')}</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
           onClick={() => setActiveTab('settings')}
         >
           <img src="/setting1.svg" alt="" className="tab-icon" />
-          <span>Profil Ayarları</span>
+          <span>{t('tabs.settings')}</span>
         </button>
       </div>
 
@@ -443,32 +458,32 @@ export default function PatientDashboard() {
           <div className="filters-bar">
             <div className="filter-group">
               <select value={timeFilter} onChange={(e) => setTimeFilter(e.target.value)}>
-                <option value="all">Tüm Randevular</option>
-                <option value="future">Gelecek Randevular</option>
-                <option value="past">Geçmiş Randevular</option>
-                <option value="done">Tamamlananlar</option>
-                <option value="cancelled">İptal Edilenler</option>
+                <option value="all">{t('filters.all')}</option>
+                <option value="future">{t('filters.future')}</option>
+                <option value="past">{t('filters.past')}</option>
+                <option value="done">{t('filters.done')}</option>
+                <option value="cancelled">{t('filters.cancelled')}</option>
               </select>
             </div>
             <div className="filter-group">
               <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
-                <option value="date">Tarihe Göre Sırala</option>
-                <option value="doctor">Doktor Adına Göre Sırala</option>
+                <option value="date">{t('filters.sortByDate')}</option>
+                <option value="doctor">{t('filters.sortByDoctor')}</option>
               </select>
             </div>
           </div>
 
           <div className="appointments-grid modern-appointments-grid">
             {loading ? (
-              <p>Yükleniyor...</p>
+              <p>{t('appointments.loading')}</p>
             ) : filteredAppointments.length === 0 ? (
-              <p className="no-data">Kayıtlı randevu bulunamadı.</p>
+              <p className="no-data">{t('appointments.noData')}</p>
             ) : (
               filteredAppointments.map((apt) => {
-                const doctorName = apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : 'Doktor Belirtilmedi');
-                const department = apt.departmentName || (apt.department && apt.department.name) || 'Genel';
-                const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString('tr-TR'));
-                const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' }));
+                const doctorName = apt.doctorName || (apt.doctor ? `${apt.doctor.firstName} ${apt.doctor.lastName}` : t('appointments.notSpecified'));
+                const department = apt.departmentName || (apt.department && apt.department.name) || t('appointments.general');
+                const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'tr-TR'));
+                const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString(i18n.language === 'en' ? 'en-US' : 'tr-TR', { hour: '2-digit', minute: '2-digit' }));
                 const status = apt.status || 'APPROVED';
                 // Avatar için ilk harfler
                 const avatar = doctorName.split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
@@ -481,9 +496,9 @@ export default function PatientDashboard() {
                   'DEFAULT': '#64748b'
                 };
                 const statusLabels = {
-                  'DONE': 'Tamamlandı',
-                  'CANCELLED': 'İptal Edildi',
-                  'APPROVED': 'Onaylandı'
+                  'DONE': t('appointments.completed'),
+                  'CANCELLED': t('appointments.cancelled'),
+                  'APPROVED': t('appointments.approved')
                 };
                 const badgeColor = statusColors[status] || statusColors['DEFAULT'];
                 const statusLabel = statusLabels[status] || status;
@@ -500,8 +515,8 @@ export default function PatientDashboard() {
                     </div>
                     <div className="modern-apt-body">
                       <div style={{ fontSize: 15 }}>
-                        <div><strong>Tarih:</strong> {dateStr}</div>
-                        <div><strong>Saat:</strong> {timeStr}</div>
+                        <div><strong>{t('appointments.date')}:</strong> {dateStr}</div>
+                        <div><strong>{t('appointments.time')}:</strong> {timeStr}</div>
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
                         {/* İptal butonu */}
@@ -525,7 +540,7 @@ export default function PatientDashboard() {
                           if (aptDate >= today) {
                             return (
                               <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => handleCancelAppointment(apt.id)}>
-                                İptal Et
+                                {t('appointments.cancel')}
                               </button>
                             );
                           }
@@ -538,7 +553,7 @@ export default function PatientDashboard() {
                             style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 100, padding: '6px 14px', fontWeight: 600 }}
                             onClick={() => openReviewModal(apt)}
                           >
-                            Değerlendir
+                            {t('appointments.rate')}
                           </button>
                         )}
                         {/* Puan göstergesi - Değerlendirilmiş randevular için */}
@@ -563,17 +578,17 @@ export default function PatientDashboard() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Test Adı</th>
-                <th>Tarih</th>
-                <th>Yükleyen</th>
-                <th>Dosya Tipi</th>
-                <th>Boyut</th>
-                <th>İşlem</th>
+                <th>{t('labResults.testName')}</th>
+                <th>{t('labResults.date')}</th>
+                <th>{t('labResults.uploadedBy')}</th>
+                <th>{t('labResults.fileType')}</th>
+                <th>{t('labResults.size')}</th>
+                <th>{t('labResults.action')}</th>
               </tr>
             </thead>
             <tbody>
               {labResults.length === 0 ? (
-                <tr><td colSpan="6" className="no-data">Henüz tahlil sonucu bulunmuyor.</td></tr>
+                <tr><td colSpan="6" className="no-data">{t('labResults.noData')}</td></tr>
               ) : (
                 labResults.map((result) => (
                   <tr key={result.id}>
@@ -581,14 +596,14 @@ export default function PatientDashboard() {
                       <strong>{result.testName}</strong>
                       {result.description && <div style={{ fontSize: '12px', color: '#666' }}>{result.description}</div>}
                     </td>
-                    <td>{new Date(result.testDate).toLocaleDateString('tr-TR')}</td>
+                    <td>{new Date(result.testDate).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'tr-TR')}</td>
                     <td>{result.laborant?.user?.firstName} {result.laborant?.user?.lastName}</td>
                     <td>
                       <span className="badge" style={{
                         background: result.fileType?.includes('pdf') ? '#fee2e2' : '#dbeafe',
                         color: result.fileType?.includes('pdf') ? '#991b1b' : '#1e40af'
                       }}>
-                        {result.fileType?.includes('pdf') ? 'PDF' : 'Resim'}
+                        {result.fileType?.includes('pdf') ? t('labResults.pdf') : t('labResults.image')}
                       </span>
                     </td>
                     <td>{result.fileSizeKB?.toFixed(0)} KB</td>
@@ -597,7 +612,7 @@ export default function PatientDashboard() {
                         className="btn-sm btn-secondary"
                         onClick={() => handleDownloadFile(result.id, result.fileName)}
                       >
-                        İndir
+                        {t('labResults.download')}
                       </button>
                     </td>
                   </tr>
@@ -614,24 +629,24 @@ export default function PatientDashboard() {
           <table className="data-table">
             <thead>
               <tr>
-                <th>Talep Başlığı</th>
-                <th>Doktor</th>
-                <th>Talep Tarihi</th>
-                <th>Atanan Laborant</th>
-                <th>Durum</th>
-                <th>Detaylar</th>
+                <th>{t('labRequests.title')}</th>
+                <th>{t('labRequests.doctor')}</th>
+                <th>{t('labRequests.date')}</th>
+                <th>{t('labRequests.laborant')}</th>
+                <th>{t('labRequests.status')}</th>
+                <th>{t('labRequests.details')}</th>
               </tr>
             </thead>
             <tbody>
               {labRequests.length === 0 ? (
-                <tr><td colSpan="6" className="no-data">Henüz lab talebi bulunmuyor.</td></tr>
+                <tr><td colSpan="6" className="no-data">{t('labRequests.noData')}</td></tr>
               ) : (
                 labRequests.map((request) => {
                   const statusLabel = {
-                    'PENDING': 'Beklemede',
-                    'ASSIGNED': 'Atanmış',
-                    'COMPLETED': 'Tamamlandı',
-                    'CANCELED': 'İptal Edildi'
+                    'PENDING': t('labRequests.pending'),
+                    'ASSIGNED': t('labRequests.assigned'),
+                    'COMPLETED': t('appointments.completed'),
+                    'CANCELED': t('appointments.cancelled')
                   }[request.status] || request.status;
 
                   const statusColor = {
@@ -648,14 +663,14 @@ export default function PatientDashboard() {
                         {request.notes && <div style={{ fontSize: '12px', color: '#666' }}>{request.notes}</div>}
                       </td>
                       <td>{request.createdByUser?.firstName} {request.createdByUser?.lastName}</td>
-                      <td>{new Date(request.requestedAt).toLocaleDateString('tr-TR')}</td>
+                      <td>{new Date(request.requestedAt).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'tr-TR')}</td>
                       <td>
                         {request.assigneeLaborant ? (
                           <span style={{ fontWeight: 600, color: '#059669' }}>
                             ✓ {request.assigneeLaborant.user.firstName} {request.assigneeLaborant.user.lastName}
                           </span>
                         ) : (
-                          <span style={{ color: '#666' }}>Henüz atanmadı</span>
+                          <span style={{ color: '#666' }}>{t('labRequests.notAssigned')}</span>
                         )}
                       </td>
                       <td>
@@ -690,7 +705,7 @@ export default function PatientDashboard() {
                           </span>
                         )}
                         {!request.medicalFile && request.status !== 'CANCELED' && (
-                          <span style={{ color: '#999', fontSize: '12px' }}>Bekleniyor...</span>
+                          <span style={{ color: '#999', fontSize: '12px' }}>{t('labRequests.waiting')}</span>
                         )}
                       </td>
                     </tr>
@@ -706,7 +721,7 @@ export default function PatientDashboard() {
       {activeTab === 'reviews' && (
         <div className="reviews-container">
           {appointments.filter(apt => apt.rating).length === 0 ? (
-            <p className="no-data">Henüz bir değerlendirme yapmadınız.</p>
+            <p className="no-data">{t('reviews.noData')}</p>
           ) : (
             appointments.filter(apt => apt.rating).map((apt) => (
               <div key={apt.id} className="review-card">
@@ -718,9 +733,9 @@ export default function PatientDashboard() {
                   <div className="rating-stars" style={{ fontSize: '24px' }}>{'⭐'.repeat(apt.rating)}</div>
                 </div>
                 <div style={{ display: 'flex', gap: '16px', fontSize: '14px', color: '#64748b', marginTop: '8px' }}>
-                  <div><strong>📅 Tarih:</strong> {apt.date || (apt.ratedAt ? new Date(apt.ratedAt).toLocaleDateString('tr-TR') : '')}</div>
-                  <div><strong>🕐 Saat:</strong> {apt.time || '-'}</div>
-                  <div><strong>⭐ Puan:</strong> {apt.rating}/5</div>
+                  <div><strong>📅 {t('appointments.date')}:</strong> {apt.date || (apt.ratedAt ? new Date(apt.ratedAt).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'tr-TR') : '')}</div>
+                  <div><strong>🕐 {t('appointments.time')}:</strong> {apt.time || '-'}</div>
+                  <div><strong>⭐ {t('reviews.rating')}:</strong> {apt.rating}/5</div>
                 </div>
               </div>
             ))
@@ -733,20 +748,20 @@ export default function PatientDashboard() {
         <div className="settings-container">
           <div className="settings-card">
             <div className="settings-header">
-              <h3>Kişisel Bilgiler</h3>
+              <h3>{t('settings.personalInfo')}</h3>
             </div>
 
             <form onSubmit={handleUpdateProfile}>
               <div className="form-row">
                 <div className="settings-form-group">
-                  <label className="form-label">Ad</label>
+                  <label className="form-label">{t('settings.firstName')}</label>
                   <input type="text" className="form-input"
                     value={profileData.firstName}
                     disabled
                   />
                 </div>
                 <div className="settings-form-group">
-                  <label className="form-label">Soyad</label>
+                  <label className="form-label">{t('settings.lastName')}</label>
                   <input type="text" className="form-input"
                     value={profileData.lastName}
                     disabled
@@ -755,7 +770,7 @@ export default function PatientDashboard() {
               </div>
 
               <div className="settings-form-group">
-                <label className="form-label">E-Posta Adresi</label>
+                <label className="form-label">{t('settings.email')}</label>
                 <input
                   type="email"
                   className="form-input"
@@ -765,7 +780,7 @@ export default function PatientDashboard() {
               </div>
 
               <div className="settings-form-group">
-                <label className="form-label">Telefon Numarası</label>
+                <label className="form-label">{t('settings.phone')}</label>
                 <input
                   type="text"
                   className="form-input"
@@ -776,7 +791,7 @@ export default function PatientDashboard() {
 
               <div className="form-row">
                 <div className="settings-form-group">
-                  <label className="form-label">Doğum Tarihi</label>
+                  <label className="form-label">{t('settings.birthDate')}</label>
                   <input
                     type="date"
                     className="form-input"
@@ -785,13 +800,13 @@ export default function PatientDashboard() {
                   />
                 </div>
                 <div className="settings-form-group">
-                  <label className="form-label">Kan Grubu</label>
+                  <label className="form-label">{t('settings.bloodType')}</label>
                   <select
                     className="form-input"
                     value={profileData.bloodType}
                     onChange={(e) => setProfileData({ ...profileData, bloodType: e.target.value })}
                   >
-                    <option value="">Seçiniz</option>
+                    <option value="">{t('settings.select')}</option>
                     <option value="A+">A Rh+</option>
                     <option value="A-">A Rh-</option>
                     <option value="B+">B Rh+</option>
@@ -805,18 +820,18 @@ export default function PatientDashboard() {
               </div>
 
               <div className="settings-form-group">
-                <label className="form-label">Adres</label>
+                <label className="form-label">{t('settings.address')}</label>
                 <textarea
                   className="form-input"
                   rows="3"
                   value={profileData.address}
                   onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
-                  placeholder="İl, ilçe, mahalle, sokak..."
+                  placeholder={t('settings.addressPlaceholder')}
                 />
               </div>
 
               <div className="settings-form-group">
-                <label className="form-label">Acil Durum İletişim</label>
+                <label className="form-label">{t('settings.emergencyContact')}</label>
                 <input
                   type="text"
                   className="form-input"
@@ -827,19 +842,19 @@ export default function PatientDashboard() {
               </div>
 
               <button type="submit" className="btn-save" style={{ background: '#2563eb', color: 'white', borderRadius: '100px' }} disabled={loading}>
-                {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+                {loading ? t('appointments.loading') : t('settings.updateProfile')}
               </button>
             </form>
           </div>
 
           <div className="settings-card">
             <div className="settings-header">
-              <h3>Güvenlik & Şifre</h3>
+              <h3>{t('settings.security')}</h3>
             </div>
 
             <form onSubmit={handleUpdatePassword}>
               <div className="settings-form-group">
-                <label className="form-label">Mevcut Şifre</label>
+                <label className="form-label">{t('settings.currentPassword')}</label>
                 <input
                   type="password"
                   className="form-input"
@@ -849,7 +864,7 @@ export default function PatientDashboard() {
               </div>
 
               <div className="settings-form-group">
-                <label className="form-label">Yeni Şifre</label>
+                <label className="form-label">{t('settings.newPassword')}</label>
                 <input
                   type="password"
                   className="form-input"
@@ -859,7 +874,7 @@ export default function PatientDashboard() {
               </div>
 
               <div className="settings-form-group">
-                <label className="form-label">Yeni Şifre (Tekrar)</label>
+                <label className="form-label">{t('settings.newPasswordConfirm')}</label>
                 <input
                   type="password"
                   className="form-input"
@@ -869,7 +884,7 @@ export default function PatientDashboard() {
               </div>
 
               <button type="submit" className="btn-save btn-danger-action" style={{ background: 'white', color: '#ef4444', border: '1px solid #fecaca', borderRadius: '100px' }} disabled={loading}>
-                {loading ? 'İşleniyor...' : 'Şifreyi Güncelle'}
+                {loading ? t('appointments.loading') : t('settings.updatePassword')}
               </button>
             </form>
           </div>
@@ -880,16 +895,16 @@ export default function PatientDashboard() {
         <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Randevuyu Değerlendir</h2>
+              <h2>{t('appointments.rate')}</h2>
               <button className="modal-close" onClick={() => setShowReviewModal(false)}>×</button>
             </div>
             <div className="appointment-info">
-              <p><strong>Doktor:</strong> {selectedAppointment.doctorName || 'Bilinmiyor'}</p>
-              <p><strong>Tarih:</strong> {selectedAppointment.date} {selectedAppointment.time}</p>
+              <p><strong>{t('labRequests.doctor')}:</strong> {selectedAppointment.doctorName || t('labRequests.notAssigned')}</p>
+              <p><strong>{t('appointments.date')}:</strong> {selectedAppointment.date} {selectedAppointment.time}</p>
             </div>
             <form onSubmit={(e) => { e.preventDefault(); handleSubmitReview(); }}>
               <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                <label className="form-label">Puanınız (1-5 Yıldız) *</label>
+                <label className="form-label">{t('reviews.rating')} (1-5 Yıldız) *</label>
                 <div
                   className="rating-input"
                   onMouseLeave={() => setHoverRating(0)}
@@ -911,15 +926,15 @@ export default function PatientDashboard() {
                   ))}
                 </div>
                 <p className="dash-text-muted" style={{ fontSize: '14px', marginTop: '0.5rem' }}>
-                  Seçili Puan: <strong>{review.rating} / 5</strong>
+                  {t('reviews.rating')}: <strong>{review.rating} / 5</strong>
                 </p>
               </div>
               <div className="modal-actions">
                 <button type="submit" className="btn-primary" disabled={loading}>
-                  {loading ? 'Gönderiliyor...' : 'Değerlendirmeyi Gönder'}
+                  {loading ? t('appointments.loading') : t('appointments.rate')}
                 </button>
                 <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>
-                  İptal
+                  {t('appointments.cancel')}
                 </button>
               </div>
             </form>
