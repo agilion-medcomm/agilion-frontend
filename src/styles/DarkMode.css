@@ -201,6 +201,10 @@
     color: #f3f4f6 !important;
 }
 
+[data-theme="dark"] .mobile-menu__link--login {
+    color: #d32f2f !important;
+}
+
 [data-theme="dark"] .mobile-menu__link svg {
     color: #9ca3af !important;
 }
@@ -208,6 +212,11 @@
 [data-theme="dark"] .mobile-menu__link:hover {
     background: rgba(255, 255, 255, 0.1) !important;
     color: #fff !important;
+}
+
+[data-theme="dark"] .mobile-menu__link--login:hover {
+    color: #ff4d4d !important;
+    background: rgba(211, 47, 47, 0.1) !important;
 }
 
 /* Mobile Auth Section */

@@ -404,31 +404,36 @@ export default function PatientDashboard() {
           className={`tab-button ${activeTab === 'appointments' ? 'active' : ''}`}
           onClick={() => setActiveTab('appointments')}
         >
-          📅 Randevularım
+          <img src="/appointment.svg" alt="" className="tab-icon" />
+          <span>Randevularım</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'lab-results' ? 'active' : ''}`}
           onClick={() => setActiveTab('lab-results')}
         >
-          🧪 Tahlil Sonuçları
+          <img src="/lab2.svg" alt="" className="tab-icon" />
+          <span>Tahlil Sonuçları</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'lab-requests' ? 'active' : ''}`}
           onClick={() => setActiveTab('lab-requests')}
         >
-          📋 Lab Talepleri ({labRequests.length})
+          <img src="/request1.svg" alt="" className="tab-icon" />
+          <span>Lab Talepleri ({labRequests.length})</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'reviews' ? 'active' : ''}`}
           onClick={() => setActiveTab('reviews')}
         >
-          ⭐ Değerlendirmelerim
+          <img src="/star.svg" alt="" className="tab-icon" />
+          <span>Değerlendirmelerim</span>
         </button>
         <button
           className={`tab-button ${activeTab === 'settings' ? 'active' : ''}`}
           onClick={() => setActiveTab('settings')}
         >
-          ⚙️ Profil Ayarları
+          <img src="/setting1.svg" alt="" className="tab-icon" />
+          <span>Profil Ayarları</span>
         </button>
       </div>
 

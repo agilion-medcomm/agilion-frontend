@@ -112,17 +112,44 @@ body.dark {
     transition: all 0.2s ease;
     border-radius: 12px;
     white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tab-icon {
+    width: 20px;
+    height: 20px;
+    /* #3662E3 rengini simüle etmek için (mavi tonu) */
+    filter: invert(36%) sepia(84%) saturate(4156%) hue-rotate(218deg) brightness(95%) contrast(92%);
+    flex-shrink: 0;
+}
+
+.tab-button.active .tab-icon {
+    /* Aktif modda veya koyu modda belki farklı filtre gerekirse buraya eklenebilir */
+    filter: invert(33%) sepia(91%) saturate(2257%) hue-rotate(217deg) brightness(93%) contrast(98%);
+}
+
+[data-theme='dark'] .tab-icon {
+    filter: brightness(0) invert(1) opacity(0.8);
 }
 
 .tab-button:hover {
-    background-color: rgba(37, 99, 235, 0.05);
-    border-color: var(--dash-tab-active-border);
+    background-color: rgba(37, 99, 235, 0.05) !important;
+    border-color: var(--dash-tab-active-border) !important;
+    color: var(--dash-tab-active-text) !important;
 }
 
 .tab-button.active {
     color: var(--dash-tab-active-text);
     background-color: var(--dash-tab-active-bg);
     border: 1px solid var(--dash-tab-active-border);
+}
+
+.tab-button.active:hover {
+    background-color: var(--dash-tab-active-bg) !important;
+    color: var(--dash-tab-active-text) !important;
+    transform: none !important;
 }
 
 
