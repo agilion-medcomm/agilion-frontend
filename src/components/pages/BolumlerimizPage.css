@@ -298,6 +298,10 @@
     color: #e2e8f0;
 }
 
+[data-theme="dark"] .bolumlerimiz-header {
+    background-color: #121212;
+}
+
 [data-theme="dark"] .bolumlerimiz-title {
     color: #f1f5f9;
 }
@@ -556,5 +560,10 @@
         background-color: #e0f2fe !important;
         /* Sky blue */
         border-color: #0ea5e9 !important;
+    }
+
+    [data-theme="dark"] .bolum-card.selected:not(.is-acil) {
+        background-color: #1d4ed8 !important;
+        border-color: #60a5fa !important;
     }
 }

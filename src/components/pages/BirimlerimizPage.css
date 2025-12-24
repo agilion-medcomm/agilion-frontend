@@ -211,6 +211,10 @@
     color: #e2e8f0;
 }
 
+[data-theme="dark"] .birimlerimiz-header {
+    background-color: #121212;
+}
+
 [data-theme="dark"] .birimlerimiz-title {
     color: #f1f5f9;
 }
