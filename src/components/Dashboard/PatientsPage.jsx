@@ -543,8 +543,8 @@ export default function PatientsPage() {
                                         </td>
                                         <td>
                                           <span style={{
-                                            background: file.request?.status === 'COMPLETED' ? '#dcfce7' : '#fef3c7',
-                                            color: file.request?.status === 'COMPLETED' ? '#166534' : '#92400e',
+                                            background: file.request?.status === 'COMPLETED' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(245, 158, 11, 0.2)',
+                                            color: file.request?.status === 'COMPLETED' ? '#10b981' : '#f59e0b',
                                             padding: '4px 8px',
                                             borderRadius: '4px',
                                             fontSize: '12px',

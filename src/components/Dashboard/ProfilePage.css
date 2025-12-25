@@ -7,7 +7,7 @@
         Helvetica,
         Arial,
         sans-serif;
-    color: #334155;
+    color: var(--dashboard-text);
     animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -31,12 +31,12 @@
 .page-title {
     font-size: 1.8rem;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--dashboard-text);
     margin-bottom: 0.5rem;
 }
 
 .page-subtitle {
-    color: #64748b;
+    color: var(--dashboard-text-secondary);
     font-size: 0.98rem;
     font-weight: 500;
 }
@@ -51,10 +51,10 @@
 
 /* Kart Genel Stili */
 .profile-card {
-    background: #fff;
+    background: var(--dashboard-card-bg);
     border-radius: 32px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--dashboard-border);
     overflow: hidden;
 }
 
@@ -102,7 +102,7 @@
 
 .info-group {
     margin-bottom: 1.2rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--dashboard-border);
     padding-bottom: 0.8rem;
 }
 
@@ -114,7 +114,8 @@
 .info-group label {
     display: block;
     font-size: 0.75rem;
-    color: #94a3b8;
+    color: var(--dashboard-text-secondary);
+    opacity: 0.7;
     margin-bottom: 4px;
     text-transform: uppercase;
     font-weight: 600;
@@ -145,9 +146,9 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #0f172a;
+    color: var(--dashboard-text);
     padding-bottom: 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--dashboard-border);
 }
 
 .card-title svg {
@@ -172,7 +173,8 @@
 .form-group label {
     font-size: 0.9rem;
     font-weight: 500;
-    color: #475569;
+    color: var(--dashboard-text);
+    opacity: 0.8;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -184,17 +186,18 @@
 
 .form-group input {
     padding: 0.75rem 1rem;
-    border: 1px solid #cbd5e1;
+    border: 1px solid var(--dashboard-border);
     border-radius: 8px;
     font-size: 0.95rem;
     transition: all 0.2s;
-    background: #f8fafc;
+    background: var(--dashboard-input-bg);
+    color: var(--dashboard-text);
 }
 
 .form-group input:focus {
     outline: none;
     border-color: #3b82f6;
-    background: #fff;
+    background: var(--dashboard-card-bg);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
@@ -230,7 +233,7 @@
 }
 
 .password-btn {
-    background: #fff;
+    background: transparent;
     color: #ef4444;
     border: 1px solid #ef4444;
     padding: 0.75rem 1.5rem;
@@ -241,7 +244,7 @@
 }
 
 .password-btn:hover:not(:disabled) {
-    background: #fef2f2;
+    background: rgba(239, 68, 68, 0.1);
 }
 
 .password-btn:disabled {
@@ -280,4 +283,21 @@
     .form-row {
         grid-template-columns: 1fr;
     }
+}
+
+/* Specific Dark Mode Refinements */
+[data-theme='dark'] .profile-alert.success {
+    background: rgba(22, 101, 52, 0.2);
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.2);
+}
+
+[data-theme='dark'] .profile-alert.error {
+    background: rgba(153, 27, 27, 0.2);
+    color: #f87171;
+    border-color: rgba(248, 113, 113, 0.2);
+}
+
+[data-theme='dark'] .user-identity h2 {
+    color: #f8fafc;
 }

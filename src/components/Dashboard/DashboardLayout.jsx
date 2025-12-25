@@ -236,7 +236,7 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className={`dashboard-container ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`} data-theme="light">
+    <div className={`dashboard-container ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`} data-theme={theme}>
       {/* Backdrop for mobile */}
       {!sidebarCollapsed && (
         <div

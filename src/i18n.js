@@ -14,6 +14,7 @@ import authTr from './locales/tr/auth.json';
 import contactTr from './locales/tr/contact.json';
 import footerTr from './locales/tr/footer.json';
 import legalTr from './locales/tr/legal.json';
+import dashboardTr from './locales/tr/dashboard.json';
 
 import commonEn from './locales/en/common.json';
 import loginEn from './locales/en/login.json';
@@ -25,6 +26,7 @@ import authEn from './locales/en/auth.json';
 import contactEn from './locales/en/contact.json';
 import footerEn from './locales/en/footer.json';
 import legalEn from './locales/en/legal.json';
+import dashboardEn from './locales/en/dashboard.json';
 
 const resources = {
     tr: {
@@ -37,7 +39,8 @@ const resources = {
         auth: authTr,
         contact: contactTr,
         footer: footerTr,
-        legal: legalTr
+        legal: legalTr,
+        dashboard: dashboardTr
     },
     en: {
         common: commonEn,
@@ -49,7 +52,8 @@ const resources = {
         auth: authEn,
         contact: contactEn,
         footer: footerEn,
-        legal: legalEn
+        legal: legalEn,
+        dashboard: dashboardEn
     }
 };
 
@@ -67,7 +71,7 @@ i18n
             order: ['localStorage', 'navigator'],
             caches: ['localStorage'],
         },
-        ns: ['common', 'login', 'home', 'appointment', 'kurumsal', 'medical', 'auth', 'contact', 'footer', 'legal'],
+        ns: ['common', 'login', 'home', 'appointment', 'kurumsal', 'medical', 'auth', 'contact', 'footer', 'legal', 'dashboard'],
         defaultNS: 'common'
     });
 

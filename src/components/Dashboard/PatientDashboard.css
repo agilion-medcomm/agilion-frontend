@@ -10,17 +10,17 @@
 }
 
 .settings-card {
-    background: #ffffff;
+    background: var(--dashboard-card-bg);
     border-radius: 16px;
     padding: 2.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-    border: 1px solid #f1f5f9;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--dashboard-border);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .settings-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 /* Kart Başlıkları */
@@ -30,13 +30,13 @@
     gap: 12px;
     margin-bottom: 2rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--dashboard-border);
 }
 
 .settings-header h3 {
     font-size: 1.15rem;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--dashboard-text);
     margin: 0;
 }
 
@@ -65,7 +65,7 @@
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
-    color: #64748b;
+    color: var(--dashboard-text-secondary);
     margin-bottom: 0.5rem;
     letter-spacing: 0.3px;
 }
@@ -74,9 +74,9 @@
     width: 100%;
     padding: 0.85rem 1rem;
     border-radius: 10px;
-    border: 1px solid #e2e8f0;
-    background-color: #f8fafc;
-    color: #334155;
+    border: 1px solid var(--dashboard-border);
+    background-color: var(--dashboard-input-bg);
+    color: var(--dashboard-text);
     font-size: 0.95rem;
     transition: all 0.2s ease;
 }
@@ -124,13 +124,13 @@
 }
 
 .btn-danger-action {
-    background: white;
+    background: transparent;
     color: #ef4444;
-    border: 1px solid #fecaca;
+    border: 1px solid #ef4444;
 }
 
 .btn-danger-action:hover:not(:disabled) {
-    background: #fef2f2;
+    background: rgba(239, 68, 68, 0.1);
     border-color: #ef4444;
 }
 

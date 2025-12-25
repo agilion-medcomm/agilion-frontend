@@ -1,0 +1,101 @@
+{
+    "title": "Hasta Paneli",
+    "logout": "Çıkış Yap",
+    "tabs": {
+        "appointments": "Randevularım",
+        "labResults": "Tahlil Sonuçları",
+        "labRequests": "Lab Talepleri",
+        "reviews": "Değerlendirmelerim",
+        "settings": "Profil Ayarları"
+    },
+    "filters": {
+        "all": "Tüm Randevular",
+        "future": "Gelecek Randevular",
+        "past": "Geçmiş Randevular",
+        "done": "Tamamlananlar",
+        "cancelled": "İptal Edilenler",
+        "sortByDate": "Tarihe Göre Sırala",
+        "sortByDoctor": "Doktor Adına Göre Sırala"
+    },
+    "appointments": {
+        "loading": "Yükleniyor...",
+        "noData": "Kayıtlı randevu bulunamadı.",
+        "doctor": "Doktor",
+        "date": "Tarih",
+        "time": "Saat",
+        "cancel": "İptal Et",
+        "rate": "Değerlendir",
+        "completed": "Tamamlandı",
+        "cancelled": "İptal Edildi",
+        "approved": "Onaylandı",
+        "notSpecified": "Doktor Belirtilmedi",
+        "general": "Genel"
+    },
+    "labResults": {
+        "testName": "Test Adı",
+        "date": "Tarih",
+        "uploadedBy": "Yükleyen",
+        "fileType": "Dosya Tipi",
+        "size": "Boyut",
+        "action": "İşlem",
+        "download": "İndir",
+        "noData": "Henüz tahlil sonucu bulunmuyor.",
+        "pdf": "PDF",
+        "image": "Resim"
+    },
+    "labRequests": {
+        "title": "Talep Başlığı",
+        "doctor": "Doktor",
+        "date": "Talep Tarihi",
+        "laborant": "Atanan Laborant",
+        "status": "Durum",
+        "details": "Detaylar",
+        "pending": "Beklemede",
+        "assigned": "Atandı",
+        "notAssigned": "Henüz atanmadı",
+        "waiting": "Bekliyor...",
+        "noData": "Henüz lab talebi bulunmuyor."
+    },
+    "reviews": {
+        "noData": "Henüz bir değerlendirme yapmadınız.",
+        "rating": "Puan"
+    },
+    "settings": {
+        "personalInfo": "Kişisel Bilgiler",
+        "firstName": "Ad",
+        "lastName": "Soyad",
+        "email": "E-Posta Adresi",
+        "phone": "Telefon Numarası",
+        "birthDate": "Doğum Tarihi",
+        "bloodType": "Kan Grubu",
+        "select": "Seçiniz",
+        "address": "Adres",
+        "addressPlaceholder": "İl, ilçe, mahalle, sokak...",
+        "emergencyContact": "Acil Durum İletişim",
+        "security": "Güvenlik & Şifre",
+        "currentPassword": "Mevcut Şifre",
+        "newPassword": "Yeni Şifre",
+        "newPasswordConfirm": "Yeni Şifre (Tekrar)",
+        "updatePassword": "Şifreyi Güncelle",
+        "updateProfile": "Profil Bilgilerini Güncelle"
+    },
+    "messages": {
+        "cancelConfirmTitle": "⚠️ Randevu İptali",
+        "cancelConfirmText": "Bu randevuyu iptal etmek istediğinize emin misiniz?\n\n• İptal edilen randevular geri alınamaz\n• Yeni randevu için tekrar başvuru yapmanız gerekir\n\nDevam etmek istiyor musunuz?",
+        "cancelSuccess": "✅ Randevu başarıyla iptal edildi.",
+        "cancelError": "Randevu iptal edilemedi.",
+        "reviewSuccess": "✅ Değerlendirmeniz başarıyla gönderildi!",
+        "reviewError": "Değerlendirme gönderilemedi.",
+        "profileUpdateSuccess": "Profil bilgileriniz başarıyla güncellendi.",
+        "profileUpdateError": "Güncelleme başarısız",
+        "passwordSuccess": "Şifreniz başarıyla değiştirildi.",
+        "passwordError": "Şifre değiştirilemedi.",
+        "passwordMismatch": "Yeni şifreler birbiriyle uyuşmuyor.",
+        "passwordLength": "Şifre en az 6 karakter olmalıdır.",
+        "noFieldToUpdate": "Güncellenecek bir alan bulunamadı.",
+        "errorOccurred": "Hata oluştu",
+        "fileDownloadError": "Dosya indirilemedi",
+        "fileIdNotFound": "Dosya Id bulunamadı",
+        "demoDownload": "{{testName}} raporu indiriliyor... (Demo)"
+    }
+}
