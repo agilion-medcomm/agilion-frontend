@@ -11,7 +11,7 @@
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle at 20% 50%, rgba(74, 99, 209, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 30%, rgba(69, 181, 196, 0.03) 0%, transparent 50%);
+                    radial-gradient(circle at 80% 30%, rgba(69, 181, 196, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -29,7 +29,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -38,8 +38,7 @@
   font-weight: 800;
   margin: 0;
   letter-spacing: -0.02em;
-  color: #ffffff;
-  text-shadow: none;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
   position: relative;
   z-index: 1;
 }
@@ -70,8 +69,8 @@
   -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06),
-    0 4px 12px rgba(0, 0, 0, 0.04),
-    0 0 0 1px rgba(255, 255, 255, 0.5);
+              0 4px 12px rgba(0, 0, 0, 0.04),
+              0 0 0 1px rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 24px 16px 30px;
@@ -96,14 +95,18 @@
 .doctor-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12),
-    0 8px 20px rgba(0, 0, 0, 0.08),
-    0 0 0 1px rgba(74, 99, 209, 0.2);
+              0 8px 20px rgba(0, 0, 0, 0.08),
+              0 0 0 1px rgba(74, 99, 209, 0.2);
 }
 
 .doctor-card:hover::before {
   transform: scaleX(1);
 }
 
+/* Eski kart görsel stili — genel img kuralı
+   doktor avatarlarıyla çakışıyordu. Büyük yüksekliğe
+   sahip bu kuralı koruyoruz ancak aşağıda avatar için
+   daha spesifik bir override ekliyoruz. */
 .doctor-card img {
   width: 100%;
   height: 240px;
@@ -119,20 +122,20 @@
 }
 
 .doctor-card h3 {
-  font-size: 1.15rem;
+  font-size: 1.35rem;
   background: linear-gradient(135deg, #0e2b4b 0%, #4a63d1 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-weight: 800;
-  margin-top: 16px;
+  margin-top: 20px;
   letter-spacing: -0.01em;
 }
 
 .doctor-card p {
   color: #64748b;
-  font-size: 0.95rem;
-  margin-top: 8px;
+  font-size: 1.05rem;
+  margin-top: 10px;
   font-weight: 500;
 }
 
@@ -159,7 +162,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   color: #4a63d1;
 }
 
@@ -207,9 +210,8 @@
 .nav-icon {
   width: 22px;
   height: 22px;
-  pointer-events: none;
-  /* tıklamayı engellemez */
-  /* ikonları beyazlaştırır, koyu renkliyse */
+  pointer-events: none; /* tıklamayı engellemez */
+/* ikonları beyazlaştırır, koyu renkliyse */
   transition: transform 0.2s ease;
 }
 
@@ -240,8 +242,7 @@
 
 /* === ÜST BAŞLIK BLOĞU === */
 .doctors-header {
-  background: #45b5c4;
-  /* turkuaz – kept as is; remove if unwanted */
+  background: #45b5c4; /* turkuaz – kept as is; remove if unwanted */
   text-align: center;
   padding: 60px 20px;
   color: white;
@@ -251,8 +252,6 @@
   font-size: 2rem;
   font-weight: 700;
   margin: 0;
-  color: #ffffff;
-  text-shadow: none;
 }
 
 @media (max-width: 700px) {
@@ -267,7 +266,7 @@
   margin: 50px auto 40px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  gap: 40px;
   padding: 0 20px;
   box-sizing: border-box;
 }
@@ -275,10 +274,10 @@
 /* === DOKTOR KART === */
 .doctor-card {
   background: white;
-  border-radius: 32px;
+  border-radius: 18px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-align: center;
-  padding: 20px 10px 26px;
+  padding: 40px 20px 50px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
@@ -288,12 +287,24 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
+/* Bu kural sadece avatar'lar için değil - silinecek */
 .doctor-card img {
   width: 100%;
-  height: 220px;
+  height: 320px;
   object-fit: contain;
   border-radius: 14px;
   background: linear-gradient(180deg, #a6dff1, #c7f0fa);
+}
+
+/* Avatar'lar için spesifik kural (bu yukarıdakini override eder) */
+.doctor-card img.doctor-photo {
+  width: 110px !important;
+  height: 110px !important;
+  object-fit: cover;
+  border-radius: 50%;
+  margin: 0 auto 12px auto;
+  background: #f3f6fa;
+  padding: 0 !important;
 }
 
 .doctor-card h3 {
@@ -330,7 +341,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   color: #4a63d1;
 }
 
@@ -359,7 +370,7 @@
     grid-template-columns: 1fr;
     gap: 16px;
   }
-
+  
   .doctors-header {
     padding: 50px 20px;
   }
@@ -372,7 +383,7 @@
     width: 48px;
     height: 48px;
   }
-
+  
   .nav-icon {
     width: 24px;
     height: 24px;
@@ -416,7 +427,6 @@
     transform: translateX(100%);
     opacity: 0;
   }
-
   to {
     transform: translateX(0);
     opacity: 1;
@@ -428,15 +438,13 @@
     transform: translateX(-100%);
     opacity: 0;
   }
-
   to {
     transform: translateX(0);
     opacity: 1;
   }
 }
-
 .doctors-container {
-  position: relative;
+  position: relative; 
 }
 
 .slide-in-next {
@@ -472,25 +480,26 @@
   transition: all 0.3s ease;
 }
 
+/* Placeholder (img yoksa) */
 .doctor-photo {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   object-fit: cover;
   border-radius: 50%;
-  margin-bottom: 12px;
+  margin: 0 auto 12px auto;
   background: #f3f6fa;
 }
 
 .doctor-photo-placeholder {
-  width: 90px;
-  height: 90px;
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   background: #e3eaf2;
   color: #357d91;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 700;
   margin-bottom: 12px;
   user-select: none;
@@ -499,11 +508,11 @@
   /* Ortala */
 }
 
-/* Karttaki resim ve placeholder'ı ortala */
-.doctor-card img,
-.doctor-photo-placeholder {
+/* Doktor kartında avatar ve placeholder'ı ortala */
+.doctor-card img.doctor-photo {
   margin-left: auto;
   margin-right: auto;
+  display: block;
 }
 
 .appointment-btn {
@@ -589,3 +598,4 @@
 .slide-in-prev {
   animation: slideInFromLeft 0.6s ease-out both;
 }
+
