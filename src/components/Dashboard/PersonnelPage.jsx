@@ -954,7 +954,7 @@ export default function PersonnelPage() {
               <button className="btn-close" onClick={() => setShowDeleteModal(false)}>
                 <XIcon />
               </button>
-            </div>3
+            </div>
             <div className="modal-body">
               <p>Are you sure you want to delete this personnel?</p>
               <div className="delete-info">
