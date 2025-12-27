@@ -16,7 +16,9 @@ const DEPARTMENT_KEYS = {
   'Genel Cerrahi': 'cerrahi',
   'Göz Sağlığı': 'goz',
   'İç Hastalıklar': 'dahiliye',
-  'Kadın & Doğum': 'kadin'
+  'Kadın & Doğum': 'kadin',
+  'Kardiyoloji': 'kardiyoloji',
+  'Nöroloji': 'noroloji'
 };
 
 export default function Doctors() {
@@ -113,7 +115,11 @@ export default function Doctors() {
                   </div>
                 )}
                 <h3>{doc.firstName} {doc.lastName}</h3>
-                <p>{doc.specialization || doc.role || ''}</p>
+                <p>
+                  {DEPARTMENT_KEYS[doc.specialization]
+                    ? t(`medical:departments.list.${DEPARTMENT_KEYS[doc.specialization]}.title`)
+                    : (doc.specialization || doc.role || '')}
+                </p>
 
                 <button
                   className="appointment-btn"
