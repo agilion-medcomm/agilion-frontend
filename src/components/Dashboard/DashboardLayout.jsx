@@ -261,7 +261,7 @@ export default function DashboardLayout() {
           ) : (
             <>
               <div className="logo-section">
-                <span className="logo-text">Zeytinburnu Genel Cerrahi</span>
+                <span className="logo-text">Zeytinburnu Cerrahi Tıp Paneli</span>
               </div>
               <button
                 className="sidebar-toggle"

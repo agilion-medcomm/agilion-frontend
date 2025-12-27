@@ -43,7 +43,7 @@ export default function HomeHealthRequestsPage() {
     } catch (err) {
       console.error('Error fetching requests:', err);
       console.error('Error response:', err.response?.data);
-      setError('Talepler yüklenirken bir hata oluştu: ' + (err.response?.data?.message || err.message));
+      setError('Talepler yüklenirken bir hata oluştu.');
     } finally {
       setLoading(false);
     }
@@ -137,8 +137,10 @@ export default function HomeHealthRequestsPage() {
   return (
     <div className="home-health-page">
       <div className="page-header">
-        <h1>Evde Sağlık Talepleri</h1>
-        <p>Hastaların evde sağlık hizmeti taleplerini görüntüleyin ve yönetin.</p>
+        <div className="page-header-title-group">
+          <h1>Evde Sağlık Talepleri</h1>
+          <p>Hastaların evde sağlık hizmeti taleplerini görüntüleyin ve yönetin.</p>
+        </div>
       </div>
 
       {/* İstatistikler */}
