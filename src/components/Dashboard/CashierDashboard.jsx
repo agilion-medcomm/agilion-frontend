@@ -60,7 +60,7 @@ export default function CashierDashboard() {
   // Authorization check
   if (!user || user.role !== 'CASHIER') {
     return (
-      <div style={{ textAlign: 'center', padding: '100px', fontSize: '18px', color: '#c1272d', fontWeight: 'bold' }}>
+      <div style={{ textAlign: 'center', padding: '100px', fontSize: '18px', color: '#c1272d', fontWeight: 'bold', background: 'var(--dash-bg)' }}>
         ⛔ Yetkiniz yok. Lütfen Vezne Çalışanı olarak giriş yapınız.
       </div>
     );
@@ -107,7 +107,13 @@ export default function CashierDashboard() {
 
   // === REGISTER NEW PATIENT ===
   const handleRegisterChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+
+    // TCKN validation: only numbers
+    if (name === 'tckn') {
+      value = value.replace(/\D/g, '').slice(0, 11);
+    }
+
     setRegisterForm(prev => {
       const updated = { ...prev, [name]: value };
       // TC değiştiğinde password'ü otomatik TC'ye ayarla
@@ -339,31 +345,34 @@ export default function CashierDashboard() {
   };
 
   return (
-    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px' }}>
-      <h1 style={{ color: '#333', marginBottom: '10px', fontSize: '28px' }}>💳 Vezne Paneli - Randevu Alma</h1>
-      <p style={{ color: '#666', marginBottom: '30px', fontSize: '14px' }}>Hastalar için randevu oluştur veya yeni hastalar kaydet</p>
+    <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '20px', color: 'var(--dash-text)' }}>
+      <h1 style={{ color: 'var(--dash-text)', marginBottom: '10px', fontSize: '28px' }}>Vezne Paneli - Randevu Alma</h1>
+      <p style={{ color: 'var(--dash-text-muted)', marginBottom: '30px', fontSize: '14px' }}>Hastalar için randevu oluştur veya yeni hastalar kaydet</p>
 
       {/* ===== SEARCH SECTION ===== */}
       <div style={{
-        background: 'white',
+        background: 'var(--dash-card-bg)',
         padding: '24px',
         borderRadius: '12px',
         boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        border: '1px solid var(--dash-border)'
       }}>
-        <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>🔍 Adım 1: Hastayı Ara</h2>
+        <h2 style={{ marginTop: 0, marginBottom: '20px', color: 'var(--dash-text)', fontSize: '18px' }}>Adım 1: Hastayı Ara</h2>
 
         <form onSubmit={handleSearchPatient} style={{ display: 'flex', gap: '12px', marginBottom: '15px' }}>
           <input
             type="text"
             placeholder="TC Kimlik Numarası (11 haneli)..."
             value={searchTckn}
-            onChange={(e) => setSearchTckn(e.target.value)}
+            onChange={(e) => setSearchTckn(e.target.value.replace(/\D/g, '').slice(0, 11))}
             maxLength={11}
             style={{
               flex: 1,
               padding: '12px',
-              border: '1px solid #ddd',
+              border: '1px solid var(--dash-input-border)',
+              background: 'var(--dash-input-bg)',
+              color: 'var(--dash-text)',
               borderRadius: '6px',
               fontSize: '14px',
               boxSizing: 'border-box'
@@ -384,18 +393,18 @@ export default function CashierDashboard() {
               opacity: searchLoading ? 0.6 : 1
             }}
           >
-            {searchLoading ? '🔄 Aranıyor...' : '🔍 Ara'}
+            {searchLoading ? 'Aranıyor...' : 'Ara'}
           </button>
         </form>
 
         {searchError && (
-          <div style={{ color: '#c1272d', padding: '12px', background: '#ffebee', borderRadius: '6px', marginBottom: '15px' }}>
+          <div style={{ color: '#c1272d', padding: '12px', background: 'rgba(193, 39, 45, 0.1)', border: '1px solid rgba(193, 39, 45, 0.2)', borderRadius: '6px', marginBottom: '15px' }}>
             ❌ {searchError}
           </div>
         )}
 
         {foundPatient && (
-          <div style={{ color: '#2e7d32', padding: '12px', background: '#e8f5e9', borderRadius: '6px' }}>
+          <div style={{ color: '#2e7d32', padding: '12px', background: 'rgba(46, 125, 50, 0.1)', border: '1px solid rgba(46, 125, 50, 0.2)', borderRadius: '6px' }}>
             ✅ Hasta bulundu: <strong>{foundPatient.firstName} {foundPatient.lastName}</strong> (TC: {foundPatient.tckn})
           </div>
         )}
@@ -404,13 +413,14 @@ export default function CashierDashboard() {
       {/* ===== REGISTER NEW PATIENT SECTION ===== */}
       {showRegisterForm && !foundPatient && (
         <div style={{
-          background: 'white',
+          background: 'var(--dash-card-bg)',
           padding: '24px',
           borderRadius: '12px',
           boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-          marginBottom: '20px'
+          marginBottom: '20px',
+          border: '1px solid var(--dash-border)'
         }}>
-          <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>📝 Adım 1b: Yeni Hasta Kaydı</h2>
+          <h2 style={{ marginTop: 0, marginBottom: '20px', color: 'var(--dash-text)', fontSize: '18px' }}>Adım 1b: Yeni Hasta Kaydı</h2>
 
           <form onSubmit={handleRegisterSubmit}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginBottom: '15px' }}>
@@ -421,7 +431,7 @@ export default function CashierDashboard() {
                 value={registerForm.firstName}
                 onChange={handleRegisterChange}
                 required
-                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+                style={{ padding: '10px', border: '1px solid var(--dash-input-border)', background: 'var(--dash-input-bg)', color: 'var(--dash-text)', borderRadius: '6px', fontSize: '14px' }}
               />
               <input
                 type="text"
@@ -430,7 +440,7 @@ export default function CashierDashboard() {
                 value={registerForm.lastName}
                 onChange={handleRegisterChange}
                 required
-                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+                style={{ padding: '10px', border: '1px solid var(--dash-input-border)', background: 'var(--dash-input-bg)', color: 'var(--dash-text)', borderRadius: '6px', fontSize: '14px' }}
               />
             </div>
 
@@ -443,7 +453,7 @@ export default function CashierDashboard() {
                 onChange={handleRegisterChange}
                 maxLength={11}
                 required
-                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+                style={{ padding: '10px', border: '1px solid var(--dash-input-border)', background: 'var(--dash-input-bg)', color: 'var(--dash-text)', borderRadius: '6px', fontSize: '14px' }}
               />
               <input
                 type="email"
@@ -452,7 +462,7 @@ export default function CashierDashboard() {
                 value={registerForm.email}
                 onChange={handleRegisterChange}
                 required
-                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+                style={{ padding: '10px', border: '1px solid var(--dash-input-border)', background: 'var(--dash-input-bg)', color: 'var(--dash-text)', borderRadius: '6px', fontSize: '14px' }}
               />
             </div>
 
@@ -468,7 +478,7 @@ export default function CashierDashboard() {
                 minLength={10}
                 title="Telefon numarası 10 haneli olmalıdır."
                 required
-                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+                style={{ padding: '10px', border: '1px solid var(--dash-input-border)', background: 'var(--dash-input-bg)', color: 'var(--dash-text)', borderRadius: '6px', fontSize: '14px' }}
               />
               <input
                 type="date"
@@ -476,31 +486,31 @@ export default function CashierDashboard() {
                 placeholder="Doğum Tarihi"
                 value={registerForm.dateOfBirth}
                 onChange={handleRegisterChange}
-                style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
+                style={{ padding: '10px', border: '1px solid var(--dash-input-border)', background: 'var(--dash-input-bg)', color: 'var(--dash-text)', borderRadius: '6px', fontSize: '14px' }}
               />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px', marginBottom: '15px' }}>
               <div style={{
                 padding: '10px',
-                background: '#f5f5f5',
-                border: '1px solid #ddd',
+                background: 'var(--dash-bg)',
+                border: '1px solid var(--dash-border)',
                 borderRadius: '6px',
                 fontSize: '14px',
-                color: '#666'
+                color: 'var(--dash-text-muted)'
               }}>
                 🔐 <strong>Şifre:</strong> TC Numarası ile otomatik ayarlanacak ({registerForm.tckn || 'TC giriniz'})
               </div>
             </div>
 
             {registerError && (
-              <div style={{ color: '#c1272d', padding: '12px', background: '#ffebee', borderRadius: '6px', marginBottom: '15px' }}>
+              <div style={{ color: '#c1272d', padding: '12px', background: 'rgba(193, 39, 45, 0.1)', border: '1px solid rgba(193, 39, 45, 0.2)', borderRadius: '6px', marginBottom: '15px' }}>
                 ❌ {registerError}
               </div>
             )}
 
             {registerSuccess && (
-              <div style={{ color: '#2e7d32', padding: '12px', background: '#e8f5e9', borderRadius: '6px', marginBottom: '15px' }}>
+              <div style={{ color: '#2e7d32', padding: '12px', background: 'rgba(46, 125, 50, 0.1)', border: '1px solid rgba(46, 125, 50, 0.2)', borderRadius: '6px', marginBottom: '15px' }}>
                 {registerSuccess}
               </div>
             )}
@@ -529,18 +539,19 @@ export default function CashierDashboard() {
       {/* ===== APPOINTMENT BOOKING SECTION ===== */}
       {foundPatient && (
         <div style={{
-          background: 'white',
+          background: 'var(--dash-card-bg)',
           padding: '24px',
           borderRadius: '12px',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+          boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+          border: '1px solid var(--dash-border)'
         }}>
-          <h2 style={{ marginTop: 0, marginBottom: '20px', color: '#333', fontSize: '18px' }}>📅 Adım 2: Randevu Oluştur</h2>
+          <h2 style={{ marginTop: 0, marginBottom: '20px', color: 'var(--dash-text)', fontSize: '18px' }}>Adım 2: Randevu Oluştur</h2>
 
-          <div style={{ marginBottom: '20px', padding: '15px', background: '#e3f2fd', borderRadius: '6px' }}>
-            <p style={{ margin: 0, fontWeight: 'bold', color: '#1976d2' }}>
+          <div style={{ marginBottom: '20px', padding: '15px', background: 'var(--dash-tab-active-bg)', borderRadius: '6px', border: '1px solid var(--dash-tab-active-border)' }}>
+            <p style={{ margin: 0, fontWeight: 'bold', color: 'var(--dash-tab-active-text)' }}>
               👤 Hasta: {foundPatient.firstName} {foundPatient.lastName}
             </p>
-            <p style={{ margin: '5px 0 0 0', fontSize: '13px', color: '#555' }}>
+            <p style={{ margin: '5px 0 0 0', fontSize: '13px', color: 'var(--dash-text-muted)' }}>
               📧 {foundPatient.email} | 📱 {foundPatient.phoneNumber}
             </p>
           </div>
@@ -548,7 +559,7 @@ export default function CashierDashboard() {
           <form onSubmit={handleShowConfirmation}>
             {/* Department Selection */}
             <div style={{ marginBottom: '15px' }}>
-              <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Bölüm Seçiniz *</label>
+              <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', color: 'var(--dash-text)' }}>Bölüm Seçiniz *</label>
               <select
                 value={selectedDepartment}
                 onChange={(e) => setSelectedDepartment(e.target.value)}
@@ -556,7 +567,9 @@ export default function CashierDashboard() {
                 style={{
                   width: '100%',
                   padding: '10px',
-                  border: '1px solid #ddd',
+                  border: '1px solid var(--dash-input-border)',
+                  background: 'var(--dash-input-bg)',
+                  color: 'var(--dash-text)',
                   borderRadius: '6px',
                   fontSize: '14px',
                   boxSizing: 'border-box',
@@ -573,9 +586,9 @@ export default function CashierDashboard() {
             {/* Doctor Selection */}
             {selectedDepartment && (
               <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Doktor Seçiniz *</label>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', color: 'var(--dash-text)' }}>Doktor Seçiniz *</label>
                 {doctorsList.length === 0 ? (
-                  <p style={{ color: '#f57c00', padding: '10px', background: '#fff3e0', borderRadius: '6px', margin: 0 }}>
+                  <p style={{ color: '#f57c00', padding: '10px', background: 'rgba(245, 124, 0, 0.1)', border: '1px solid rgba(245, 124, 0, 0.2)', borderRadius: '6px', margin: 0 }}>
                     ⚠️ Seçilen bölüme ait doktor bulunamadı.
                   </p>
                 ) : (
@@ -586,7 +599,9 @@ export default function CashierDashboard() {
                     style={{
                       width: '100%',
                       padding: '10px',
-                      border: '1px solid #ddd',
+                      border: '1px solid var(--dash-input-border)',
+                      background: 'var(--dash-input-bg)',
+                      color: 'var(--dash-text)',
                       borderRadius: '6px',
                       fontSize: '14px',
                       boxSizing: 'border-box',
@@ -607,12 +622,12 @@ export default function CashierDashboard() {
             {/* Tarih Seçimi - Takvim Görünümü */}
             {selectedDoctor && availableDates.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px', fontSize: '13px' }}>📅 Tarih Seçiniz *</label>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px', fontSize: '13px', color: 'var(--dash-text)' }}>📅 Tarih Seçiniz *</label>
 
                 {/* Calendar Grid */}
                 <div style={{
-                  background: '#f9f9f9',
-                  border: '1px solid #e0e0e0',
+                  background: 'var(--dash-bg)',
+                  border: '1px solid var(--dash-border)',
                   borderRadius: '8px',
                   padding: '12px',
                 }}>
@@ -676,7 +691,7 @@ export default function CashierDashboard() {
                             ← Önceki
                           </button>
 
-                          <h4 style={{ margin: 0, color: '#667eea', fontSize: '13px', fontWeight: '600' }}>
+                          <h4 style={{ margin: 0, color: 'var(--dash-tab-active-text)', fontSize: '13px', fontWeight: '600' }}>
                             {monthDate.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' })}
                           </h4>
 
@@ -715,7 +730,7 @@ export default function CashierDashboard() {
                               textAlign: 'center',
                               fontWeight: 'bold',
                               fontSize: '10px',
-                              color: '#999',
+                              color: 'var(--dash-text-muted)',
                               padding: '2px'
                             }}>
                               {day}
@@ -749,12 +764,12 @@ export default function CashierDashboard() {
                                 disabled={isDisabled}
                                 style={{
                                   padding: '10px 4px',
-                                  border: isSelected ? '2px solid #667eea' : '1px solid #ddd',
-                                  background: isSelected ? '#e8eaf6' : isDisabled ? '#f5f5f5' : isWeekend ? '#fff9e6' : 'white',
+                                  border: isSelected ? '2px solid var(--dash-tab-active-border)' : '1px solid var(--dash-border)',
+                                  background: isSelected ? 'var(--dash-tab-active-bg)' : isDisabled ? 'var(--dash-bg)' : isWeekend ? 'rgba(245, 124, 0, 0.05)' : 'var(--dash-card-bg)',
                                   borderRadius: '4px',
                                   cursor: isDisabled ? 'not-allowed' : 'pointer',
                                   fontWeight: isSelected ? 'bold' : 'normal',
-                                  color: isSelected ? '#667eea' : isDisabled ? '#ccc' : isWeekend ? '#f57c00' : '#333',
+                                  color: isSelected ? 'var(--dash-tab-active-text)' : isDisabled ? 'var(--dash-text-muted)' : isWeekend ? '#f57c00' : 'var(--dash-text)',
                                   fontSize: '12px',
                                   textAlign: 'center',
                                   transition: 'all 0.2s',
@@ -779,7 +794,7 @@ export default function CashierDashboard() {
             {/* Saat Seçimi */}
             {selectedDate && availableTimes.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px' }}>Saat Seçiniz *</label>
+                <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', color: 'var(--dash-text)' }}>Saat Seçiniz *</label>
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))',
@@ -792,12 +807,12 @@ export default function CashierDashboard() {
                       onClick={() => setSelectedTime(time)}
                       style={{
                         padding: '8px 12px',
-                        border: selectedTime === time ? '2px solid #667eea' : '1px solid #ddd',
-                        background: selectedTime === time ? '#f3f4ff' : 'white',
+                        border: selectedTime === time ? '2px solid var(--dash-tab-active-border)' : '1px solid var(--dash-border)',
+                        background: selectedTime === time ? 'var(--dash-tab-active-bg)' : 'var(--dash-card-bg)',
                         borderRadius: '6px',
                         cursor: 'pointer',
                         fontWeight: selectedTime === time ? 'bold' : 'normal',
-                        color: selectedTime === time ? '#667eea' : '#333',
+                        color: selectedTime === time ? 'var(--dash-tab-active-text)' : 'var(--dash-text)',
                         fontSize: '13px'
                       }}
                     >
@@ -809,13 +824,13 @@ export default function CashierDashboard() {
             )}
 
             {appointmentError && (
-              <div style={{ color: '#c1272d', padding: '12px', background: '#ffebee', borderRadius: '6px', marginBottom: '15px' }}>
+              <div style={{ color: '#c1272d', padding: '12px', background: 'rgba(193, 39, 45, 0.1)', border: '1px solid rgba(193, 39, 45, 0.2)', borderRadius: '6px', marginBottom: '15px' }}>
                 ❌ {appointmentError}
               </div>
             )}
 
             {appointmentSuccess && (
-              <div style={{ color: '#2e7d32', padding: '12px', background: '#e8f5e9', borderRadius: '6px', marginBottom: '15px' }}>
+              <div style={{ color: '#2e7d32', padding: '12px', background: 'rgba(46, 125, 50, 0.1)', border: '1px solid rgba(46, 125, 50, 0.2)', borderRadius: '6px', marginBottom: '15px' }}>
                 {appointmentSuccess}
               </div>
             )}
@@ -857,19 +872,20 @@ export default function CashierDashboard() {
           zIndex: 1000
         }}>
           <div style={{
-            background: 'white',
+            background: 'var(--dash-card-bg)',
             borderRadius: '16px',
             padding: '28px',
             maxWidth: '450px',
             width: '90%',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.2)',
+            border: '1px solid var(--dash-border)'
           }}>
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
               <div style={{
                 width: '70px',
                 height: '70px',
                 borderRadius: '50%',
-                backgroundColor: '#eef2ff',
+                backgroundColor: 'var(--dash-bg)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -877,39 +893,40 @@ export default function CashierDashboard() {
               }}>
                 <span style={{ fontSize: '32px' }}>📅</span>
               </div>
-              <h3 style={{ margin: '0 0 8px', fontSize: '20px', fontWeight: '600', color: '#1f2937' }}>
+              <h3 style={{ margin: '0 0 8px', fontSize: '20px', fontWeight: '600', color: 'var(--dash-text)' }}>
                 Randevu Onayı
               </h3>
-              <p style={{ margin: 0, color: '#6b7280', fontSize: '14px' }}>
+              <p style={{ margin: 0, color: 'var(--dash-text-muted)', fontSize: '14px' }}>
                 Aşağıdaki randevuyu onaylıyor musunuz?
               </p>
             </div>
 
             <div style={{
-              background: '#f9fafb',
+              background: 'var(--dash-bg)',
               borderRadius: '12px',
               padding: '16px',
-              marginBottom: '24px'
+              marginBottom: '24px',
+              border: '1px solid var(--dash-border)'
             }}>
               <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#6b7280', fontSize: '14px' }}>👤 Hasta:</span>
-                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.patientName}</span>
+                <span style={{ color: 'var(--dash-text-muted)', fontSize: '14px' }}>👤 Hasta:</span>
+                <span style={{ color: 'var(--dash-text)', fontWeight: '600', fontSize: '14px' }}>{confirmModal.patientName}</span>
               </div>
               <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#6b7280', fontSize: '14px' }}>🏥 Bölüm:</span>
-                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.department}</span>
+                <span style={{ color: 'var(--dash-text-muted)', fontSize: '14px' }}>🏥 Bölüm:</span>
+                <span style={{ color: 'var(--dash-text)', fontWeight: '600', fontSize: '14px' }}>{confirmModal.department}</span>
               </div>
               <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#6b7280', fontSize: '14px' }}>👨‍⚕️ Doktor:</span>
-                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.doctorName}</span>
+                <span style={{ color: 'var(--dash-text-muted)', fontSize: '14px' }}>👨‍⚕️ Doktor:</span>
+                <span style={{ color: 'var(--dash-text)', fontWeight: '600', fontSize: '14px' }}>{confirmModal.doctorName}</span>
               </div>
               <div style={{ marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#6b7280', fontSize: '14px' }}>📆 Tarih:</span>
-                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.date}</span>
+                <span style={{ color: 'var(--dash-text-muted)', fontSize: '14px' }}>📆 Tarih:</span>
+                <span style={{ color: 'var(--dash-text)', fontWeight: '600', fontSize: '14px' }}>{confirmModal.date}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ color: '#6b7280', fontSize: '14px' }}>🕐 Saat:</span>
-                <span style={{ color: '#1f2937', fontWeight: '600', fontSize: '14px' }}>{confirmModal.time}</span>
+                <span style={{ color: 'var(--dash-text-muted)', fontSize: '14px' }}>🕐 Saat:</span>
+                <span style={{ color: 'var(--dash-text)', fontWeight: '600', fontSize: '14px' }}>{confirmModal.time}</span>
               </div>
             </div>
 
@@ -919,9 +936,9 @@ export default function CashierDashboard() {
                 style={{
                   padding: '12px 28px',
                   borderRadius: '8px',
-                  border: '1px solid #e5e7eb',
-                  backgroundColor: 'white',
-                  color: '#374151',
+                  border: '1px solid var(--dash-border)',
+                  backgroundColor: 'var(--dash-card-bg)',
+                  color: 'var(--dash-text)',
                   fontSize: '14px',
                   fontWeight: '600',
                   cursor: 'pointer',

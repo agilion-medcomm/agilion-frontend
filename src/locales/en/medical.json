@@ -24,8 +24,8 @@
             "acil": {
                 "title": "Emergency 7/24",
                 "content_title": "Emergency Polyclinic",
-                "p1": "We are aware that the first intervention is vital in all health problems that develop suddenly and threaten the integrity of life. Our Emergency Service Unit serves 24/7 with our expert physicians and experienced health personnel.",
-                "p2": "In our fully equipped examination and observation rooms, the first evaluation, follow-up, and treatment of our patients are carried out meticulously with modern medical devices.",
+                "p1": "We are aware that immediate intervention is vital in all health problems that develop suddenly and threaten life integrity. Our Emergency Service Unit provides 24/7 uninterrupted service with our expert physicians and experienced medical personnel.",
+                "p2": "Our emergency service is not just an entry point for our hospital; it is a full-fledged life support center for our patients in life-threatening conditions. We have the advanced technological infrastructure and expert staff to respond as quickly as possible to all kinds of emergencies, from heart attacks to trauma, high fever to suddenly developing pains. Every patient applying to our hospital undergoes a comprehensive initial examination by our expert physicians, and their health status is meticulously analyzed. Required blood tests and radiological examinations are rapidly concluded in our laboratory and imaging units with emergency service priority. Our patients requiring short-term treatment or clinical observation are followed under expert supervision in our comfortable observation rooms equipped with all kinds of medical support and monitoring. Our emergency service works in 24-hour uninterrupted communication and coordination with all specialty branches of our hospital such as Cardiology, Neurology, and General Surgery. When needed, relevant branch physicians are rapidly called for consultation, and the most accurate holistic treatment process for our patient is started without delay. Our patients whose intervention is completed are discharged, admitted to our relevant services, or organized in a fully equipped manner for advanced examination processes according to their health status requirements.",
                 "tags": [
                     "Examination",
                     "Intervention",
@@ -44,7 +44,7 @@
             "dis": {
                 "title": "Oral and Dental",
                 "content_title": "Oral and Dental Health",
-                "p1": "We work to protect your dental health with our expert physicians and equipped clinics. We offer reliable treatment services with our experienced staff in all your needs, from pediatric dentistry to aesthetic applications, from root canal treatment to implant surgery.",
+                "p1": "Our hospital's Oral and Dental Health unit utilizes all the possibilities of modern medicine to provide you with the most ideal smile as well as protecting your dental and gum health. In our clinical environment equipped with an expert physician staff and advanced technological equipment, we carry out personalized treatment planning for our patients of all ages. While we ensure our little guests overcome their fears with our sensitive approach in the field of pediatric dentistry (pedodontics), we bring functionality together with aesthetics through aesthetic dentistry, smile design, whitening, and laminate applications in adults. With our experienced team, we provide services in a wide range from modern implant surgery that permanently resolves tooth loss to sensitive root canal treatment and filling procedures aimed at tooth preservation. Without compromising on sterilization and disinfection standards in our treatment processes, we aim to make the most accurate diagnosis with the help of intraoral scanners and digital imaging systems. We provide a reliable, comfortable, and result-oriented health service in preventive dentistry and surgical operations to both improve our patients' oral health and increase their quality of life.",
                 "tags": [
                     "Implant",
                     "Surgical Tooth Extraction",
@@ -60,8 +60,8 @@
             "diyet": {
                 "title": "Nutrition and Diet",
                 "content_title": "Nutrition and Diet",
-                "p1": "In our Nutrition and Diet Polyclinic, we offer professional diet and nutrition consultancy to support healthy life, provide weight management, and support the prevention and treatment processes of diseases.",
-                "p2": "Comprehensive evaluations are carried out by our expert dietitians, and support is provided in many areas from weight management to nutrition plans specific to diseases.",
+                "p1": "In our Nutrition and Diet Polyclinic, we offer professional diet and nutrition counseling to support healthy living, provide weight management, and support the prevention and treatment processes of diseases. We help you gain a sustainable healthy life habit by creating personalized nutrition plans suitable for each individual's health and lifestyle.",
+                "p2": "Following comprehensive evaluations performed by our expert dietitians in our polyclinic, body analysis, metabolic rate, and needs analyses are conducted, and support is provided in many areas from weight management to nutrition plans specific to diseases. While taking a step towards a healthy future, we are by your side with our diet and nutrition recommendations that will increase your quality of life.",
                 "services_header": "OUR SERVICES",
                 "tags": [
                     "Nutrition",
@@ -139,9 +139,8 @@
             "derma": {
                 "title": "Dermatology",
                 "content_title": "Dermatology",
-                "p1": "Dermatology is the medical unit related to the 'skin', which is the largest organ of our body and fulfills many important tasks.",
-                "p2": "Dermatology performs the detection and treatment of not only the skin itself but also hair, nails, and sexually transmitted diseases.",
-                "p3": "Dermatological diseases that attract attention in external appearance can sometimes be an aesthetic problem and turn into a more serious health problem.",
+                "p1": "The Dermatology unit is a basic medical branch focusing on the health of the skin, which is our body's largest and most important defense shield against the outside world, as well as its appendages such as hair and nails. In our department, not only the diagnosis and treatment of skin diseases but also oral and nasal mucosa problems and the detection and follow-up of sexually transmitted diseases are meticulously carried out by our expert physicians. Since skin health is a reflection of general body integrity, the symptoms that appear can sometimes create only an aesthetic concern, while at other times they can be heralds of more serious underlying health problems.",
+                "p2": "Since dermatological disorders that directly affect external appearance also closely concern individuals' social lives and psychological well-being, both medical and aesthetic solutions are offered together in our modern clinical environment. Diagnostic processes are carried out with advanced technological devices in a wide range from chronic conditions such as acne, eczema, and psoriasis to skin tumors and allergic reactions. With the awareness that early diagnosis and rapid treatment planning are of vital importance to stop the progression of the disease and prevent permanent damage, a modern and reliable treatment protocol specific to each patient is applied.",
                 "tags": [
                     "Acne",
                     "Pruritus",
@@ -177,8 +176,8 @@
             "cerrahi": {
                 "title": "General Surgery",
                 "content_title": "General Surgery",
-                "p1": "General surgery is a discipline that treats systemic and local diseases in the body with surgical methods.",
-                "p2": "Goiter, Stomach, Small Intestine, Large Intestine, Breast, Esophagus, Hernias, Liver, Rectum, Anus, Gallbladder, Bile Ducts, Endoscopic and Laparoscopic Surgery interventions.",
+                "p1": "General Surgery is one of the widest and most basic disciplines of medicine, providing surgical treatment for many systemic and local diseases in the body. Our department works in full integration and cooperation with all other medical branches to provide the most accurate treatment protocol for our patients. In addition to traditional open surgery methods, advanced endoscopic and laparoscopic (closed) surgical interventions that shorten our patients' recovery times and increase their comfort are applied by our expert surgeons with high success rates.",
+                "p2": "In our unit; thyroid gland (goiter) diseases, breast health and surgery, esophagus, stomach, small and large intestine disorders, and all surgical processes covering the rectum and anus region are meticulously managed. In addition, liver, gallbladder, bile duct diseases, and all kinds of hernia operations are performed with modern medical technologies. Our general surgery team, which focuses on patient safety at every step from the diagnosis phase to the rehabilitation process, aims to produce permanent and effective solutions for your health problems by using the most up-to-date techniques offered by modern medicine even in complex surgical cases.",
                 "tags": [
                     "Endoscopy",
                     "Colonoscopy",
@@ -208,8 +207,8 @@
             "goz": {
                 "title": "Eye Health",
                 "content_title": "Eye Health",
-                "p1": "Eye Health and Diseases are of great importance in terms of quality of life. Some eye diseases can cause permanent damage when not treated early.",
-                "p2": "Therefore, it is of great importance to have regular eye check-ups. Healthy people should have eye screenings once a year.",
+                "p1": "Eye health is a vital element that directly affects how individuals perceive the world and their general quality of life, and should be emphasized with sensitivity. Even the slightest loss in vision can limit daily activities and negatively affect a person's independence. Although some eye diseases do not show significant symptoms in the initial stage, if they are not diagnosed and treated in the early period, they can progress rapidly and lead to permanent and irreversible damage, even vision loss.",
+                "p2": "In order to prevent these risks, regular eye examinations performed with advanced technological devices play a critical role in detecting possible diseases at their very initial stage. At our hospital, comprehensive screening and treatment services are offered to protect the eye health of individuals of all ages. To ensure early detection of serious health problems such as cataract, glaucoma (eye pressure), and retina diseases as well as vision defects, we strongly recommend that even healthy individuals with no complaints undergo a detailed eye screening at least once a year.",
                 "tags": [
                     "General Examination",
                     "Eye Redness",
@@ -232,7 +231,8 @@
             "dahiliye": {
                 "title": "Internal Medicine",
                 "content_title": "Internal Medicine",
-                "p1": "In the Internal Medicine polyclinic of our institution; diagnosis and treatment of infectious, metabolic, cardiac and hematological diseases can be performed with our expert doctor.",
+                "p1": "Our hospital's Internal Medicine polyclinic serves as the first point of contact and solution center for the health problems of adult patients. Our expert physician staff meticulously carries out the diagnosis, treatment, and follow-up processes of a wide range of diseases, considering the complex relationship of body systems with each other. In our unit, all processes from common infectious diseases such as bronchitis, cold, and cystitis to metabolic disorders such as diabetes (sugar disease), hypertension, and goiter, which are among the most important health problems of the modern age, are managed with current medical protocols.",
+                "p2": "Our Internal Medicine unit not only treats individual diseases but also plays a critical role in the early diagnosis of complaints related to the cardiovascular system such as heart failure and palpitations. In order to prevent diseases and keep chronic conditions under control, personalized treatment plans are created by considering our patients' life styles and genetic backgrounds. Thanks to our multifaceted perspective, we aim to make the most accurate diagnosis in patients with complex health problems and help you regain your health as soon as possible by working in coordination with other branches when needed.",
                 "tags": [
                     "Blood Diseases",
                     "Respiratory Infections",
@@ -255,7 +255,8 @@
             "kadin": {
                 "title": "Obstetrics & Gynecology",
                 "content_title": "Obstetrics & Gynecology",
-                "p1": "Our clinic provides services with all the facilities of modern medicine in the solution of pregnancy, prenatal and delivery problems.",
+                "p1": "Our hospital's Obstetrics and Gynecology clinic aims to protect and improve women's health with a holistic approach at every stage of life. Our expert team, which closely follows all scientific developments and innovative treatment methods in the medical world in their field, provides a world-class service using the most advanced technological possibilities offered by modern medicine. We are by your side with high success rates in the diagnosis and treatment of all gynecological disorders in the period extending from adolescence to menopause.",
+                "p2": "In our unit, the pregnancy process is managed with the principle of protecting maternal and infant health at the highest level. Starting from pre-pregnancy counseling services, we exhibit a multidisciplinary approach in prenatal follow-up, management of high-risk pregnancies, and the solution of all kinds of problems that may be encountered regarding birth. With our modern delivery rooms and advanced imaging systems, we aim to complete this miraculous process in the safest and most comfortable way for both the expectant mother and the baby. In our clinic, which is proficient in all details of women's health, providing a personalized, ethics-bound, and empathy-oriented health service for each of our patients is our most basic priority.",
                 "tags": [
                     "General Examination",
                     "Cyst Examination",

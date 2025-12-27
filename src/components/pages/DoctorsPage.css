@@ -1,0 +1,10 @@
+/* DoctorsPage Main Container */
+.doctors-page-main {
+    min-height: 80vh;
+    background: #f7fafd;
+}
+
+/* Dark Mode */
+[data-theme='dark'] .doctors-page-main {
+    background: #111827;
+}

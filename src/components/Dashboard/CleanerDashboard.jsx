@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import './CleanerDashboard.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
 const API_PREFIX = "/api/v1";
@@ -130,33 +131,33 @@ export default function CleanerDashboard() {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.header}>
+    <div className="cleaner-dashboard">
+      <div className="cleaner-header">
         <div>
           <h2 style={{ margin: 0 }}>Temizlik Personeli Paneli</h2>
-          <p style={{ margin: 0, color: '#666' }}>Hoşgeldiniz, {user?.firstName} {user?.lastName}</p>
+          <p style={{ margin: 0 }}>Hoşgeldiniz, {user?.firstName} {user?.lastName}</p>
         </div>
       </div>
 
-      <div style={styles.content}>
-        <div style={styles.gridContainer}>
+      <div className="cleaner-content">
+        <div className="cleaner-grid">
 
           {/* 12. [FE] Upload Form (Left Side) */}
-          <div style={styles.card}>
-            <h3 style={styles.cardTitle}>Yeni Temizlik Kaydı</h3>
+          <div className="cleaner-card">
+            <h3 className="cleaner-card-title">Yeni Temizlik Kaydı</h3>
             {!isToday && (
-              <div style={{ marginBottom: '15px', padding: '10px', backgroundColor: '#fff3cd', color: '#856404', borderRadius: '6px', fontSize: '0.9rem' }}>
+              <div className="msg-alert msg-warning">
                 ⚠️ Sadece bugün için yeni kayıt ekleyebilirsiniz. Yeni kayıt eklemek için bugünü seçiniz.
               </div>
             )}
-            <form onSubmit={handleSubmit} style={styles.form}>
+            <form onSubmit={handleSubmit} className="cleaner-form">
 
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Temizlenen Alan:</label>
+              <div className="cleaner-form-group">
+                <label className="cleaner-label">Temizlenen Alan:</label>
                 <select
                   value={selectedArea}
                   onChange={(e) => setSelectedArea(e.target.value)}
-                  style={styles.select}
+                  className="cleaner-select"
                   disabled={isLoading || !isToday}
                 >
                   <option value="">Alan Seçiniz</option>
@@ -166,12 +167,12 @@ export default function CleanerDashboard() {
                 </select>
               </div>
 
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Zaman Dilimi:</label>
+              <div className="cleaner-form-group">
+                <label className="cleaner-label">Zaman Dilimi:</label>
                 <select
                   value={selectedTime}
                   onChange={(e) => setSelectedTime(e.target.value)}
-                  style={styles.select}
+                  className="cleaner-select"
                   disabled={isLoading || !isToday}
                 >
                   <option value="">Zaman Seçiniz</option>
@@ -181,90 +182,73 @@ export default function CleanerDashboard() {
                 </select>
               </div>
 
-              <div style={styles.formGroup}>
-                <label style={styles.label}>Fotoğraf Yükleyiniz:</label>
+              <div className="cleaner-form-group">
+                <label className="cleaner-label">Fotoğraf Yükleyiniz:</label>
                 <input
                   id="photoInput"
                   type="file"
                   accept="image/*"
                   capture="environment"
                   onChange={handleFileChange}
-                  style={styles.input}
+                  className="cleaner-input"
                   disabled={isLoading || !isToday}
                 />
               </div>
 
-              {error && <div style={styles.error}>{error}</div>}
-              {message && <div style={styles.success}>{message}</div>}
+              {error && <div className="msg-alert msg-error">{error}</div>}
+              {message && <div className="msg-alert msg-success">{message}</div>}
 
-              <button type="submit" style={styles.submitBtn} disabled={isLoading || !isToday}>
+              <button type="submit" className="cleaner-submit-btn" disabled={isLoading || !isToday}>
                 {isLoading ? 'Gönderiliyor...' : 'Kaydet ve Gönder'}
               </button>
             </form>
           </div>
 
           {/* 11. [FE] Table Structure (Right Side) */}
-          <div style={styles.card}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '2px solid #e5e7eb', paddingBottom: '10px' }}>
-              <h3 style={{ margin: 0, color: '#1f2937' }}>Günlük Temizlik Durumu</h3>
+          <div className="cleaner-card">
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid var(--dash-border)', paddingBottom: '10px', marginBottom: '20px' }}>
+              <h3 style={{ margin: 0 }}>Günlük Temizlik Durumu</h3>
               <input
                 type="date"
                 value={viewDate}
                 onChange={(e) => setViewDate(e.target.value)}
-                style={{
-                  padding: '8px 10px',
-                  borderRadius: '8px',
-                  border: '2px solid #4e80ee',
-                  color: '#4e80ee',
-                  fontSize: '1.0rem',
-                  cursor: 'pointer',
-                  fontWeight: 'bold',
-                }}
+                className="cleaner-date-input"
               />
             </div>
 
-            <div style={styles.tableWrapper}>
-              <table style={styles.table}>
+            <div className="cleaner-table-wrapper">
+              <table className="cleaner-table">
                 <thead>
                   <tr>
-                    <th style={styles.th}>Alan Adı</th>
-                    <th style={styles.th}>Zaman</th>
-                    <th style={styles.th}>Durum</th>
+                    <th>Alan Adı</th>
+                    <th>Zaman</th>
+                    <th style={{ textAlign: 'center' }}>Durum</th>
                   </tr>
                 </thead>
                 <tbody>
                   {AREAS.map((area, index) => {
-                    // Find the record for this area (if any)
-                    // Note: There might be multiple records for the same area (different times).
-                    // For this simple table, we might want to show the latest status or list all.
-                    // The user asked for "cleaning status" section.
-                    // Let's list the area rows, and if completed, show the time.
-                    // If multiple times, maybe we should show multiple badges or just the latest?
-                    // Let's assume we want to see if it's done for *any* time today, or list the times it was done.
-
-                    // Better approach: Iterate over AREAS. Check if there are records for this area.
                     const areaRecords = cleaningRecords.filter(r => r.area === area);
                     const isCompleted = areaRecords.length > 0;
 
                     return (
-                      <tr key={index} style={index % 2 === 0 ? styles.trEven : styles.trOdd}>
-                        <td style={styles.td}>{area}</td>
-                        <td style={styles.td}>
+                      <tr key={index}>
+                        <td>{area}</td>
+                        <td>
                           {isCompleted ? (
                             areaRecords.map((rec, i) => (
-                              <span key={i} style={{ marginRight: '5px', fontSize: '0.85rem', background: '#e5e7eb', padding: '2px 6px', borderRadius: '4px' }}>
+                              <span key={i} className="time-badge">
                                 {rec.time || '-'}
                               </span>
                             ))
                           ) : (
-                            <span style={{ color: '#9ca3af' }}>-</span>
+                            <span style={{ color: 'var(--dash-text-muted)' }}>-</span>
                           )}
                         </td>
-                        <td style={styles.tdCenter}>
+                        <td style={{ textAlign: 'center' }}>
                           {isCompleted ? (
-                            <span style={styles.statusDone}>✔ Tamamlandı</span>
+                            <span className="status-done">✔ Tamamlandı</span>
                           ) : (
-                            <span style={styles.statusPending}>✘ Bekliyor</span>
+                            <span className="status-pending">✘ Bekliyor</span>
                           )}
                         </td>
                       </tr>
@@ -280,29 +264,3 @@ export default function CleanerDashboard() {
     </div>
   );
 }
-
-const styles = {
-  container: { padding: '20px', fontFamily: 'sans-serif', backgroundColor: '#f3f4f6', minHeight: '100%' },
-  header: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#fff', padding: '15px 20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginBottom: '20px' },
-  content: { maxWidth: '1200px', margin: '0 auto' },
-  gridContainer: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' },
-  card: { backgroundColor: '#fff', padding: '20px', borderRadius: '16px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' },
-  cardTitle: { marginTop: 0, marginBottom: '20px', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '10px' },
-  form: { display: 'flex', flexDirection: 'column', gap: '16px' },
-  formGroup: { display: 'flex', flexDirection: 'column', gap: '5px' },
-  label: { fontWeight: '600', color: '#094ab3ff', fontSize: '0.9rem' },
-  select: { padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '1.2rem' },
-  input: { padding: '10px', borderRadius: '8px', border: '1px solid #d1d5db', fontSize: '1.2rem' },
-  submitBtn: { backgroundColor: '#3b82f6', color: 'white', border: 'none', padding: '12px', borderRadius: '100px', cursor: 'pointer', fontWeight: 'bold', fontSize: '1rem', marginTop: '10px' },
-  error: { color: '#dc2626', backgroundColor: '#fee2e2', padding: '10px', borderRadius: '6px', fontSize: '0.9rem' },
-  success: { color: '#059669', backgroundColor: '#d1fae5', padding: '10px', borderRadius: '6px', fontSize: '0.9rem' },
-  tableWrapper: { overflowX: 'auto' },
-  table: { width: '100%', borderCollapse: 'collapse', fontSize: '0.95rem' },
-  th: { textAlign: 'left', padding: '12px', backgroundColor: '#f9fafb', borderBottom: '2px solid #e5e7eb', color: '#4b5563', fontWeight: '600' },
-  td: { padding: '12px', borderBottom: '1px solid #e5e7eb', color: '#1f2937' },
-  tdCenter: { padding: '12px', borderBottom: '1px solid #e5e7eb', textAlign: 'center' },
-  trEven: { backgroundColor: '#fff' },
-  trOdd: { backgroundColor: '#f9fafb' },
-  statusDone: { color: '#059669', fontWeight: 'bold', backgroundColor: '#d1fae5', padding: '4px 8px', borderRadius: '16px', fontSize: '0.95rem' },
-  statusPending: { color: '#dc2626', fontWeight: 'bold', backgroundColor: '#fee2e2', padding: '4px 8px', borderRadius: '16px', fontSize: '0.95rem' }
-};
