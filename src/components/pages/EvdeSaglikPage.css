@@ -59,11 +59,18 @@
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid #ced4da;
+
+  display: flex;
+  /* Kartı esnek kutu yapar */
+  flex-direction: column;
+  /* İçerikleri alt alta dizer */
+  height: 100%;
 }
 
 .service-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(0px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  border: 1px solid #0578ff;
 }
 
 .service-card-icon {
@@ -92,6 +99,10 @@
   transition: all 0.3s;
   margin-top: 14px;
   font-size: 1.2rem;
+
+  margin-top: auto;
+  /* Üstteki tüm boşluğu doldurarak butonu en alta iter */
+  align-self: center;
 }
 
 .service-card-button:hover {
@@ -574,6 +585,7 @@
   height: 50px;
   object-fit: contain;
   margin-bottom: 10px;
+  filter: invert(34%) sepia(98%) saturate(3025%) hue-rotate(204deg) brightness(101%) contrast(103%);
 }
 
 

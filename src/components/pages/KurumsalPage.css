@@ -197,8 +197,37 @@
     color: #f1f5f9;
 }
 
+/* --- DARK MODE DÜZELTMESİ --- */
+
+/* 1. Hero alanının arka planını tam siyah yapıyoruz */
+[data-theme="dark"] .kurumsal-hero {
+    background: #000000 !important;
+    /* Mavi gradient yerine düz siyah */
+}
+
+/* 2. Hero üzerindeki örtüyü (overlay) tam siyah yapıyoruz */
+[data-theme="dark"] .kurumsal-hero::before {
+    background-color: #000000 !important;
+    opacity: 1;
+    /* Tam kapatıcılık sağlıyoruz */
+}
+
+/* 3. Görsel ayarları */
 [data-theme="dark"] .kurumsal-hero__image {
-    filter: invert(1) hue-rotate(180deg) brightness(1.9) contrast(1.2);
-    /* mix-blend-mode da işe yarayabilir ama arka planın rengine bağlı */
-    mix-blend-mode: screen;
+    mix-blend-mode: normal !important;
+
+    /* 1. invert(1): Renkleri ve siyah/beyaz dengesini ters çevirir.
+       2. hue-rotate(190deg): Renk skalasını mavi/turkuaz tarafına kaydırır.
+       3. brightness(1.2): Mavinin daha canlı görünmesini sağlar.
+       4. contrast(1.1): Renklerin birbirine karışmasını engeller.
+    */
+    filter: invert(1) hue-rotate(190deg) brightness(1.2) contrast(1.1);
+
+    opacity: 1;
+}
+
+/* Hero alanının tam siyah olduğundan emin olalım ki 'kutu' efekti oluşmasın */
+[data-theme="dark"] .kurumsal-hero,
+[data-theme="dark"] .kurumsal-hero::before {
+    background: #000000 !important;
 }
