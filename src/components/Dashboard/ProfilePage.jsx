@@ -182,12 +182,16 @@ export default function ProfilePage() {
                 {/* LEFT: IDENTITY CARD */}
                 <div className="profile-card identity-card">
                     <div className="card-header">
-                        <div className="avatar-circle" style={user?.photoUrl ? { padding: 0, overflow: 'hidden' } : {}}>
-                            {user?.photoUrl ? (
+                        <div className="avatar-circle" style={(user?.photoUrl || user?.img) ? { padding: 0, overflow: 'hidden' } : {}}>
+                            {user?.photoUrl || user?.img ? (
                                 <img
-                                    src={user.photoUrl.startsWith('http') ? user.photoUrl : `${API_BASE}${user.photoUrl}`}
+                                    src={(user.photoUrl || user.img).startsWith('http') ? (user.photoUrl || user.img) : `${API_BASE}${user.photoUrl || user.img}`}
                                     alt={`${user.firstName} ${user.lastName}`}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                                    onError={(e) => {
+                                        e.target.style.display = 'none';
+                                        e.target.nextSibling.style.display = 'flex';
+                                    }}
                                 />
                             ) : (
                                 `${user?.firstName?.charAt(0) || 'U'}${user?.lastName?.charAt(0) || ''}`
