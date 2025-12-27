@@ -2,7 +2,8 @@
 
 .doctor-slider-section {
     padding: 60px 0;
-    background-color: #f3f6fa; /* Hafif arka plan rengi */
+    background-color: #f3f6fa;
+    /* Hafif arka plan rengi */
 }
 
 .doctor-slider-header {
@@ -23,33 +24,40 @@
 
 .doctor-slider-wrapper {
     position: relative;
-    max-width: 1200px; 
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 40px; /* Oklar için boşluk */
+    padding: 0 40px;
+    /* Oklar için boşluk */
 }
 
 .doctor-slider-container {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 sütunlu düzen */
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 sütunlu düzen */
     gap: 24px;
     justify-content: center;
-    overflow: hidden; 
+    overflow: hidden;
     padding: 0;
 }
 
 /* Doktor Kartı Stilleri */
 .slider-doctor-card {
     background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    box-shadow: none;
+    /* Gölge kaldırıldı (çizgi hissi için) */
     padding: 24px 16px;
     text-align: center;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    /* Varsayılan şeffaf sınır */
 }
 
 .slider-doctor-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transform: translateY(0px);
+    border-color: #5a9fb8;
+    /* Hover'da belirginleşen sınır */
+    background: #f8fafc;
 }
 
 .slider-doctor-img {
@@ -94,7 +102,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     gap: 4px;
 }
 
@@ -118,39 +126,47 @@
 }
 
 .slider-appointment-button {
-    background: #ff6600;
+    background: #e55c00;
     color: #fff;
     border: none;
-    border-radius: 8px;
-    padding: 10px 20px;
+    border-radius: 12px;
+    padding: 10px 36px;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 15px;
     cursor: pointer;
     transition: background 0.2s, box-shadow 0.2s;
 }
 
-.slider-appointment-button:hover {
-    background: #e65c00;
-    box-shadow: 0 4px 10px rgba(255,102,0,0.3);
+body.dark .slider-appointment-button {
+    background: #c14d00 !important;
+    color: #fff !important;
 }
 
+.slider-appointment-button:hover {
+    background: #ff6c0a !important;
+    transform: translateY(0px) !important;
+    transform: translateX(0px) !important;
+    box-shadow: none !important;
+}
 
-/* === SLIDER NAVİGASYON OKLARI === */
-.slider-navigation {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    left: 0;
+body.dark .slider-appointment-button:hover {
+    background: #ff6600 !important;
+    color: #fff !important;
+}
+
+.slider-controls-bottom {
     display: flex;
-    justify-content: space-between;
-    pointer-events: none; 
-    z-index: 10;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    gap: 20px;
+    position: relative;
+    min-height: 48px;
 }
 
 .slider-nav-btn {
-    background: #ffffff;
-    border: 1px solid #d1d5db;
+    background: transparent;
+    border: none;
     border-radius: 50%;
     width: 48px;
     height: 48px;
@@ -160,43 +176,66 @@
     cursor: pointer;
     transition: all 0.25s ease;
     padding: 0;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    pointer-events: all; /* Butonlara tıklamaya izin ver */
+    box-shadow: none;
+    z-index: 10;
 }
 
 .slider-nav-btn:hover:not(:disabled) {
-  background: #f0f0f0;
-  border-color: #5a9fb8;
-  transform: scale(1.05);
+    opacity: 1;
+    background: #e2e8f0;
+    transform: translateY(0px) !important;
+    transform: translateX(0px) !important;
+    box-shadow: none !important;
 }
 
 .slider-nav-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+    opacity: 0.2;
+    cursor: not-allowed;
 }
 
 .slider-nav-btn img {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.slider-nav-btn:hover:not(:disabled) img {
+    opacity: 1;
 }
 
 .slider-nav-btn.prev {
-    position: absolute;
-    left: 0;
+    order: 1;
 }
 
 .slider-nav-btn.next {
-    position: absolute;
-    right: 0;
+    order: 3;
 }
 
-.slider-pagination-info {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1rem;
-    color: #4a5568;
-    font-weight: 600;
+.slider-dots-pagination {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.slider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #cbd5e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.slider-dot.active {
+    background-color: #ff6600;
+}
+
+.slider-dot:hover {
+    background-color: #a0aec0;
 }
 
 
@@ -205,14 +244,9 @@
     .doctor-slider-container {
         grid-template-columns: repeat(2, 1fr);
     }
+
     .doctor-slider-wrapper {
-        padding: 0 20px;
-    }
-    .slider-nav-btn.prev { left: -10px; }
-    .slider-nav-btn.next { right: -10px; }
-    .slider-navigation {
-      width: calc(100% - 40px);
-      left: 20px;
+        padding: 0 10px;
     }
 }
 
@@ -221,18 +255,75 @@
         grid-template-columns: 1fr;
         gap: 20px;
     }
+
     .slider-doctor-card {
         padding: 20px 10px;
     }
+
     .doctor-slider-wrapper {
         padding: 0;
     }
-    .slider-navigation {
-      width: 100%;
-      left: 0;
+
+    .slider-controls-bottom {
+        gap: 15px;
     }
-    .slider-nav-btn {
-      width: 40px;
-      height: 40px;
-    }
+}
+
+/* === DARK MODE DESTEĞİ === */
+body.dark .doctor-slider-section {
+    background-color: #1a202c;
+    /* Koyu gri/lacivert */
+}
+
+body.dark .doctor-slider-header h2 {
+    color: #f7fafc;
+}
+
+body.dark .slider-doctor-card {
+    background: #2d3748;
+    border-color: #4a5568;
+}
+
+body.dark .slider-doctor-card:hover {
+    background: #3a4a63;
+    border-color: #60a5fa !important;
+}
+
+body.dark .slider-doctor-name {
+    color: #edf2f7;
+}
+
+body.dark .slider-doctor-specialization {
+    color: #90cdf4;
+}
+
+body.dark .rating-count {
+    color: #a0aec0;
+}
+
+body.dark .slider-doctor-initials {
+    background: #4a5568;
+    color: #e2e8f0;
+}
+
+body.dark .slider-nav-btn img {
+    filter: brightness(0) invert(1);
+    /* İkonları beyaza çevir */
+    opacity: 0.5;
+}
+
+body.dark .slider-nav-btn:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark .slider-nav-btn:hover:not(:disabled) img {
+    opacity: 1;
+}
+
+body.dark .slider-dot {
+    background-color: #4a5568;
+}
+
+body.dark .slider-dot.active {
+    background-color: #ff6600;
 }

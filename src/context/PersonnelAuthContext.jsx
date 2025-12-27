@@ -13,25 +13,28 @@ const BaseURL = `${API_BASE}${API_PREFIX}`;
  * - loginPersonnel(token, user) veya loginPersonnel(token) olarak iki kullanım destekler.
  */
 export function PersonnelAuthProvider({ children }) {
-  // Sayfa yeni açıldıysa (sessionStorage boşsa) oturumu temizle
-  // ANCAK: doctorDisplaySession flag'i varsa (doktor ekranı için yeni sekme) temizleme
+  // Sayfa yeni açıldıysa (sessionStorage boşsa) oturumu kontrol et
+  // Token varsa, session aktif kabul et (kullanıcı döndü)
   const [user, setUser] = useState(() => {
     try {
-      // Session aktif mi kontrol et
-      const sessionActive = sessionStorage.getItem('personnelSessionActive');
+      const storedToken = localStorage.getItem('personnelToken');
       const isDoctorDisplay = localStorage.getItem('doctorDisplaySession');
       
-      if (!sessionActive && !isDoctorDisplay) {
-        // Sayfa yeni açıldı, eski oturumu temizle
-        localStorage.removeItem('personnelUser');
-        localStorage.removeItem('personnelToken');
-        return null;
+      // Eğer token varsa, session aktif kes
+      if (storedToken && !isDoctorDisplay) {
+        sessionStorage.setItem('personnelSessionActive', 'true');
       }
       
       // Eğer doctorDisplaySession varsa, sessionStorage'ı da aktif et ve flag'i temizle
       if (isDoctorDisplay) {
         sessionStorage.setItem('personnelSessionActive', 'true');
         localStorage.removeItem('doctorDisplaySession');
+      }
+      
+      // Token yoksa oturumu temizle
+      if (!storedToken) {
+        localStorage.removeItem('personnelUser');
+        return null;
       }
       
       const storedUser = localStorage.getItem('personnelUser');
@@ -41,13 +44,16 @@ export function PersonnelAuthProvider({ children }) {
 
   const [token, setToken] = useState(() => {
     try {
-      const sessionActive = sessionStorage.getItem('personnelSessionActive');
+      const storedToken = localStorage.getItem('personnelToken');
       const isDoctorDisplay = localStorage.getItem('doctorDisplaySession');
       
-      if (!sessionActive && !isDoctorDisplay) {
-        return null;
+      // Token varsa session aktif set et
+      if (storedToken) {
+        sessionStorage.setItem('personnelSessionActive', 'true');
       }
-      return localStorage.getItem('personnelToken') || null;
+      
+      // Token varsa dön, yoksa null
+      return storedToken || null;
     } catch (error) { return null; }
   });
 

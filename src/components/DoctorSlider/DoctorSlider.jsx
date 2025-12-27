@@ -9,8 +9,25 @@ import "./DoctorSlider.css";
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const ITEMS_PER_PAGE = 4; // Her sayfada maksimum 4 doktor
 
+const DEPARTMENT_KEYS = {
+  'Acil 7/24': 'acil',
+  'Ağız ve Diş': 'dis',
+  'Beslenme Diyet': 'diyet',
+  'Dermatoloji': 'derma',
+  'Genel Cerrahi': 'cerrahi',
+  'Göz Sağlığı': 'goz',
+  'İç Hastalıklar': 'dahiliye',
+  'Kadın & Doğum': 'kadin',
+  'Kardiyoloji': 'kardiyoloji',
+  'Nöroloji': 'noroloji',
+  'Ortopedi': 'ortopedi',
+  'Pediatri': 'pediatri',
+  'Dahiliye': 'dahiliye',
+  'Göz Hastalıkları': 'goz'
+};
+
 export default function DoctorSlider() {
-  const { t } = useTranslation(['home']);
+  const { t } = useTranslation(['home', 'medical']);
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -78,18 +95,6 @@ export default function DoctorSlider() {
           <div className="slider-error">{t('home:doctor_slider.error', { error })}</div>
         ) : (
           <div className="doctor-slider-wrapper">
-            {/* Navigasyon Butonları */}
-            {totalPages > 1 && (
-              <div className="slider-navigation">
-                <button onClick={handlePrev} disabled={currentPage === 0} className="slider-nav-btn prev">
-                  <img src="/back.png" alt={t('home:doctor_slider.back')} />
-                </button>
-                <button onClick={handleNext} disabled={currentPage === totalPages - 1} className="slider-nav-btn next">
-                  <img src="/next.png" alt={t('home:doctor_slider.next')} />
-                </button>
-              </div>
-            )}
-
             <div className="doctor-slider-container">
               {visibleDoctors.map((doc, i) => (
                 <div className="slider-doctor-card" key={doc.id || i}>
@@ -105,19 +110,23 @@ export default function DoctorSlider() {
                     </div>
                   )}
                   <h3 className="slider-doctor-name">{doc.firstName} {doc.lastName}</h3>
-                  <p className="slider-doctor-specialization">{doc.specialization || doc.role || ''}</p>
-                  
+                  <p className="slider-doctor-specialization">
+                    {DEPARTMENT_KEYS[doc.specialization]
+                      ? t(`medical:departments.list.${DEPARTMENT_KEYS[doc.specialization]}.title`)
+                      : (doc.specialization || doc.role || '')}
+                  </p>
+
                   {doc.averageRating ? (
                     <div className="slider-doctor-rating">
                       <span className="rating-stars">⭐ {doc.averageRating.toFixed(1)}/5</span>
-                      <span className="rating-count">({doc.totalRatings || 0} değerlendirme)</span>
+                      <span className="rating-count">{t('home:doctor_slider.rating_count', { count: doc.totalRatings || 0 })}</span>
                     </div>
                   ) : (
                     <div className="slider-doctor-rating">
-                      <span className="no-rating">Henüz değerlendirme yok</span>
+                      <span className="no-rating">{t('home:doctor_slider.no_rating')}</span>
                     </div>
                   )}
-                  
+
                   <button
                     className="slider-appointment-button"
                     onClick={() => handleAppointmentClick(doc)}
@@ -127,9 +136,37 @@ export default function DoctorSlider() {
                 </div>
               ))}
             </div>
-            <div className="slider-pagination-info">
-              {currentPage + 1} / {totalPages}
-            </div>
+
+            {/* Navigasyon ve Sayfalama (Alt Bölüm) */}
+            {totalPages > 1 && (
+              <div className="slider-controls-bottom">
+                <button
+                  onClick={handlePrev}
+                  disabled={currentPage === 0}
+                  className="slider-nav-btn prev"
+                >
+                  <img src="/angle-left.svg" alt={t('home:doctor_slider.back')} />
+                </button>
+
+                <div className="slider-dots-pagination">
+                  {Array.from({ length: totalPages }).map((_, idx) => (
+                    <div
+                      key={idx}
+                      className={`slider-dot ${currentPage === idx ? 'active' : ''}`}
+                      onClick={() => setCurrentPage(idx)}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleNext}
+                  disabled={currentPage === totalPages - 1}
+                  className="slider-nav-btn next"
+                >
+                  <img src="/angle-right.svg" alt={t('home:doctor_slider.next')} />
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

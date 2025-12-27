@@ -3,12 +3,20 @@
         "title": "Our Expert Doctors",
         "filter_label": "Filter by Department:",
         "all_departments": "All Departments",
-        "quick_appointment": "Quick Appointment",
+        "quick_appointment": "Learn More",
         "loading": "Loading...",
         "login_required": "Please log in first to book an appointment.",
         "select_and_proceed": "Select and Proceed",
         "select_doctor_title": "Select Doctor for Appointment",
-        "select_doctor_subtitle": "Please click on the doctor you want to proceed with."
+        "select_doctor_subtitle": "Please click on the doctor you want to proceed with.",
+        "back_to_list": "Back to Doctor List",
+        "make_appointment": "Make Appointment",
+        "biography": "Biography",
+        "expertise_areas": "Expertise Areas",
+        "education_achievements": "Education & Achievements",
+        "work_principles": "Work Principles",
+        "no_bio_info": "No information available yet for this doctor.",
+        "view_details": "View Details"
     },
     "departments": {
         "title": "All Our Departments",
@@ -280,6 +288,12 @@
             },
             "noroloji": {
                 "title": "Neurology"
+            },
+            "ortopedi": {
+                "title": "Orthopedics"
+            },
+            "pediatri": {
+                "title": "Pediatrics"
             }
         }
     },

@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Ana Sayfa ve Alt Sayfalar
 import MainPage from './MainPage';
 import DoctorsPage from './components/pages/DoctorsPage';
+import DoctorBioPage from './components/pages/DoctorBioPage';
 import AppointmentPage from './components/pages/AppointmentPage';
 import KurumsalPage from './components/pages/KurumsalPage';
 import BolumlerimizPage from './components/pages/BolumlerimizPage';
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="contact" element={<ContactPage />} />
           <Route path="evde-saglik" element={<EvdeSaglikPage />} />
           <Route path="hekimlerimiz" element={<DoctorsPage />} />
+          <Route path="doktor/:id" element={<DoctorBioPage />} />
           <Route path="doktor-sec" element={<SelectDoctorPage />} />
           <Route path="randevu" element={<AppointmentPage />} />
           <Route path="kurumsal" element={<KurumsalPage />} />

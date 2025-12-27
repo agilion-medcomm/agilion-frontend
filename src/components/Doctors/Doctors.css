@@ -11,16 +11,16 @@
   position: absolute;
   inset: 0;
   background-image: radial-gradient(circle at 20% 50%, rgba(74, 99, 209, 0.03) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 30%, rgba(69, 181, 196, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 80% 30%, rgba(69, 181, 196, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
 /* === ÜST BAŞLIK BLOĞU === */
 .doctors-header {
-  background: linear-gradient(135deg, #45b5c4 0%, #3c9fae 50%, #357d91 100%);
+  background: #45b5c4;
   text-align: center;
-  padding: 70px 20px;
-  color: white;
+  padding: 60px 20px;
+  color: white !important;
   position: relative;
   overflow: hidden;
 }
@@ -29,16 +29,17 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.1) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
   pointer-events: none;
 }
 
 .doctors-header h2 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 700;
   margin: 0;
+  color: white !important;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: relative;
   z-index: 1;
 }
@@ -65,12 +66,10 @@
 /* === DOKTOR KART === */
 .doctor-card {
   background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   border-radius: 20px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06),
-              0 4px 12px rgba(0, 0, 0, 0.04),
-              0 0 0 1px rgba(255, 255, 255, 0.5);
+    0 4px 12px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
   border: 1px solid rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 24px 16px 30px;
@@ -80,33 +79,23 @@
   overflow: hidden;
 }
 
-.doctor-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4a63d1 0%, #45b5c4 100%);
-  transform: scaleX(0);
-  transition: transform 0.3s ease;
+.doctor-card:hover {
+  transform: translateY(0px) !important;
+  transform: translateX(0px) !important;
+  border-color: #5a9fb8;
+  background: #f8fafc;
 }
 
-.doctor-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12),
-              0 8px 20px rgba(0, 0, 0, 0.08),
-              0 0 0 1px rgba(74, 99, 209, 0.2);
+[data-theme='dark'] .doctor-card:hover {
+  transform: translateY(0px) !important;
+  transform: translateX(0px) !important;
+  border-color: #5a9fb8;
 }
 
 .doctor-card:hover::before {
   transform: scaleX(1);
 }
 
-/* Eski kart görsel stili — genel img kuralı
-   doktor avatarlarıyla çakışıyordu. Büyük yüksekliğe
-   sahip bu kuralı koruyoruz ancak aşağıda avatar için
-   daha spesifik bir override ekliyoruz. */
 .doctor-card img {
   width: 100%;
   height: 240px;
@@ -123,10 +112,7 @@
 
 .doctor-card h3 {
   font-size: 1.35rem;
-  background: linear-gradient(135deg, #0e2b4b 0%, #4a63d1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #4a63d1;
   font-weight: 800;
   margin-top: 20px;
   letter-spacing: -0.01em;
@@ -162,7 +148,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   color: #4a63d1;
 }
 
@@ -210,8 +196,9 @@
 .nav-icon {
   width: 22px;
   height: 22px;
-  pointer-events: none; /* tıklamayı engellemez */
-/* ikonları beyazlaştırır, koyu renkliyse */
+  pointer-events: none;
+  /* tıklamayı engellemez */
+  /* ikonları beyazlaştırır, koyu renkliyse */
   transition: transform 0.2s ease;
 }
 
@@ -240,25 +227,7 @@
   padding-bottom: 60px;
 }
 
-/* === ÜST BAŞLIK BLOĞU === */
-.doctors-header {
-  background: #45b5c4; /* turkuaz – kept as is; remove if unwanted */
-  text-align: center;
-  padding: 60px 20px;
-  color: white;
-}
 
-.doctors-header h2 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-@media (max-width: 700px) {
-  .doctors-header h2 {
-    font-size: 1.6rem;
-  }
-}
 
 /* === DOKTORLAR KONTEYNER === */
 .doctors-container {
@@ -286,6 +255,7 @@
   transform: translateY(-4px);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
+
 
 /* Bu kural sadece avatar'lar için değil - silinecek */
 .doctor-card img {
@@ -341,7 +311,7 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   color: #4a63d1;
 }
 
@@ -370,7 +340,7 @@
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .doctors-header {
     padding: 50px 20px;
   }
@@ -383,7 +353,7 @@
     width: 48px;
     height: 48px;
   }
-  
+
   .nav-icon {
     width: 24px;
     height: 24px;
@@ -427,6 +397,7 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
@@ -438,13 +409,15 @@
     transform: translateX(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateX(0);
     opacity: 1;
   }
 }
+
 .doctors-container {
-  position: relative; 
+  position: relative;
 }
 
 .slide-in-next {
@@ -524,7 +497,6 @@
   font-weight: 600;
   font-size: 16px;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(255, 102, 0, 0.10);
   transition: background 0.2s;
 }
 
@@ -598,4 +570,3 @@
 .slide-in-prev {
   animation: slideInFromLeft 0.6s ease-out both;
 }
-
