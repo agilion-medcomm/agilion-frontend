@@ -58,35 +58,49 @@
 }
 
 .btn-secondary {
-  padding: 12px 24px;
-  background: #f1f5f9;
-  color: #475569;
-  border: none;
-  border-radius: 10px;
+  padding: 10px 20px;
+  background: #e2e8f0;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-  background: #e2e8f0;
+  background: #cbd5e1;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
 }
 
 .btn-danger {
-  padding: 12px 24px;
-  background: #ef4444;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
 }
 
 .btn-danger:hover {
-  background: #dc2626;
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
 }
 
 .btn-icon {
@@ -120,48 +134,23 @@
 }
 
 .btn-close {
-  width: 36px !important;
-  height: 36px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background: transparent !important;
-  border: none !important;
-  color: #64748b !important;
-  cursor: pointer !important;
-  border-radius: 8px !important;
-  transition: background-color 0.2s ease !important;
-  opacity: 1 !important;
-  padding: 0 !important;
-  z-index: 10 !important;
-  transform: none !important;
-}
-
-.btn-close svg {
-  width: 22px !important;
-  height: 22px !important;
-  stroke: currentColor !important;
-  stroke-width: 2.2 !important;
-  stroke-linecap: round !important;
-  stroke-linejoin: round !important;
-  display: block !important;
-  transition: none !important;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  padding: 0;
 }
 
 .btn-close:hover {
-  background: rgba(0, 0, 0, 0.06) !important;
-  transform: none !important;
-}
-
-[data-theme='dark'] .btn-close,
-body.dark .btn-close {
-  color: #94a3b8 !important;
-}
-
-[data-theme='dark'] .btn-close:hover,
-body.dark .btn-close:hover {
-  background: rgba(255, 255, 255, 0.1) !important;
-  transform: none !important;
+  background: #f1f5f9;
+  color: #dc2626;
 }
 
 /* Alert Messages */
@@ -440,7 +429,17 @@ body.dark .modal-content {
 }
 
 .modal-content.modal-small {
-  max-width: 450px;
+  max-width: 480px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.modal-content.modal-small .modal-header {
+  border-bottom: 2px solid #fee2e2;
+}
+
+.modal-content.modal-small .modal-header h2 {
+  color: #991b1b;
+  font-size: 19px;
 }
 
 @keyframes slideUp {
@@ -472,6 +471,13 @@ body.dark .modal-content {
 
 .modal-body {
   padding: 24px 28px;
+}
+
+.modal-body > p:first-child {
+  font-size: 15px;
+  color: #1f2937;
+  margin-bottom: 20px;
+  font-weight: 500;
 }
 
 .modal-form {
@@ -580,16 +586,29 @@ body.dark .modal-actions .btn-secondary:hover {
 }
 
 .delete-info {
-  background: #f8fafc;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+  border-left: 4px solid #dc2626;
   padding: 16px;
   border-radius: 8px;
-  margin: 16px 0;
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .delete-info p {
-  margin: 8px 0;
+  margin: 0;
   font-size: 14px;
-  color: #334155;
+  color: #7f1d1d;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-info p strong {
+  color: #b91c1c;
+  font-weight: 600;
+  min-width: 80px;
 }
 
 .warning-text {
@@ -597,6 +616,21 @@ body.dark .modal-actions .btn-secondary:hover {
   font-weight: 600;
   font-size: 13px;
   margin-top: 16px;
+  padding: 10px 12px;
+  background: #fee2e2;
+  border-radius: 6px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+  margin-top: 24px;
 }
 
 /* Personnel Avatar Styles */

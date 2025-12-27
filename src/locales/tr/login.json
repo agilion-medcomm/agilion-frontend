@@ -18,5 +18,6 @@
     },
     "button_loading": "Giriş Yapılıyor...",
     "forgot_password": "Şifremi Unuttum",
+    "resend_verification_link": "Doğrulama Kodunu Tekrar Gönder",
     "no_account": "Hesabınız yok mu?"
 }

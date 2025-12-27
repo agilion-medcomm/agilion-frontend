@@ -544,7 +544,7 @@ export default function PersonnelPage() {
         </div>
 
         <div className="role-filters">
-          {['ALL', 'DOCTOR', 'ADMIN', 'LABORANT', 'CLEANER'].map(role => (
+          {['ALL', 'DOCTOR', 'ADMIN', 'CASHIER', 'LABORANT', 'CLEANER'].map(role => (
             <button
               key={role}
               className={`filter-chip ${roleFilter === role ? 'active' : ''}`}
@@ -952,7 +952,7 @@ export default function PersonnelPage() {
               <button className="btn-close" onClick={() => setShowDeleteModal(false)}>
                 <XIcon />
               </button>
-            </div>3
+            </div>
             <div className="modal-body">
               <p>Are you sure you want to delete this personnel?</p>
               <div className="delete-info">

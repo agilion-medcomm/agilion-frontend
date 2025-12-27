@@ -6,7 +6,13 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
       const storedUser = localStorage.getItem('user');
-      return storedUser ? JSON.parse(storedUser) : null;
+      if (!storedUser) return null;
+      const userData = JSON.parse(storedUser);
+      // Ensure 'id' field exists (appointments fetch için zorunlu)
+      if (!userData.id && userData.userId) {
+        userData.id = userData.userId;
+      }
+      return userData;
     } catch (error) { return null; }
   });
   const [token, setToken] = useState(() => {
@@ -39,12 +45,19 @@ export function AuthProvider({ children }) {
       if (!meResp.ok) throw new Error('Profil alınamadı');
       const meData = await meResp.json();
       const userData = meData.data || meData;
+      // 'id' fieldı zorunlu - appointments fetch için gerekli
+      if (!userData.id && userData.userId) {
+        userData.id = userData.userId;
+      }
       localStorage.setItem('user', JSON.stringify(userData));
       setUser(userData);
       setToken(tokenString);
     } catch (err) {
       // Eğer /auth/me başarısız olursa, fallback olarak eski userObj'yi kullan
       if (userObj && typeof userObj === "object") {
+        if (!userObj.id && userObj.userId) {
+          userObj.id = userObj.userId;
+        }
         localStorage.setItem('user', JSON.stringify(userObj));
         setUser(userObj);
         setToken(tokenString);
