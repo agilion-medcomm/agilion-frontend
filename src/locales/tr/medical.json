@@ -8,7 +8,15 @@
         "login_required": "Randevu almak için önce giriş yapınız.",
         "select_and_proceed": "Seç ve İlerle",
         "select_doctor_title": "Randevu Almak İçin Doktor Seçiniz",
-        "select_doctor_subtitle": "İşlem yapmak istediğiniz hekimin üzerine tıklayınız."
+        "select_doctor_subtitle": "İşlem yapmak istediğiniz hekimin üzerine tıklayınız.",
+        "back_to_list": "Doktor Listesine Dön",
+        "make_appointment": "Randevu Al",
+        "biography": "Biyografi",
+        "expertise_areas": "Uzmanlık Alanları",
+        "education_achievements": "Eğitim & Başarılar",
+        "work_principles": "Çalışma Prensipleri",
+        "no_bio_info": "Bu doktor hakkında henüz bilgi eklenmemiş.",
+        "view_details": "Detaylar"
     },
     "departments": {
         "title": "Tüm Bölümlerimiz",

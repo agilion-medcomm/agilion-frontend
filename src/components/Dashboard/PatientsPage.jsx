@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './SharedDashboard.css';
 import './PatientsPage.css';
 
@@ -7,6 +8,7 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
 const BaseURL = `${API_BASE}/api/v1`;
 
 export default function PatientsPage() {
+  const { user } = usePersonnelAuth();
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -385,18 +387,18 @@ export default function PatientsPage() {
                                   onClick={() => handleExpandRow(patientIdentifier, 'appointments')}
                                   title="Randevuları göster"
                                 >
-                                  ▼
+                                  📅
                                 </button>
                                 <button
                                   className={`btn-lab ${expandedPatient === patientIdentifier && expandedTab === 'labResults' ? 'active' : ''}`}
                                   onClick={() => handleExpandRow(patientIdentifier, 'labResults')}
                                   title="Lab sonuçlarını göster"
                                 >
-                                  ▼
+                                  🔬
                                 </button>
                               </>
                             )}
-                            {viewMode === 'all' && (
+                            {viewMode === 'all' && user?.role === 'ADMIN' && (
                               <button
                                 className="btn-delete-patient"
                                 onClick={() => {
