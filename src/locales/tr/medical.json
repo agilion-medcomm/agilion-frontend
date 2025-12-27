@@ -368,8 +368,8 @@
         "banner_title": "Evde Sağlık",
         "cards": {
             "nurse": {
-                "title": "Evde Hemşirelik Hizmetleri",
-                "desc": "Profesyonel hemşirelerimiz tarafından evinizde enjeksiyon, pansuman, serum takma ve tüm hemşirelik hizmetleri sunulmaktadır.",
+                "title": "Evde Hemşirelik",
+                "desc": "Uzman hemşirelerimizle enjeksiyon, pansuman ve serum takma gibi tüm tıbbi hizmetleri evinizde sunuyoruz.",
                 "items": [
                     "Enjeksiyon Uygulaması",
                     "Pansuman",
@@ -380,7 +380,7 @@
                 ]
             },
             "serum": {
-                "title": "Evde Serum Hizmetleri",
+                "title": "Evde Serum",
                 "desc": "Hastane ortamına gerek kalmadan, evinizin konforunda güvenli ve hijyenik serum hizmeti alabilirsiniz.",
                 "items": [
                     "İV Serum Uygulaması",
@@ -391,8 +391,8 @@
                 ]
             },
             "lab": {
-                "title": "Evde Laboratuvar Hizmetleri",
-                "desc": "Evde kan alma, idrar tahlili ve diğer laboratuvar testleriniz için randevu alın.",
+                "title": "Evde Laboratuvar",
+                "desc": "Kan alma ve idrar tahlili dahil tüm laboratuvar testleriniz için numunelerinizi evinizden alıyor, hızla sonuçlandırıyoruz.",
                 "items": [
                     "Evde Kan Alma",
                     "Rutin Tahliller",
@@ -403,8 +403,8 @@
                 ]
             },
             "wound": {
-                "title": "Evde Yara Bakımı Hizmetleri",
-                "desc": "Ameliyat sonrası, kronik yaralar ve yanık tedavisi için uzman yara bakım hizmetleri.",
+                "title": "Evde Yara Bakımı",
+                "desc": "Ameliyat sonrası süreçler, kronik yaralar ve yanık tedavileri için uzman kadromuzla profesyonel yara bakım hizmeti veriyoruz.",
                 "items": [
                     "Ameliyat Sonrası Bakım",
                     "Bası Yarası Tedavisi",
