@@ -219,9 +219,20 @@ export default function PersonnelPage() {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
 
-    const dataToSend = { ...form };
-    if (dataToSend.role !== 'DOCTOR') {
-      dataToSend.specialization = '';
+    // Prepare data for personnel creation (without doctor-specific bio fields)
+    const dataToSend = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      phoneNumber: form.phoneNumber,
+      dateOfBirth: form.dateOfBirth,
+      password: form.password,
+      role: form.role,
+    };
+
+    // Add specialization for doctors
+    if (form.role === 'DOCTOR' && form.specialization) {
+      dataToSend.specialization = form.specialization;
     }
 
     try {
@@ -229,12 +240,14 @@ export default function PersonnelPage() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      const createdPersonnelId = response.data?.data?.id;
+
       // If photo was selected, upload it after personnel is created
-      if (photoFile && response.data?.data?.id) {
+      if (photoFile && createdPersonnelId) {
         const formData = new FormData();
         formData.append('photo', photoFile);
         try {
-          await axios.post(`${BaseURL}/personnel/${response.data.data.id}/photo`, formData, {
+          await axios.post(`${BaseURL}/personnel/${createdPersonnelId}/photo`, formData, {
             headers: {
               Authorization: `Bearer ${token}`,
               'Content-Type': 'multipart/form-data'
@@ -243,6 +256,27 @@ export default function PersonnelPage() {
         } catch (photoError) {
           console.error('Photo upload failed:', photoError);
           // Personnel was created, just photo failed
+        }
+      }
+
+      // If doctor, also create doctor-specific profile information
+      if (form.role === 'DOCTOR' && createdPersonnelId) {
+        const doctorProfileData = {};
+        if (form.bio) doctorProfileData.biography = form.bio;
+        if (form.expertise) doctorProfileData.expertiseAreas = form.expertise;
+        if (form.education) doctorProfileData.educationAndAchievements = form.education;
+        if (form.principles) doctorProfileData.workPrinciples = form.principles;
+
+        // Only call doctor profile endpoint if there's doctor-specific data to add
+        if (Object.keys(doctorProfileData).length > 0) {
+          try {
+            await axios.put(`${BaseURL}/doctors/${createdPersonnelId}/profile`, doctorProfileData, {
+              headers: { Authorization: `Bearer ${token}` }
+            });
+          } catch (profileError) {
+            console.error('Doctor profile update failed:', profileError);
+            // Personnel was created, profile update failed
+          }
         }
       }
 
@@ -267,12 +301,9 @@ export default function PersonnelPage() {
       dateOfBirth: form.dateOfBirth,
     };
 
-    if (form.role === 'DOCTOR') {
-      if (form.specialization) updateData.specialization = form.specialization;
-      if (form.bio !== undefined) updateData.bio = form.bio;
-      if (form.expertise !== undefined) updateData.expertise = form.expertise;
-      if (form.education !== undefined) updateData.education = form.education;
-      if (form.principles !== undefined) updateData.principles = form.principles;
+    // Add specialization to general personnel data if it's a doctor
+    if (form.role === 'DOCTOR' && form.specialization) {
+      updateData.specialization = form.specialization;
     }
 
     if (form.password) {
@@ -280,9 +311,26 @@ export default function PersonnelPage() {
     }
 
     try {
+      // Update general personnel information
       await axios.put(`${BaseURL}/personnel/${selectedPersonnel.id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` }
       });
+
+      // If doctor, also update doctor-specific profile information
+      if (form.role === 'DOCTOR') {
+        const doctorProfileData = {};
+        if (form.bio !== undefined) doctorProfileData.biography = form.bio;
+        if (form.expertise !== undefined) doctorProfileData.expertiseAreas = form.expertise;
+        if (form.education !== undefined) doctorProfileData.educationAndAchievements = form.education;
+        if (form.principles !== undefined) doctorProfileData.workPrinciples = form.principles;
+
+        // Only call doctor profile endpoint if there's doctor-specific data to update
+        if (Object.keys(doctorProfileData).length > 0) {
+          await axios.put(`${BaseURL}/doctors/${selectedPersonnel.id}/profile`, doctorProfileData, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        }
+      }
 
       showMessage('success', 'Personnel updated successfully');
       setShowEditModal(false);

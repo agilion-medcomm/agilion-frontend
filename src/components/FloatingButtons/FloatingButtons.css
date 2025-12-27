@@ -10,9 +10,9 @@
   display: flex;
   gap: 0;
   background: white;
+  border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   /* Daha belirgin gölge */
-  border-radius: 16px;
   /* Tüm köşeler yuvarlak */
   z-index: 1000;
   overflow: hidden;

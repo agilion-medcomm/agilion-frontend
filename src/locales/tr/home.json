@@ -56,7 +56,9 @@
         "error": "Hata: {{error}}",
         "back": "Geri",
         "next": "İleri",
-        "book": "Hızlı Randevu al",
-        "alert_login": "Randevu almak için önce giriş yapmalısınız."
+        "book": "İncele",
+        "alert_login": "Randevu almak için önce giriş yapmalısınız.",
+        "no_rating": "Henüz değerlendirme yok",
+        "rating_count": "({{count}} değerlendirme)"
     }
 }

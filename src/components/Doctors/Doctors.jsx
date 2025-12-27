@@ -49,19 +49,9 @@ export default function Doctors() {
       });
   }, [t]);
 
-  // Doktor kartına (veya içindeki butona) tıklayınca çalışacak fonksiyon
-  const handleDoctorCardClick = (doc) => {
-    console.log('Seçilen Doktor:', doc);
-
-    // 1. Giriş kontrolü
-    if (!patientUser) {
-      alert(t('medical:doctors.login_required'));
-      navigate('/login');
-      return;
-    }
-
-    // 2. Doktor verisiyle randevu sayfasına git
-    navigate('/randevu', { state: { doctor: doc } });
+  // Doktor detay sayfasına git
+  const handleViewDetails = (doc) => {
+    navigate(`/doktor/${doc.id}`);
   };
 
   return (
@@ -101,11 +91,10 @@ export default function Doctors() {
               <div
                 className="doctor-card"
                 key={doc.id || i}
-                onClick={() => handleDoctorCardClick(doc)}
               >
-                {doc.img ? (
+                {doc.photoUrl || doc.img ? (
                   <img
-                    src={doc.img.startsWith('http') ? doc.img : `${API_BASE}${doc.img}`}
+                    src={(doc.photoUrl || doc.img).startsWith('http') ? (doc.photoUrl || doc.img) : `${API_BASE}${doc.photoUrl || doc.img}`}
                     alt={doc.firstName + ' ' + doc.lastName}
                     className="doctor-photo"
                   />
@@ -125,10 +114,10 @@ export default function Doctors() {
                   className="appointment-btn"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDoctorCardClick(doc);
+                    handleViewDetails(doc);
                   }}
                 >
-                  {t('medical:doctors.quick_appointment')}
+                  {t('medical:doctors.view_details')}
                 </button>
               </div>
             ))}
