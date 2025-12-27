@@ -4,10 +4,11 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { MEDICAL_SPECIALTIES } from '../../constants/medicalSpecialties';
 import './Appointment.css';
 
 // API Ayarları
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
@@ -193,7 +194,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 					<DoctorAvatar />
 					<div className="doctor-info-text">
 						<h2 className="doctor-name">{doctor.firstName} {doctor.lastName}</h2>
-						<p className="doctor-specialization">{doctor.specialization || t('appointment:placeholders.general_doctor')}</p>
+						<p className="doctor-specialization">{MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.general_doctor')}</p>
 					</div>
 					<div className="randevu-onay-wrap">
 						<button
@@ -297,7 +298,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 							<p>
 								{doctor.bio || t('appointment:placeholders.default_bio', {
 									name: `${doctor.firstName} ${doctor.lastName}`,
-									specialization: doctor.specialization || t('appointment:placeholders.expertise_area')
+									specialization: MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.expertise_area')
 								})}
 							</p>
 						</div>

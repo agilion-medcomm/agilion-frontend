@@ -670,20 +670,38 @@ export default function LaborantDashboard() {
                         <td>
                           {new Date(file.createdAt).toLocaleDateString('tr-TR')}
                         </td>
-                        <td style={{ textAlign: 'center' }}>
-                          <span className={`laborant-status-badge ${file.medicalFileRequest?.status === 'COMPLETED' ? 'laborant-status-completed' : 'laborant-status-pending'}`}>
-                            {file.medicalFileRequest?.status === 'COMPLETED' ? '✓ Tamamlandı' : 'Beklemede'}
+                        <td style={{ padding: '16px', textAlign: 'center' }}>
+                          <span style={{
+                            background: '#dcfce7',
+                            color: '#166534',
+                            padding: '4px 12px',
+                            borderRadius: '6px',
+                            fontSize: '12px',
+                            fontWeight: 600
+                          }}>
+                            ✓ Tamamlandı
                           </span>
                         </td>
                         <td style={{ textAlign: 'center' }}>
                           <button
-                            className="laborant-btn-action"
-                            onClick={() => {
-                              const link = document.createElement('a');
-                              link.href = `${BaseURL}/medical-files/${file.id}/download`;
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
+                            onClick={async () => {
+                              try {
+                                const response = await axios.get(`${BaseURL}/medical-files/${file.id}/download`, {
+                                  headers: { Authorization: `Bearer ${token}` },
+                                  responseType: 'blob'
+                                });
+                                const url = window.URL.createObjectURL(new Blob([response.data]));
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.setAttribute('download', file.fileName || `file_${file.id}`);
+                                document.body.appendChild(link);
+                                link.click();
+                                link.remove();
+                                window.URL.revokeObjectURL(url);
+                              } catch (error) {
+                                console.error('Download failed:', error);
+                                alert('Dosya indirilemedi: ' + (error.response?.data?.message || error.message));
+                              }
                             }}
                           >
                             📥 İndir

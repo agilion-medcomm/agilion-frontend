@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import { MEDICAL_SPECIALTIES } from '../../constants/medicalSpecialties';
 import './PersonnelPage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
@@ -221,6 +222,7 @@ export default function PersonnelPage() {
 
     // Prepare data for personnel creation (without doctor-specific bio fields)
     const dataToSend = {
+      tckn: form.tckn,
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
@@ -725,14 +727,9 @@ export default function PersonnelPage() {
                     <label>Uzmanlık Alanı</label>
                     <select name="specialization" value={form.specialization} onChange={handleInputChange} required>
                       <option value="">Uzmanlık Seçiniz</option>
-                      <option value="Acil 7/24">Acil 7/24</option>
-                      <option value="Ağız ve Diş">Ağız ve Diş</option>
-                      <option value="Beslenme Diyet">Beslenme Diyet</option>
-                      <option value="Dermatoloji">Dermatoloji</option>
-                      <option value="Genel Cerrahi">Genel Cerrahi</option>
-                      <option value="Göz Sağlığı">Göz Sağlığı</option>
-                      <option value="İç Hastalıklar">İç Hastalıklar</option>
-                      <option value="Kadın & Doğum">Kadın & Doğum</option>
+                      {Object.entries(MEDICAL_SPECIALTIES).map(([key, label]) => (
+                        <option key={key} value={key}>{label}</option>
+                      ))}
                     </select>
                   </div>
                   <div className="form-group">
@@ -853,13 +850,13 @@ export default function PersonnelPage() {
               {form.role === 'DOCTOR' && (
                 <>
                   <div className="form-group">
-                    <label>Specialization</label>
-                    <input
-                      type="text"
-                      name="specialization"
-                      value={form.specialization}
-                      onChange={handleInputChange}
-                    />
+                    <label>Uzmanlık Alanı</label>
+                    <select name="specialization" value={form.specialization} onChange={handleInputChange}>
+                      <option value="">Uzmanlık Seçiniz</option>
+                      {Object.entries(MEDICAL_SPECIALTIES).map(([key, label]) => (
+                        <option key={key} value={key}>{label}</option>
+                      ))}
+                    </select>
                   </div>
                   <div className="form-group">
                     <label>Biography</label>

@@ -3,8 +3,16 @@ import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './ProfilePage.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:5001";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const BaseURL = `${API_BASE}/api/v1`;
+// Production'da fotoğraflar aynı domain'den sunuluyor
+const getImageBaseUrl = () => {
+    if (import.meta.env.VITE_API_BASE) return import.meta.env.VITE_API_BASE;
+    if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
+        return window.location.origin;
+    }
+    return API_BASE;
+};
 
 // --- İKONLAR ---
 const SaveIcon = () => (
@@ -85,10 +93,10 @@ export default function ProfilePage() {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış.");
             }
 
-            console.log('Token debug:', { 
-              token: token?.substring(0, 20) + '...', 
-              userId: user.id, 
-              userRole: user.role 
+            console.log('Token debug:', {
+                token: token?.substring(0, 20) + '...',
+                userId: user.id,
+                userRole: user.role
             });
 
             // Personel kendi profilini güncelliyor
@@ -191,7 +199,7 @@ export default function ProfilePage() {
                         <div className="avatar-circle" style={(user?.photoUrl || user?.img) ? { padding: 0, overflow: 'hidden' } : {}}>
                             {user?.photoUrl || user?.img ? (
                                 <img
-                                    src={(user.photoUrl || user.img).startsWith('http') ? (user.photoUrl || user.img) : `${API_BASE}${user.photoUrl || user.img}`}
+                                    src={(user.photoUrl || user.img).startsWith('http') ? (user.photoUrl || user.img) : `${getImageBaseUrl()}${user.photoUrl || user.img}`}
                                     alt={`${user.firstName} ${user.lastName}`}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
                                 />

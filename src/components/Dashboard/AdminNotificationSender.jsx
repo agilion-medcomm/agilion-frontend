@@ -3,7 +3,7 @@ import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './AdminNotificationSender.css';
 
-const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 export default function AdminNotificationSender() {
   const { user } = usePersonnelAuth();
