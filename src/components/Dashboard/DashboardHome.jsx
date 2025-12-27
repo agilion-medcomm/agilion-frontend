@@ -285,7 +285,7 @@ export default function DashboardHome() {
         <div className="hero-content">
           <div className="hero-text">
             <p className="hero-greeting">{getGreeting()},</p>
-            <h1 className="hero-name">Dr. {user?.firstName} {user?.lastName}</h1>
+            <h1 className="hero-name">{user?.role === 'DOCTOR' ? 'Dr.' : 'Sayın'} {user?.firstName} {user?.lastName}</h1>
             <p className="hero-schedule">{getTimeLabel()} için programınız.</p>
           </div>
 
@@ -300,15 +300,7 @@ export default function DashboardHome() {
               </div>
             </div>
 
-            <div className="hero-stat-card hero-stat-surgeries">
-              <div className="hero-stat-icon">
-                <LungsIcon />
-              </div>
-              <div className="hero-stat-info">
-                <h3>{stats.surgeries}</h3>
-                <p>Ameliyatlar</p>
-              </div>
-            </div>
+
 
             <div className="hero-stat-card hero-stat-discharges">
               <div className="hero-stat-icon">
@@ -339,7 +331,7 @@ export default function DashboardHome() {
             <h2 className="stat-number">{stats.newPatients}</h2>
             <p className="stat-label">Yeni Hastalar</p>
             <div className="stat-footer">
-              <span className="stat-change positive">+40%</span>
+              {/* <span className="stat-change positive">+40%</span> */}
               <span className="stat-period">{getTimeLabel()}</span>
               <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
             </div>
@@ -354,9 +346,9 @@ export default function DashboardHome() {
           </div>
           <div className="stat-card-body">
             <h2 className="stat-number">{stats.opdPatients}</h2>
-            <p className="stat-label">Poliklinik Hastaları</p>
+            <p className="stat-label">{user?.role === 'ADMIN' ? 'Randevulu Hastalar' : 'Poliklinik Hastaları'}</p>
             <div className="stat-footer">
-              <span className="stat-change positive">+30%</span>
+              {/* <span className="stat-change positive">+30%</span> */}
               <span className="stat-period">{getTimeLabel()}</span>
               <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
             </div>
@@ -373,7 +365,7 @@ export default function DashboardHome() {
             <h2 className="stat-number">{stats.labTests}</h2>
             <p className="stat-label">Lab Testleri</p>
             <div className="stat-footer">
-              <span className="stat-change positive">+60%</span>
+              {/* <span className="stat-change positive">+60%</span> */}
               <span className="stat-period">{getTimeLabel()}</span>
               <button className="stat-view-all" onClick={() => navigate('/dashboard/lab-results')}>Tümünü Gör →</button>
             </div>
@@ -413,25 +405,7 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        <div className="bottom-stat-card">
-          <div className="bottom-stat-icon">
-            <ActivityIcon />
-          </div>
-          <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Operasyonlar</p>
-            <h3 className="bottom-stat-number">{stats.operations}</h3>
-          </div>
-        </div>
 
-        <div className="bottom-stat-card">
-          <div className="bottom-stat-icon">
-            <BedIcon />
-          </div>
-          <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Yatan Hasta</p>
-            <h3 className="bottom-stat-number">{stats.admitted}</h3>
-          </div>
-        </div>
 
         <div className="bottom-stat-card">
           <div className="bottom-stat-icon">
