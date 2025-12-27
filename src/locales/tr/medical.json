@@ -3,7 +3,7 @@
         "title": "Alanında Uzman Hekimlerimiz",
         "filter_label": "Bölüme Göre Filtrele:",
         "all_departments": "Tüm Bölümler",
-        "quick_appointment": "Hızlı Randevu al",
+        "quick_appointment": "Daha Fazla",
         "loading": "Yükleniyor...",
         "login_required": "Randevu almak için önce giriş yapınız.",
         "select_and_proceed": "Seç ve İlerle",
@@ -283,6 +283,12 @@
             },
             "noroloji": {
                 "title": "Nöroloji"
+            },
+            "ortopedi": {
+                "title": "Ortopedi"
+            },
+            "pediatri": {
+                "title": "Pediatri"
             }
         }
     },
