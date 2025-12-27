@@ -16,7 +16,9 @@ const DEPARTMENT_KEYS = {
   'Genel Cerrahi': 'cerrahi',
   'Göz Sağlığı': 'goz',
   'İç Hastalıklar': 'dahiliye',
-  'Kadın & Doğum': 'kadin'
+  'Kadın & Doğum': 'kadin',
+  'Kardiyoloji': 'kardiyoloji',
+  'Nöroloji': 'noroloji'
 };
 
 import { useTheme } from "../../context/ThemeContext";
@@ -54,13 +56,13 @@ const SelectDoctorPage = () => {
 
   if (loading) return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: isDark ? '#111827' : 'transparent', color: isDark ? '#f3f4f6' : 'inherit' }}>
-      <h3>Yükleniyor...</h3>
+      <h3>{t('medical:doctors.loading')}</h3>
     </div>
   );
 
   if (error) return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c1272d', backgroundColor: isDark ? '#111827' : 'transparent' }}>
-      <h3>Hata: {error}</h3>
+      <h3>{t('common:error')}: {error}</h3>
     </div>
   );
 
@@ -82,14 +84,14 @@ const SelectDoctorPage = () => {
           marginBottom: 10,
           fontSize: '2rem'
         }}>
-          Randevu Almak İçin Doktor Seçiniz
+          {t('medical:doctors.select_doctor_title')}
         </h2>
         <p style={{
           textAlign: "left",
           color: isDark ? "#9ca3af" : "#666",
           marginBottom: 30
         }}>
-          İşlem yapmak istediğiniz hekimin üzerine tıklayınız.
+          {t('medical:doctors.select_doctor_subtitle')}
         </p>
 
         {/* BÖLÜMLERİ GÖRE FİLTRE */}
@@ -201,7 +203,9 @@ const SelectDoctorPage = () => {
                   fontWeight: 600,
                   marginBottom: 16
                 }}>
-                  {doctor.specialization || doctor.role}
+                  {DEPARTMENT_KEYS[doctor.specialization]
+                    ? t(`medical:departments.list.${DEPARTMENT_KEYS[doctor.specialization]}.title`)
+                    : (doctor.specialization || doctor.role)}
                 </div>
 
                 <button style={{
@@ -214,7 +218,7 @@ const SelectDoctorPage = () => {
                   fontWeight: "bold",
                   cursor: "pointer"
                 }}>
-                  Seç ve İlerle
+                  {t('medical:doctors.select_and_proceed')}
                 </button>
               </div>
             ))}
