@@ -1,0 +1,244 @@
+.laborant-dashboard {
+    padding: 20px;
+    background: var(--dash-bg);
+    min-height: 100vh;
+    color: var(--dash-text);
+}
+
+.laborant-header {
+    background: #667eea;
+    color: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+}
+
+.laborant-header h1 {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+}
+
+.laborant-header p {
+    margin: 0;
+    opacity: 0.9;
+    color: white;
+}
+
+.laborant-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.laborant-tab-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: var(--dash-tab-bg, #e2e8f0);
+    color: var(--dash-tab-text, #374151);
+}
+
+.laborant-tab-btn.active {
+    background: #667eea;
+    color: white;
+}
+
+.laborant-content {
+    max-width: 700px;
+}
+
+.laborant-card {
+    background: var(--dash-card-bg);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    color: var(--dash-text);
+}
+
+.laborant-card h1,
+.laborant-card h2,
+.laborant-card h3,
+.laborant-card h4 {
+    color: var(--dash-text);
+}
+
+.laborant-msg {
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.laborant-msg-error {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #f87171;
+}
+
+.laborant-msg-success {
+    background-color: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+/* Dark mode overrides for messages if needed */
+[data-theme='dark'] .laborant-msg-error {
+    background-color: rgba(220, 38, 38, 0.2);
+    color: #f87171;
+    border-color: rgba(220, 38, 38, 0.4);
+}
+
+[data-theme='dark'] .laborant-msg-success {
+    background-color: rgba(22, 101, 52, 0.2);
+    color: #86efac;
+    border-color: rgba(22, 101, 52, 0.4);
+}
+
+.request-card {
+    background: var(--dash-card-bg);
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 12px;
+    color: var(--dash-text);
+}
+
+.request-card h4 {
+    margin: 0 0 4px 0;
+    font-weight: 700;
+    color: var(--dash-text);
+}
+
+.request-card p {
+    margin: 0 0 4px 0;
+    font-size: 13px;
+    color: var(--dash-text-muted);
+}
+
+/* Table Styles */
+.laborant-table-container {
+    background: var(--dash-card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border: 1px solid var(--dash-border);
+}
+
+.laborant-table-header {
+    padding: 16px 24px;
+    background: var(--dash-bg);
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.laborant-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.laborant-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--dash-text);
+    background: var(--dash-bg);
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.laborant-table td {
+    padding: 16px;
+    color: var(--dash-text);
+    border-bottom: 1px solid var(--dash-border);
+}
+
+.laborant-status-badge {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.laborant-status-completed {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+.laborant-status-pending {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.laborant-btn-action {
+    padding: 6px 12px;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+}
+
+.laborant-btn-action:hover {
+    opacity: 0.9;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--dash-text);
+    font-size: 13px;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--dash-input-border);
+    background: var(--dash-input-bg);
+    color: var(--dash-text);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.patient-info-box {
+    background: var(--dash-bg);
+    padding: 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+    border: 1px solid var(--dash-border);
+}
+
+.loading-container {
+    background: var(--dash-card-bg);
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.loading-container p {
+    color: var(--dash-text);
+}
+
+[data-theme='dark'] .loading-container p {
+    color: #e2e8f0;
+}

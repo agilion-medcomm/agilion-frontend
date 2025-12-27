@@ -25,7 +25,7 @@
                 "title": "Acil 7/24",
                 "content_title": "Acil Polikliniği",
                 "p1": "Ani gelişen ve yaşam bütünlüğünü tehdit eden tüm sağlık sorunlarında, ilk müdahalenin hayati önem taşıdığının bilincindeyiz. Acil Servis Ünitemiz; alanında uzman hekimlerimiz ve deneyimli sağlık personelimizle, 7 gün 24 saat kesintisiz hizmet sunmaktadır.",
-                "p2": "Tam donanımlı muayene ve müşahede odalarımızda, modern tıbbi cihazlarla hastalarımızın ilk değerlendirmesi, takibi ve tedavisi titizlikle yapılmaktadır. İleri tetkik veya tedavi gerektiren durumlarda ise hastalarımızın bir üst basamak sağlık kuruluşlarına güvenle sevki sağlanmaktadır.",
+                "p2": "Acil servisimiz, hastanemiz için sadece bir giriş noktası değil; hayati tehlikesi bulunan hastalarımız için tam teşekküllü bir yaşam destek merkezidir. Kalp krizinden travmaya, yüksek ateşten ani gelişen ağrılara kadar geniş bir yelpazede, her türlü acil duruma en hızlı şekilde müdahale edebilecek ileri teknolojik altyapıya ve uzman kadroya sahibiz. Hastanemize başvuran her hasta, uzman hekimlerimiz tarafından kapsamlı bir ilk muayeneden geçirilerek sağlık durumu titizlikle analiz edilir. Gerekli görülen kan tahlilleri ve radyolojik tetkikler, acil servis önceliğiyle laboratuvar ve görüntüleme birimlerimizde hızla sonuçlandırılır. Kısa süreli tedavi veya klinik gözlem gerektiren hastalarımız, her türlü tıbbi desteğin ve monitörizasyonun bulunduğu konforlu müşahede odalarımızda uzman gözetiminde takip edilir. Acil servisimiz, hastanemizin Kardiyoloji, Nöroloji ve Genel Cerrahi gibi tüm uzmanlık branşlarıyla 24 saat kesintisiz iletişim ve koordinasyon halinde çalışmaktadır. Gerek duyulduğu anda ilgili branş hekimleri hızla konsültasyona çağrılarak hastamız için en doğru bütüncül tedavi süreci vakit kaybetmeden başlatılır. Müdahalesi tamamlanan hastalarımız, sağlık durumlarının gerektirdiği doğrultuda taburcu edilmekte, ilgili servislerimize yatırılmakta veya ileri tetkik süreçleri için tam donanımlı şekilde organize edilmektedir.",
                 "tags": [
                     "Muayene",
                     "Müdahale",
@@ -44,7 +44,7 @@
             "dis": {
                 "title": "Ağız ve Diş",
                 "content_title": "Ağız ve Diş Sağlığı",
-                "p1": "Uzman hekimlerimiz ve donanımlı kliniklerimizle diş sağlığınızı korumak için çalışıyoruz. Çocuk diş hekimliğinden estetik uygulamalara, kanal tedavisinden implant cerrahisine kadar tüm ihtiyaçlarınızda, deneyimli kadromuzla güvenilir tedavi hizmeti sunuyoruz.",
+                "p1": "Hastanemizin Ağız ve Diş Sağlığı ünitesi, diş ve diş eti sağlığınızı korumanın yanı sıra size en ideal gülüşü kazandırmak amacıyla modern tıbbın tüm imkanlarını kullanmaktadır. Uzman hekim kadromuz ve ileri teknolojik donanıma sahip klinik ortamımızda, her yaştan hastamız için kişiye özel tedavi planlamaları gerçekleştiriyoruz. Çocuk diş hekimliği (pedodonti) alanındaki hassas yaklaşımımızla minik misafirlerimizin korkularını yenmelerini sağlarken, yetişkinlerde estetik diş hekimliği, gülüş tasarımı, beyazlatma ve lamine uygulamalarıyla fonksiyonelliği görsellikle buluşturuyoruz. Deneyimli ekibimizle, diş kayıplarını kalıcı olarak gideren modern implant cerrahisinden, diş korumayı amaçlayan hassas kanal tedavisi ve dolgu işlemlerine kadar geniş bir yelpazede hizmet sunmaktayız. Tedavi süreçlerimizde sterilizasyon ve dezenfeksiyon standartlarından taviz vermeden, ağız içi tarayıcılar ve dijital görüntüleme sistemleri yardımıyla en doğru teşhisi koymayı hedefliyoruz. Hastalarımızın hem ağız sağlığını iyileştirmek hem de yaşam kalitelerini artırmak için koruyucu diş hekimliği ve cerrahi operasyonlarda güvenilir, konforlu ve sonuç odaklı bir sağlık hizmeti sunmaktayız.",
                 "tags": [
                     "İmplant",
                     "Cerrahi Diş Çekimi",
@@ -139,9 +139,8 @@
             "derma": {
                 "title": "Dermatoloji",
                 "content_title": "Dermatoloji",
-                "p1": "Dermatoloji bir diğer ismi ile Deri ve Zührevi Hastalıkları, vücudumuzun en büyük organı olan ve birçok önemli görevi yerine getiren “deri” ile ilgili tıbbi birimdir.",
-                "p2": "Dermatoloji yalnızca derinin kendisini değil derinin bir uzantısı halinde gelişen saçı ve tırnakları, ağız ve burun mukozalarını, cinsel yolla bulaşan hastalıkların tespit ve tedavisini gerçekleştirmektedir.",
-                "p3": "Dış görünüşte dikkat çeken dermatolojik rahatsızlıklar kimi zaman estetik olarak da sorun olabilmekte ve daha ciddi bir sağlık sorununa dönüşebilmektedirler. Bundan dolayı hastalığın ileri seviyelere ulaşmaması için hızlı bir tedavi sürecine geçilmelidir.",
+                "p1": "Dermatoloji birimi, vücudumuzun en büyük ve dış dünyaya karşı en önemli savunma kalkanı olan deri ile bu dokunun uzantıları sayılan saç ve tırnak sağlığına odaklanan temel tıbbi branştır. Bölümümüzde yalnızca deri hastalıklarının teşhis ve tedavisi değil; ağız ve burun mukozası sorunları ile cinsel yolla bulaşan hastalıkların tespiti ve takibi de uzman hekimlerimizce titizlikle yürütülmektedir. Cilt sağlığı, genel vücut bütünlüğünün bir yansıması olduğu için, ortaya çıkan belirtiler kimi zaman sadece estetik bir kaygı oluştururken kimi zaman da alt katmanlarda yatan daha ciddi sağlık sorunlarının habercisi olabilmektedir.",
+                "p2": "Dış görünüşü doğrudan etkileyen dermatolojik rahatsızlıklar, kişilerin sosyal yaşamını ve psikolojik refahını da yakından ilgilendirdiği için modern klinik ortamımızda hem tıbbi hem de estetik çözümler bir arada sunulmaktadır. Akne, egzama ve sedef gibi kronik rahatsızlıklardan, deri tümörlerine ve alerjik reaksiyonlara kadar geniş bir yelpazede, ileri teknolojik cihazlar eşliğinde tanı süreçleri yürütülmektedir. Hastalığın ilerlemesini durdurmak ve kalıcı hasarların önüne geçmek adına erken teşhis ve hızlı tedavi planlamasının hayati önem taşıdığının bilinciyle, her hastamıza özel, modern ve güvenilir bir tedavi protokolü uygulanmaktadır.",
                 "tags": [
                     "Sivilceler(akne)",
                     "Pruritus (kaşıntı)",
@@ -177,8 +176,8 @@
             "cerrahi": {
                 "title": "Genel Cerrahi",
                 "content_title": "Genel Cerrahi",
-                "p1": "Genel cerrahi, vücuttaki sistemik ve yerel hastalıkları cerrahi yöntemle tedavi eden, pek çok tıbbi branş ile entegre olarak çalışan bir disiplindir.",
-                "p2": "Guatr (Tiroid bezi), Mide, İnce Bağırsak, Kalın Bağırsak, Meme, Yemek Borusu(Özofagus), Fıtıklar, Karaciğer, Rektum, Anüs, Safra Kesesi, Safra Yolları, Endoskopik ve Laparoskopik Cerrahi girişimleri Genel Cerrahi alanına giren bölümler olarak sayılabilir.",
+                "p1": "Genel Cerrahi, vücuttaki sistemik ve yerel pek çok hastalığın cerrahi yöntemlerle tedavi edilmesini sağlayan, tıbbın en geniş ve temel disiplinlerinden biridir. Bölümümüz, hastalarımıza en doğru tedavi protokolünü sunmak adına diğer tüm tıbbi branşlarla tam bir entegrasyon ve iş birliği içerisinde çalışmaktadır. Geleneksel açık cerrahi yöntemlerinin yanı sıra, hastalarımızın iyileşme sürelerini kısaltan ve konforunu artıran ileri endoskopik ve laparoskopik (kapalı) cerrahi girişimler, uzman cerrahlarımız tarafından yüksek başarı oranlarıyla uygulanmaktadır.",
+                "p2": "Birimimizde; tiroid bezi (guatr) hastalıkları, meme sağlığı ve cerrahisi, yemek borusu (özofagus), mide, ince ve kalın bağırsak rahatsızlıkları ile rektum ve anüs bölgesini kapsayan tüm cerrahi süreçler titizlikle yönetilmektedir. Ayrıca karaciğer, safra kesesi, safra yolları hastalıkları ve her türlü fıtık operasyonu, modern tıbbi teknolojiler eşliğinde gerçekleştirilmektedir. Tanı aşamasından rehabilitasyon sürecine kadar her adımda hasta güvenliğini odağa alan genel cerrahi ekibimiz, karmaşık cerrahi vakalarda dahi modern tıbbın sunduğu en güncel teknikleri kullanarak sağlık sorunlarınıza kalıcı ve etkin çözümler üretmeyi amaçlamaktadır.",
                 "tags": [
                     "Endoskopi",
                     "Kolonoskopi",
@@ -208,8 +207,8 @@
             "goz": {
                 "title": "Göz Sağlığı",
                 "content_title": "Göz Sağlığı",
-                "p1": "Göz Sağlığı ve Hastalıkları, yaşam kalitesi açısından oldukça büyük öneme sahiptir. Bazı göz hastalıkları erken dönemde tedavi edilmediklerinde ilerleyerek görme kaybına varan kalıcı hasarlara neden olabilir.",
-                "p2": "Bu nedenle düzenli göz muayenesi yaptırmak ve gözlerdeki olası hastalıkları ilerlemeden tespit etmek büyük önem taşır. Sağlıklı insanlar yılda bir kez göz taramasından geçmeli.",
+                "p1": "Göz sağlığı, bireylerin dünyayı algılama biçimini ve genel yaşam kalitesini doğrudan etkileyen, üzerinde hassasiyetle durulması gereken hayati bir unsurdur. Görme yetisindeki en ufak bir kayıp, günlük aktiviteleri kısıtlayabilmekte ve kişinin bağımsızlığını olumsuz etkileyebilmektedir. Bazı göz hastalıkları, başlangıç aşamasında belirgin semptomlar göstermese de erken dönemde teşhis ve tedavi edilmedikleri takdirde hızla ilerleyerek görme kaybına kadar varabilen kalıcı ve geri dönüştürülemez hasarlara yol açabilmektedir.",
+                "p2": "Bu risklerin önüne geçebilmek adına, gelişmiş teknolojik cihazlar eşliğinde gerçekleştirilen düzenli göz muayeneleri, olası hastalıkların henüz başlangıç evresinde tespit edilmesinde kritik bir rol oynamaktadır. Hastanemizde, her yaştan bireyin göz sağlığını korumak amacıyla kapsamlı tarama ve tedavi hizmetleri sunulmaktadır. Görme kusurlarının yanı sıra katarakt, glokom (göz tansiyonu) ve retina hastalıkları gibi ciddi sağlık sorunlarının erkenden saptanması için, herhangi bir şikayeti olmayan sağlıklı bireylerin dahi yılda en az bir kez detaylı bir göz taramasından geçmesini önemle tavsiye ediyoruz.",
                 "tags": [
                     "Genel Muayene",
                     "Göz Kızarıklığı",
@@ -233,7 +232,8 @@
             "dahiliye": {
                 "title": "İç Hastalıklar",
                 "content_title": "İç Hastalıkları (Dahiliye)",
-                "p1": "Kurumumuzun Dahiliye polikliniğinde; uzman doktorumuz ile Bronşit, Nezle, Sistit vb. enfeksiyon hastalıkları, Diyabet, Hipertansiyon, Guatr gibi metabolik hastalıklar çarpıntı, Kalp Yetmezliği gibi kalp hastalıkları teşhis ve tedavisi yapılabilmektedir.",
+                "p1": "Hastanemizin İç Hastalıkları polikliniği, erişkin yaştaki hastaların sağlık sorunlarının ilk başvuru noktası ve çözüm merkezi olarak hizmet vermektedir. Uzman hekim kadromuz, vücuttaki sistemlerin birbirleriyle olan karmaşık ilişkisini gözeterek, geniş bir yelpazedeki hastalıkların teşhis, tedavi ve takip süreçlerini titizlikle yürütmektedir. Birimimizde bronşit, nezle ve sistit gibi yaygın enfeksiyon hastalıklarından; modern çağın en önemli sağlık sorunları arasında yer alan diyabet (şeker hastalığı), hipertansiyon ve guatr gibi metabolik bozukluklara kadar tüm süreçler güncel tıbbi protokollerle yönetilmektedir.",
+                "p2": "Dahiliye ünitemiz, sadece tekil hastalıkları tedavi etmekle kalmayıp, kalp yetmezliği ve çarpıntı gibi kalp-damar sistemiyle ilgili şikayetlerin erken teşhisinde de kritik bir rol üstlenmektedir. Hastalıkların önlenmesi ve kronik durumların kontrol altında tutulması amacıyla, hastalarımızın yaşam tarzı ve genetik geçmişi de dikkate alınarak kişiye özel tedavi planları oluşturulmaktadır. Çok yönlü bakış açımız sayesinde, karmaşık sağlık sorunları olan hastalarımızda en doğru tanıyı koymayı ve ihtiyaç duyulduğunda diğer branşlarla koordineli bir şekilde çalışarak sağlığınıza en kısa sürede kavuşmanızı hedefliyoruz.",
                 "tags": [
                     "Kan Hastalıkları",
                     "Solunum Enfeksiyonları",
@@ -256,7 +256,8 @@
             "kadin": {
                 "title": "Kadın & Doğum",
                 "content_title": "Kadın Hastalıkları ve Doğum",
-                "p1": "Kendi alanında, tıp dünyasındaki her gelişimi yakından izleyen ve uygulayan kliniğimiz, hamilelik, doğum öncesi ve doğumla ilgili problemlerin çözümünde de modern tıbbın tüm olanaklarıyla hizmet vermektedir.",
+                "p1": "Hastanemizin Kadın Hastalıkları ve Doğum kliniği, kadın sağlığını yaşamın her evresinde bütüncül bir yaklaşımla korumayı ve iyileştirmeyi amaçlamaktadır. Kendi alanında tıp dünyasındaki tüm bilimsel gelişmeleri ve yenilikçi tedavi yöntemlerini yakından takip eden uzman ekibimiz, modern tıbbın sunduğu en ileri teknolojik imkanları kullanarak dünya standartlarında bir hizmet sunmaktadır. Ergenlik döneminden menopoza kadar uzanan süreçte, jinekolojik tüm rahatsızlıkların tanı ve tedavisinde yüksek başarı oranlarıyla yanınızda yer alıyoruz.",
+                "p2": "Birimimizde hamilelik süreci, anne ve bebek sağlığının en üst düzeyde korunması prensibiyle yönetilmektedir. Gebelik öncesi danışmanlık hizmetlerinden başlayarak; doğum öncesi takip, riskli gebeliklerin yönetimi ve doğumla ilgili karşılaşılabilecek her türlü problemin çözümünde multidisipliner bir yaklaşım sergiliyoruz. Modern doğumhanelerimiz ve ileri düzey görüntüleme sistemlerimizle, bu mucizevi süreci hem anne adayı hem de bebek için en güvenli ve konforlu şekilde tamamlamayı hedefliyoruz. Kadın sağlığının tüm detaylarına hakim olan kliniğimizde, her hastamıza özel, etik değerlere bağlı ve empati odaklı bir sağlık hizmeti sunmak en temel önceliğimizdir.",
                 "tags": [
                     "Genel Muayene",
                     "Kist Muayene",

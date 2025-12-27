@@ -89,7 +89,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.derma.p1')}</p>
           <p>{t('medical:departments.list.derma.p2')}</p>
-          <p>{t('medical:departments.list.derma.p3')}</p>
+
           <div className="bolum-tags">
             {t('medical:departments.list.derma.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -140,6 +140,7 @@ const BolumlerimizPage = () => {
       content: (
         <>
           <p>{t('medical:departments.list.dahiliye.p1')}</p>
+          <p>{t('medical:departments.list.dahiliye.p2')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.dahiliye.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -156,6 +157,7 @@ const BolumlerimizPage = () => {
       content: (
         <>
           <p>{t('medical:departments.list.kadin.p1')}</p>
+          <p>{t('medical:departments.list.kadin.p2')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.kadin.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>

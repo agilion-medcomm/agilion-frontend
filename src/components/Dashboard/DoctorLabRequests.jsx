@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import './SharedDashboard.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const BaseURL = `${API_BASE}/api/v1`;
@@ -209,17 +210,18 @@ export default function DoctorLabRequests() {
   };
 
   return (
-    <div style={{ padding: '20px', background: '#f8fafc', minHeight: '100vh' }}>
+    <div style={{ padding: '20px', background: 'var(--dash-bg)', minHeight: '100vh', color: 'var(--dash-text)' }}>
       {/* Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: '#667eea',
         color: 'white',
         padding: '24px',
         borderRadius: '12px',
-        marginBottom: '30px'
+        marginBottom: '30px',
+        boxShadow: '0 4px 12px rgba(102, 126, 234, 0.2)'
       }}>
-        <h1 style={{ margin: '0 0 8px 0', fontSize: '24px', fontWeight: 700 }}>📋 Laborant Talepleri</h1>
-        <p style={{ margin: 0, opacity: 0.9 }}>Tıbbi dosya talepleri oluşturun ve yönetin</p>
+        <h1 style={{ margin: '0 0 8px 0', fontSize: '24px', fontWeight: 700, color: 'white' }}>Laborant Talepleri</h1>
+        <p style={{ margin: 0, opacity: 1, color: 'white' }}>Tıbbi dosya talepleri oluşturun ve yönetin</p>
       </div>
 
       {/* Tab Navigation */}
@@ -233,9 +235,9 @@ export default function DoctorLabRequests() {
           onClick={() => setActiveTab('list')}
           style={{
             padding: '12px 24px',
-            background: activeTab === 'list' ? '#667eea' : '#e2e8f0',
-            color: activeTab === 'list' ? 'white' : '#374151',
-            border: 'none',
+            background: activeTab === 'list' ? '#667eea' : 'var(--dash-tab-bg)',
+            color: activeTab === 'list' ? 'white' : 'var(--dash-tab-text)',
+            border: activeTab === 'list' ? 'none' : '1px solid var(--dash-border)',
             borderRadius: '8px',
             cursor: 'pointer',
             fontWeight: 600,
@@ -243,15 +245,15 @@ export default function DoctorLabRequests() {
             transition: 'all 0.2s'
           }}
         >
-          📊 Talepler ({filteredRequests.length})
+          Talepler ({filteredRequests.length})
         </button>
         <button
           onClick={() => setActiveTab('create')}
           style={{
             padding: '12px 24px',
-            background: activeTab === 'create' ? '#667eea' : '#e2e8f0',
-            color: activeTab === 'create' ? 'white' : '#374151',
-            border: 'none',
+            background: activeTab === 'create' ? '#667eea' : 'var(--dash-tab-bg)',
+            color: activeTab === 'create' ? 'white' : 'var(--dash-tab-text)',
+            border: activeTab === 'create' ? 'none' : '1px solid var(--dash-border)',
             borderRadius: '8px',
             cursor: 'pointer',
             fontWeight: 600,
@@ -274,9 +276,9 @@ export default function DoctorLabRequests() {
                 padding: '12px 16px',
                 borderRadius: '8px',
                 marginBottom: '20px',
-                backgroundColor: requestsMessage.type === 'error' ? '#fee2e2' : '#dcfce7',
-                color: requestsMessage.type === 'error' ? '#991b1b' : '#166534',
-                border: `1px solid ${requestsMessage.type === 'error' ? '#f87171' : '#86efac'}`
+                backgroundColor: requestsMessage.type === 'error' ? 'rgba(193, 39, 45, 0.1)' : 'rgba(39, 174, 96, 0.1)',
+                color: requestsMessage.type === 'error' ? '#ef4444' : '#22c55e',
+                border: `1px solid ${requestsMessage.type === 'error' ? 'rgba(193, 39, 45, 0.2)' : 'rgba(39, 174, 96, 0.2)'}`
               }}>
                 {requestsMessage.text}
               </div>
@@ -304,9 +306,9 @@ export default function DoctorLabRequests() {
                     onClick={() => setFilterStatus(status)}
                     style={{
                       padding: '8px 16px',
-                      background: filterStatus === status ? '#667eea' : '#e2e8f0',
-                      color: filterStatus === status ? 'white' : '#374151',
-                      border: 'none',
+                      background: filterStatus === status ? '#667eea' : 'var(--dash-tab-bg)',
+                      color: filterStatus === status ? 'white' : 'var(--dash-tab-text)',
+                      border: filterStatus === status ? 'none' : '1px solid var(--dash-border)',
                       borderRadius: '6px',
                       cursor: 'pointer',
                       fontWeight: 600,
@@ -323,26 +325,28 @@ export default function DoctorLabRequests() {
             {/* Loading State */}
             {requestsLoading && (
               <div style={{
-                background: 'white',
+                background: 'var(--dash-card-bg)',
                 padding: '40px',
                 borderRadius: '12px',
                 textAlign: 'center',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                border: '1px solid var(--dash-border)'
               }}>
-                <p style={{ color: '#666' }}>Talepler yükleniyor...</p>
+                <p style={{ color: 'var(--dash-text-muted)' }}>Talepler yükleniyor...</p>
               </div>
             )}
 
             {/* No Requests State */}
             {!requestsLoading && filteredRequests.length === 0 && (
               <div style={{
-                background: 'white',
+                background: 'var(--dash-card-bg)',
                 padding: '40px',
                 borderRadius: '12px',
                 textAlign: 'center',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                border: '1px solid var(--dash-border)'
               }}>
-                <p style={{ color: '#666', marginBottom: '16px' }}>📭 Şu anda talep yok</p>
+                <p style={{ color: 'var(--dash-text-muted)', marginBottom: '16px' }}>Şu anda talep yok</p>
                 <button
                   onClick={() => setActiveTab('create')}
                   style={{
@@ -369,26 +373,27 @@ export default function DoctorLabRequests() {
                     <div
                       key={req.id}
                       style={{
-                        background: 'white',
+                        background: 'var(--dash-card-bg)',
                         padding: '20px',
                         borderRadius: '8px',
                         boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                        border: `2px solid ${statusInfo.bg}`
+                        border: '1px solid var(--dash-border)',
+                        borderLeft: `4px solid ${req.status === 'COMPLETED' ? '#10b981' : req.status === 'CANCELED' ? '#ef4444' : req.status === 'ASSIGNED' ? '#3b82f6' : '#f59e0b'}`
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '16px' }}>
                         <div style={{ flex: 1 }}>
-                          <p style={{ margin: '0 0 8px 0', fontWeight: 700, color: '#1e293b', fontSize: '16px' }}>
+                          <p style={{ margin: '0 0 8px 0', fontWeight: 700, color: 'var(--dash-text)', fontSize: '16px' }}>
                             {req.fileTitle}
                           </p>
-                          <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#666' }}>
+                          <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: 'var(--dash-text-muted)' }}>
                             👤 Hasta: {req.patient.firstName} {req.patient.lastName}
                           </p>
-                          <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#666' }}>
+                          <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: 'var(--dash-text-muted)' }}>
                             📝 {req.notes || 'Not yok'}
                           </p>
                           {req.assigneeLaborant && (
-                            <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#059669', fontWeight: 600 }}>
+                            <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: '#10b981', fontWeight: 600 }}>
                               ✓ Atanan: {req.assigneeLaborant.user.firstName} {req.assigneeLaborant.user.lastName}
                             </p>
                           )}
@@ -397,7 +402,7 @@ export default function DoctorLabRequests() {
                               📄 Dosya: {req.medicalFile.testName} ({new Date(req.medicalFile.createdAt).toLocaleDateString('tr-TR')})
                             </p>
                           )}
-                          <p style={{ margin: '0 0 0 0', fontSize: '12px', color: '#999' }}>
+                          <p style={{ margin: '0 0 0 0', fontSize: '12px', color: 'var(--dash-text-muted)', opacity: 0.7 }}>
                             📅 {new Date(req.requestedAt).toLocaleDateString('tr-TR')}
                           </p>
                         </div>
@@ -424,7 +429,9 @@ export default function DoctorLabRequests() {
                               style={{
                                 padding: '8px 12px',
                                 borderRadius: '6px',
-                                border: '1px solid #d1d5db',
+                                border: '1px solid var(--dash-input-border)',
+                                background: 'var(--dash-input-bg)',
+                                color: 'var(--dash-text)',
                                 fontSize: '13px',
                                 minWidth: '200px'
                               }}
@@ -513,14 +520,15 @@ export default function DoctorLabRequests() {
         {/* ============ CREATE TAB ============ */}
         {activeTab === 'create' && (
           <div style={{
-            background: 'white',
+            background: 'var(--dash-card-bg)',
             padding: '30px',
             borderRadius: '12px',
             boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+            border: '1px solid var(--dash-border)',
             maxWidth: '600px',
             margin: '0 auto'
           }}>
-            <h2 style={{ marginTop: 0, color: '#1e293b', fontSize: '18px', fontWeight: 700, marginBottom: '24px' }}>
+            <h2 style={{ marginTop: 0, color: 'var(--dash-text)', fontSize: '18px', fontWeight: 700, marginBottom: '24px' }}>
               Yeni Laborant Talebi Oluştur
             </h2>
 
@@ -529,9 +537,9 @@ export default function DoctorLabRequests() {
                 padding: '12px 16px',
                 borderRadius: '8px',
                 marginBottom: '20px',
-                backgroundColor: createMessage.type === 'error' ? '#fee2e2' : '#dcfce7',
-                color: createMessage.type === 'error' ? '#991b1b' : '#166534',
-                border: `1px solid ${createMessage.type === 'error' ? '#f87171' : '#86efac'}`
+                backgroundColor: createMessage.type === 'error' ? 'rgba(193, 39, 45, 0.1)' : 'rgba(39, 174, 96, 0.1)',
+                color: createMessage.type === 'error' ? '#ef4444' : '#22c55e',
+                border: `1px solid ${createMessage.type === 'error' ? 'rgba(193, 39, 45, 0.2)' : 'rgba(39, 174, 96, 0.2)'}`
               }}>
                 {createMessage.text}
               </div>
@@ -539,7 +547,7 @@ export default function DoctorLabRequests() {
 
             {/* Step 1: Search Patient */}
             <div style={{ marginBottom: '24px' }}>
-              <h3 style={{ margin: '0 0 16px 0', color: '#374151', fontSize: '14px', fontWeight: 700 }}>
+              <h3 style={{ margin: '0 0 16px 0', color: 'var(--dash-text)', fontSize: '14px', fontWeight: 700 }}>
                 Adım 1: Hastayı Seçin
               </h3>
 
@@ -560,9 +568,10 @@ export default function DoctorLabRequests() {
                     flex: 1,
                     padding: '12px',
                     borderRadius: '8px',
-                    border: '1px solid #d1d5db',
+                    border: '1px solid var(--dash-input-border)',
+                    background: 'var(--dash-input-bg)',
+                    color: 'var(--dash-text)',
                     fontSize: '14px',
-                    background: foundPatient ? '#f3f4f6' : 'white'
                   }}
                 />
                 {!foundPatient && (
@@ -587,20 +596,20 @@ export default function DoctorLabRequests() {
 
               {foundPatient && (
                 <div style={{
-                  background: '#f0f9ff',
+                  background: 'var(--dash-tab-active-bg)',
                   padding: '12px',
                   borderRadius: '8px',
                   marginTop: '12px',
-                  border: '1px solid #bfdbfe',
+                  border: '1px solid var(--dash-tab-active-border)',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center'
                 }}>
                   <div>
-                    <p style={{ margin: '0 0 4px 0', fontWeight: 600, color: '#1e40af', fontSize: '14px' }}>
+                    <p style={{ margin: '0 0 4px 0', fontWeight: 600, color: 'var(--dash-tab-active-text)', fontSize: '14px' }}>
                       ✓ {foundPatient.firstName} {foundPatient.lastName}
                     </p>
-                    <p style={{ margin: 0, color: '#1e40af', fontSize: '12px' }}>
+                    <p style={{ margin: 0, color: 'var(--dash-tab-active-text)', fontSize: '12px', opacity: 0.8 }}>
                       {foundPatient.email}
                     </p>
                   </div>
@@ -611,8 +620,8 @@ export default function DoctorLabRequests() {
                     }}
                     style={{
                       background: 'none',
-                      border: '1px solid #93c5fd',
-                      color: '#1e40af',
+                      border: '1px solid var(--dash-tab-active-border)',
+                      color: 'var(--dash-tab-active-text)',
                       padding: '6px 12px',
                       borderRadius: '6px',
                       cursor: 'pointer',
@@ -629,12 +638,12 @@ export default function DoctorLabRequests() {
             {/* Step 2: Fill Request Details */}
             {foundPatient && (
               <form onSubmit={handleCreateRequest}>
-                <h3 style={{ margin: '0 0 16px 0', color: '#374151', fontSize: '14px', fontWeight: 700 }}>
+                <h3 style={{ margin: '0 0 16px 0', color: 'var(--dash-text)', fontSize: '14px', fontWeight: 700 }}>
                   Adım 2: Talep Bilgilerini Girin
                 </h3>
 
                 <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#374151', fontSize: '13px' }}>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: 'var(--dash-text-muted)', fontSize: '13px' }}>
                     Talep Başlığı *
                   </label>
                   <input
@@ -647,7 +656,9 @@ export default function DoctorLabRequests() {
                       width: '100%',
                       padding: '12px',
                       borderRadius: '8px',
-                      border: '1px solid #d1d5db',
+                      border: '1px solid var(--dash-input-border)',
+                      background: 'var(--dash-input-bg)',
+                      color: 'var(--dash-text)',
                       fontSize: '14px',
                       boxSizing: 'border-box'
                     }}
@@ -655,7 +666,7 @@ export default function DoctorLabRequests() {
                 </div>
 
                 <div style={{ marginBottom: '16px' }}>
-                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#374151', fontSize: '13px' }}>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: 'var(--dash-text-muted)', fontSize: '13px' }}>
                     Notlar (İsteğe bağlı)
                   </label>
                   <textarea
@@ -667,7 +678,9 @@ export default function DoctorLabRequests() {
                       width: '100%',
                       padding: '12px',
                       borderRadius: '8px',
-                      border: '1px solid #d1d5db',
+                      border: '1px solid var(--dash-input-border)',
+                      background: 'var(--dash-input-bg)',
+                      color: 'var(--dash-text)',
                       fontSize: '14px',
                       boxSizing: 'border-box',
                       resize: 'vertical'
@@ -676,7 +689,7 @@ export default function DoctorLabRequests() {
                 </div>
 
                 <div style={{ marginBottom: '24px' }}>
-                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#374151', fontSize: '13px' }}>
+                  <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: 'var(--dash-text-muted)', fontSize: '13px' }}>
                     Laborant Ata (İsteğe bağlı)
                   </label>
                   <select
@@ -686,7 +699,9 @@ export default function DoctorLabRequests() {
                       width: '100%',
                       padding: '12px',
                       borderRadius: '8px',
-                      border: '1px solid #d1d5db',
+                      border: '1px solid var(--dash-input-border)',
+                      background: 'var(--dash-input-bg)',
+                      color: 'var(--dash-text)',
                       fontSize: '14px',
                       boxSizing: 'border-box'
                     }}
