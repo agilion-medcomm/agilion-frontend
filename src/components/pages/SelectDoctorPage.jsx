@@ -159,11 +159,11 @@ const SelectDoctorPage = () => {
                   e.currentTarget.style.boxShadow = isDark ? '0 4px 6px rgba(0,0,0,0.3)' : '0 4px 15px rgba(0,0,0,0.05)';
                 }}
               >
-                {/* Avatar Alanı */}
+                {/* Fotoğraf Alanı */}
                 <div
                   style={{
-                    width: 100,
-                    height: 100,
+                    width: 120,
+                    height: 120,
                     borderRadius: "50%",
                     background: isDark ? "#374151" : "#f0f8ff",
                     display: "flex",
@@ -171,20 +171,37 @@ const SelectDoctorPage = () => {
                     justifyContent: "center",
                     margin: "0 auto 16px auto",
                     overflow: "hidden",
-                    border: isDark ? "3px solid #4b5563" : "3px solid #5a9fb8",
-                    fontSize: 32,
+                    border: isDark ? "4px solid #4b5563" : "4px solid #0d6efd",
+                    fontSize: 40,
                     fontWeight: 700,
-                    color: isDark ? "#94a3b8" : "#1a4d5f"
+                    color: isDark ? "#94a3b8" : "#1a4d5f",
+                    position: 'relative'
                   }}
                 >
-                  {doctor.photoUrl ? (
+                  {doctor.photoUrl && doctor.photoUrl.trim() ? (
                     <img
                       src={doctor.photoUrl.startsWith('http') ? doctor.photoUrl : `${API_BASE}${doctor.photoUrl}`}
-                      alt={doctor.firstName}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      alt={`${doctor.firstName} ${doctor.lastName}`}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover"
+                      }}
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.textContent = `${doctor.firstName?.[0] || ''}${doctor.lastName?.[0] || ''}`.toUpperCase();
+                      }}
                     />
                   ) : (
-                    `${doctor.firstName?.[0] || ''}${doctor.lastName?.[0] || ''}`.toUpperCase()
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: '100%',
+                      height: '100%'
+                    }}>
+                      {`${doctor.firstName?.[0] || ''}${doctor.lastName?.[0] || ''}`.toUpperCase()}
+                    </div>
                   )}
                 </div>
 
