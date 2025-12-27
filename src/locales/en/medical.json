@@ -5,7 +5,10 @@
         "all_departments": "All Departments",
         "quick_appointment": "Quick Appointment",
         "loading": "Loading...",
-        "login_required": "Please log in first to book an appointment."
+        "login_required": "Please log in first to book an appointment.",
+        "select_and_proceed": "Select and Proceed",
+        "select_doctor_title": "Select Doctor for Appointment",
+        "select_doctor_subtitle": "Please click on the doctor you want to proceed with."
     },
     "departments": {
         "title": "All Our Departments",
@@ -271,6 +274,12 @@
                     "Normal Delivery",
                     "Cesarean Section"
                 ]
+            },
+            "kardiyoloji": {
+                "title": "Cardiology"
+            },
+            "noroloji": {
+                "title": "Neurology"
             }
         }
     },
