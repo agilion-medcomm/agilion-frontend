@@ -178,9 +178,9 @@ const SelectDoctorPage = () => {
                     position: 'relative'
                   }}
                 >
-                  {doctor.photoUrl && doctor.photoUrl.trim() ? (
+                  {doctor.photoUrl || doctor.img ? (
                     <img
-                      src={doctor.photoUrl.startsWith('http') ? doctor.photoUrl : `${API_BASE}${doctor.photoUrl}`}
+                      src={(doctor.photoUrl || doctor.img).startsWith('http') ? (doctor.photoUrl || doctor.img) : `${API_BASE}${doctor.photoUrl || doctor.img}`}
                       alt={`${doctor.firstName} ${doctor.lastName}`}
                       style={{
                         width: "100%",
