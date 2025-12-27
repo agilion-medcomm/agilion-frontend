@@ -18,8 +18,8 @@ function isValidEmail(email) {
 function isValidPhoneNumber(phoneNumber) {
   // Sadece rakamları al
   const digitsOnly = phoneNumber.replace(/\D/g, '');
-  // 10 veya 11 hane kontrolü (Başında 0 olup olmamasına göre)
-  return digitsOnly.length >= 10 && digitsOnly.length <= 11;
+  // 10 ila 15 hane kontrolü (standart telefon numarası uzunluğu)
+  return digitsOnly.length >= 10 && digitsOnly.length <= 15;
 }
 
 export default function RegisterPage() {
@@ -276,6 +276,10 @@ export default function RegisterPage() {
               value={formData.phoneNumber}
               onChange={handleChange}
               disabled={loading}
+              pattern="[+]?[0-9]{10,15}"
+              maxLength={15}
+              minLength={10}
+              title="Telefon numarası 10-15 haneli olmalıdır."
               placeholder="05XX XXX XX XX"
             />
           </div>

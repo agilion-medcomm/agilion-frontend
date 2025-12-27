@@ -131,7 +131,18 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit}>
             <div className="form-row">
               <input type="text" name="name" placeholder={t('contact:form.placeholders.name')} value={formData.name} onChange={handleChange} required />
-              <input type="tel" name="phone" placeholder={t('contact:form.placeholders.phone')} value={formData.phone} onChange={handleChange} required />
+              <input 
+                type="tel" 
+                name="phone" 
+                placeholder={t('contact:form.placeholders.phone')} 
+                value={formData.phone} 
+                onChange={handleChange}
+                pattern="[+]?[0-9]{10,15}"
+                maxLength={15}
+                minLength={10}
+                title="Telefon numarası 10-15 haneli olmalıdır."
+                required 
+              />
             </div>
             <div className="form-row">
               <input type="email" name="email" placeholder={t('contact:form.placeholders.email')} value={formData.email} onChange={handleChange} required />

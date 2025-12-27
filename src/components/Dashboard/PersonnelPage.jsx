@@ -722,10 +722,14 @@ export default function PersonnelPage() {
                 <div className="form-group">
                   <label>Telefon</label>
                   <input
-                    type="text"
+                    type="tel"
                     name="phoneNumber"
                     value={form.phoneNumber}
                     onChange={handleInputChange}
+                    pattern="[+]?[0-9]{10,15}"
+                    maxLength={15}
+                    minLength={10}
+                    title="Telefon numarası 10-15 haneli olmalıdır."
                   />
                 </div>
               </div>
@@ -844,10 +848,14 @@ export default function PersonnelPage() {
                 <div className="form-group">
                   <label>Phone</label>
                   <input
-                    type="text"
+                    type="tel"
                     name="phoneNumber"
                     value={form.phoneNumber}
                     onChange={handleInputChange}
+                    pattern="[+]?[0-9]{10,15}"
+                    maxLength={15}
+                    minLength={10}
+                    title="Telefon numarası 10-15 haneli olmalıdır."
                   />
                 </div>
               </div>
