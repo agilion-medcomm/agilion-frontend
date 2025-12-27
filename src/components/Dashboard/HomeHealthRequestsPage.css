@@ -10,6 +10,15 @@
 
 .page-header {
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.page-header-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .page-header h1 {
@@ -89,7 +98,7 @@
 
 .filters-section label {
   font-weight: 500;
-  color: #555;
+  color: var(--dashboard-text, #555);
 }
 
 .filters-section select {
@@ -153,6 +162,7 @@
   border-radius: 8px;
   text-align: center;
   margin-bottom: 20px;
+  border: none !important;
 }
 
 /* Talep yok */

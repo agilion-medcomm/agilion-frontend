@@ -111,7 +111,16 @@ export default function CleaningManagementPage() {
             <select
               value={areaFilter}
               onChange={(e) => setAreaFilter(e.target.value)}
-              style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+              style={{
+                width: '100%',
+                height: '42px',
+                padding: '0 10px',
+                border: '1px solid var(--dash-border)',
+                borderRadius: '8px',
+                background: 'var(--dash-card-bg)',
+                color: 'var(--dash-text)',
+                boxSizing: 'border-box'
+              }}
             >
               <option value="ALL">Tüm Alanlar</option>
               {areas.map(area => <option key={area} value={area}>{area}</option>)}
@@ -122,7 +131,16 @@ export default function CleaningManagementPage() {
             <select
               value={cleanerFilter}
               onChange={(e) => setCleanerFilter(e.target.value)}
-              style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+              style={{
+                width: '100%',
+                height: '42px',
+                padding: '0 10px',
+                border: '1px solid var(--dash-border)',
+                borderRadius: '8px',
+                background: 'var(--dash-card-bg)',
+                color: 'var(--dash-text)',
+                boxSizing: 'border-box'
+              }}
             >
               <option value="ALL">Tüm Temizlikçiler</option>
               {cleaners.map(cleaner => (
@@ -138,7 +156,16 @@ export default function CleaningManagementPage() {
               type="date"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
-              style={{ width: '100%', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px' }}
+              style={{
+                width: '100%',
+                height: '42px',
+                padding: '0 10px',
+                border: '1px solid var(--dash-border)',
+                borderRadius: '8px',
+                background: 'var(--dash-card-bg)',
+                color: 'var(--dash-text)',
+                boxSizing: 'border-box'
+              }}
             />
           </div>
           {(areaFilter !== 'ALL' || cleanerFilter !== 'ALL' || dateFilter) && (
