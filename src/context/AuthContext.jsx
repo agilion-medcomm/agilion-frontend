@@ -24,43 +24,57 @@ export function AuthProvider({ children }) {
   // Hasta login fonksiyonu (token ve user ile)
   const login = async (tokenOrObj, userObj) => {
     let tokenString = null;
-    if (typeof tokenOrObj === "string") {
-      tokenString = tokenOrObj;
-    } else if (typeof tokenOrObj === "object" && tokenOrObj !== null) {
-      tokenString = tokenOrObj.token || localStorage.getItem('token');
-    }
-    if (!tokenString && typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
-      tokenString = tokenOrObj;
-    }
-    if (tokenString) localStorage.setItem('token', tokenString);
+    let userToStore = null;
 
-    // Her zaman /auth/me ile güncel user bilgisini çek
-    try {
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
-      const API_PREFIX = '/api/v1';
-      const BaseURL = `${API_BASE}${API_PREFIX}`;
-      const meResp = await fetch(`${BaseURL}/auth/me`, {
-        headers: { Authorization: `Bearer ${tokenString}` }
-      });
-      if (!meResp.ok) throw new Error('Profil alınamadı');
-      const meData = await meResp.json();
-      const userData = meData.data || meData;
-      // 'id' fieldı zorunlu - appointments fetch için gerekli
-      if (!userData.id && userData.userId) {
-        userData.id = userData.userId;
-      }
-      localStorage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
+    // Case 1: login(token, userObj) - token string + user object
+    if (typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
+      tokenString = tokenOrObj;
+      userToStore = userObj;
+    }
+    // Case 2: login(obj) - object with token and user
+    else if (typeof tokenOrObj === "object" && tokenOrObj !== null) {
+      tokenString = tokenOrObj.token;
+      userToStore = tokenOrObj.user;
+    }
+
+    // Ensure id field exists
+    if (userToStore && !userToStore.id) {
+      userToStore.id = userToStore.userId;
+    }
+
+    // Save to localStorage immediately
+    if (tokenString) {
+      localStorage.setItem('token', tokenString);
+    }
+    if (userToStore) {
+      localStorage.setItem('user', JSON.stringify(userToStore));
+      setUser(userToStore);
+    }
+    if (tokenString) {
       setToken(tokenString);
-    } catch (err) {
-      // Eğer /auth/me başarısız olursa, fallback olarak eski userObj'yi kullan
-      if (userObj && typeof userObj === "object") {
-        if (!userObj.id && userObj.userId) {
-          userObj.id = userObj.userId;
+    }
+
+    // Optional: Verify with /auth/me to get fresh profile data
+    if (tokenString) {
+      try {
+        const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+        const API_PREFIX = '/api/v1';
+        const BaseURL = `${API_BASE}${API_PREFIX}`;
+        const meResp = await fetch(`${BaseURL}/auth/me`, {
+          headers: { Authorization: `Bearer ${tokenString}` }
+        });
+        if (meResp.ok) {
+          const meData = await meResp.json();
+          const userData = meData.data || meData;
+          if (!userData.id && userData.userId) {
+            userData.id = userData.userId;
+          }
+          localStorage.setItem('user', JSON.stringify(userData));
+          setUser(userData);
         }
-        localStorage.setItem('user', JSON.stringify(userObj));
-        setUser(userObj);
-        setToken(tokenString);
+      } catch (err) {
+        // /auth/me başarısız olsa da, önceden kaydedilen user ile devam et
+        console.warn('Profile refresh başarısız, önceki user ile devam ediliyor', err);
       }
     }
   };

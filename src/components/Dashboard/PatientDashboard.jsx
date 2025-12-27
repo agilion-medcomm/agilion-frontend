@@ -165,16 +165,24 @@ export default function PatientDashboard() {
       if (!token) throw new Error(t('messages.errorOccurred'));
       if (!user?.id) throw new Error(t('messages.errorOccurred'));
 
+      console.log('🔍 User object:', user); // User object'ini logla
+      console.log('🔍 User ID:', user.id); // User ID'yi logla
+      
       // Doğru endpoint: /appointments?list=true&patientId=...
-      const response = await axios.get(`${BaseURL}/appointments?list=true&patientId=${user.id}`, {
+      const url = `${BaseURL}/appointments?list=true&patientId=${user.id}`;
+      console.log('📡 Request URL:', url); // URL'yi logla
+      
+      const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
+      console.log('📡 Response:', response); // Tüm response'u logla
       const data = response.data.data || response.data;
       console.log('📋 Randevular:', data); // Rating field kontrol için
       setAppointments(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Randevular alınamadı:', error);
+      console.error('Error details:', error.response?.data || error.message); // Error detaylarını logla
       setAppointments([]);
     } finally {
       setLoading(false);
