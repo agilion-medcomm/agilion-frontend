@@ -163,17 +163,17 @@ export default function PatientDashboard() {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
       if (!token) throw new Error(t('messages.errorOccurred'));
-      // patientId kullan, yoksa user.id (userId)
-      const patientId = user?.patientId || user?.id;
+      // profileId kullan (Patient ID), yoksa patientId, en son fallback olarak user.id (userId)
+      const patientId = user?.profileId || user?.patientId || user?.id;
       if (!patientId) throw new Error(t('messages.errorOccurred'));
 
       console.log('🔍 User object:', user); // User object'ini logla
       console.log('🔍 Patient ID:', patientId); // Patient ID'yi logla
-      
+
       // Doğru endpoint: /appointments?list=true&patientId=...
       const url = `${BaseURL}/appointments?list=true&patientId=${patientId}`;
       console.log('📡 Request URL:', url); // URL'yi logla
-      
+
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
