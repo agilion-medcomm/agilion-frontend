@@ -163,7 +163,6 @@ export default function PatientDashboard() {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
       if (!token) throw new Error(t('messages.errorOccurred'));
-      // profileId kullan (Patient ID), yoksa patientId, en son fallback olarak user.id (userId)
       const patientId = user?.profileId || user?.patientId || user?.id;
       if (!patientId) throw new Error(t('messages.errorOccurred'));
 
@@ -927,11 +926,20 @@ export default function PatientDashboard() {
                       onMouseEnter={() => setHoverRating(star)}
                       onClick={() => setReview({ ...review, rating: star })}
                     >
-                      <img
-                        src="/star.svg"
-                        alt="star icon"
-                        className="star-icon-img"
-                      />
+                      <svg
+                        width="38"
+                        height="38"
+                        viewBox="0 0 512 512"
+                        className="star-icon-svg"
+                        style={{
+                          transition: 'all 0.2s',
+                          fill: star <= (hoverRating || review.rating) ? '#FFD700' : '#E2E8F0',
+                          transform: star <= (hoverRating || review.rating) ? 'scale(1.1)' : 'scale(1)',
+                          pointerEvents: 'none'
+                        }}
+                      >
+                        <path d="M393 526.27L265.48 607.008L302.863 460.798C304.117 455.892 302.437 450.708 298.535 447.478L182.345 351.138L332.965 341.505C338.02 341.181 342.43 337.974 344.297 333.271L400.004 193.001L455.715 333.271C457.586 337.974 461.996 341.181 467.047 341.505L617.647 351.134L501.467 447.466C497.576 450.692 495.885 455.88 497.139 460.79L534.522 607.01L406.992 526.276C404.855 524.921 402.422 524.245 399.992 524.245C397.555 524.241 395.125 524.921 392.984 526.269Z" transform="translate(-144 -144)" />
+                      </svg>
                     </button>
                   ))}
                 </div>
