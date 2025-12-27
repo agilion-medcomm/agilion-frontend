@@ -85,6 +85,12 @@ export default function ProfilePage() {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış.");
             }
 
+            console.log('Token debug:', { 
+              token: token?.substring(0, 20) + '...', 
+              userId: user.id, 
+              userRole: user.role 
+            });
+
             // Personel kendi profilini güncelliyor
             const endpoint = `${BaseURL}/personnel/${user.id}`;
 
@@ -188,10 +194,6 @@ export default function ProfilePage() {
                                     src={(user.photoUrl || user.img).startsWith('http') ? (user.photoUrl || user.img) : `${API_BASE}${user.photoUrl || user.img}`}
                                     alt={`${user.firstName} ${user.lastName}`}
                                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-                                    onError={(e) => {
-                                        e.target.style.display = 'none';
-                                        e.target.nextSibling.style.display = 'flex';
-                                    }}
                                 />
                             ) : (
                                 `${user?.firstName?.charAt(0) || 'U'}${user?.lastName?.charAt(0) || ''}`
