@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const BaseURL = `${API_BASE}/api/v1`;
 
 export default function DoctorDisplayPage() {
@@ -37,7 +37,7 @@ export default function DoctorDisplayPage() {
 
   const fetchAppointments = async () => {
     const token = localStorage.getItem('personnelToken');
-    
+
     if (!token) {
       setAuthError(true);
       setLoading(false);
@@ -49,10 +49,10 @@ export default function DoctorDisplayPage() {
       const userRes = await axios.get(`${BaseURL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      
+
       const user = userRes.data?.data || userRes.data;
       console.log('User from API:', user);
-      
+
       if (user) {
         setDoctorName(`${user.firstName || ''} ${user.lastName || ''}`);
         setDepartment(user.department || '');
@@ -61,13 +61,13 @@ export default function DoctorDisplayPage() {
       // Doktorun bugünkü randevularını al
       const today = new Date();
       const formattedDate = `${String(today.getDate()).padStart(2, '0')}.${String(today.getMonth() + 1).padStart(2, '0')}.${today.getFullYear()}`;
-      
+
       console.log('Fetching appointments for doctorId:', user?.doctorId, 'date:', formattedDate);
-      
+
       const res = await axios.get(`${BaseURL}/appointments`, {
-        params: { 
+        params: {
           list: 'true',
-          doctorId: user?.doctorId 
+          doctorId: user?.doctorId
         },
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -117,22 +117,22 @@ export default function DoctorDisplayPage() {
   // Randevu süresi varsayılan 30 dakika
   const findCurrentAppointmentIndex = () => {
     const nowMinutes = getCurrentMinutes();
-    
+
     for (let i = 0; i < appointments.length; i++) {
       const aptMinutes = getAppointmentMinutes(appointments[i].time);
       const aptEndMinutes = aptMinutes + 30; // Randevu bitiş saati (30 dk sonra)
-      
+
       // Randevu şu an aktif mi? (başlamış ama henüz bitmemiş)
       if (nowMinutes >= aptMinutes && nowMinutes < aptEndMinutes) {
         return i;
       }
-      
+
       // Randevu henüz başlamamış mı? (gelecekte)
       if (aptMinutes > nowMinutes) {
         return i; // İlk gelecek randevu
       }
     }
-    
+
     // Tüm randevular geçmişte, -1 döndür (hiçbiri güncel değil)
     return -1;
   };
@@ -144,18 +144,18 @@ export default function DoctorDisplayPage() {
     if (appointments.length === 0) return [];
 
     const nowMinutes = getCurrentMinutes();
-    
+
     // Eğer hiç güncel/gelecek randevu yoksa, son randevuları göster
     const centerIndex = currentIndex >= 0 ? currentIndex : appointments.length - 1;
     const startIndex = Math.max(0, centerIndex - 3);
     const endIndex = Math.min(appointments.length, centerIndex + 6);
-    
+
     return appointments.slice(startIndex, endIndex).map((apt) => {
       const aptMinutes = getAppointmentMinutes(apt.time);
       const aptEndMinutes = aptMinutes + 30;
-      
+
       let status = 'upcoming'; // beyaz - henüz gelmemiş
-      
+
       if (nowMinutes >= aptEndMinutes) {
         // Randevu bitti (30 dk geçti)
         status = 'past'; // gri
@@ -164,7 +164,7 @@ export default function DoctorDisplayPage() {
         status = 'current'; // yeşil
       }
       // else: henüz başlamamış = upcoming (beyaz)
-      
+
       return { ...apt, displayStatus: status };
     });
   };
@@ -231,8 +231,8 @@ export default function DoctorDisplayPage() {
           </div>
         ) : (
           displayAppointments.map((apt) => (
-            <div 
-              key={apt.id} 
+            <div
+              key={apt.id}
               style={{
                 ...styles.appointmentCard,
                 ...getCardStyle(apt.displayStatus)
@@ -241,8 +241,8 @@ export default function DoctorDisplayPage() {
               <div style={styles.timeSection}>
                 <span style={{
                   ...styles.time,
-                  color: apt.displayStatus === 'current' ? '#166534' : 
-                         apt.displayStatus === 'past' ? '#6b7280' : '#1f2937'
+                  color: apt.displayStatus === 'current' ? '#166534' :
+                    apt.displayStatus === 'past' ? '#6b7280' : '#1f2937'
                 }}>
                   {apt.time}
                 </span>
@@ -250,8 +250,8 @@ export default function DoctorDisplayPage() {
               <div style={styles.patientSection}>
                 <span style={{
                   ...styles.patientName,
-                  color: apt.displayStatus === 'current' ? '#166534' : 
-                         apt.displayStatus === 'past' ? '#6b7280' : '#1f2937'
+                  color: apt.displayStatus === 'current' ? '#166534' :
+                    apt.displayStatus === 'past' ? '#6b7280' : '#1f2937'
                 }}>
                   {apt.patientFirstName} {apt.patientLastName}
                 </span>

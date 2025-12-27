@@ -4,7 +4,7 @@ import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import './SharedDashboard.css';
 import './PatientsPage.css';
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:3000";
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const BaseURL = `${API_BASE}/api/v1`;
 
 export default function PatientsPage() {

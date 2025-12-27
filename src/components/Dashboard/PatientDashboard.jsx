@@ -6,9 +6,9 @@ import { useTranslation } from 'react-i18next';
 import './SharedDashboard.css';
 
 export default function PatientDashboard() {
-  const { t } = useTranslation('dashboard');
+  const { t, i18n } = useTranslation('dashboard');
   const navigate = useNavigate();
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:3000';
+  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
   const BaseURL = `${API_BASE}/api/v1`;
 
   const { user, updateUser, logout } = useAuth();
@@ -193,7 +193,11 @@ export default function PatientDashboard() {
   const fetchLabResults = async () => {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
+      if (!token) throw new Error(t('messages.errorOccurred'));
+
       console.log('Fetching my lab results...');
+      console.log('🔍 Lab Results - User:', user);
+      console.log('🔍 Lab Results - Token:', token.substring(0, 20) + '...');
 
       // Yeni /my endpoint'i kullan - token'dan userId alınır
       const response = await axios.get(`${BaseURL}/medical-files/my`, {
@@ -205,6 +209,7 @@ export default function PatientDashboard() {
       setLabResults(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Tahlil sonuçları alınamadı:', error);
+      console.error('Error response:', error.response?.data);
       setLabResults([]);
     }
   };

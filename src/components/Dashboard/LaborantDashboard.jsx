@@ -9,22 +9,22 @@ const BaseURL = `${API_BASE}/api/v1`;
 export default function LaborantDashboard() {
   const navigate = useNavigate();
   const { user, token } = usePersonnelAuth();
-  
+
   // Tab state
   const [activeTab, setActiveTab] = useState('requests'); // 'requests', 'direct', or 'my-uploads'
-  
+
   // Lab Requests tab state
   const [labRequests, setLabRequests] = useState([]);
   const [requestsLoading, setRequestsLoading] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [requestsMessage, setRequestsMessage] = useState({ type: '', text: '' });
   const [claimingId, setClaimingId] = useState(null);
-  
+
   // My Uploads tab state
   const [myUploads, setMyUploads] = useState([]);
   const [uploadsLoading, setUploadsLoading] = useState(false);
   const [uploadsMessage, setUploadsMessage] = useState({ type: '', text: '' });
-  
+
   // Direct Upload tab state
   const [patientTckn, setPatientTckn] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -65,8 +65,8 @@ export default function LaborantDashboard() {
       setLabRequests(response.data.data || []);
       setRequestsMessage({ type: '', text: '' });
     } catch (error) {
-      setRequestsMessage({ 
-        type: 'error', 
+      setRequestsMessage({
+        type: 'error',
         text: error.response?.data?.message || 'Talepler yüklenemedi'
       });
       setLabRequests([]);
@@ -104,18 +104,18 @@ export default function LaborantDashboard() {
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
+
       // Update request status
-      setLabRequests(labRequests.map(req => 
+      setLabRequests(labRequests.map(req =>
         req.id === requestId ? { ...req, status: 'ASSIGNED', assigneeLaborantId: user.laborantId } : req
       ));
       setRequestsMessage({ type: 'success', text: 'Talep başarıyla alındı!' });
-      
+
       // Auto-select for upload
       setSelectedRequest(labRequests.find(r => r.id === requestId));
     } catch (error) {
-      setRequestsMessage({ 
-        type: 'error', 
+      setRequestsMessage({
+        type: 'error',
         text: error.response?.data?.message || 'Talep alınamadı'
       });
     } finally {
@@ -126,7 +126,7 @@ export default function LaborantDashboard() {
   // Upload file for lab request
   const handleUploadForRequest = async (e) => {
     e.preventDefault();
-    
+
     if (!selectedFile || !selectedRequest) {
       setRequestsMessage({ type: 'error', text: 'Dosya seçimi zorunludur' });
       return;
@@ -154,12 +154,12 @@ export default function LaborantDashboard() {
       setRequestsMessage({ type: 'success', text: 'Dosya başarıyla yüklendi ve talep tamamlandı!' });
       setSelectedFile(null);
       setSelectedRequest(null);
-      
+
       // Refresh requests
       setTimeout(() => fetchLabRequests(), 1500);
     } catch (error) {
-      setRequestsMessage({ 
-        type: 'error', 
+      setRequestsMessage({
+        type: 'error',
         text: error.response?.data?.message || 'Dosya yüklenemedi'
       });
     } finally {
@@ -191,7 +191,7 @@ export default function LaborantDashboard() {
 
   const handleUploadFile = async (e) => {
     e.preventDefault();
-    
+
     if (!selectedFile || !testName || !foundPatient) {
       setMessage({ type: 'error', text: 'Tüm alanlar zorunludur' });
       return;
@@ -220,7 +220,7 @@ export default function LaborantDashboard() {
       setSelectedFile(null);
       setTestName('');
       setDescription('');
-      
+
       setTimeout(() => {
         setFoundPatient(null);
         setPatientTckn('');
@@ -559,7 +559,7 @@ export default function LaborantDashboard() {
               <h2 style={{ marginTop: 0, color: '#1e293b', fontSize: '18px', fontWeight: 700 }}>
                 Adım 1: Hastayı Ara
               </h2>
-              
+
               <form onSubmit={handleSearchPatient}>
                 <div style={{ marginBottom: '16px' }}>
                   <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#374151' }}>
@@ -589,7 +589,7 @@ export default function LaborantDashboard() {
                     }}
                   />
                 </div>
-                
+
                 {!foundPatient && (
                   <button
                     type="submit"
@@ -863,14 +863,14 @@ export default function LaborantDashboard() {
                         </td>
                         <td style={{ padding: '16px', textAlign: 'center' }}>
                           <span style={{
-                            background: file.medicalFileRequest?.status === 'COMPLETED' ? '#dcfce7' : '#fef3c7',
-                            color: file.medicalFileRequest?.status === 'COMPLETED' ? '#166534' : '#92400e',
+                            background: '#dcfce7',
+                            color: '#166534',
                             padding: '4px 12px',
                             borderRadius: '6px',
                             fontSize: '12px',
                             fontWeight: 600
                           }}>
-                            {file.medicalFileRequest?.status === 'COMPLETED' ? '✓ Tamamlandı' : 'Beklemede'}
+                            ✓ Tamamlandı
                           </span>
                         </td>
                         <td style={{ padding: '16px', textAlign: 'center' }}>
