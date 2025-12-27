@@ -3,22 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { SPECIALTY_TRANSLATION_KEYS } from '../../constants/medicalSpecialties';
 import './DoctorBioPage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
-const DEPARTMENT_KEYS = {
-  'Acil 7/24': 'acil',
-  'Ağız ve Diş': 'dis',
-  'Beslenme Diyet': 'diyet',
-  'Dermatoloji': 'derma',
-  'Genel Cerrahi': 'cerrahi',
-  'Göz Sağlığı': 'goz',
-  'İç Hastalıklar': 'dahiliye',
-  'Kadın & Doğum': 'kadin',
-  'Kardiyoloji': 'kardiyoloji',
-  'Nöroloji': 'noroloji'
-};
+// Use new enum-based mapping
+const DEPARTMENT_KEYS = SPECIALTY_TRANSLATION_KEYS;
 
 export default function DoctorBioPage() {
   const { id } = useParams();
@@ -110,7 +101,7 @@ export default function DoctorBioPage() {
         </button>
 
         {/* Doktor Header */}
-        <div className="bio-header" style={{ 
+        <div className="bio-header" style={{
           backgroundColor: isDark ? '#1f2937' : '#fff',
           borderColor: isDark ? '#374151' : '#e5e7eb'
         }}>
@@ -119,7 +110,7 @@ export default function DoctorBioPage() {
             <div className="bio-photo-container">
               {doctor.img || doctor.photoUrl ? (
                 <img
-                  src={(doctor.img || doctor.photoUrl).startsWith('http') 
+                  src={(doctor.img || doctor.photoUrl).startsWith('http')
                     ? (doctor.img || doctor.photoUrl)
                     : `${API_BASE}${doctor.img || doctor.photoUrl}`}
                   alt={`${doctor.firstName} ${doctor.lastName}`}
@@ -130,9 +121,9 @@ export default function DoctorBioPage() {
                   }}
                 />
               ) : null}
-              <div 
+              <div
                 className="bio-photo-placeholder"
-                style={{ 
+                style={{
                   display: (doctor.img || doctor.photoUrl) ? 'none' : 'flex',
                   backgroundColor: isDark ? '#374151' : '#f0f8ff',
                   color: isDark ? '#94a3b8' : '#1a4d5f'
@@ -160,7 +151,7 @@ export default function DoctorBioPage() {
                   </span>
                 </div>
               )}
-              
+
               {/* Randevu Al Butonu */}
               <button onClick={handleMakeAppointment} className="bio-appointment-btn">
                 {t('medical:doctors.make_appointment')}
@@ -173,7 +164,7 @@ export default function DoctorBioPage() {
         <div className="bio-sections">
           {/* Özgeçmiş */}
           {doctor.biography && (
-            <section className="bio-section" style={{ 
+            <section className="bio-section" style={{
               backgroundColor: isDark ? '#1f2937' : '#fff',
               borderColor: isDark ? '#374151' : '#e5e7eb'
             }}>
@@ -188,7 +179,7 @@ export default function DoctorBioPage() {
 
           {/* Uzmanlık Alanları */}
           {doctor.expertiseAreas && (
-            <section className="bio-section" style={{ 
+            <section className="bio-section" style={{
               backgroundColor: isDark ? '#1f2937' : '#fff',
               borderColor: isDark ? '#374151' : '#e5e7eb'
             }}>
@@ -208,7 +199,7 @@ export default function DoctorBioPage() {
 
           {/* Eğitim & Başarılar */}
           {doctor.educationAndAchievements && (
-            <section className="bio-section" style={{ 
+            <section className="bio-section" style={{
               backgroundColor: isDark ? '#1f2937' : '#fff',
               borderColor: isDark ? '#374151' : '#e5e7eb'
             }}>
@@ -228,7 +219,7 @@ export default function DoctorBioPage() {
 
           {/* Çalışma Prensipleri */}
           {doctor.workPrinciples && (
-            <section className="bio-section" style={{ 
+            <section className="bio-section" style={{
               backgroundColor: isDark ? '#1f2937' : '#fff',
               borderColor: isDark ? '#374151' : '#e5e7eb'
             }}>
@@ -243,7 +234,7 @@ export default function DoctorBioPage() {
 
           {/* Eğer hiçbir detay yoksa */}
           {!doctor.biography && !doctor.expertiseAreas && !doctor.educationAndAchievements && !doctor.workPrinciples && (
-            <div className="bio-section" style={{ 
+            <div className="bio-section" style={{
               backgroundColor: isDark ? '#1f2937' : '#fff',
               borderColor: isDark ? '#374151' : '#e5e7eb',
               textAlign: 'center'

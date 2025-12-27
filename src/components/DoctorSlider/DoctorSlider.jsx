@@ -4,27 +4,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useTranslation } from "react-i18next";
+import { SPECIALTY_TRANSLATION_KEYS } from "../../constants/medicalSpecialties";
 import "./DoctorSlider.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const ITEMS_PER_PAGE = 4; // Her sayfada maksimum 4 doktor
 
-const DEPARTMENT_KEYS = {
-  'Acil 7/24': 'acil',
-  'Ağız ve Diş': 'dis',
-  'Beslenme Diyet': 'diyet',
-  'Dermatoloji': 'derma',
-  'Genel Cerrahi': 'cerrahi',
-  'Göz Sağlığı': 'goz',
-  'İç Hastalıklar': 'dahiliye',
-  'Kadın & Doğum': 'kadin',
-  'Kardiyoloji': 'kardiyoloji',
-  'Nöroloji': 'noroloji',
-  'Ortopedi': 'ortopedi',
-  'Pediatri': 'pediatri',
-  'Dahiliye': 'dahiliye',
-  'Göz Hastalıkları': 'goz'
-};
+// Use new enum-based mapping
+const DEPARTMENT_KEYS = SPECIALTY_TRANSLATION_KEYS;
 
 export default function DoctorSlider() {
   const { t } = useTranslation(['home', 'medical']);

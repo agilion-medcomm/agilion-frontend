@@ -1,25 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { MEDICAL_SPECIALTIES, SPECIALTY_TRANSLATION_KEYS } from "../../constants/medicalSpecialties";
 
 // API Adresini diğer sayfalardaki gibi tanımlıyoruz
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// Mappings for translation keys
-const DEPARTMENT_KEYS = {
-  'Acil 7/24': 'acil',
-  'Ağız ve Diş': 'dis',
-  'Beslenme Diyet': 'diyet',
-  'Dermatoloji': 'derma',
-  'Genel Cerrahi': 'cerrahi',
-  'Göz Sağlığı': 'goz',
-  'İç Hastalıklar': 'dahiliye',
-  'Kadın & Doğum': 'kadin',
-  'Kardiyoloji': 'kardiyoloji',
-  'Nöroloji': 'noroloji'
-};
+// Use new enum-based mapping
+const DEPARTMENT_KEYS = SPECIALTY_TRANSLATION_KEYS;
 
 import { useTheme } from "../../context/ThemeContext";
 
