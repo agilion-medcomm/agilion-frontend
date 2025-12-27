@@ -222,6 +222,7 @@ export default function PersonnelPage() {
 
     // Prepare data for personnel creation (without doctor-specific bio fields)
     const dataToSend = {
+      tckn: form.tckn,
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
