@@ -20,6 +20,7 @@ import EvdeSaglikPage from './components/pages/EvdeSaglikPage';
 import PersonelLoginPage from './components/pages/PersonelLoginPage';
 import VerifyEmailPage from './components/pages/VerifyEmailPage';
 import ClarificationTextPage from './components/pages/ClarificationTextPage';
+import ResendVerificationPage from './components/pages/ResendVerificationPage';
 
 // Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout';
@@ -75,6 +76,7 @@ export default function App() {
           <Route path="bolumlerimiz" element={<BolumlerimizPage />} />
           <Route path="birimlerimiz" element={<BirimlerimizPage />} />
           <Route path="verify-email" element={<VerifyEmailPage />} />
+          <Route path="resend-verification" element={<ResendVerificationPage />} />
 
           {/* ✅ Profil Rotası: Hasta ise PatientDashboard, değilse ProfilePage */}
           <Route

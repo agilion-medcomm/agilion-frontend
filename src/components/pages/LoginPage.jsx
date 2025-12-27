@@ -169,15 +169,16 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="login-footer-links">
-          <div className="login-footer-link">
-            <Link to="/forgot-password" className="login-link" style={{ fontSize: '14px', color: '#0d6efd' }}>
-              {t('login:forgot_password')}
-            </Link>
+        <div className="login-footer-links" style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px', alignItems: 'center' }}>
+          <div className="login-footer-link" style={{ marginTop: '0' }}>
+            {t('login:no_account')} <Link to="/register" className="login-link" style={{ color: '#0d6efd', fontWeight: 'bold' }}>{t('common:register')}</Link>
           </div>
-          <div className="login-footer-link">
-            {t('login:no_account')} <Link to="/register" className="login-link">{t('common:register')}</Link>
-          </div>
+          <Link to="/forgot-password" className="login-link" style={{ fontSize: '14px', color: '#0d6efd', textDecoration: 'none' }}>
+            {t('login:forgot_password')}
+          </Link>
+          <Link to="/resend-verification" className="login-link" style={{ fontSize: '14px', color: '#0d6efd', textDecoration: 'none' }}>
+            {t('login:resend_verification_link')}
+          </Link>
         </div>
       </div>
     </div>
