@@ -138,7 +138,7 @@ export default function ContactPage() {
                 value={formData.phone} 
                 onChange={handleChange}
                 pattern="[+]?[0-9]{10,15}"
-                maxLength={15}
+                maxLength={10}
                 minLength={10}
                 title="Telefon numarası 10-15 haneli olmalıdır."
                 required 

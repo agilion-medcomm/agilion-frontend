@@ -277,7 +277,7 @@ export default function RegisterPage() {
               onChange={handleChange}
               disabled={loading}
               pattern="[+]?[0-9]{10,15}"
-              maxLength={15}
+              maxLength={10}
               minLength={10}
               title="Telefon numarası 10-15 haneli olmalıdır."
               placeholder="05XX XXX XX XX"

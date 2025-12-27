@@ -726,10 +726,11 @@ export default function PersonnelPage() {
                     name="phoneNumber"
                     value={form.phoneNumber}
                     onChange={handleInputChange}
-                    pattern="[+]?[0-9]{10,15}"
-                    maxLength={15}
+                    pattern="[0-9]{10}"
+                    maxLength={10}
                     minLength={10}
-                    title="Telefon numarası 10-15 haneli olmalıdır."
+                    title="Telefon numarası 10 haneli olmalıdır."
+                    placeholder="5XX XXX XX XX"
                   />
                 </div>
               </div>
@@ -852,10 +853,11 @@ export default function PersonnelPage() {
                     name="phoneNumber"
                     value={form.phoneNumber}
                     onChange={handleInputChange}
-                    pattern="[+]?[0-9]{10,15}"
-                    maxLength={15}
+                    pattern="[0-9]{10}"
+                    maxLength={10}
                     minLength={10}
-                    title="Telefon numarası 10-15 haneli olmalıdır."
+                    title="Telefon numarası 10 haneli olmalıdır."
+                    placeholder="5XX XXX XX XX"
                   />
                 </div>
               </div>

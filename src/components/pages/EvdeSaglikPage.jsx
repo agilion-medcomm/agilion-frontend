@@ -350,10 +350,10 @@ export default function EvdeSaglikPage() {
                         onChange={handleInputChange}
                         required
                         minLength={10}
-                        maxLength={15}
-                        pattern="[+]?[0-9]{10,15}"
-                        placeholder="05XX XXX XX XX or +905XX XXX XX XX"
-                        title="Phone number must be 10-15 digits, optionally starting with +"
+                        maxLength={10}
+                        pattern="[0-9]{10}"
+                        placeholder="5XX XXX XX XX"
+                        title="Telefon numarası 10 haneli olmalıdır."
                       />
                     </div>
                     <div className="form-group">

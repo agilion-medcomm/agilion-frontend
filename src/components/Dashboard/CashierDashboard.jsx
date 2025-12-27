@@ -463,6 +463,10 @@ export default function CashierDashboard() {
                 placeholder="Telefon *"
                 value={registerForm.phoneNumber}
                 onChange={handleRegisterChange}
+                pattern="[0-9]{10}"
+                maxLength={10}
+                minLength={10}
+                title="Telefon numarası 10 haneli olmalıdır."
                 required
                 style={{ padding: '10px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '14px' }}
               />
