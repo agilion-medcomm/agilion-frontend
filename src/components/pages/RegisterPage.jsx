@@ -18,8 +18,8 @@ function isValidEmail(email) {
 function isValidPhoneNumber(phoneNumber) {
   // Sadece rakamları al
   const digitsOnly = phoneNumber.replace(/\D/g, '');
-  // 10 ila 15 hane kontrolü (standart telefon numarası uzunluğu)
-  return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+  // Strictly 10 digits
+  return digitsOnly.length === 10;
 }
 
 export default function RegisterPage() {
@@ -72,6 +72,12 @@ export default function RegisterPage() {
       setLoading(false);
       return;
     }
+
+    // Format phone number: Remove spaces/non-digits to get raw 10 digits
+    // Backend expects 5XXXXXXXXX (10 digits)
+    const cleanPhone = formData.phoneNumber.replace(/\D/g, '');
+    const formattedPhone = cleanPhone; // Send strictly 10 digits
+
     // Tarih kontrolü
     if (!formData.day || !formData.month || !formData.year) {
       setError(t('auth:register.errors.incomplete_dob'));
@@ -85,7 +91,7 @@ export default function RegisterPage() {
       lastName: formData.lastName,
       tckn: formData.tckn.replace(/\D/g, ''), // Sadece rakamlar
       email: formData.email,
-      phoneNumber: formData.phoneNumber,
+      phoneNumber: formattedPhone,
       password: formData.password,
       // Tarih formatı: YYYY-MM-DD
       dateOfBirth: `${formData.year}-${formData.month.toString().padStart(2, '0')}-${formData.day.toString().padStart(2, '0')}`
@@ -269,19 +275,41 @@ export default function RegisterPage() {
 
           <div className="form-group">
             <label htmlFor="phoneNumber">{t('auth:register.form.phone')}</label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              className="form-input"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              disabled={loading}
-              pattern="[+]?[0-9]{10,15}"
-              maxLength={10}
-              minLength={10}
-              title="Telefon numarası 10-15 haneli olmalıdır."
-              placeholder="05XX XXX XX XX"
-            />
+            <div className="phone-input-container" style={{ display: 'flex', alignItems: 'center', border: '1px solid #d1d5db', borderRadius: '6px', overflow: 'hidden' }}>
+              <span style={{ padding: '0 12px', background: '#f3f4f6', borderRight: '1px solid #d1d5db', color: '#374151', fontWeight: '500', height: '42px', display: 'flex', alignItems: 'center' }}>
+                +90
+              </span>
+              <input
+                type="tel"
+                id="phoneNumber"
+                className="form-input"
+                style={{ border: 'none', borderRadius: '0', flex: 1, boxShadow: 'none' }}
+                value={formData.phoneNumber}
+                onChange={(e) => {
+                  let val = e.target.value.replace(/\D/g, '');
+
+                  // Strip leading zero if typed
+                  if (val.startsWith('0')) val = val.substring(1);
+
+                  // Limit to 10 digits
+                  val = val.slice(0, 10);
+
+                  // Apply formatting: 5XX XXX XX XX
+                  let formatted = val;
+                  if (val.length > 3) formatted = `${val.slice(0, 3)} ${val.slice(3)}`;
+                  if (val.length > 6) formatted = `${val.slice(0, 3)} ${val.slice(3, 6)} ${val.slice(6)}`;
+                  if (val.length > 8) formatted = `${val.slice(0, 3)} ${val.slice(3, 6)} ${val.slice(6, 8)} ${val.slice(8)}`;
+
+                  setFormData(prev => ({ ...prev, phoneNumber: formatted }));
+                }}
+                disabled={loading}
+                // Pattern matches display format with spaces
+                maxLength={13} // 10 digits + 3 spaces
+                minLength={13} // Full format required
+                title="Telefon numarası başında 0 olmadan 10 haneli olmalıdır."
+                placeholder="5XX XXX XX XX"
+              />
+            </div>
           </div>
 
           <div className="form-group">
