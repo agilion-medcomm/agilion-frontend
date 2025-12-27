@@ -8,7 +8,8 @@ import './SharedDashboard.css';
 export default function PatientDashboard() {
   const { t, i18n } = useTranslation('dashboard');
   const navigate = useNavigate();
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
+  // Production'da aynı domain, localhost'ta env değişkeni veya fallback
+  const API_BASE = import.meta.env.VITE_API_BASE || (typeof window !== 'undefined' && window.location.hostname !== 'localhost' ? window.location.origin : 'http://localhost:5001');
   const BaseURL = `${API_BASE}/api/v1`;
 
   const { user, updateUser, logout } = useAuth();
