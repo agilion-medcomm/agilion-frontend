@@ -695,29 +695,28 @@ export default function PersonnelPage() {
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label>TC Kimlik No *</label>
-                  <input
-                    type="text"
-                    name="tckn"
-                    value={form.tckn}
-                    onChange={handleInputChange}
-                    maxLength={11}
-                    minLength={11}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Rol *</label>
-                  <select name="role" value={form.role} onChange={handleInputChange} required>
-                    <option value="DOCTOR">Doktor</option>
-                    <option value="ADMIN">Yönetici</option>
-                    <option value="LABORANT">Laborant</option>
-                    <option value="CASHIER">Vezne</option>
-                    <option value="CLEANER">Temizlikçi</option>
-                  </select>
-                </div>
+              <div className="form-group">
+                <label>TC Kimlik No *</label>
+                <input
+                  type="text"
+                  name="tckn"
+                  value={form.tckn}
+                  onChange={handleInputChange}
+                  maxLength={11}
+                  minLength={11}
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Rol *</label>
+                <select name="role" value={form.role} onChange={handleInputChange} required>
+                  <option value="DOCTOR">Doktor</option>
+                  <option value="ADMIN">Yönetici</option>
+                  <option value="LABORANT">Laborant</option>
+                  <option value="CASHIER">Vezne</option>
+                  <option value="CLEANER">Temizlikçi</option>
+                </select>
               </div>
 
               {form.role === 'DOCTOR' && (
@@ -841,15 +840,14 @@ export default function PersonnelPage() {
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label>TCKN (Yalnızca Okunur)</label>
-                  <input type="text" value={form.tckn} disabled />
-                </div>
-                <div className="form-group">
-                  <label>Rol (Yalnızca Okunur)</label>
-                  <input type="text" value={getRoleLabel(form.role)} disabled />
-                </div>
+              <div className="form-group">
+                <label>TCKN (Yalnızca Okunur)</label>
+                <input type="text" value={form.tckn} disabled />
+              </div>
+
+              <div className="form-group">
+                <label>Rol (Yalnızca Okunur)</label>
+                <input type="text" value={getRoleLabel(form.role)} disabled />
               </div>
 
               {form.role === 'DOCTOR' && (

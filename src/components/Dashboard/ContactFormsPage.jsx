@@ -9,7 +9,7 @@ export default function ContactFormsPage() {
   const [contactIssues, setContactIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
-  
+
   // Reply Modal
   const [replyModalOpen, setReplyModalOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
@@ -49,17 +49,17 @@ export default function ContactFormsPage() {
     setReplyLoading(true);
     try {
       const token = localStorage.getItem('personnelToken');
-      console.log('Reply request:', { 
+      console.log('Reply request:', {
         url: `${BaseURL}/contact/${selectedIssue.id}/reply`,
         token: token ? 'exists' : 'missing',
         body: { replyMessage: replyText }
       });
-      
-      const response = await axios.post(`${BaseURL}/contact/${selectedIssue.id}/reply`, 
+
+      const response = await axios.post(`${BaseURL}/contact/${selectedIssue.id}/reply`,
         { replyMessage: replyText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      
+
       console.log('Reply response:', response.data);
       setMessage({ type: 'success', text: 'Yanıt başarıyla gönderildi!' });
       setTimeout(() => setMessage({ type: '', text: '' }), 3000);
@@ -84,9 +84,9 @@ export default function ContactFormsPage() {
           <h1 className="page-title">İletişim Formları</h1>
           <p className="page-subtitle">Ziyaretçilerden gelen mesajları yönetin</p>
         </div>
-        <div style={{ 
-          background: pendingCount > 0 ? '#fef3c7' : '#dcfce7', 
-          padding: '8px 16px', 
+        <div style={{
+          background: pendingCount > 0 ? '#fef3c7' : '#dcfce7',
+          padding: '8px 16px',
           borderRadius: '8px',
           fontWeight: 600,
           color: pendingCount > 0 ? '#92400e' : '#166534'
@@ -113,9 +113,9 @@ export default function ContactFormsPage() {
         {loading ? (
           <p style={{ padding: '40px', textAlign: 'center' }}>Yükleniyor...</p>
         ) : contactIssues.length === 0 ? (
-          <div className="no-data" style={{padding: '60px 20px'}}>
-            <p style={{fontSize: '16px', marginBottom: '8px'}}>📭 Henüz mesaj yok</p>
-            <p style={{color: '#94a3b8'}}>Ziyaretçilerden gelen iletişim formları burada görünecek.</p>
+          <div className="no-data" style={{ padding: '60px 20px' }}>
+            <p style={{ fontSize: '16px', marginBottom: '8px' }}>Henüz mesaj yok</p>
+            <p style={{ color: '#94a3b8' }}>Ziyaretçilerden gelen iletişim formları burada görünecek.</p>
           </div>
         ) : (
           <table className="data-table">
@@ -218,13 +218,13 @@ export default function ContactFormsPage() {
                 <h2 style={{ margin: '0 0 4px 0', color: '#1e293b', fontSize: '22px', fontWeight: 700 }}>Mesaja Yanıt Ver</h2>
                 <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Ziyaretçiye profesyonel bir yanıt gönderin</p>
               </div>
-              <button 
+              <button
                 onClick={() => setReplyModalOpen(false)}
-                style={{ 
+                style={{
                   background: '#f1f5f9',
-                  border: 'none', 
-                  fontSize: '28px', 
-                  cursor: 'pointer', 
+                  border: 'none',
+                  fontSize: '28px',
+                  cursor: 'pointer',
                   color: '#64748b',
                   width: '40px',
                   height: '40px',
@@ -242,10 +242,10 @@ export default function ContactFormsPage() {
             </div>
 
             {/* Original Message Info */}
-            <div style={{ 
+            <div style={{
               background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
-              padding: '20px', 
-              borderRadius: '12px', 
+              padding: '20px',
+              borderRadius: '12px',
               marginBottom: '24px',
               border: '1px solid #e2e8f0'
             }}>
@@ -274,14 +274,14 @@ export default function ContactFormsPage() {
             {/* Original Message */}
             <div style={{ marginBottom: '24px' }}>
               <p style={{ margin: '0 0 12px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Gelen Mesaj</p>
-              <div style={{ 
-                background: '#f8fafc', 
-                padding: '16px', 
-                borderRadius: '10px', 
+              <div style={{
+                background: '#f8fafc',
+                padding: '16px',
+                borderRadius: '10px',
                 border: '2px solid #e2e8f0',
                 borderLeft: '4px solid #3b82f6'
               }}>
-                <p style={{ 
+                <p style={{
                   margin: 0,
                   color: '#334155',
                   fontSize: '14px',
@@ -297,10 +297,10 @@ export default function ContactFormsPage() {
             {/* Reply Form */}
             <form onSubmit={handleReplySubmit}>
               <div style={{ marginBottom: '20px' }}>
-                <label style={{ 
-                  display: 'block', 
-                  marginBottom: '10px', 
-                  fontWeight: 700, 
+                <label style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  fontWeight: 700,
                   color: '#1e293b',
                   fontSize: '15px'
                 }}>
@@ -326,10 +326,10 @@ export default function ContactFormsPage() {
                   onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
                   required
                 />
-                <p style={{ 
-                  margin: '8px 0 0 0', 
-                  color: '#94a3b8', 
-                  fontSize: '12px' 
+                <p style={{
+                  margin: '8px 0 0 0',
+                  color: '#94a3b8',
+                  fontSize: '12px'
                 }}>
                   {replyText.length} / 1000 karakter
                 </p>

@@ -16,7 +16,7 @@ export default function LabResultsPage() {
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    
+
     if (!tckn || tckn.length !== 11) {
       setMessage({ type: 'error', text: 'Geçerli 11 haneli TCKN giriniz' });
       return;
@@ -27,7 +27,7 @@ export default function LabResultsPage() {
 
     try {
       const token = localStorage.getItem('personnelToken');
-      
+
       // Önce hasta bilgilerini alalım
       const patientRes = await axios.get(`${BaseURL}/patients/search`, {
         params: { tckn },
@@ -39,7 +39,7 @@ export default function LabResultsPage() {
 
       // Sonra bu hastanın lab isteklerini alalım
       const resultsRes = await axios.get(`${BaseURL}/lab-requests`, {
-        params: { 
+        params: {
           patientId: patient.patientId,
           status: 'COMPLETED'
         },
@@ -58,7 +58,7 @@ export default function LabResultsPage() {
       setResults(resultsRes.data.data || []);
       setAppointments(appointmentsRes.data.data || []);
       setSearchPerformed(true);
-      
+
       if (!resultsRes.data.data || resultsRes.data.data.length === 0) {
         setMessage({ type: 'info', text: 'Bu hastanın tamamlanmış lab sonucu bulunmuyor' });
       }
@@ -99,22 +99,23 @@ export default function LabResultsPage() {
     <div className="dashboard-page">
       <div className="page-header">
         <div className="page-title-section">
-          <h1 className="page-title">🧪 Lab Sonuçları</h1>
+          <h1 className="page-title">Lab Sonuçları</h1>
           <p className="page-subtitle">Hasta TC'si ile lab sonuçlarını arayın</p>
         </div>
       </div>
 
       {/* Search Form */}
       <div style={{
-        background: 'white',
+        background: 'var(--dashboard-card-bg)',
         padding: '24px',
         borderRadius: '12px',
         marginBottom: '24px',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+        border: '1px solid var(--dashboard-border)'
       }}>
         <form onSubmit={handleSearch} style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
           <div style={{ flex: 1 }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#374151' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: 'var(--dashboard-text)' }}>
               Hasta TCKN'si
             </label>
             <input
@@ -130,9 +131,11 @@ export default function LabResultsPage() {
                 width: '100%',
                 padding: '12px',
                 borderRadius: '8px',
-                border: '1px solid #d1d5db',
+                border: '1px solid var(--dashboard-border)',
                 fontSize: '14px',
-                boxSizing: 'border-box'
+                boxSizing: 'border-box',
+                background: 'var(--dashboard-bg)',
+                color: 'var(--dashboard-text)'
               }}
             />
           </div>
@@ -150,7 +153,7 @@ export default function LabResultsPage() {
               fontSize: '14px'
             }}
           >
-            {loading ? '🔄 Aranıyor...' : '🔍 Ara'}
+            {loading ? '🔄 Aranıyor...' : 'Ara'}
           </button>
           {searchPerformed && (
             <button
@@ -158,9 +161,9 @@ export default function LabResultsPage() {
               onClick={handleClear}
               style={{
                 padding: '12px 24px',
-                background: '#f3f4f6',
-                color: '#374151',
-                border: '1px solid #d1d5db',
+                background: 'var(--dashboard-bg)',
+                color: 'var(--dashboard-text)',
+                border: '1px solid var(--dashboard-border)',
                 borderRadius: '8px',
                 cursor: 'pointer',
                 fontWeight: 600,
@@ -226,53 +229,54 @@ export default function LabResultsPage() {
           {/* Results Table */}
           {results && results.length > 0 ? (
             <div style={{
-              background: 'white',
+              background: 'var(--dashboard-card-bg)',
               borderRadius: '12px',
               overflow: 'hidden',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              border: '1px solid var(--dashboard-border)'
             }}>
               <div style={{
                 padding: '16px 24px',
-                background: '#f9fafb',
-                borderBottom: '1px solid #e5e7eb'
+                background: 'var(--dashboard-bg)',
+                borderBottom: '1px solid var(--dashboard-border)'
               }}>
-                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#1f2937' }}>
+                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: 'var(--dashboard-text)' }}>
                   📋 Tamamlanan Lab Sonuçları ({results.length})
                 </h3>
               </div>
               <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                  <tr style={{ background: 'var(--dashboard-bg)', borderBottom: '1px solid var(--dashboard-border)' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Test Adı
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Talep Eden
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Talep Tarihi
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Atanan Laborant
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'center', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       İşlem
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {results.map((result) => (
-                    <tr key={result.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                      <td style={{ padding: '16px', color: '#1f2937', fontWeight: 600 }}>
+                    <tr key={result.id} style={{ borderBottom: '1px solid var(--dashboard-border)' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)', fontWeight: 600 }}>
                         {result.fileTitle}
                       </td>
-                      <td style={{ padding: '16px', color: '#374151' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)' }}>
                         Dr. {result.createdByUser.firstName} {result.createdByUser.lastName}
                       </td>
-                      <td style={{ padding: '16px', color: '#374151' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)' }}>
                         {new Date(result.requestedAt).toLocaleDateString('tr-TR')}
                       </td>
-                      <td style={{ padding: '16px', color: '#374151' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)' }}>
                         {result.assigneeLaborant ? (
                           `${result.assigneeLaborant.user.firstName} ${result.assigneeLaborant.user.lastName}`
                         ) : (
@@ -317,16 +321,17 @@ export default function LabResultsPage() {
           ) : (
             searchPerformed && (
               <div style={{
-                background: 'white',
+                background: 'var(--dashboard-card-bg)',
                 padding: '60px 20px',
                 borderRadius: '12px',
                 textAlign: 'center',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                border: '1px solid var(--dashboard-border)'
               }}>
-                <p style={{ fontSize: '16px', marginBottom: '8px', color: '#1f2937' }}>
+                <p style={{ fontSize: '16px', marginBottom: '8px', color: 'var(--dashboard-text)' }}>
                   📭 Sonuç Bulunamadı
                 </p>
-                <p style={{ color: '#94a3b8' }}>
+                <p style={{ color: 'var(--dashboard-text-secondary)' }}>
                   Bu hastanın tamamlanmış lab sonucu bulunmuyor
                 </p>
               </div>
@@ -336,48 +341,49 @@ export default function LabResultsPage() {
           {/* Appointments Table */}
           {appointments && appointments.length > 0 && (
             <div style={{
-              background: 'white',
+              background: 'var(--dashboard-card-bg)',
               borderRadius: '12px',
               overflow: 'hidden',
               boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              marginTop: '24px'
+              marginTop: '24px',
+              border: '1px solid var(--dashboard-border)'
             }}>
               <div style={{
                 padding: '16px 24px',
-                background: '#f9fafb',
-                borderBottom: '1px solid #e5e7eb'
+                background: 'var(--dashboard-bg)',
+                borderBottom: '1px solid var(--dashboard-border)'
               }}>
-                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: '#1f2937' }}>
+                <h3 style={{ margin: 0, fontSize: '16px', fontWeight: 700, color: 'var(--dashboard-text)' }}>
                   📅 Randevular ({appointments.length})
                 </h3>
               </div>
               <table className="data-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr style={{ background: '#f9fafb', borderBottom: '1px solid #e5e7eb' }}>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                  <tr style={{ background: 'var(--dashboard-bg)', borderBottom: '1px solid var(--dashboard-border)' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Doktor
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Tarih & Saat
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Klinik
                     </th>
-                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: '#374151' }}>
+                    <th style={{ padding: '12px 16px', textAlign: 'left', fontWeight: 600, color: 'var(--dashboard-text)' }}>
                       Durum
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {appointments.map((app) => (
-                    <tr key={app.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
-                      <td style={{ padding: '16px', color: '#1f2937', fontWeight: 600 }}>
+                    <tr key={app.id} style={{ borderBottom: '1px solid var(--dashboard-border)' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)', fontWeight: 600 }}>
                         Dr. {app.doctor?.firstName || 'N/A'} {app.doctor?.lastName || ''}
                       </td>
-                      <td style={{ padding: '16px', color: '#374151' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)' }}>
                         {new Date(app.date).toLocaleDateString('tr-TR')} {app.time || ''}
                       </td>
-                      <td style={{ padding: '16px', color: '#374151' }}>
+                      <td style={{ padding: '16px', color: 'var(--dashboard-text)' }}>
                         {app.clinic || '-'}
                       </td>
                       <td style={{ padding: '16px' }}>
@@ -387,16 +393,16 @@ export default function LabResultsPage() {
                           borderRadius: '20px',
                           fontSize: '12px',
                           fontWeight: 600,
-                          background: app.status === 'APPROVED' ? '#d1fae5' : 
-                                    app.status === 'PENDING' ? '#fef3c7' :
-                                    app.status === 'CANCELLED' ? '#fee2e2' : '#f0f0f0',
-                          color: app.status === 'APPROVED' ? '#065f46' : 
-                                app.status === 'PENDING' ? '#92400e' :
-                                app.status === 'CANCELLED' ? '#991b1b' : '#666'
+                          background: app.status === 'APPROVED' ? '#d1fae5' :
+                            app.status === 'PENDING' ? '#fef3c7' :
+                              app.status === 'CANCELLED' ? '#fee2e2' : '#f0f0f0',
+                          color: app.status === 'APPROVED' ? '#065f46' :
+                            app.status === 'PENDING' ? '#92400e' :
+                              app.status === 'CANCELLED' ? '#991b1b' : '#666'
                         }}>
-                          {app.status === 'APPROVED' ? '✅ Onaylandı' : 
-                          app.status === 'PENDING' ? '⏳ Beklemede' :
-                          app.status === 'CANCELLED' ? '❌ İptal' : app.status}
+                          {app.status === 'APPROVED' ? '✅ Onaylandı' :
+                            app.status === 'PENDING' ? '⏳ Beklemede' :
+                              app.status === 'CANCELLED' ? '❌ İptal' : app.status}
                         </span>
                       </td>
                     </tr>
@@ -411,16 +417,17 @@ export default function LabResultsPage() {
       {/* Initial State */}
       {!searchPerformed && !patientInfo && (
         <div style={{
-          background: 'white',
+          background: 'var(--dashboard-card-bg)',
           padding: '60px 20px',
           borderRadius: '12px',
           textAlign: 'center',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          border: '1px solid var(--dashboard-border)'
         }}>
-          <p style={{ fontSize: '16px', marginBottom: '8px', color: '#1f2937' }}>
+          <p style={{ fontSize: '16px', marginBottom: '8px', color: 'var(--dashboard-text)' }}>
             🔍 Arama Yapın
           </p>
-          <p style={{ color: '#94a3b8' }}>
+          <p style={{ color: 'var(--dashboard-text-secondary)' }}>
             Hasta TCKN'sini girerek tahlil sonuçlarını arayın
           </p>
         </div>

@@ -267,7 +267,7 @@ export default function PatientsPage() {
               onClick={fetchAllPatients}
               className={`btn-show-all ${viewMode === 'all' ? 'active' : ''}`}
             >
-              📋 Tüm Hastaları Göster
+              Tüm Hastaları Göster
             </button>
             <button
               onClick={() => {
@@ -277,7 +277,7 @@ export default function PatientsPage() {
               }}
               className={`btn-search-tckn ${viewMode === 'search' ? 'active' : ''}`}
             >
-              🔍 TCKN ile Ara
+              TCKN ile Ara
             </button>
           </div>
           {viewMode === 'all' && patients.length > 0 && (
@@ -340,7 +340,7 @@ export default function PatientsPage() {
       <div className="table-container">
         {noSearchPerformed ? (
           <div className="empty-search-state">
-            <p className="icon">🔍 Hastayı Arayın</p>
+            <p className="icon">Hastayı Arayın</p>
             <p className="hint">Yukarıdaki arama kutusunda TC numarası girerek bir hastayı arayınız.</p>
             <p className="example">Örnek: 12345678901</p>
           </div>
