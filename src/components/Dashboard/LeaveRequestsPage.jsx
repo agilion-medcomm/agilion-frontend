@@ -140,16 +140,26 @@ export default function LeaveRequestsPage() {
     };
 
     console.log('Submitting leave request with payload:', payload);
+    console.log('Doctor ID being used:', doctorId);
 
     try {
-      await axios.post(`${BaseURL}/leave-requests`, payload, {
+      const response = await axios.post(`${BaseURL}/leave-requests`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setShowCreateModal(false);
-      setForm({ startDate: '', startTime: '09:00', endDate: '', endTime: '18:00', reason: '' });
-      fetchLeaveRequests();
-      alert('İzin talebi başarıyla oluşturuldu');
+
+      console.log('Leave request response:', response.data);
+
+      if (response.data?.success || response.data?.data?.id) {
+        setShowCreateModal(false);
+        setForm({ startDate: '', startTime: '09:00', endDate: '', endTime: '18:00', reason: '' });
+        fetchLeaveRequests();
+        alert('İzin talebi başarıyla oluşturuldu');
+      } else {
+        console.error('Unexpected response:', response.data);
+        alert('İzin talebi oluşturulamadı: Beklenmeyen yanıt');
+      }
     } catch (error) {
+      console.error('Leave request error:', error.response?.data || error);
       alert('Oluşturma başarısız: ' + (error.response?.data?.message || error.message));
     }
   };
