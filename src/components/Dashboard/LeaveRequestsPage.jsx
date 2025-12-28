@@ -34,38 +34,32 @@ export default function LeaveRequestsPage() {
       // If no user, can't fetch doctor profile
       if (!user?.id) {
         console.warn('User not loaded yet');
-        // Set a default doctor profile with a dummy ID for now
-        // This will be replaced with actual data
-        setDoctorProfile({ id: 1 });
         return;
       }
 
-      // Fallback: Get all doctors and find current user by matching userId
+      // Get all doctors and find current user by matching userId
       const res = await axios.get(`${BaseURL}/doctors`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
       const doctors = res.data?.data || [];
-      console.log('Doctors:', doctors, 'User ID:', user?.id);
+      console.log('Looking for doctor with userId:', user?.id, 'in doctors:', doctors);
 
-      // Find doctor by userId match
+      // Find doctor by userId match - backend returns Doctor.id and userId
       const currentDoctor = doctors.find(d => {
+        // Check both d.userId (direct) and d.user.id (nested)
         const doctorUserId = d.userId || d.user?.id;
         return doctorUserId === user?.id;
       });
 
       if (currentDoctor) {
+        console.log('Found doctor profile:', currentDoctor);
         setDoctorProfile(currentDoctor);
-        localStorage.setItem('doctorId', currentDoctor.id);
+        // Store Doctor.id (not User.id!) - this is what backend needs for leave requests
+        localStorage.setItem('doctorId', currentDoctor.id.toString());
       } else {
-        // If no matching doctor found, try using first doctor (fallback)
-        if (doctors.length > 0) {
-          setDoctorProfile(doctors[0]);
-          localStorage.setItem('doctorId', doctors[0].id);
-        } else {
-          console.warn('No doctors found');
-          setDoctorProfile({ id: 1 }); // Fallback dummy ID
-        }
+        console.error('Could not find doctor profile for user ID:', user?.id);
+        alert('Doktor profili bulunamadı. Lütfen yöneticiye başvurun.');
       }
     } catch (error) {
       // Ignore message port errors from browser extensions
@@ -74,8 +68,7 @@ export default function LeaveRequestsPage() {
         return;
       }
       console.error('Error fetching doctor profile:', error);
-      // Set fallback doctor profile
-      setDoctorProfile({ id: 1 });
+      alert('Doktor profili alınamadı: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -127,12 +120,18 @@ export default function LeaveRequestsPage() {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
 
-    // Get doctor ID from profile, cache, or use a default
+    // Get doctor ID from profile or cache
     let doctorId = doctorProfile?.id;
 
     if (!doctorId) {
       const cachedId = localStorage.getItem('doctorId');
-      doctorId = cachedId ? parseInt(cachedId) : 1; // Fallback to 1
+      doctorId = cachedId ? parseInt(cachedId) : null;
+    }
+
+    // Validate doctor ID exists
+    if (!doctorId) {
+      alert('Doktor profili bulunamadı. Lütfen sayfayı yenileyip tekrar deneyin.');
+      return;
     }
 
     const payload = {
