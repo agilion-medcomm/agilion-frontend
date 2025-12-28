@@ -517,25 +517,38 @@ export default function PatientDashboard() {
                 const badgeColor = statusColors[status] || statusColors['DEFAULT'];
                 const statusLabel = statusLabels[status] || status;
                 return (
-                  <div key={apt.id} className={`appointment-card modern-appointment-card status-${status.toLowerCase()}`}
+                  <div key={apt.id} className="appointment-card modern-appointment-card"
                     style={{ border: `1.5px solid ${badgeColor}22` }}>
+                    {/* HEADER: Avatar + İsim + Bölüm */}
                     <div className="modern-apt-header">
                       <div className="doctor-avatar" title={doctorName}>{avatar}</div>
                       <div style={{ flex: 1 }}>
                         <div className="doctor-info-name">{doctorName}</div>
                         <div className="doctor-info-dept">{department}</div>
                       </div>
-                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 14 }} title={status}>{statusLabel}</span>
                     </div>
-                    <div className="modern-apt-body">
-                      <div style={{ fontSize: 15 }}>
-                        <div><strong>{t('appointments.date')}:</strong> {dateStr}</div>
-                        <div><strong>{t('appointments.time')}:</strong> {timeStr}</div>
-                      </div>
-                      <div style={{ display: 'flex', gap: 8 }}>
+
+                    {/* Ayırıcı Çizgi */}
+                    <div style={{ borderTop: '1px solid #e2e8f0', margin: '12px 0' }}></div>
+
+                    {/* BODY: Tarih ve Saat */}
+                    <div style={{ color: 'var(--dash-text)' }}>
+                      <div><strong>{t('appointments.date')}:</strong> {dateStr}</div>
+                      <div><strong>{t('appointments.time')}:</strong> {timeStr}</div>
+                    </div>
+
+                    {/* Ayırıcı Çizgi */}
+                    <div style={{ borderTop: '1px solid #e2e8f0', margin: '12px 0' }}></div>
+
+                    {/* FOOTER: Solda Durum Badge + Sağda Butonlar */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+                      {/* Sol: Durum Badge */}
+                      <span className="modern-badge" style={{ background: badgeColor + '22', color: badgeColor, padding: '6px 14px', borderRadius: 12, fontWeight: 600, fontSize: 13 }} title={status}>{statusLabel}</span>
+
+                      {/* Sağ: Butonlar */}
+                      <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
                         {/* İptal butonu */}
                         {status !== 'CANCELLED' && status !== 'COMPLETED' && status !== 'DONE' && (() => {
-                          // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
                           let aptDate = new Date();
                           if (apt.date && apt.date.includes('.')) {
                             const parts = apt.date.split('.');
@@ -545,15 +558,12 @@ export default function PatientDashboard() {
                           } else if (apt.startTime) {
                             aptDate = new Date(apt.startTime);
                           }
-                          // Bugünün başlangıcını al (saat 00:00)
                           const today = new Date();
                           today.setHours(0, 0, 0, 0);
                           aptDate.setHours(0, 0, 0, 0);
-
-                          // Bugün veya gelecekteki randevular iptal edilebilir
                           if (aptDate >= today) {
                             return (
-                              <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => handleCancelAppointment(apt.id)}>
+                              <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600, fontSize: '13px', height: '32px', marginTop: 0, width: 'auto' }} onClick={() => handleCancelAppointment(apt.id)}>
                                 {t('appointments.cancel')}
                               </button>
                             );
@@ -564,7 +574,18 @@ export default function PatientDashboard() {
                         {status === 'DONE' && !apt.rating && (
                           <button
                             className="btn-primary modern-btn"
-                            style={{ background: '#fef3c7', color: '#92400e', border: '1px solid #fde68a', borderRadius: 100, padding: '6px 14px', fontWeight: 600 }}
+                            style={{
+                              background: 'none',
+                              color: '#e99f00ff',
+                              borderRadius: 100,
+                              border: '1px solid #d8b100ff',
+                              boxShadow: 'none',
+                              padding: '4px 14px',
+                              fontWeight: 700,
+                              fontSize: '13px',
+                              height: '32px',
+                              width: 'auto'
+                            }}
                             onClick={() => openReviewModal(apt)}
                           >
                             {t('appointments.rate')}
@@ -572,7 +593,7 @@ export default function PatientDashboard() {
                         )}
                         {/* Puan göstergesi - Değerlendirilmiş randevular için */}
                         {apt.rating && (
-                          <div className="review-indicator">
+                          <div className="review-indicator" style={{ padding: '4px 14px', height: '32px', display: 'flex', alignItems: 'center', fontSize: '13px' }}>
                             ⭐ {apt.rating}/5
                           </div>
                         )}
@@ -940,7 +961,9 @@ export default function PatientDashboard() {
                           transition: 'all 0.2s',
                           fill: star <= (hoverRating || review.rating) ? '#FFD700' : '#E2E8F0',
                           transform: star <= (hoverRating || review.rating) ? 'scale(1.1)' : 'scale(1)',
-                          pointerEvents: 'none'
+                          pointerEvents: 'none',
+                          boxShadow: 'none',
+                          border: 'none'
                         }}
                       >
                         <path d="M393 526.27L265.48 607.008L302.863 460.798C304.117 455.892 302.437 450.708 298.535 447.478L182.345 351.138L332.965 341.505C338.02 341.181 342.43 337.974 344.297 333.271L400.004 193.001L455.715 333.271C457.586 337.974 461.996 341.181 467.047 341.505L617.647 351.134L501.467 447.466C497.576 450.692 495.885 455.88 497.139 460.79L534.522 607.01L406.992 526.276C404.855 524.921 402.422 524.245 399.992 524.245C397.555 524.241 395.125 524.921 392.984 526.269Z" transform="translate(-144 -144)" />

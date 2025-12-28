@@ -59,9 +59,7 @@
 
 .btn-secondary {
   padding: 10px 20px;
-  background: #e2e8f0;
   color: #334155;
-  border: 1px solid #cbd5e1;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 600;
@@ -70,9 +68,7 @@
 }
 
 .btn-secondary:hover {
-  background: #cbd5e1;
-  color: #0f172a;
-  border-color: #94a3b8;
+  text-decoration: underline !important;
 }
 
 .btn-secondary:active {
@@ -473,7 +469,7 @@ body.dark .modal-content {
   padding: 24px 28px;
 }
 
-.modal-body > p:first-child {
+.modal-body>p:first-child {
   font-size: 15px;
   color: #1f2937;
   margin-bottom: 20px;
@@ -557,11 +553,10 @@ body.dark .modal-content {
 }
 
 .modal-actions .btn-secondary {
-  background: transparent;
-  color: #64748b;
-  border: 1px solid #2563eb;
-  border-radius: 999px;
+  background: none !important;
+  color: rgb(68, 68, 68);
   padding: 8px 16px !important;
+  border: none !important;
   font-size: 14px;
   font-weight: 500;
   height: auto;
@@ -573,6 +568,8 @@ body.dark .modal-content {
 
 .modal-actions .btn-secondary:hover {
   color: var(--dashboard-text, #0f172a);
+  background: none !important;
+  box-shadow: none !important;
 }
 
 [data-theme='dark'] .modal-actions .btn-secondary,

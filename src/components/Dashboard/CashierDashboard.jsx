@@ -549,10 +549,10 @@ export default function CashierDashboard() {
 
           <div style={{ marginBottom: '20px', padding: '15px', background: 'var(--dash-tab-active-bg)', borderRadius: '6px', border: '1px solid var(--dash-tab-active-border)' }}>
             <p style={{ margin: 0, fontWeight: 'bold', color: 'var(--dash-tab-active-text)' }}>
-              👤 Hasta: {foundPatient.firstName} {foundPatient.lastName}
+              Hasta: {foundPatient.firstName} {foundPatient.lastName}
             </p>
             <p style={{ margin: '5px 0 0 0', fontSize: '13px', color: 'var(--dash-text-muted)' }}>
-              📧 {foundPatient.email} | 📱 {foundPatient.phoneNumber}
+              {foundPatient.email} |  {foundPatient.phoneNumber}
             </p>
           </div>
 

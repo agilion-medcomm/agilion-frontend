@@ -16,7 +16,7 @@
         "error_range": "Sadece bugünden itibaren 90 gün içinde randevu alabilirsiniz."
     },
     "labels": {
-        "confirm_btn": "✅ Randevuyu Onayla",
+        "confirm_btn": "Randevuyu Onayla",
         "processing": "İşleniyor...",
         "select_date": "Tarih Seç",
         "about_doctor": "Doktor Hakkında",
