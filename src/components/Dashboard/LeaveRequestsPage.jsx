@@ -17,9 +17,12 @@ export default function LeaveRequestsPage() {
   });
 
   useEffect(() => {
-    fetchDoctorProfile();
+    // Sadece DOCTOR rolündeyse profil çek
+    if (user?.role === 'DOCTOR') {
+      fetchDoctorProfile();
+    }
     fetchLeaveRequests();
-  }, []);
+  }, [user?.role]);
 
   const fetchDoctorProfile = async () => {
     const token = localStorage.getItem('personnelToken');
@@ -54,7 +57,8 @@ export default function LeaveRequestsPage() {
         localStorage.setItem('doctorId', currentDoctor.id.toString());
       } else {
         console.error('Could not find doctor profile for user ID:', user?.id);
-        alert('Doktor profili bulunamadı. Lütfen yöneticiye başvurun.');
+        console.error('Available doctors:', doctors.map(d => ({ id: d.id, userId: d.userId || d.user?.id, name: `${d.firstName} ${d.lastName}` })));
+        // Sadece console'da göster, alert verme
       }
     } catch (error) {
       // Ignore message port errors from browser extensions
@@ -145,7 +149,7 @@ export default function LeaveRequestsPage() {
       const response = await axios.post(`${BaseURL}/leave-requests`, payload, {
         headers: { 
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Bearer prefix eklendi - ÖNEMLİ!
+          'Authorization': `Bearer ${token}`
         }
       });
 
