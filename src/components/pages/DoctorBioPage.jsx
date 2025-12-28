@@ -160,90 +160,88 @@ export default function DoctorBioPage() {
           </div>
         </div>
 
-        {/* Biyografi İçeriği */}
-        <div className="bio-sections">
-          {/* Özgeçmiş */}
-          {doctor.biography && (
-            <section className="bio-section" style={{
-              backgroundColor: isDark ? '#1f2937' : '#fff',
-              borderColor: isDark ? '#374151' : '#e5e7eb'
+        {/* DOKTOR BİLGİ ALANI - Modern Tasarım */}
+        <div className="doctor-extra-info-section">
+          <div className="doctor-info-card" style={{
+            backgroundColor: isDark ? 'rgba(17, 24, 39, 0.95)' : 'rgba(255, 255, 255, 0.98)',
+            borderColor: isDark ? 'rgba(55, 65, 81, 0.8)' : 'rgba(255, 255, 255, 0.8)'
+          }}>
+            <div className="info-card-header" style={{
+              backgroundColor: isDark ? '#0f3688' : '#f1f5f9',
+              borderBottomColor: isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)'
             }}>
-              <h2 style={{ color: isDark ? '#f3f4f6' : '#0e2b4b' }}>
-                {t('medical:doctors.biography')}
-              </h2>
-              <p style={{ color: isDark ? '#d1d5db' : '#4b5563', lineHeight: 1.8 }}>
-                {doctor.biography}
-              </p>
-            </section>
-          )}
-
-          {/* Uzmanlık Alanları */}
-          {doctor.expertiseAreas && (
-            <section className="bio-section" style={{
-              backgroundColor: isDark ? '#1f2937' : '#fff',
-              borderColor: isDark ? '#374151' : '#e5e7eb'
-            }}>
-              <h2 style={{ color: isDark ? '#f3f4f6' : '#0e2b4b' }}>
-                {t('medical:doctors.expertise_areas')}
-              </h2>
-              <ul className="bio-list">
-                {doctor.expertiseAreas.split('\n').filter(Boolean).map((area, i) => (
-                  <li key={i} style={{ color: isDark ? '#d1d5db' : '#4b5563' }}>
-                    <span style={{ color: '#10b981', marginRight: 8 }}>✓</span>
-                    {area}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {/* Eğitim & Başarılar */}
-          {doctor.educationAndAchievements && (
-            <section className="bio-section" style={{
-              backgroundColor: isDark ? '#1f2937' : '#fff',
-              borderColor: isDark ? '#374151' : '#e5e7eb'
-            }}>
-              <h2 style={{ color: isDark ? '#f3f4f6' : '#0e2b4b' }}>
-                {t('medical:doctors.education_achievements')}
-              </h2>
-              <ul className="bio-list">
-                {doctor.educationAndAchievements.split('\n').filter(Boolean).map((edu, i) => (
-                  <li key={i} style={{ color: isDark ? '#d1d5db' : '#4b5563' }}>
-                    <span style={{ color: '#3b82f6', marginRight: 8 }}>🎓</span>
-                    {edu}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          {/* Çalışma Prensipleri */}
-          {doctor.workPrinciples && (
-            <section className="bio-section" style={{
-              backgroundColor: isDark ? '#1f2937' : '#fff',
-              borderColor: isDark ? '#374151' : '#e5e7eb'
-            }}>
-              <h2 style={{ color: isDark ? '#f3f4f6' : '#0e2b4b' }}>
-                {t('medical:doctors.work_principles')}
-              </h2>
-              <p style={{ color: isDark ? '#d1d5db' : '#4b5563', lineHeight: 1.8 }}>
-                {doctor.workPrinciples}
-              </p>
-            </section>
-          )}
-
-          {/* Eğer hiçbir detay yoksa */}
-          {!doctor.biography && !doctor.expertiseAreas && !doctor.educationAndAchievements && !doctor.workPrinciples && (
-            <div className="bio-section" style={{
-              backgroundColor: isDark ? '#1f2937' : '#fff',
-              borderColor: isDark ? '#374151' : '#e5e7eb',
-              textAlign: 'center'
-            }}>
-              <p style={{ color: isDark ? '#9ca3af' : '#666' }}>
-                {t('medical:doctors.no_bio_info')}
-              </p>
+              <img src="/info-circle.svg" alt="Info" className="info-icon" />
+              <h3 style={{ color: isDark ? '#f1f5f9' : '#2563eb' }}>
+                Doktor Hakkında
+              </h3>
             </div>
-          )}
+            <div className="info-card-body">
+              {/* Biyografi */}
+              {doctor.biography && (
+                <div className="bio-section">
+                  <h4 style={{ color: isDark ? '#60a5fa' : '#1843a1' }}>
+                    {t('medical:doctors.biography')}
+                  </h4>
+                  <p style={{ color: isDark ? '#94a3b8' : '#475569' }}>
+                    {doctor.biography}
+                  </p>
+                </div>
+              )}
+
+              {/* Uzmanlık ve Eğitim Grid */}
+              {(doctor.expertiseAreas || doctor.educationAndAchievements) && (
+                <div className="expertise-grid" style={{
+                  borderBottomColor: isDark ? '#334155' : '#f1f5f9'
+                }}>
+                  {doctor.expertiseAreas && (
+                    <div className="expertise-item">
+                      <h4 style={{ color: isDark ? '#60a5fa' : '#1843a1' }}>
+                        {t('medical:doctors.expertise_areas')}
+                      </h4>
+                      <ul>
+                        {doctor.expertiseAreas.split('\n').filter(line => line.trim()).map((item, idx) => (
+                          <li key={idx} style={{ color: isDark ? '#94a3b8' : '#475569' }}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {doctor.educationAndAchievements && (
+                    <div className="expertise-item">
+                      <h4 style={{ color: isDark ? '#60a5fa' : '#1843a1' }}>
+                        {t('medical:doctors.education_achievements')}
+                      </h4>
+                      <ul>
+                        {doctor.educationAndAchievements.split('\n').filter(line => line.trim()).map((item, idx) => (
+                          <li key={idx} style={{ color: isDark ? '#94a3b8' : '#475569' }}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Çalışma Prensipleri */}
+              {doctor.workPrinciples && (
+                <div className="principles-section">
+                  <h4 style={{ color: isDark ? '#60a5fa' : '#1843a1' }}>
+                    {t('medical:doctors.work_principles')}
+                  </h4>
+                  <p style={{ color: isDark ? '#94a3b8' : '#475569' }}>
+                    {doctor.workPrinciples}
+                  </p>
+                </div>
+              )}
+
+              {/* Eğer hiçbir detay yoksa */}
+              {!doctor.biography && !doctor.expertiseAreas && !doctor.educationAndAchievements && !doctor.workPrinciples && (
+                <div style={{ textAlign: 'center', padding: '40px 20px' }}>
+                  <p style={{ color: isDark ? '#9ca3af' : '#666', fontSize: '1.05rem' }}>
+                    {t('medical:doctors.no_bio_info')}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
