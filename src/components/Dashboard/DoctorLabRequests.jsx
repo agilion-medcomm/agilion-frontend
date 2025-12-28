@@ -218,6 +218,7 @@ export default function DoctorLabRequests() {
         padding: '24px',
         borderRadius: '12px',
         marginBottom: '30px',
+        marginTop: '30px',
         boxShadow: '0 4px 12px rgba(102, 126, 234, 0.2)'
       }}>
         <h1 style={{ margin: '0 0 8px 0', fontSize: '24px', fontWeight: 700, color: 'white' }}>Laborant Talepleri</h1>

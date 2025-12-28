@@ -68,9 +68,7 @@
   transition: all 0.3s ease;
 }
 
-.btn-secondary:hover {
-  text-decoration: underline !important;
-}
+
 
 .btn-secondary:active {
   transform: scale(0.98);
@@ -117,8 +115,25 @@
   color: #2563eb;
 }
 
+.btn-edit img {
+  filter: invert(31%) sepia(95%) saturate(2132%) hue-rotate(205deg) brightness(92%) contrast(101%);
+}
+
 .btn-edit:hover {
   background: #bfdbfe;
+}
+
+[data-theme='dark'] .btn-edit {
+  background: rgb(37, 100, 235);
+  color: #60a5fa;
+}
+
+[data-theme='dark'] .btn-edit:hover {
+  background: rgba(37, 99, 235, 0.3);
+}
+
+[data-theme='dark'] .btn-edit img {
+  filter: brightness(0) invert(1);
 }
 
 .btn-delete {
@@ -126,8 +141,25 @@
   color: #dc2626;
 }
 
+.btn-delete img {
+  filter: invert(13%) sepia(94%) saturate(7483%) hue-rotate(359deg) brightness(80%) contrast(118%);
+}
+
 .btn-delete:hover {
   background: #fecaca;
+}
+
+[data-theme='dark'] .btn-delete {
+  background: rgba(220, 38, 38, 0.700);
+  color: #f87171;
+}
+
+[data-theme='dark'] .btn-delete:hover {
+  background: rgba(220, 38, 38, 0.3);
+}
+
+[data-theme='dark'] .btn-delete img {
+  filter: brightness(0) invert(1);
 }
 
 .btn-availability {
@@ -137,6 +169,15 @@
 
 .btn-availability:hover {
   background: #e9d5ff;
+}
+
+[data-theme='dark'] .btn-availability {
+  background: rgb(146, 51, 234);
+  color: #c084fc;
+}
+
+[data-theme='dark'] .btn-availability:hover {
+  background: rgba(147, 51, 234, 0.3);
 }
 
 .btn-close {
@@ -156,7 +197,7 @@
 
 .btn-close:hover {
   background: #f1f5f9;
-  color: #dc2626;
+  color: #000000;
 }
 
 /* Alert Messages */
@@ -543,12 +584,16 @@ body.dark .modal-content {
 }
 
 .modal-actions {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: center;
-  gap: 16px;
-  padding: 32px 28px;
-  border-top: 1px solid var(--dashboard-border, #f1f5f9);
+  display: flex !important;
+  flex-direction: row-reverse !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 16px !important;
+  flex-wrap: nowrap !important;
+  padding: 24px 28px !important;
+  border-top: 1px solid var(--dashboard-border, #f1f5f9) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .modal-actions .btn-primary,
@@ -567,17 +612,21 @@ body.dark .modal-content {
 }
 
 .modal-actions .btn-secondary {
-  background: none !important;
-  color: rgb(68, 68, 68);
-  padding: 8px 16px !important;
-  border: none !important;
+  background: transparent !important;
+  color: #3b82f6 !important;
+  padding: 8px 24px !important;
+  border: 1.5px solid #3b82f6 !important;
+  border-radius: 9999px !important;
   font-size: 14px;
-  font-weight: 500;
-  height: auto;
-  min-height: unset;
-  box-shadow: none;
-  transition: color 0.2s ease;
-  text-decoration: none;
+  font-weight: 600;
+  height: 46px;
+  width: 130px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .modal-actions .btn-secondary:hover {
@@ -586,14 +635,14 @@ body.dark .modal-content {
   box-shadow: none !important;
 }
 
-[data-theme='dark'] .modal-actions .btn-secondary,
-body.dark .modal-actions .btn-secondary {
-  color: #94a3b8;
+[data-theme='dark'] .modal-actions .btn-secondary {
+  color: #60a5fa !important;
+  border-color: #60a5fa !important;
 }
 
-[data-theme='dark'] .modal-actions .btn-secondary:hover,
-body.dark .modal-actions .btn-secondary:hover {
-  color: white;
+[data-theme='dark'] .modal-actions .btn-secondary:hover {
+  background: rgba(96, 165, 250, 0.1) !important;
+  color: white !important;
 }
 
 .delete-info {
@@ -634,15 +683,7 @@ body.dark .modal-actions .btn-secondary:hover {
   letter-spacing: 0.3px;
 }
 
-/* Modal Actions */
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  padding-top: 16px;
-  border-top: 1px solid #e2e8f0;
-  margin-top: 24px;
-}
+
 
 /* Personnel Avatar Styles */
 .personnel-avatar {
@@ -861,9 +902,21 @@ body.dark .form-photo-section {
     justify-content: center;
   }
 
-  /* Override for modal actions to keep fixed width */
+  /* Override for modal actions to keep fixed width and side-by-side */
+  .modal-actions {
+    flex-direction: row-reverse !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+  }
+
   .modal-actions .btn-primary {
-    width: 160px;
+    width: 160px !important;
+  }
+
+  .modal-actions .btn-secondary {
+    width: 130px !important;
   }
 
   .table-container {

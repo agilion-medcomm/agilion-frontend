@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import { SPECIALTY_TRANSLATION_KEYS } from '../../constants/medicalSpecialties';
 import './ProfilePage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
@@ -32,6 +34,7 @@ const PhoneIcon = () => (
 );
 
 export default function ProfilePage() {
+    const { t } = useTranslation(['medical']);
     const { user, loginPersonnel, refreshUser } = usePersonnelAuth();
     const [loading, setLoading] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
@@ -265,10 +268,11 @@ export default function ProfilePage() {
                                     <input
                                         type="text"
                                         name="specialization"
-                                        value={formData.specialization}
+                                        value={SPECIALTY_TRANSLATION_KEYS[formData.specialization]
+                                            ? t(`medical:departments.list.${SPECIALTY_TRANSLATION_KEYS[formData.specialization]}.title`)
+                                            : (formData.specialization || '')}
                                         disabled
-                                        className="full-width"
-                                        style={{ backgroundColor: '#f1f5f9', cursor: 'not-allowed' }}
+                                        className="full-width profile-disabled-input"
                                     />
                                     <small style={{ color: '#64748b', fontSize: '12px', marginTop: '4px', display: 'block' }}>
                                         Uzmanlık alanınızı değiştirmek için yönetici ile iletişime geçin.

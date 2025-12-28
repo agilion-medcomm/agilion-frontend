@@ -627,7 +627,7 @@ export default function PersonnelPage() {
                             className="btn-icon btn-availability"
                             onClick={() => openAvailabilityModal(personnel)}
                             title="Çalışma Saatlerini Düzenle"
-                            style={{ marginRight: '8px', color: '#4b5563' }}
+                            style={{ marginRight: '8px' }}
                           >
                             <ClockIcon />
                           </button>
@@ -896,22 +896,22 @@ export default function PersonnelPage() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label>Biography</label>
-                    <textarea name="bio" value={form.bio} onChange={handleInputChange} rows="3" placeholder="Doctor's background and summary..."></textarea>
+                    <label>Biyografi</label>
+                    <textarea name="bio" value={form.bio} onChange={handleInputChange} rows="3" placeholder="Doktorun özgeçmişi..."></textarea>
                   </div>
                   <div className="form-row">
                     <div className="form-group">
-                      <label>Expertise Areas (one per line)</label>
-                      <textarea name="expertise" value={form.expertise} onChange={handleInputChange} rows="3" placeholder="e.g. Chronic Disease Management"></textarea>
+                      <label>Uzmanlık Alanı (her satırda bir)</label>
+                      <textarea name="expertise" value={form.expertise} onChange={handleInputChange} rows="3" placeholder="Kulak, burun ve boğaz vb."></textarea>
                     </div>
                     <div className="form-group">
-                      <label>Education & Achievements (one per line)</label>
-                      <textarea name="education" value={form.education} onChange={handleInputChange} rows="3" placeholder="e.g. PhD in Medical Sciences"></textarea>
+                      <label>Eğitim & Kazanımlar (her satırda bir)</label>
+                      <textarea name="education" value={form.education} onChange={handleInputChange} rows="3" placeholder="Medikal Bilimlerde Master vb."></textarea>
                     </div>
                   </div>
                   <div className="form-group">
-                    <label>Working Principles</label>
-                    <textarea name="principles" value={form.principles} onChange={handleInputChange} rows="2" placeholder="Doctor's approach to patients..."></textarea>
+                    <label>Çalışma Prensipleri</label>
+                    <textarea name="principles" value={form.principles} onChange={handleInputChange} rows="2" placeholder="Doktorun hastaya yaklaşımları..."></textarea>
                   </div>
                 </>
               )}
@@ -927,7 +927,7 @@ export default function PersonnelPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>Phone</label>
+                  <label>Telefon</label>
                   <input
                     type="tel"
                     name="phoneNumber"
@@ -944,7 +944,7 @@ export default function PersonnelPage() {
 
               <div className="form-row">
                 <div className="form-group">
-                  <label>Date of Birth</label>
+                  <label>Doğum Tarihi</label>
                   <input
                     type="date"
                     name="dateOfBirth"
@@ -953,7 +953,7 @@ export default function PersonnelPage() {
                   />
                 </div>
                 <div className="form-group">
-                  <label>New Password (Leave empty to keep current)</label>
+                  <label>Yeni Şifre (Mevcut için boş bırakın.)</label>
                   <input
                     type="password"
                     name="password"
@@ -966,10 +966,10 @@ export default function PersonnelPage() {
 
               <div className="modal-actions">
                 <button type="button" className="btn-secondary" onClick={() => setShowEditModal(false)}>
-                  Cancel
+                  İptal
                 </button>
                 <button type="submit" className="btn-primary">
-                  Update Personnel
+                  Personeli Güncelle
                 </button>
               </div>
             </form>
