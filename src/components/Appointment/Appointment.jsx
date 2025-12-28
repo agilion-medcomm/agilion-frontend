@@ -297,55 +297,55 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 						<h3>{t('appointment:labels.about_doctor')}</h3>
 					</div>
 					<div className="info-card-body">
-						<div className="bio-section">
-							<h4>{t('appointment:labels.bio')}</h4>
-							<p>
-								{doctor.bio || t('appointment:placeholders.default_bio', {
-									name: `${doctor.firstName} ${doctor.lastName}`,
-									specialization: t(`medical:departments.list.${SPECIALTY_TRANSLATION_KEYS[doctor.specialization] || doctor.specialization}.title`, {
-										defaultValue: MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.expertise_area')
-									})
-								})}
-							</p>
-						</div>
+					<div className="bio-section">
+						<h4>{t('appointment:labels.bio')}</h4>
+						<p>
+							{doctor.biography || t('appointment:placeholders.default_bio', {
+								name: `${doctor.firstName} ${doctor.lastName}`,
+								specialization: t(`medical:departments.list.${SPECIALTY_TRANSLATION_KEYS[doctor.specialization] || doctor.specialization}.title`, {
+									defaultValue: MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.expertise_area')
+								})
+							})}
+						</p>
+					</div>
 
-						<div className="expertise-grid">
-							<div className="expertise-item">
-								<h4>{t('appointment:labels.expertise')}</h4>
-								<ul>
-									{doctor.expertise ? (
-										doctor.expertise.split('\n').filter(line => line.trim()).map((item, idx) => (
-											<li key={idx}>{item}</li>
-										))
-									) : (
-										t('appointment:placeholders.default_expertise', { returnObjects: true }).map((item, idx) => (
-											<li key={idx}>{item}</li>
-										))
-									)}
-								</ul>
-							</div>
-							<div className="expertise-item">
-								<h4>{t('appointment:labels.education')}</h4>
-								<ul>
-									{doctor.education ? (
-										doctor.education.split('\n').filter(line => line.trim()).map((item, idx) => (
-											<li key={idx}>{item}</li>
-										))
-									) : (
-										t('appointment:placeholders.default_education', { returnObjects: true }).map((item, idx) => (
-											<li key={idx}>{item}</li>
-										))
-									)}
-								</ul>
-							</div>
+					<div className="expertise-grid">
+						<div className="expertise-item">
+							<h4>{t('appointment:labels.expertise')}</h4>
+							<ul>
+								{doctor.expertiseAreas ? (
+									doctor.expertiseAreas.split('\n').filter(line => line.trim()).map((item, idx) => (
+										<li key={idx}>{item}</li>
+									))
+								) : (
+									t('appointment:placeholders.default_expertise', { returnObjects: true }).map((item, idx) => (
+										<li key={idx}>{item}</li>
+									))
+								)}
+							</ul>
 						</div>
+						<div className="expertise-item">
+							<h4>{t('appointment:labels.education')}</h4>
+							<ul>
+								{doctor.educationAndAchievements ? (
+									doctor.educationAndAchievements.split('\n').filter(line => line.trim()).map((item, idx) => (
+										<li key={idx}>{item}</li>
+									))
+								) : (
+									t('appointment:placeholders.default_education', { returnObjects: true }).map((item, idx) => (
+										<li key={idx}>{item}</li>
+									))
+								)}
+							</ul>
+						</div>
+					</div>
 
-						<div className="principles-section">
-							<h4>{t('appointment:labels.principles')}</h4>
-							<p>
-								{doctor.principles || t('appointment:placeholders.default_principles')}
-							</p>
-						</div>
+					<div className="principles-section">
+						<h4>{t('appointment:labels.principles')}</h4>
+						<p>
+							{doctor.workPrinciples || t('appointment:placeholders.default_principles')}
+						</p>
+					</div>
 					</div>
 				</div>
 			</div>
