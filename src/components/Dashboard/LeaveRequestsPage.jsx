@@ -24,18 +24,15 @@ export default function LeaveRequestsPage() {
   const fetchDoctorProfile = async () => {
     const token = localStorage.getItem('personnelToken');
     try {
-      // Try to get from localStorage first (cached from login)
-      const cachedDoctorId = localStorage.getItem('doctorId');
-      if (cachedDoctorId) {
-        setDoctorProfile({ id: parseInt(cachedDoctorId) });
-        return;
-      }
-
       // If no user, can't fetch doctor profile
       if (!user?.id) {
         console.warn('User not loaded yet');
         return;
       }
+
+      // Always fetch fresh - don't use cache (cache can have wrong doctor ID)
+      // Clear any old cached value
+      localStorage.removeItem('doctorId');
 
       // Get all doctors and find current user by matching userId
       const res = await axios.get(`${BaseURL}/doctors`, {
@@ -43,7 +40,6 @@ export default function LeaveRequestsPage() {
       });
 
       const doctors = res.data?.data || [];
-      console.log('Looking for doctor with userId:', user?.id, 'in doctors:', doctors);
 
       // Find doctor by userId match - backend returns Doctor.id and userId
       const currentDoctor = doctors.find(d => {
@@ -53,9 +49,8 @@ export default function LeaveRequestsPage() {
       });
 
       if (currentDoctor) {
-        console.log('Found doctor profile:', currentDoctor);
         setDoctorProfile(currentDoctor);
-        // Store Doctor.id (not User.id!) - this is what backend needs for leave requests
+        // Store for this session only
         localStorage.setItem('doctorId', currentDoctor.id.toString());
       } else {
         console.error('Could not find doctor profile for user ID:', user?.id);
@@ -64,7 +59,6 @@ export default function LeaveRequestsPage() {
     } catch (error) {
       // Ignore message port errors from browser extensions
       if (error.message && error.message.includes('message port closed')) {
-        console.log('Extension message port closed (ignored)');
         return;
       }
       console.error('Error fetching doctor profile:', error);
