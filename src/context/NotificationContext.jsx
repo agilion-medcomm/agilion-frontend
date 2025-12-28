@@ -21,7 +21,7 @@ export function NotificationProvider({ children }) {
 
   useEffect(() => {
     fetchNotifications();
-    // Poll for new notifications every 30 seconds
+
     const interval = setInterval(fetchNotifications, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -31,7 +31,7 @@ export function NotificationProvider({ children }) {
     if (!token) return;
 
     try {
-      // Mock notifications - replace with actual API
+
       const mockNotifications = [];
 
       const newUnreadCount = mockNotifications.filter(n => !n.read).length;
@@ -40,7 +40,6 @@ export function NotificationProvider({ children }) {
       setNotifications(mockNotifications);
       setUnreadCount(newUnreadCount);
 
-      // Show alert if there are new notifications
       if (hadUnread && !sessionStorage.getItem('notificationAlertShown')) {
         setShowAlert(true);
         sessionStorage.setItem('notificationAlertShown', 'true');

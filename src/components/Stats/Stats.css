@@ -1,4 +1,4 @@
-/* Dış blok (sayfayı enine kaplar) */
+
 .stats-wrap {
   width: 100%;
   padding: 40px 20px 60px;
@@ -8,7 +8,6 @@
   box-sizing: border-box;
 }
 
-/* Container artık şeffaf ve grid gap var */
 .stats-container {
   width: 100%;
   max-width: 1200px;
@@ -20,13 +19,12 @@
   box-shadow: none;
 }
 
-/* Her hücre artık kendi kutusu */
 .stat-card {
   position: relative;
   text-align: center;
   padding: 24px 16px;
   background: #17365a;
-  /* Mavi arka plan */
+
   color: #ffffff;
   border-radius: 32px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -37,7 +35,6 @@
   transform: translateY(-5px);
 }
 
-/* Divider kaldırıldı */
 .stat-card .divider {
   display: none;
 }
@@ -56,7 +53,6 @@
   color: #d6e2f2;
 }
 
-/* === Responsive === */
 @media (max-width: 900px) {
   .stats-container {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -71,14 +67,11 @@
   }
 }
 
-/* Daha spesifik bir seçici kullanarak diğer stillerin ezmesini engelliyoruz */
 .stats-container .stat-card {
   background-color: #002b5c !important;
-  /* Koyu Lacivert - Kesin uygula */
-  color: #ffffff !important;
-  /* Beyaz Yazı - Kesin uygula */
 
-  /* Diğer özellikler */
+  color: #ffffff !important;
+
   position: relative;
   text-align: center;
   padding: 24px 16px;
@@ -87,13 +80,11 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Hover efekti */
 .stats-container .stat-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 12px 32px rgba(0, 43, 92, 0.4);
 }
 
-/* Label (etiket) rengini de zorluyoruz */
 .stats-container .stat-card .stat-label {
   color: #ffffff !important;
   opacity: 0.9;
@@ -101,7 +92,6 @@
   font-size: clamp(.9rem, 1.4vw, 1rem);
 }
 
-/* Sayıların rengi parent'tan miras alınacak ama garanti olsun */
 .stats-container .stat-card .stat-number {
   color: #ffffff !important;
 }

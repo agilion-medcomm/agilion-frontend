@@ -1,19 +1,18 @@
-/* Kurumsal Page Styles */
+
 .kurumsal-page {
     font-family: 'Inter', sans-serif;
     color: #333;
     background-color: #f8f9fa;
     padding-bottom: 0;
-    /* Footer handles spacing */
+
 }
 
-/* Hero Section */
 .kurumsal-hero {
     position: relative;
     width: 100%;
     height: 400px;
     background: linear-gradient(135deg, #0052cc 0%, #003380 100%), url('/cover.png');
-    /* Fallback + Image */
+
     background-size: cover;
     background-position: center;
     display: flex;
@@ -22,7 +21,6 @@
     overflow: hidden;
 }
 
-/* Overlay for the hero image to match the blue tint */
 .kurumsal-hero::before {
     content: '';
     position: absolute;
@@ -31,7 +29,7 @@
     right: 0;
     bottom: 0;
     background: #f8f8f9;
-    /* Strong blue overlay */
+
     z-index: 1;
 }
 
@@ -49,7 +47,7 @@
     height: 800px;
     width: auto;
     object-fit: contain;
-    /* filter: brightness(0) invert(1); - Removed to show original image colors */
+
     opacity: 0.95;
 }
 
@@ -57,7 +55,7 @@
     height: 60px;
     width: auto;
     filter: brightness(0) invert(1);
-    /* Make white if needed */
+
 }
 
 .kurumsal-hero__title {
@@ -68,7 +66,6 @@
     letter-spacing: 1px;
 }
 
-/* Content Container */
 .kurumsal-content {
     max-width: 1100px;
     margin: 0 auto;
@@ -78,7 +75,6 @@
     gap: 50px;
 }
 
-/* Intro Text */
 .kurumsal-intro {
     font-size: 1.3rem;
     line-height: 1.6;
@@ -93,10 +89,9 @@
     margin-bottom: 20px;
 }
 
-/* Section Headers (Blue rounded bars) */
 .kurumsal-section-header {
     background-color: #1a56db;
-    /* Blue color from design */
+
     color: white;
     padding: 15px 30px;
     border-radius: 30px;
@@ -110,7 +105,6 @@
     text-align: left;
 }
 
-/* Text Blocks */
 .kurumsal-text-block {
     font-size: 1.3rem;
     line-height: 1.6;
@@ -130,7 +124,20 @@
     padding-left: 0;
 }
 
-/* Responsive */
+.kurumsal-text-block p {
+    margin-bottom: 16px;
+}
+
+.kurumsal-text-block p:last-child {
+    margin-bottom: 0;
+}
+
+.values-description {
+    margin-bottom: 20px;
+    font-style: italic;
+    color: #555;
+}
+
 @media (max-width: 768px) {
     .kurumsal-hero {
         height: auto;
@@ -164,7 +171,6 @@
     }
 }
 
-/* Dark Mode Configuration for KurumsalPage */
 [data-theme="dark"] .kurumsal-page {
     background-color: #121212;
     color: #e2e8f0;
@@ -197,36 +203,29 @@
     color: #f1f5f9;
 }
 
-/* --- DARK MODE DÜZELTMESİ --- */
-
-/* 1. Hero alanının arka planını tam siyah yapıyoruz */
-[data-theme="dark"] .kurumsal-hero {
-    background: #000000 !important;
-    /* Mavi gradient yerine düz siyah */
+[data-theme="dark"] .values-description {
+    color: #94a3b8;
 }
 
-/* 2. Hero üzerindeki örtüyü (overlay) tam siyah yapıyoruz */
+[data-theme="dark"] .kurumsal-hero {
+    background: #000000 !important;
+
+}
+
 [data-theme="dark"] .kurumsal-hero::before {
     background-color: #000000 !important;
     opacity: 1;
-    /* Tam kapatıcılık sağlıyoruz */
+
 }
 
-/* 3. Görsel ayarları */
 [data-theme="dark"] .kurumsal-hero__image {
     mix-blend-mode: normal !important;
 
-    /* 1. invert(1): Renkleri ve siyah/beyaz dengesini ters çevirir.
-       2. hue-rotate(190deg): Renk skalasını mavi/turkuaz tarafına kaydırır.
-       3. brightness(1.2): Mavinin daha canlı görünmesini sağlar.
-       4. contrast(1.1): Renklerin birbirine karışmasını engeller.
-    */
     filter: invert(1) hue-rotate(190deg) brightness(1.2) contrast(1.1);
 
     opacity: 1;
 }
 
-/* Hero alanının tam siyah olduğundan emin olalım ki 'kutu' efekti oluşmasın */
 [data-theme="dark"] .kurumsal-hero,
 [data-theme="dark"] .kurumsal-hero::before {
     background: #000000 !important;

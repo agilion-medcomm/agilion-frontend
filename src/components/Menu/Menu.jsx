@@ -1,4 +1,3 @@
-// src/components/Menu/Menu.jsx (SON VE TAM HALİ - HIZLI RANDEVU EKLEMESİ YAPILDI)
 
 import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
@@ -6,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
-// Appointment modals removed — randevu sayfası kullanılacak
+
 import "./Menu.css";
 
 export default function Menu() {
@@ -22,8 +21,6 @@ export default function Menu() {
     i18n.changeLanguage(newLang);
   };
 
-
-
   const { user: patientUser, logout: patientLogout } = useAuth();
   const { user: personnelUser, logout: personnelLogout } = usePersonnelAuth();
 
@@ -36,11 +33,11 @@ export default function Menu() {
 
     if (isPersonnel) {
       personnelLogout();
-      // Personel çıkış yapınca kendi giriş ekranına dönsün
+
       navigate('/personelLogin', { replace: true });
     } else if (patientUser) {
       patientLogout();
-      // Hasta çıkış yapınca ana sayfaya dönsün
+
       navigate('/', { replace: true });
     }
   }
@@ -61,23 +58,18 @@ export default function Menu() {
     }
   }
 
-  // HAMBURGER BUTON İŞLEVİ
   const handleHizliRandevuClick = (e) => {
-    e.preventDefault(); // Varsayılan link davranışını engelle
-    closeMenu(); // Menüyü kapat
+    e.preventDefault();
+    closeMenu();
 
-    // 1. Kural: Kullanıcı login değilse, login sayfasına yönlendir.
     if (!patientUser) {
       alert(t('common:please_login_to_book'));
       navigate('/login');
       return;
     }
-    // 2. Kural: Kullanıcı login ise, doktor seçme sayfasına yönlendir.
+
     navigate('/doktor-sec');
   };
-
-  // artık modal state'leri yok
-
 
   useEffect(() => {
     function onKey(e) { if (e.key === 'Escape') setMenuOpen(false); }
@@ -85,12 +77,10 @@ export default function Menu() {
     return () => window.removeEventListener('keydown', onKey);
   }, []);
 
-  // Menü açıkken route değişirse menüyü kapat
   useEffect(() => {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  // Ekran genişliği masaüstüne çıkınca menüyü kapat
   useEffect(() => {
     function handleResize() {
       if (window.innerWidth > 950) setMenuOpen(false);
@@ -117,13 +107,11 @@ export default function Menu() {
   function toggleMenu() { setMenuOpen(prev => !prev); }
   function closeMenu() { setMenuOpen(false); }
 
-  // Not: FloatingButtons.jsx'teki ikon placeholder'ları buraya taşındı (Empty SVG'ler yerine)
   const CalendarIconPlaceholder = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
-
 
   return (
     <>
-      {/* Topbar */}
+
       <div className="topbar">
         <div className="container topbar__row">
           <div className="topbar__left">
@@ -161,7 +149,6 @@ export default function Menu() {
         </div>
       </div>
 
-      {/* Menubar */}
       <div className="menubar">
         <div className="container menubar__row">
           <Link className="brand" to="/"><img src={theme === 'light' ? "/logo1.png" : "/logo_dark.png"} alt="AgilionMED Logo" className="logo-img" /></Link>
@@ -216,7 +203,7 @@ export default function Menu() {
             <div className="mobile-menu__content">
               {isLoggedIn ? (
                 <>
-                  {/* A. Kişiye Özel Alan (Header) */}
+
                   <div className="mobile-menu__profile-card">
                     <div className="mobile-menu__profile-main" onClick={handleAvatarClick}>
                       <div className="user-avatar">
@@ -237,13 +224,12 @@ export default function Menu() {
                     </button>
                   </div>
 
-                  {/* B. Hızlı Randevu Al (Aksiyon Butonu) - Full Width for Logged In */}
                   <button className="mobile-menu__hizli-randevu--full" onClick={handleHizliRandevuClick}>
                     {t('common:book_appointment')} <img src="/appointment.svg" alt="" width="24" height="24" style={{ filter: 'brightness(0) invert(1)' }} />
                   </button>
                 </>
               ) : (
-                /* Giriş Yapılmamışken: Yan Yana Butonlar */
+
                 <div className="mobile-menu__top-buttons">
                   <button className="mobile-menu__hizli-randevu--half" onClick={handleHizliRandevuClick}>
                     {t('common:book_appointment_short')} <img src="/appointment.svg" alt="" width="20" height="20" style={{ filter: 'brightness(0) invert(1)' }} />
@@ -276,7 +262,6 @@ export default function Menu() {
                 </div>
               )}
 
-              {/* 950px ve altı için Topbar İçerikleri - Moved to Bottom */}
               <div className="mobile-menu__topbar-items">
                 <a href="mailto:info@zeytinburnutipmerkezi.com.tr" className="mobile-menu__info-item">
                   <MailIcon /> info@zeytinburnutipmerkezi.com.tr
@@ -309,12 +294,10 @@ export default function Menu() {
         </>
       )}
 
-      {/* Randevu artık ayrı sayfada yönetiliyor ("/randevu") */}
     </>
   );
 }
 
-// --- İKONLAR ---
 function MailIcon() { return <img src="/mailicon.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
 function PhoneIcon() { return <img src="/phone.svg" width="18" height="18" alt="" style={{ verticalAlign: 'middle', filter: 'brightness(0) invert(1)' }} />; }
 function FbIcon() { return <img src="/facebook1.svg" width="20" height="20" alt="Facebook" style={{ verticalAlign: 'middle' }} />; }
@@ -330,8 +313,4 @@ function SettingsIcon() {
   );
 }
 
-
-// Footer'daki gibi boş SVG'ler yerine placeholder ikon kullanıldı.
-// Bu, Menu.jsx içindeki CalendarIconPlaceholder fonksiyonu ile aynıdır.
-// (Appointment'da da bu kodun olmaması gerekiyordu, ancak kod tekrarını önlemek için buraya ekledim.)
 function CalendarIconPlaceholder() { return <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 2V5M16 2V5M3 8H21M7 12H9M11 12H13M15 12H17M3 16H21M7 20H9M11 20H13M15 20H17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" /></svg>; }

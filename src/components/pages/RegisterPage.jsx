@@ -4,21 +4,19 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import './LoginPage.css';
 
-// API Ayarları
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// E-posta ve telefon doğrulama yardımcı fonksiyonları
 function isValidEmail(email) {
   const emailRegex = /\S+@\S+\.\S+/;
   return emailRegex.test(email);
 }
 
 function isValidPhoneNumber(phoneNumber) {
-  // Sadece rakamları al
+
   const digitsOnly = phoneNumber.replace(/\D/g, '');
-  // Strictly 10 digits
+
   return digitsOnly.length === 10;
 }
 
@@ -39,7 +37,7 @@ export default function RegisterPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false); // Başarı durumu
+  const [success, setSuccess] = useState(false);
 
   function handleChange(e) {
     const { id, value } = e.target;
@@ -56,7 +54,6 @@ export default function RegisterPage() {
     setLoading(true);
     setError('');
 
-    // --- İstemci Tarafı Doğrulamaları ---
     if (formData.password !== formData.confirmPassword) {
       setError(t('auth:register.errors.password_mismatch'));
       setLoading(false);
@@ -73,38 +70,32 @@ export default function RegisterPage() {
       return;
     }
 
-    // Format phone number: Remove spaces/non-digits to get raw 10 digits
-    // Backend expects 5XXXXXXXXX (10 digits)
     const cleanPhone = formData.phoneNumber.replace(/\D/g, '');
-    const formattedPhone = cleanPhone; // Send strictly 10 digits
+    const formattedPhone = cleanPhone;
 
-    // Tarih kontrolü
     if (!formData.day || !formData.month || !formData.year) {
       setError(t('auth:register.errors.incomplete_dob'));
       setLoading(false);
       return;
     }
 
-    // Backend'e gönderilecek veri formatı
     const newUser = {
       firstName: formData.firstName,
       lastName: formData.lastName,
-      tckn: formData.tckn.replace(/\D/g, ''), // Sadece rakamlar
+      tckn: formData.tckn.replace(/\D/g, ''),
       email: formData.email,
       phoneNumber: formattedPhone,
       password: formData.password,
-      // Tarih formatı: YYYY-MM-DD
+
       dateOfBirth: `${formData.year}-${formData.month.toString().padStart(2, '0')}-${formData.day.toString().padStart(2, '0')}`
     };
 
     try {
-      // 1. Kayıt İsteği Gönder
+
       await axios.post(`${BaseURL}/auth/register`, newUser);
 
-      // 2. Başarılı ise Success ekranına geç
       setSuccess(true);
 
-      // Formu temizle (Güvenlik ve temizlik için)
       setFormData({
         firstName: '', lastName: '', tckn: '', day: '', month: '', year: '',
         email: '', phoneNumber: '', password: '', confirmPassword: ''
@@ -113,7 +104,7 @@ export default function RegisterPage() {
     } catch (err) {
       console.error('Kayıt hatası:', err);
       if (err.response) {
-        // Backend'den gelen hata mesajını göster
+
         const resp = err.response.data;
         if (resp && resp.errors && Array.isArray(resp.errors) && resp.errors.length) {
           setError(resp.errors.map(e => e.message).join('; '));
@@ -130,7 +121,6 @@ export default function RegisterPage() {
     }
   }
 
-  // Doğum Tarihi dropdownları için yardımcı diziler
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
   const months = [
     { value: 1, name: t('auth:months.jan') }, { value: 2, name: t('auth:months.feb') }, { value: 3, name: t('auth:months.mar') },
@@ -139,11 +129,8 @@ export default function RegisterPage() {
     { value: 10, name: t('auth:months.oct') }, { value: 11, name: t('auth:months.nov') }, { value: 12, name: t('auth:months.dec') }
   ];
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i); // 18 yaşından büyükler için
+  const years = Array.from({ length: 100 }, (_, i) => currentYear - 18 - i);
 
-  // --- RENDERING ---
-
-  // Eğer kayıt başarılıysa bu ekranı göster
   if (success) {
     return (
       <div className="login-container">
@@ -166,7 +153,6 @@ export default function RegisterPage() {
     );
   }
 
-  // Normal Kayıt Formu
   return (
     <div className="login-container">
       <div className="login-box" style={{ maxWidth: '500px' }}>
@@ -288,13 +274,10 @@ export default function RegisterPage() {
                 onChange={(e) => {
                   let val = e.target.value.replace(/\D/g, '');
 
-                  // Strip leading zero if typed
                   if (val.startsWith('0')) val = val.substring(1);
 
-                  // Limit to 10 digits
                   val = val.slice(0, 10);
 
-                  // Apply formatting: 5XX XXX XX XX
                   let formatted = val;
                   if (val.length > 3) formatted = `${val.slice(0, 3)} ${val.slice(3)}`;
                   if (val.length > 6) formatted = `${val.slice(0, 3)} ${val.slice(3, 6)} ${val.slice(6)}`;
@@ -303,9 +286,9 @@ export default function RegisterPage() {
                   setFormData(prev => ({ ...prev, phoneNumber: formatted }));
                 }}
                 disabled={loading}
-                // Pattern matches display format with spaces
-                maxLength={13} // 10 digits + 3 spaces
-                minLength={13} // Full format required
+
+                maxLength={13}
+                minLength={13}
                 title="Telefon numarası başında 0 olmadan 10 haneli olmalıdır."
                 placeholder="5XX XXX XX XX"
               />

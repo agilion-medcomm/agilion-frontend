@@ -11,16 +11,13 @@ export default function DoctorLabRequests() {
   const navigate = useNavigate();
   const { user, token } = usePersonnelAuth();
 
-  // Tab state
-  const [activeTab, setActiveTab] = useState('list'); // 'list' or 'create'
+  const [activeTab, setActiveTab] = useState('list');
 
-  // List tab state
   const [requests, setRequests] = useState([]);
   const [requestsLoading, setRequestsLoading] = useState(false);
-  const [filterStatus, setFilterStatus] = useState('all'); // all, PENDING, ASSIGNED, COMPLETED, CANCELED
+  const [filterStatus, setFilterStatus] = useState('all');
   const [requestsMessage, setRequestsMessage] = useState({ type: '', text: '' });
 
-  // Create tab state
   const [patientTckn, setPatientTckn] = useState('');
   const [foundPatient, setFoundPatient] = useState(null);
   const [fileTitle, setFileTitle] = useState('');
@@ -35,13 +32,11 @@ export default function DoctorLabRequests() {
     return null;
   }
 
-  // Fetch lab requests on component mount
   useEffect(() => {
     fetchRequests();
     fetchLaborants();
   }, []);
 
-  // Fetch lab requests
   const fetchRequests = async () => {
     try {
       setRequestsLoading(true);
@@ -61,7 +56,6 @@ export default function DoctorLabRequests() {
     }
   };
 
-  // Fetch available laborants
   const fetchLaborants = async () => {
     try {
       const response = await axios.get(`${BaseURL}/personnel?role=LABORANT`, {
@@ -77,7 +71,6 @@ export default function DoctorLabRequests() {
     }
   };
 
-  // Search patient by TCKN
   const handleSearchPatient = async (e) => {
     e.preventDefault();
     try {
@@ -99,7 +92,6 @@ export default function DoctorLabRequests() {
     }
   };
 
-  // Create lab request
   const handleCreateRequest = async (e) => {
     e.preventDefault();
 
@@ -125,7 +117,6 @@ export default function DoctorLabRequests() {
 
       setCreateMessage({ type: 'success', text: 'Talep başarıyla oluşturuldu!' });
 
-      // Reset form
       setTimeout(() => {
         setPatientTckn('');
         setFoundPatient(null);
@@ -146,7 +137,6 @@ export default function DoctorLabRequests() {
     }
   };
 
-  // Assign request to laborant
   const handleAssignRequest = async (requestId, laborantId) => {
     try {
       setRequestsLoading(true);
@@ -168,7 +158,6 @@ export default function DoctorLabRequests() {
     }
   };
 
-  // Cancel request
   const handleCancelRequest = async (requestId) => {
     if (!confirm('Bu talebi iptal etmek istediğinizden emin misiniz?')) {
       return;
@@ -194,7 +183,6 @@ export default function DoctorLabRequests() {
     }
   };
 
-  // Filter requests based on status
   const filteredRequests = filterStatus === 'all'
     ? requests
     : requests.filter(r => r.status === filterStatus);
@@ -211,7 +199,7 @@ export default function DoctorLabRequests() {
 
   return (
     <div style={{ padding: '20px', background: 'var(--dash-bg)', minHeight: '100vh', color: 'var(--dash-text)' }}>
-      {/* Header */}
+
       <div style={{
         background: '#667eea',
         color: 'white',
@@ -224,7 +212,6 @@ export default function DoctorLabRequests() {
         <p style={{ margin: 0, opacity: 1, color: 'white' }}>Tıbbi dosya talepleri oluşturun ve yönetin</p>
       </div>
 
-      {/* Tab Navigation */}
       <div style={{
         display: 'flex',
         gap: '12px',
@@ -265,12 +252,11 @@ export default function DoctorLabRequests() {
         </button>
       </div>
 
-      {/* Main Content Container */}
       <div style={{ maxWidth: '900px' }}>
-        {/* ============ LIST TAB ============ */}
+
         {activeTab === 'list' && (
           <div>
-            {/* Messages */}
+
             {requestsMessage.text && (
               <div style={{
                 padding: '12px 16px',
@@ -284,7 +270,6 @@ export default function DoctorLabRequests() {
               </div>
             )}
 
-            {/* Status Filter */}
             <div style={{
               display: 'flex',
               gap: '8px',
@@ -322,7 +307,6 @@ export default function DoctorLabRequests() {
               })}
             </div>
 
-            {/* Loading State */}
             {requestsLoading && (
               <div style={{
                 background: 'var(--dash-card-bg)',
@@ -336,7 +320,6 @@ export default function DoctorLabRequests() {
               </div>
             )}
 
-            {/* No Requests State */}
             {!requestsLoading && filteredRequests.length === 0 && (
               <div style={{
                 background: 'var(--dash-card-bg)',
@@ -364,7 +347,6 @@ export default function DoctorLabRequests() {
               </div>
             )}
 
-            {/* Requests List */}
             {!requestsLoading && filteredRequests.length > 0 && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {filteredRequests.map(req => {
@@ -419,7 +401,6 @@ export default function DoctorLabRequests() {
                         </div>
                       </div>
 
-                      {/* Action Buttons */}
                       <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {req.status === 'PENDING' && !req.assigneeLaborantId && (
                           <>
@@ -517,7 +498,6 @@ export default function DoctorLabRequests() {
           </div>
         )}
 
-        {/* ============ CREATE TAB ============ */}
         {activeTab === 'create' && (
           <div style={{
             background: 'var(--dash-card-bg)',
@@ -545,7 +525,6 @@ export default function DoctorLabRequests() {
               </div>
             )}
 
-            {/* Step 1: Search Patient */}
             <div style={{ marginBottom: '24px' }}>
               <h3 style={{ margin: '0 0 16px 0', color: 'var(--dash-text)', fontSize: '14px', fontWeight: 700 }}>
                 Adım 1: Hastayı Seçin
@@ -635,7 +614,6 @@ export default function DoctorLabRequests() {
               )}
             </div>
 
-            {/* Step 2: Fill Request Details */}
             {foundPatient && (
               <form onSubmit={handleCreateRequest}>
                 <h3 style={{ margin: '0 0 16px 0', color: 'var(--dash-text)', fontSize: '14px', fontWeight: 700 }}>

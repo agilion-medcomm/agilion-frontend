@@ -7,7 +7,6 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// 9. [FE] Cleaning Areas List (Static Data)
 const AREAS = [
   "Zemin Kat Koridor",
   "Zemin Kat Tuvalet",
@@ -28,22 +27,18 @@ const AREAS = [
 export default function CleanerDashboard() {
   const { user } = usePersonnelAuth();
 
-  // 10. [FE] State Management
-  const [cleaningRecords, setCleaningRecords] = useState([]); // List of full records
-  const [selectedArea, setSelectedArea] = useState(""); // Area selected from the dropdown
-  const [selectedTime, setSelectedTime] = useState(""); // Time selected
-  const [selectedFile, setSelectedFile] = useState(null); // Photo to be uploaded
+  const [cleaningRecords, setCleaningRecords] = useState([]);
+  const [selectedArea, setSelectedArea] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
-  // Date state for viewing records
   const [viewDate, setViewDate] = useState(new Date().toISOString().split('T')[0]);
 
-  // Check if the selected view date is today
   const isToday = viewDate === new Date().toISOString().split('T')[0];
 
-  // Fetch completed areas on mount and when viewDate changes
   useEffect(() => {
     fetchCompletedAreas();
   }, [viewDate]);
@@ -57,7 +52,7 @@ export default function CleanerDashboard() {
         params: { date: viewDate },
         headers: { Authorization: `Bearer ${token}` }
       });
-      // Store full records
+
       setCleaningRecords(res.data.data || []);
     } catch (err) {
       console.error("Tamamlanan alanlar çekilemedi:", err);
@@ -142,7 +137,6 @@ export default function CleanerDashboard() {
       <div className="cleaner-content">
         <div className="cleaner-grid">
 
-          {/* 12. [FE] Upload Form (Left Side) */}
           <div className="cleaner-card">
             <h3 className="cleaner-card-title">Yeni Temizlik Kaydı</h3>
             {!isToday && (
@@ -204,7 +198,6 @@ export default function CleanerDashboard() {
             </form>
           </div>
 
-          {/* 11. [FE] Table Structure (Right Side) */}
           <div className="cleaner-card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid var(--dash-border)', paddingBottom: '10px', marginBottom: '20px' }}>
               <h3 style={{ margin: 0 }}>Günlük Temizlik Durumu</h3>

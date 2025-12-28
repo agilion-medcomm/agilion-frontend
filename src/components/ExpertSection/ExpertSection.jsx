@@ -10,12 +10,11 @@ export default function ExpertSection() {
   return (
     <section className="expert-section">
       <div className="expert-container">
-        {/* SOL: Görsel */}
+
         <div className="expert-image">
           <img src="/uzman1.jpg" alt="Uzman hekim ve hasta" />
         </div>
 
-        {/* SAĞ: İçerik */}
         <div className="expert-content">
           <h2>{t('home:expert.title')}</h2>
           <p>
@@ -23,7 +22,7 @@ export default function ExpertSection() {
           </p>
 
           <div className="expert-actions">
-            {/* Hasta Çağrı Merkezi Kartı */}
+
             <div className="call-box">
               <h4>{t('home:expert.call_center_title')}</h4>
               <p className="subtitle">{t('home:expert.call_center_sub')}</p>
@@ -32,7 +31,6 @@ export default function ExpertSection() {
               </p>
             </div>
 
-            {/* Sağ Butonlar */}
             <div className="expert-buttons">
               <button className="outline-btn" onClick={() => navigate('/hekimlerimiz')}>
                 <img src="/details.svg" alt="" className="btn-icon" /> {t('home:expert.explore')}

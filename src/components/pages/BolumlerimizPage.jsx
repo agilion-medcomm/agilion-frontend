@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './BolumlerimizPage.css';
@@ -7,12 +7,30 @@ const BolumlerimizPage = () => {
   const { t } = useTranslation(['medical']);
   const location = useLocation();
   const [selectedId, setSelectedId] = useState(location.state?.selectedId || 'acil');
+  const contentRef = useRef(null);
 
   useEffect(() => {
     if (location.state?.selectedId) {
       setSelectedId(location.state.selectedId);
     }
   }, [location.state]);
+
+  const handleCardClick = (deptId) => {
+    setSelectedId(deptId);
+
+    setTimeout(() => {
+      if (contentRef.current) {
+        const headerOffset = 100;
+        const elementPosition = contentRef.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
 
   const departments = useMemo(() => [
     {
@@ -25,6 +43,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.acil.p1')}</p>
           <p>{t('medical:departments.list.acil.p2')}</p>
+          <p>{t('medical:departments.list.acil.p3')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.acil.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -41,6 +60,8 @@ const BolumlerimizPage = () => {
       content: (
         <>
           <p>{t('medical:departments.list.dis.p1')}</p>
+          <p>{t('medical:departments.list.dis.p2')}</p>
+          <p>{t('medical:departments.list.dis.p3')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.dis.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -58,6 +79,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.diyet.p1')}</p>
           <p>{t('medical:departments.list.diyet.p2')}</p>
+          <p>{t('medical:departments.list.diyet.p3')}</p>
 
           <h3 style={{ marginTop: '20px', marginBottom: '10px', color: '#2d7bf0ff', fontWeight: 'bold' }}>
             {t('medical:departments.list.diyet.services_header')}
@@ -89,6 +111,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.derma.p1')}</p>
           <p>{t('medical:departments.list.derma.p2')}</p>
+          <p>{t('medical:departments.list.derma.p3')}</p>
 
           <div className="bolum-tags">
             {t('medical:departments.list.derma.tags', { returnObjects: true }).map((tag, idx) => (
@@ -107,6 +130,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.cerrahi.p1')}</p>
           <p>{t('medical:departments.list.cerrahi.p2')}</p>
+          <p>{t('medical:departments.list.cerrahi.p3')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.cerrahi.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -124,6 +148,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.goz.p1')}</p>
           <p>{t('medical:departments.list.goz.p2')}</p>
+          <p>{t('medical:departments.list.goz.p3')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.goz.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -141,6 +166,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.dahiliye.p1')}</p>
           <p>{t('medical:departments.list.dahiliye.p2')}</p>
+          <p>{t('medical:departments.list.dahiliye.p3')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.dahiliye.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -158,6 +184,7 @@ const BolumlerimizPage = () => {
         <>
           <p>{t('medical:departments.list.kadin.p1')}</p>
           <p>{t('medical:departments.list.kadin.p2')}</p>
+          <p>{t('medical:departments.list.kadin.p3')}</p>
           <div className="bolum-tags">
             {t('medical:departments.list.kadin.tags', { returnObjects: true }).map((tag, idx) => (
               <span key={idx}>{tag}</span>
@@ -180,7 +207,7 @@ const BolumlerimizPage = () => {
             <div
               key={dept.id}
               className={`bolum-card ${selectedId === dept.id ? 'selected' : ''} ${dept.isAcil ? 'is-acil' : ''}`}
-              onClick={() => setSelectedId(dept.id)}
+              onClick={() => handleCardClick(dept.id)}
             >
               <img src={dept.icon} alt={dept.title} className="bolum-card__icon" />
               <div className="bolum-card__title">{dept.title}</div>
@@ -190,8 +217,7 @@ const BolumlerimizPage = () => {
         </div>
       </div>
 
-      {/* Content Section */}
-      <div className="bolum-content-section">
+      <div className="bolum-content-section" ref={contentRef}>
         <div className="bolum-content-container">
           <div className="bolum-content-header">
             <h2

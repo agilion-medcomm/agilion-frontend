@@ -1,13 +1,11 @@
 @import 'react-calendar/dist/Calendar.css';
 
-/* ====== MODERN DESIGN SYSTEM ====== */
 :root {
-  /* Typography */
+
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   line-height: 1.6;
   font-weight: 400;
 
-  /* Color Palette */
   --primary-50: #f0f9ff;
   --primary-100: #e0f2fe;
   --primary-200: #bae6fd;
@@ -34,7 +32,6 @@
   --error-500: #ef4444;
   --error-600: #dc2626;
 
-  /* Neutrals */
   --gray-50: #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
@@ -46,7 +43,6 @@
   --gray-800: #1f2937;
   --gray-900: #111827;
 
-  /* Spacing */
   --space-xs: 0.25rem;
   --space-sm: 0.5rem;
   --space-md: 1rem;
@@ -54,7 +50,6 @@
   --space-xl: 2rem;
   --space-2xl: 3rem;
 
-  /* Border Radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
@@ -62,14 +57,12 @@
   --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
-  /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 
-  /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -85,7 +78,6 @@
   text-size-adjust: 100%;
 }
 
-/* ====== SCROLLBAR STYLING ====== */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -105,7 +97,6 @@
   background: var(--gray-400);
 }
 
-/* ====== SELECTION STYLING ====== */
 ::selection {
   background-color: var(--primary-200);
   color: var(--primary-900);
@@ -116,7 +107,6 @@
   color: var(--primary-900);
 }
 
-/* ====== BASE ELEMENTS ====== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -144,7 +134,6 @@ body.dark {
   color: rgba(255, 255, 255, 0.87);
 }
 
-/* ====== TYPOGRAPHY ====== */
 h1,
 h2,
 h3,
@@ -182,7 +171,6 @@ p {
   color: var(--gray-700);
 }
 
-/* ====== LINKS ====== */
 a {
   font-weight: 500;
   color: var(--brand-blue);
@@ -200,7 +188,6 @@ a:focus-visible {
   border-radius: var(--radius-sm);
 }
 
-/* ====== BUTTONS ====== */
 button {
   border-radius: var(--radius-lg);
   border: 1px solid transparent;
@@ -240,7 +227,6 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-/* ====== INPUTS ====== */
 input,
 textarea,
 select {
@@ -271,7 +257,6 @@ select:disabled {
   cursor: not-allowed;
 }
 
-/* ====== ANIMATIONS ====== */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -334,7 +319,6 @@ select:disabled {
   animation: scaleIn var(--transition-base);
 }
 
-/* ====== UTILITY CLASSES ====== */
 .container {
   width: 100%;
   max-width: 1280px;
@@ -376,7 +360,6 @@ select:disabled {
   gap: var(--space-lg);
 }
 
-/* ====== RESPONSIVE ====== */
 @media (prefers-reduced-motion: reduce) {
 
   *,

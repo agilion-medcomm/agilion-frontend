@@ -1,4 +1,4 @@
-/* === GENEL BLOK === */
+
 .doctors-section {
   width: 100%;
   background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 50%, #e5e7eb 100%);
@@ -15,7 +15,6 @@
   pointer-events: none;
 }
 
-/* === ÜST BAŞLIK BLOĞU === */
 .doctors-header {
   background: #45b5c4;
   text-align: center;
@@ -50,7 +49,6 @@
   }
 }
 
-/* === DOKTORLAR KONTEYNER === */
 .doctors-container {
   max-width: 1200px;
   margin: 50px auto 40px;
@@ -63,7 +61,6 @@
   z-index: 1;
 }
 
-/* === DOKTOR KART === */
 .doctor-card {
   background: rgba(255, 255, 255, 0.98);
   border-radius: 20px;
@@ -125,7 +122,6 @@
   font-weight: 500;
 }
 
-/* === NAVİGASYON BUTONLARI === */
 .doctors-navigation {
   display: flex;
   justify-content: center;
@@ -169,7 +165,6 @@
   outline-offset: 2px;
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 1024px) {
   .doctors-container {
     grid-template-columns: repeat(2, 1fr);
@@ -192,13 +187,11 @@
   }
 }
 
-/* SVG ikonlar için */
 .nav-icon {
   width: 22px;
   height: 22px;
   pointer-events: none;
-  /* tıklamayı engellemez */
-  /* ikonları beyazlaştırır, koyu renkliyse */
+
   transition: transform 0.2s ease;
 }
 
@@ -206,7 +199,6 @@
   transform: scale(1.15);
 }
 
-/* Buton boyutlarını sabit tutmak için */
 .doctors-navigation button {
   display: flex;
   align-items: center;
@@ -219,17 +211,12 @@
   transform: scale(1.1);
 }
 
-
-/* === GENEL BLOK === */
 .doctors-section {
   width: 100%;
   background: #f9fafc;
   padding-bottom: 60px;
 }
 
-
-
-/* === DOKTORLAR KONTEYNER === */
 .doctors-container {
   max-width: 1200px;
   margin: 50px auto 40px;
@@ -240,7 +227,6 @@
   box-sizing: border-box;
 }
 
-/* === DOKTOR KART === */
 .doctor-card {
   background: white;
   border-radius: 18px;
@@ -256,8 +242,6 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
-
-/* Bu kural sadece avatar'lar için değil - silinecek */
 .doctor-card img {
   width: 100%;
   height: 320px;
@@ -266,7 +250,6 @@
   background: linear-gradient(180deg, #a6dff1, #c7f0fa);
 }
 
-/* Avatar'lar için spesifik kural (bu yukarıdakini override eder) */
 .doctor-card img.doctor-photo {
   width: 110px !important;
   height: 110px !important;
@@ -290,7 +273,6 @@
   margin-top: 6px;
 }
 
-/* === NAVİGASYON BUTONLARI === */
 .doctors-navigation {
   display: flex;
   justify-content: center;
@@ -327,7 +309,6 @@
   transform: scale(1.05);
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 1024px) {
   .doctors-container {
     grid-template-columns: repeat(2, 1fr);
@@ -360,7 +341,6 @@
   }
 }
 
-/* PNG ikonlar için */
 .nav-icon {
   width: 28px;
   height: 28px;
@@ -379,19 +359,14 @@
   outline-offset: 2px;
 }
 
-/* === EFEKT İÇİN YENİ STİLLER === */
-/* Bu, .doctors-container'a bir geçiş efekti ekler */
 .doctors-container {
   transition: opacity 0.3s ease-in-out;
 }
 
-/* Bu sınıf JS tarafından eklendiğinde kartları gizler */
 .doctors-container.fading-out {
   opacity: 0;
 }
 
-
-/* 1. Gerekli @keyframes'leri tanımlıyoruz */
 @keyframes slideInFromRight {
   from {
     transform: translateX(100%);
@@ -424,8 +399,6 @@
   animation: slideInFromRight 0.6s ease-out both;
 }
 
-/* === YENİ EKKLENEN SINIFLAR VE DARK MODE === */
-
 .doctors-filter-container {
   max-width: 1200px;
   margin: 30px auto;
@@ -453,7 +426,6 @@
   transition: all 0.3s ease;
 }
 
-/* Placeholder (img yoksa) */
 .doctor-photo {
   width: 110px;
   height: 110px;
@@ -478,10 +450,9 @@
   user-select: none;
   letter-spacing: 2px;
   margin: 0 auto 12px auto;
-  /* Ortala */
+
 }
 
-/* Doktor kartında avatar ve placeholder'ı ortala */
 .doctor-card img.doctor-photo {
   margin-left: auto;
   margin-right: auto;
@@ -504,7 +475,6 @@
   background: #e65c00;
 }
 
-/* === DARK MODE === */
 [data-theme='dark'] .doctors-section {
   background: #111827;
 }
@@ -514,8 +484,6 @@
   color: #f3f4f6;
 }
 
-/* Başlık sola hizalı, container içinde zaten align:left container var, 
-   ama dark mode için text rengini garantiye alalım */
 [data-theme='dark'] .doctors-header h2 {
   color: #f3f4f6;
 }
@@ -529,8 +497,6 @@
   color: #f3f4f6;
   border-color: #4b5563;
 }
-
-
 
 [data-theme='dark'] .doctor-card {
   background: #1e2f46;
@@ -559,7 +525,7 @@
 
 [data-theme='dark'] .appointment-btn {
   background: #ea580c;
-  /* Biraz daha koyu turuncu */
+
   color: white;
 }
 

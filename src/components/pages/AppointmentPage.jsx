@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Appointment from '../Appointment/Appointment';
-import './AppointmentPage.css'; // Temizlenmiş CSS dosyasını import et
+import './AppointmentPage.css';
 
 export default function AppointmentPage() {
    const { t } = useTranslation(['appointment']);
@@ -29,13 +29,12 @@ export default function AppointmentPage() {
    return (
       <main className="appointment-page-wrapper">
          <div className="appointment-page-container">
-            {/* Geri Dön Butonu */}
+
             <button onClick={() => navigate(-1)} className="back-link-btn">
                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                {t('appointment:page.back_button')}
             </button>
 
-            {/* Randevu Bileşeni */}
             <Appointment
                doctor={doctor}
                onSuccess={() => navigate('/')}

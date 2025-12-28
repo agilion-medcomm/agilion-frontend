@@ -16,8 +16,7 @@ export default function NotificationAlert() {
   useEffect(() => {
     if (showAlert && unreadCount > 0) {
       setVisible(true);
-      
-      // Auto-dismiss after 8 seconds
+
       const timer = setTimeout(() => {
         handleClose();
       }, 8000);
@@ -43,7 +42,7 @@ export default function NotificationAlert() {
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
       </div>
-      
+
       <div className="alert-content">
         <h3>You have new notifications</h3>
         <p>{unreadCount} unread {unreadCount === 1 ? 'notification' : 'notifications'}</p>

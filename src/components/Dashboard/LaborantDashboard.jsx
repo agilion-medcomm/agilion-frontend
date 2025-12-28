@@ -11,22 +11,18 @@ export default function LaborantDashboard() {
   const navigate = useNavigate();
   const { user, token } = usePersonnelAuth();
 
-  // Tab state
-  const [activeTab, setActiveTab] = useState('requests'); // 'requests', 'direct', or 'my-uploads'
+  const [activeTab, setActiveTab] = useState('requests');
 
-  // Lab Requests tab state
   const [labRequests, setLabRequests] = useState([]);
   const [requestsLoading, setRequestsLoading] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [requestsMessage, setRequestsMessage] = useState({ type: '', text: '' });
   const [claimingId, setClaimingId] = useState(null);
 
-  // My Uploads tab state
   const [myUploads, setMyUploads] = useState([]);
   const [uploadsLoading, setUploadsLoading] = useState(false);
   const [uploadsMessage, setUploadsMessage] = useState({ type: '', text: '' });
 
-  // Direct Upload tab state
   const [patientTckn, setPatientTckn] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
   const [testName, setTestName] = useState('');
@@ -41,19 +37,16 @@ export default function LaborantDashboard() {
     return null;
   }
 
-  // Fetch lab requests on component mount
   useEffect(() => {
     fetchLabRequests();
   }, []);
 
-  // Fetch uploads when tab changes
   useEffect(() => {
     if (activeTab === 'my-uploads') {
       fetchMyUploads();
     }
   }, [activeTab]);
 
-  // Fetch lab requests for this laborant
   const fetchLabRequests = async () => {
     try {
       setRequestsLoading(true);
@@ -76,7 +69,6 @@ export default function LaborantDashboard() {
     }
   };
 
-  // Fetch my uploads
   const fetchMyUploads = async () => {
     try {
       setUploadsLoading(true);
@@ -96,7 +88,6 @@ export default function LaborantDashboard() {
     }
   };
 
-  // Claim lab request
   const handleClaimRequest = async (requestId) => {
     try {
       setClaimingId(requestId);
@@ -106,13 +97,11 @@ export default function LaborantDashboard() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Update request status
       setLabRequests(labRequests.map(req =>
         req.id === requestId ? { ...req, status: 'ASSIGNED', assigneeLaborantId: user.laborantId } : req
       ));
       setRequestsMessage({ type: 'success', text: 'Talep başarıyla alındı!' });
 
-      // Auto-select for upload
       setSelectedRequest(labRequests.find(r => r.id === requestId));
     } catch (error) {
       setRequestsMessage({
@@ -124,7 +113,6 @@ export default function LaborantDashboard() {
     }
   };
 
-  // Upload file for lab request
   const handleUploadForRequest = async (e) => {
     e.preventDefault();
 
@@ -156,7 +144,6 @@ export default function LaborantDashboard() {
       setSelectedFile(null);
       setSelectedRequest(null);
 
-      // Refresh requests
       setTimeout(() => fetchLabRequests(), 1500);
     } catch (error) {
       setRequestsMessage({
@@ -168,7 +155,6 @@ export default function LaborantDashboard() {
     }
   };
 
-  // TCNO ile hasta ara (Direct Upload)
   const handleSearchPatient = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -208,7 +194,6 @@ export default function LaborantDashboard() {
       formData.append('testName', testName);
       formData.append('testDate', testDate);
       formData.append('description', description);
-      // NOT including requestId for direct upload
 
       const response = await axios.post(`${BaseURL}/medical-files`, formData, {
         headers: {
@@ -236,13 +221,12 @@ export default function LaborantDashboard() {
 
   return (
     <div className="laborant-dashboard">
-      {/* Header */}
+
       <div className="laborant-header">
         <h1>Laborant Paneli</h1>
         <p>Hoş geldiniz, {user.firstName} {user.lastName}</p>
       </div>
 
-      {/* Tab Navigation */}
       <div className="laborant-tabs">
         <button
           onClick={() => setActiveTab('requests')}
@@ -264,26 +248,23 @@ export default function LaborantDashboard() {
         </button>
       </div>
 
-      {/* Main Content Container */}
       <div className="laborant-content">
-        {/* ============ LAB REQUESTS TAB ============ */}
+
         {activeTab === 'requests' && (
           <div>
-            {/* Messages */}
+
             {requestsMessage.text && (
               <div className={`laborant-msg laborant-msg-${requestsMessage.type}`}>
                 {requestsMessage.text}
               </div>
             )}
 
-            {/* Loading State */}
             {requestsLoading && (
               <div className="loading-container">
                 <p>Talepler yükleniyor...</p>
               </div>
             )}
 
-            {/* No Requests State */}
             {!requestsLoading && labRequests.length === 0 && (
               <div className="loading-container">
                 <p style={{ margin: '0 0 16px 0' }}>Şu anda size atanan talep yok</p>
@@ -305,7 +286,6 @@ export default function LaborantDashboard() {
               </div>
             )}
 
-            {/* Requests List */}
             {!requestsLoading && labRequests.length > 0 && !selectedRequest && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {labRequests.map(req => (
@@ -380,7 +360,6 @@ export default function LaborantDashboard() {
               </div>
             )}
 
-            {/* File Upload for Selected Request */}
             {selectedRequest && (
               <div className="laborant-card" style={{ border: '2px solid #667eea' }}>
                 <button
@@ -445,7 +424,6 @@ export default function LaborantDashboard() {
           </div>
         )}
 
-        {/* ============ DIRECT UPLOAD TAB ============ */}
         {activeTab === 'direct' && (
           <div>
             {message.text && (
@@ -454,7 +432,6 @@ export default function LaborantDashboard() {
               </div>
             )}
 
-            {/* Step 1: Search Patient */}
             <div className="laborant-card" style={{ marginBottom: '30px' }}>
               <h2 style={{ marginTop: 0, fontSize: '18px', fontWeight: 700 }}>
                 Adım 1: Hastayı Ara
@@ -532,7 +509,6 @@ export default function LaborantDashboard() {
               )}
             </div>
 
-            {/* Step 2: Upload File */}
             {foundPatient && (
               <div className="laborant-card">
                 <h2 style={{ marginTop: 0, fontSize: '18px', fontWeight: 700 }}>
@@ -617,7 +593,6 @@ export default function LaborantDashboard() {
           </div>
         )}
 
-        {/* MY UPLOADS TAB */}
         {activeTab === 'my-uploads' && (
           <div>
             {uploadsMessage.text && (

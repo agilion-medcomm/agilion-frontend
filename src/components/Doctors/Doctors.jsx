@@ -7,7 +7,6 @@ import "./Doctors.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
-// Use new enum-based mapping
 const DEPARTMENT_KEYS = SPECIALTY_TRANSLATION_KEYS;
 
 export default function Doctors() {
@@ -18,11 +17,11 @@ export default function Doctors() {
   const [selectedDepartment, setSelectedDepartment] = useState('');
 
   const navigate = useNavigate();
-  const { user: patientUser } = useAuth(); // Hasta kullanıcısını çek
+  const { user: patientUser } = useAuth();
 
   useEffect(() => {
     setLoading(true);
-    // API'den doktorları çek
+
     fetch(`${API_BASE}/api/v1/doctors`)
       .then(res => {
         if (!res.ok) throw new Error(t('medical:doctors.loading_error'));
@@ -38,7 +37,6 @@ export default function Doctors() {
       });
   }, [t]);
 
-  // Doktor detay sayfasına git
   const handleViewDetails = (doc) => {
     navigate(`/doktor/${doc.id}`);
   };
@@ -51,7 +49,6 @@ export default function Doctors() {
         </div>
       </div>
 
-      {/* BÖLÜMLERİ GÖRE FİLTER */}
       <div className="doctors-filter-container">
         <label className="filter-label">{t('medical:doctors.filter_label')}</label>
         <select

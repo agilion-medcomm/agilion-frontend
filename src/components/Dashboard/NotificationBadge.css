@@ -27,9 +27,9 @@
 }
 
 .notification-bell.has-unread {
-  /* Animation removed as per user request */
+
   color: #3b82f6;
-  /* Optional: keep a color change to indicate state */
+
 }
 
 @keyframes bellRing {

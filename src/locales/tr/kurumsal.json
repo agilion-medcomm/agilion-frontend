@@ -1,43 +1,60 @@
 {
     "intro": {
-        "p1": "23 yıllık tecrübemizi, 2024 yılında hayata geçirdiğimiz yeni Tıp Merkezi projemizle taçlandırdık. 2500 m² genişliğindeki yeni binamızda, modern tıbbi donanımımız ve uzman hekimlerimizle 7/24 yanınızdayız.",
-        "p2": "Çağdaş tıbbın gerekliliklerini, yasal standartlara uygun ve etik ilkelerden taviz vermeden yerine getiriyoruz. Uzman ekibimizle, sadece hastalarımızın değil çalışanlarımızın da güven duyduğu bir yapı inşa ettik. Kaliteli ve ulaşılabilir sağlık hizmeti sunarken, toplumu bilgilendirmeyi ve koruyucu hekimliği yaygınlaştırmayı temel görevimiz kabul ediyoruz."
+        "p1": "23 yıllık tecrübemizi, 2024 yılında hayata geçirdiğimiz yeni Tıp Merkezi projemizle taçlandırdık. 2500 m² genişliğindeki yeni binamızda, modern tıbbi donanımımız ve uzman hekimlerimizle 7/24 yanınızdayız. Zeytinburnu Cerrahi Tıp Merkezi olarak, sağlık sektöründeki köklü geçmişimizi yenilikçi bir vizyonla birleştirerek bölgemize ve ülkemize hizmet vermenin gururunu yaşıyoruz.",
+        "p2": "Çağdaş tıbbın gerekliliklerini, yasal standartlara uygun ve etik ilkelerden taviz vermeden yerine getiriyoruz. Uzman ekibimizle, sadece hastalarımızın değil çalışanlarımızın da güven duyduğu bir yapı inşa ettik. Kaliteli ve ulaşılabilir sağlık hizmeti sunarken, toplumu bilgilendirmeyi ve koruyucu hekimliği yaygınlaştırmayı temel görevimiz kabul ediyoruz.",
+        "p3": "Hastanemizde; Acil Servis, Ağız ve Diş Sağlığı, Beslenme ve Diyet, Dermatoloji, Genel Cerrahi, Göz Sağlığı, İç Hastalıkları ve Kadın Hastalıkları-Doğum bölümlerinde alanında uzman hekimlerimizle hizmet vermekteyiz. Modern ameliyathane, doğumhane, laboratuvar, röntgen, ultrasonografi ve fizik tedavi ünitelerimizle tam teşekküllü bir sağlık kuruluşu olarak yanınızdayız."
     },
     "values": {
         "title": "DEĞERLERİMİZ",
+        "description": "Zeytinburnu Cerrahi Tıp Merkezi olarak, sağlık hizmeti sunumunda benimsediğimiz temel değerler, kurumsal kimliğimizin ve hizmet kalitemizin temelini oluşturmaktadır.",
         "items": [
             {
                 "bold": "İnsana Saygı:",
-                "text": " Hasta ve çalışan haklarına tam bağlılık."
+                "text": " Her bireyin eşsiz olduğu bilinciyle, hasta ve çalışan haklarına tam bağlılık gösteriyor, insan onurunu her koşulda koruyoruz."
             },
             {
                 "bold": "Mutluluk Odaklı:",
-                "text": " Koşulsuz hasta ve çalışan memnuniyeti."
+                "text": " Koşulsuz hasta ve çalışan memnuniyetini hedefliyor, sağlık hizmetinin sadece tedavi değil, aynı zamanda bir deneyim olduğuna inanıyoruz."
             },
             {
                 "bold": "Bilimsel Yaklaşım:",
-                "text": " Mesleki sorumluluk ve etik değerler."
+                "text": " Mesleki sorumluluk ve etik değerler çerçevesinde, kanıta dayalı tıp uygulamalarını benimseyerek en güncel tedavi protokollerini uyguluyoruz."
             },
             {
                 "bold": "7/24 Erişim:",
-                "text": " Kesintisiz ve ulaşılabilir sağlık hizmeti."
+                "text": " Sağlık ihtiyacının zamana bağlı olmadığını bilerek, kesintisiz ve ulaşılabilir sağlık hizmeti sunuyoruz."
             },
             {
                 "bold": "Açık İletişim:",
-                "text": " Yönetimde ve hizmette tam şeffaflık."
+                "text": " Yönetimde ve hizmette tam şeffaflık ilkesiyle, hastalarımızı tedavi süreçleri hakkında eksiksiz bilgilendiriyoruz."
             },
             {
                 "bold": "Güncel Tedavi:",
-                "text": " Kanıta dayalı, modern tıbbi hizmet."
+                "text": " Tıp dünyasındaki gelişmeleri yakından takip ederek, modern ve kanıta dayalı tıbbi hizmet sunuyoruz."
+            },
+            {
+                "bold": "Ekip Ruhu:",
+                "text": " Multidisipliner yaklaşımla, tüm sağlık profesyonellerimizin uyum içinde çalıştığı güçlü bir ekip anlayışını benimsiyoruz."
+            },
+            {
+                "bold": "Sürekli Gelişim:",
+                "text": " Kendimizi sürekli yenileyerek, eğitim ve teknolojik altyapı yatırımlarıyla hizmet kalitemizi her geçen gün artırıyoruz."
             }
         ]
     },
     "mission": {
         "title": "MİSYONUMUZ",
-        "text": "Sektördeki tüm gelişmeleri yakından takip ederek, etik ilkeler ışığında sağlık hizmetlerini topluma ulaştırmayı ilke ediniyoruz. 'Sürekli yenilenme' felsefemizle; evrensel, bilimsel ve teknolojik yenilikleri uygulamalarımıza entegre ederek yüksek kalitede hizmet sunmayı; hasta, hasta yakını ve çalışan memnuniyetini her zaman en üst düzeyde tutmayı hedefliyoruz."
+        "text": "Sektördeki tüm gelişmeleri yakından takip ederek, etik ilkeler ışığında sağlık hizmetlerini topluma ulaştırmayı ilke ediniyoruz. 'Sürekli yenilenme' felsefemizle; evrensel, bilimsel ve teknolojik yenilikleri uygulamalarımıza entegre ederek yüksek kalitede hizmet sunmayı; hasta, hasta yakını ve çalışan memnuniyetini her zaman en üst düzeyde tutmayı hedefliyoruz.",
+        "text2": "Koruyucu hekimlik anlayışını ön plana çıkararak, hastalıkların tedavisinden önce önlenmesi gerektiğine inanıyoruz. Toplum sağlığını geliştirmek için bilinçlendirme faaliyetleri yürütüyor, sağlıklı yaşam alışkanlıklarının kazandırılmasında aktif rol alıyoruz. Her hastamızı ailemizin bir ferdi olarak görüyor, kişiye özel ve bütüncül tedavi yaklaşımıyla sağlığınıza kavuşmanız için var gücümüzle çalışıyoruz."
     },
     "vision": {
         "title": "VİZYONUMUZ",
-        "text": "Mükemmeliyet ilkemiz; yasal düzenlemelere tam uyum çerçevesinde, uzman kadromuzla modern tıbbın ışığında koruyucu, tedavi edici ve bütüncül sağlık hizmetleri sunmaktır. Yenilikçi ve çağdaş yapımızla; hasta, hasta yakını ve çalışanlarımızın güvenliğini ve memnuniyetini esas alarak bu standartları sürdürülebilir kılmayı taahhüt ediyoruz"
+        "text": "Mükemmeliyet ilkemiz; yasal düzenlemelere tam uyum çerçevesinde, uzman kadromuzla modern tıbbın ışığında koruyucu, tedavi edici ve bütüncül sağlık hizmetleri sunmaktır. Yenilikçi ve çağdaş yapımızla; hasta, hasta yakını ve çalışanlarımızın güvenliğini ve memnuniyetini esas alarak bu standartları sürdürülebilir kılmayı taahhüt ediyoruz.",
+        "text2": "Bölgemizde ve ülkemizde sağlık hizmetlerinde öncü ve referans bir kurum olmayı, uluslararası kalite standartlarında hizmet veren, güvenilir ve tercih edilen bir sağlık merkezi olarak konumumuzu güçlendirmeyi hedefliyoruz. Teknolojik yatırımlarımız ve insan kaynağı gelişimimizle, geleceğin sağlık ihtiyaçlarına bugünden hazırlanıyoruz."
+    },
+    "about": {
+        "title": "HAKKIMIZDA",
+        "text": "Zeytinburnu Cerrahi Tıp Merkezi, 2001 yılından bu yana sağlık sektöründe edindiği deneyimi, 2024 yılında hizmete açtığı modern tesisiyle birleştirerek İstanbul'un kalbinde hizmet vermektedir. Merkezimiz, son teknoloji tıbbi cihazlar ve alanında uzman hekim kadrosuyla, poliklinik hizmetlerinden cerrahi müdahalelere kadar geniş bir yelpazede sağlık hizmeti sunmaktadır.",
+        "text2": "2500 metrekarelik modern binamızda; tam donanımlı ameliyathaneler, ileri teknoloji görüntüleme üniteleri, kapsamlı laboratuvar hizmetleri ve konforlu hasta odalarıyla, hastalarımıza en üst düzey sağlık hizmeti sunmayı amaçlıyoruz. Acil servisimiz 7/24 kesintisiz hizmet vererek, her an yanınızda olmaya devam etmektedir."
     }
 }

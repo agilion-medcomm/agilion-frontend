@@ -6,17 +6,16 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const BaseURL = `${API_BASE}/api/v1`;
 
 export default function DoctorDisplayPage() {
-  // Read theme directly from localStorage on mount to ensure new tab inherits correct theme
+
   const [isDark, setIsDark] = useState(() => {
     const storedTheme = localStorage.getItem('theme');
     return storedTheme === 'dark';
   });
 
-  // Also sync with context if it updates
   const { theme } = useTheme();
 
   useEffect(() => {
-    // Update isDark when context theme changes
+
     setIsDark(theme === 'dark');
   }, [theme]);
 
@@ -27,8 +26,6 @@ export default function DoctorDisplayPage() {
   const [department, setDepartment] = useState('');
   const [authError, setAuthError] = useState(false);
 
-  // Sayfa açıldığında localStorage'dan token varsa sessionStorage'ı da ayarla
-  // Bu sayede yeni sekmede context token'ı silmeyecek
   useEffect(() => {
     const token = localStorage.getItem('personnelToken');
     const storedUser = localStorage.getItem('personnelUser');
@@ -49,12 +46,11 @@ export default function DoctorDisplayPage() {
     }
   }, []);
 
-  // Her dakika güncelle
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
       fetchAppointments();
-    }, 60000); // 1 dakikada bir güncelle
+    }, 60000);
 
     return () => clearInterval(timer);
   }, []);
@@ -73,7 +69,7 @@ export default function DoctorDisplayPage() {
     }
 
     try {
-      // Backend'den kullanıcı bilgisini al
+
       const userRes = await axios.get(`${BaseURL}/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -163,7 +159,7 @@ export default function DoctorDisplayPage() {
           opacity: 0.5,
           border: isDark ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid #e2e8f0'
         };
-      default: // upcoming
+      default:
         return {
           backgroundColor: isDark ? 'rgba(255, 255, 255, 0.1)' : '#ffffff',
           borderLeft: '6px solid #3b82f6',

@@ -8,7 +8,6 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// Icons
 const PlusIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -51,11 +50,9 @@ const CameraIcon = () => (
   </svg>
 );
 
-// Avatar component with photo or initials
 const PersonnelAvatar = ({ img, firstName, lastName, initials, size = 'medium', onClick }) => {
   const displayInitials = initials || `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`;
 
-  // Generate consistent color from name
   const getAvatarColor = (name) => {
     const colors = [
       '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
@@ -99,19 +96,16 @@ export default function PersonnelPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [roleFilter, setRoleFilter] = useState('ALL');
 
-  // Modals
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [selectedPersonnel, setSelectedPersonnel] = useState(null);
 
-  // Photo upload state
   const [photoFile, setPhotoFile] = useState(null);
   const [photoPreview, setPhotoPreview] = useState(null);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
-  // Form state
   const [form, setForm] = useState({
     tckn: '',
     firstName: '',
@@ -168,12 +162,10 @@ export default function PersonnelPage() {
   const filterPersonnel = () => {
     let filtered = [...personnelList];
 
-    // Role filter
     if (roleFilter !== 'ALL') {
       filtered = filtered.filter(p => p.role === roleFilter);
     }
 
-    // Search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(p =>
@@ -220,7 +212,6 @@ export default function PersonnelPage() {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
 
-    // Prepare data for personnel creation (without doctor-specific bio fields)
     const dataToSend = {
       tckn: form.tckn,
       firstName: form.firstName,
@@ -232,7 +223,6 @@ export default function PersonnelPage() {
       role: form.role,
     };
 
-    // Add specialization for doctors
     if (form.role === 'DOCTOR' && form.specialization) {
       dataToSend.specialization = form.specialization;
     }
@@ -244,7 +234,6 @@ export default function PersonnelPage() {
 
       const createdPersonnelId = response.data?.data?.id;
 
-      // If photo was selected, upload it after personnel is created
       if (photoFile && createdPersonnelId) {
         const formData = new FormData();
         formData.append('photo', photoFile);
@@ -257,11 +246,10 @@ export default function PersonnelPage() {
           });
         } catch (photoError) {
           console.error('Photo upload failed:', photoError);
-          // Personnel was created, just photo failed
+
         }
       }
 
-      // If doctor, also create doctor-specific profile information
       if (form.role === 'DOCTOR' && createdPersonnelId) {
         const doctorProfileData = {};
         if (form.bio) doctorProfileData.biography = form.bio;
@@ -269,7 +257,6 @@ export default function PersonnelPage() {
         if (form.education) doctorProfileData.educationAndAchievements = form.education;
         if (form.principles) doctorProfileData.workPrinciples = form.principles;
 
-        // Only call doctor profile endpoint if there's doctor-specific data to add
         if (Object.keys(doctorProfileData).length > 0) {
           try {
             await axios.put(`${BaseURL}/doctors/${createdPersonnelId}/profile`, doctorProfileData, {
@@ -277,7 +264,7 @@ export default function PersonnelPage() {
             });
           } catch (profileError) {
             console.error('Doctor profile update failed:', profileError);
-            // Personnel was created, profile update failed
+
           }
         }
       }
@@ -303,7 +290,6 @@ export default function PersonnelPage() {
       dateOfBirth: form.dateOfBirth,
     };
 
-    // Add specialization to general personnel data if it's a doctor
     if (form.role === 'DOCTOR' && form.specialization) {
       updateData.specialization = form.specialization;
     }
@@ -313,12 +299,11 @@ export default function PersonnelPage() {
     }
 
     try {
-      // Update general personnel information
+
       await axios.put(`${BaseURL}/personnel/${selectedPersonnel.id}`, updateData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // If doctor, also update doctor-specific profile information
       if (form.role === 'DOCTOR') {
         const doctorProfileData = {};
         if (form.bio !== undefined) doctorProfileData.biography = form.bio;
@@ -326,7 +311,6 @@ export default function PersonnelPage() {
         if (form.education !== undefined) doctorProfileData.educationAndAchievements = form.education;
         if (form.principles !== undefined) doctorProfileData.workPrinciples = form.principles;
 
-        // Only call doctor profile endpoint if there's doctor-specific data to update
         if (Object.keys(doctorProfileData).length > 0) {
           await axios.put(`${BaseURL}/doctors/${selectedPersonnel.id}/profile`, doctorProfileData, {
             headers: { Authorization: `Bearer ${token}` }
@@ -391,7 +375,6 @@ export default function PersonnelPage() {
     setShowDeleteModal(true);
   };
 
-  // Photo handlers
   const openPhotoModal = (personnel) => {
     setSelectedPersonnel(personnel);
     setPhotoFile(null);
@@ -441,7 +424,6 @@ export default function PersonnelPage() {
       setPhotoPreview(null);
       fetchPersonnel();
 
-      // Refresh current user if they updated their own photo
       if (selectedPersonnel.id === user?.id || selectedPersonnel.userId === user?.id) {
         await refreshUser();
       }
@@ -468,7 +450,6 @@ export default function PersonnelPage() {
       setPhotoFile(null);
       fetchPersonnel();
 
-      // Refresh current user if they deleted their own photo
       if (selectedPersonnel.id === user?.id || selectedPersonnel.userId === user?.id) {
         await refreshUser();
       }
@@ -512,7 +493,7 @@ export default function PersonnelPage() {
 
   return (
     <div className="personnel-page">
-      {/* Header */}
+
       <div className="page-header">
         <div className="page-title-section">
           <h1 className="page-title">Personel Yönetimi</h1>
@@ -526,14 +507,12 @@ export default function PersonnelPage() {
         )}
       </div>
 
-      {/* Message */}
       {message.text && (
         <div className={`alert alert-${message.type}`}>
           {message.text}
         </div>
       )}
 
-      {/* Filters */}
       <div className="filters-section">
         <div className="search-box">
           <SearchIcon />
@@ -558,7 +537,6 @@ export default function PersonnelPage() {
         </div>
       </div>
 
-      {/* Personnel Table */}
       <div className="table-container">
         <table className="data-table">
           <thead>
@@ -631,7 +609,6 @@ export default function PersonnelPage() {
         </table>
       </div>
 
-      {/* Add Personnel Modal */}
       {showAddModal && (
         <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -642,7 +619,7 @@ export default function PersonnelPage() {
               </button>
             </div>
             <form onSubmit={handleAddPersonnel} className="modal-form">
-              {/* Photo Upload Section */}
+
               <div className="form-photo-section">
                 <div className="photo-upload-preview">
                   {photoPreview ? (
@@ -815,7 +792,6 @@ export default function PersonnelPage() {
         </div>
       )}
 
-      {/* Edit Personnel Modal */}
       {showEditModal && (
         <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -940,7 +916,6 @@ export default function PersonnelPage() {
         </div>
       )}
 
-      {/* Delete Confirmation Modal */}
       {showDeleteModal && selectedPersonnel && (
         <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
           <div className="modal-content modal-small" onClick={(e) => e.stopPropagation()}>
@@ -971,7 +946,6 @@ export default function PersonnelPage() {
         </div>
       )}
 
-      {/* Photo Upload Modal */}
       {showPhotoModal && selectedPersonnel && (
         <div className="modal-overlay" onClick={() => setShowPhotoModal(false)}>
           <div className="modal-content modal-photo" onClick={(e) => e.stopPropagation()}>

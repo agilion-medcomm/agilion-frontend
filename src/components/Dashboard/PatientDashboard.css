@@ -1,9 +1,8 @@
-/* --- AYARLAR SEKMESİ MODERN TASARIM --- */
 
 .settings-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    /* Responsive Grid */
+
     gap: 2rem;
     margin-top: 1rem;
     animation: fadeIn 0.4s ease-out;
@@ -23,7 +22,6 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Kart Başlıkları */
 .settings-header {
     display: flex;
     align-items: center;
@@ -50,7 +48,6 @@
     box-sizing: content-box;
 }
 
-/* Form Elemanları */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -95,7 +92,6 @@
     border-color: #f1f5f9;
 }
 
-/* Butonlar */
 .btn-save {
     width: 100%;
     padding: 1rem;

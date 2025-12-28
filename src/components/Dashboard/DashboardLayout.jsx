@@ -11,7 +11,6 @@ import './DashboardLayout.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
-// Icons
 const HomeIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
@@ -126,13 +125,11 @@ const DisplayIcon = () => (
   </svg>
 );
 
-import { useTheme } from '../../context/ThemeContext'; // Import useTheme
-
-// ... imports remain the same
+import { useTheme } from '../../context/ThemeContext';
 
 export default function DashboardLayout() {
   const { user, logoutPersonnel } = usePersonnelAuth();
-  const { theme } = useTheme(); // Get theme if needed, but don't toggle
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 1024);
@@ -145,11 +142,10 @@ export default function DashboardLayout() {
 
   const handleLogout = () => {
     logoutPersonnel();
-    // Replace history and force page reload to clear all cached state
+
     window.location.href = '/personelLogin';
   };
 
-  // Define navigation based on role
   const getNavigation = () => {
     const isAdmin = user?.role === 'ADMIN';
     const isDoctor = user?.role === 'DOCTOR';
@@ -185,7 +181,6 @@ export default function DashboardLayout() {
       ];
     }
 
-    // Laborant role
     if (user?.role === 'LABORANT') {
       return [
         { path: '/dashboard/laborant', icon: <HomeIcon />, label: 'Dosya Yükle' },
@@ -193,7 +188,6 @@ export default function DashboardLayout() {
       ];
     }
 
-    // Cleaner role
     if (user?.role === 'CLEANER') {
       return [
         { path: '/dashboard/cleaner', icon: <HomeIcon />, label: 'Temizlik Paneli' },
@@ -201,7 +195,6 @@ export default function DashboardLayout() {
       ];
     }
 
-    // Cashier role
     if (user?.role === 'CASHIER') {
       return [
         { path: '/dashboard/payments', icon: <HomeIcon />, label: 'Randevu Oluştur' },
@@ -210,7 +203,6 @@ export default function DashboardLayout() {
       ];
     }
 
-    // Lab Tech role
     if (user?.role === 'LAB_TECH') {
       return [
         ...baseNav,
@@ -219,7 +211,6 @@ export default function DashboardLayout() {
       ];
     }
 
-    // Patient role
     if (user?.role === 'PATIENT') {
       return [
         ...baseNav,
@@ -245,7 +236,7 @@ export default function DashboardLayout() {
 
   return (
     <div className={`dashboard-container ${sidebarCollapsed ? 'sidebar-collapsed' : 'sidebar-expanded'}`} data-theme={theme}>
-      {/* Backdrop for mobile */}
+
       {!sidebarCollapsed && (
         <div
           className="sidebar-backdrop"
@@ -253,7 +244,6 @@ export default function DashboardLayout() {
         ></div>
       )}
 
-      {/* Sidebar */}
       <aside className={`dashboard-sidebar ${sidebarCollapsed ? 'collapsed' : ''}`}>
         <div className="sidebar-header">
           {sidebarCollapsed ? (
@@ -304,7 +294,7 @@ export default function DashboardLayout() {
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
-                  // Yeni sekmede açılmadan önce bir flag koyalım
+
                   localStorage.setItem('doctorDisplaySession', 'true');
                   window.open(item.path, '_blank');
                 }}
@@ -343,7 +333,6 @@ export default function DashboardLayout() {
         </div>
       </aside>
 
-      {/* Main Content */}
       <main className="dashboard-main">
         <Outlet />
       </main>

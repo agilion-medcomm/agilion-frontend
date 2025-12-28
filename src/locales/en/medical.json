@@ -25,7 +25,8 @@
                 "title": "Emergency 7/24",
                 "content_title": "Emergency Polyclinic",
                 "p1": "We are aware that immediate intervention is vital in all health problems that develop suddenly and threaten life integrity. Our Emergency Service Unit provides 24/7 uninterrupted service with our expert physicians and experienced medical personnel.",
-                "p2": "Our emergency service is not just an entry point for our hospital; it is a full-fledged life support center for our patients in life-threatening conditions. We have the advanced technological infrastructure and expert staff to respond as quickly as possible to all kinds of emergencies, from heart attacks to trauma, high fever to suddenly developing pains. Every patient applying to our hospital undergoes a comprehensive initial examination by our expert physicians, and their health status is meticulously analyzed. Required blood tests and radiological examinations are rapidly concluded in our laboratory and imaging units with emergency service priority. Our patients requiring short-term treatment or clinical observation are followed under expert supervision in our comfortable observation rooms equipped with all kinds of medical support and monitoring. Our emergency service works in 24-hour uninterrupted communication and coordination with all specialty branches of our hospital such as Cardiology, Neurology, and General Surgery. When needed, relevant branch physicians are rapidly called for consultation, and the most accurate holistic treatment process for our patient is started without delay. Our patients whose intervention is completed are discharged, admitted to our relevant services, or organized in a fully equipped manner for advanced examination processes according to their health status requirements.",
+                "p2": "Our emergency service is not just an entry point for our hospital; it is a full-fledged life support center for our patients in life-threatening conditions. We have the advanced technological infrastructure and expert staff to respond as quickly as possible to all kinds of emergencies, from heart attacks to trauma, high fever to suddenly developing pains. Every patient applying to our hospital undergoes a comprehensive initial examination by our expert physicians, and their health status is meticulously analyzed.",
+                "p3": "Required blood tests and radiological examinations are rapidly concluded in our laboratory and imaging units with emergency service priority. Our patients requiring short-term treatment or clinical observation are followed under expert supervision in our comfortable observation rooms equipped with all kinds of medical support and monitoring. Our emergency service works in 24-hour uninterrupted communication and coordination with all specialty branches of our hospital such as Cardiology, Neurology, and General Surgery. When needed, relevant branch physicians are rapidly called for consultation, and the most accurate holistic treatment process for our patient is started without delay.",
                 "tags": [
                     "Examination",
                     "Intervention",
@@ -44,7 +45,9 @@
             "dis": {
                 "title": "Oral and Dental",
                 "content_title": "Oral and Dental Health",
-                "p1": "Our hospital's Oral and Dental Health unit utilizes all the possibilities of modern medicine to provide you with the most ideal smile as well as protecting your dental and gum health. In our clinical environment equipped with an expert physician staff and advanced technological equipment, we carry out personalized treatment planning for our patients of all ages. While we ensure our little guests overcome their fears with our sensitive approach in the field of pediatric dentistry (pedodontics), we bring functionality together with aesthetics through aesthetic dentistry, smile design, whitening, and laminate applications in adults. With our experienced team, we provide services in a wide range from modern implant surgery that permanently resolves tooth loss to sensitive root canal treatment and filling procedures aimed at tooth preservation. Without compromising on sterilization and disinfection standards in our treatment processes, we aim to make the most accurate diagnosis with the help of intraoral scanners and digital imaging systems. We provide a reliable, comfortable, and result-oriented health service in preventive dentistry and surgical operations to both improve our patients' oral health and increase their quality of life.",
+                "p1": "Our hospital's Oral and Dental Health unit utilizes all the possibilities of modern medicine to provide you with the most ideal smile as well as protecting your dental and gum health. In our clinical environment equipped with an expert physician staff and advanced technological equipment, we carry out personalized treatment planning for our patients of all ages. While we ensure our little guests overcome their fears with our sensitive approach in the field of pediatric dentistry (pedodontics), we bring functionality together with aesthetics through aesthetic dentistry, smile design, whitening, and laminate applications in adults.",
+                "p2": "With our experienced team, we provide services in a wide range from modern implant surgery that permanently resolves tooth loss to sensitive root canal treatment and filling procedures aimed at tooth preservation. Without compromising on sterilization and disinfection standards in our treatment processes, we aim to make the most accurate diagnosis with the help of intraoral scanners and digital imaging systems.",
+                "p3": "We provide a reliable, comfortable, and result-oriented health service in preventive dentistry and surgical operations to both improve our patients' oral health and increase their quality of life. Dental scaling, gum treatments, cavity treatment, root canal treatment, tooth extraction, wisdom tooth operations, and prosthetic applications are among the procedures successfully performed in our clinic.",
                 "tags": [
                     "Implant",
                     "Surgical Tooth Extraction",
@@ -54,14 +57,21 @@
                     "Restorative Dental Treatment",
                     "Teeth Whitening",
                     "Zirconium",
-                    "Smile Design"
+                    "Smile Design",
+                    "Root Canal Treatment",
+                    "Dental Scaling",
+                    "Filling",
+                    "Gum Treatment",
+                    "Wisdom Tooth Extraction",
+                    "Crown and Bridge"
                 ]
             },
             "diyet": {
                 "title": "Nutrition and Diet",
                 "content_title": "Nutrition and Diet",
                 "p1": "In our Nutrition and Diet Polyclinic, we offer professional diet and nutrition counseling to support healthy living, provide weight management, and support the prevention and treatment processes of diseases. We help you gain a sustainable healthy life habit by creating personalized nutrition plans suitable for each individual's health and lifestyle.",
-                "p2": "Following comprehensive evaluations performed by our expert dietitians in our polyclinic, body analysis, metabolic rate, and needs analyses are conducted, and support is provided in many areas from weight management to nutrition plans specific to diseases. While taking a step towards a healthy future, we are by your side with our diet and nutrition recommendations that will increase your quality of life.",
+                "p2": "Following comprehensive evaluations performed by our expert dietitians in our polyclinic, body analysis, metabolic rate, and needs analyses are conducted, and support is provided in many areas from weight management to nutrition plans specific to diseases.",
+                "p3": "Nutrition therapy is of great importance in chronic diseases such as diabetes, cardiovascular diseases, kidney disorders, digestive system problems, and allergic conditions. We also provide professional support in special nutrition programs that support maternal and infant health during pregnancy and breastfeeding, sports nutrition, and child nutrition. While taking a step towards a healthy future, we are by your side with our diet and nutrition recommendations that will increase your quality of life.",
                 "services_header": "OUR SERVICES",
                 "tags": [
                     "Nutrition",
@@ -140,7 +150,8 @@
                 "title": "Dermatology",
                 "content_title": "Dermatology",
                 "p1": "The Dermatology unit is a basic medical branch focusing on the health of the skin, which is our body's largest and most important defense shield against the outside world, as well as its appendages such as hair and nails. In our department, not only the diagnosis and treatment of skin diseases but also oral and nasal mucosa problems and the detection and follow-up of sexually transmitted diseases are meticulously carried out by our expert physicians. Since skin health is a reflection of general body integrity, the symptoms that appear can sometimes create only an aesthetic concern, while at other times they can be heralds of more serious underlying health problems.",
-                "p2": "Since dermatological disorders that directly affect external appearance also closely concern individuals' social lives and psychological well-being, both medical and aesthetic solutions are offered together in our modern clinical environment. Diagnostic processes are carried out with advanced technological devices in a wide range from chronic conditions such as acne, eczema, and psoriasis to skin tumors and allergic reactions. With the awareness that early diagnosis and rapid treatment planning are of vital importance to stop the progression of the disease and prevent permanent damage, a modern and reliable treatment protocol specific to each patient is applied.",
+                "p2": "Since dermatological disorders that directly affect external appearance also closely concern individuals' social lives and psychological well-being, both medical and aesthetic solutions are offered together in our modern clinical environment. Diagnostic processes are carried out with advanced technological devices in a wide range from chronic conditions such as acne, eczema, and psoriasis to skin tumors and allergic reactions.",
+                "p3": "With the awareness that early diagnosis and rapid treatment planning are of vital importance to stop the progression of the disease and prevent permanent damage, a modern and reliable treatment protocol specific to each patient is applied. Advanced diagnostic methods such as dermoscopy, allergy tests, fungal culture, and skin biopsy are performed in our clinic. We offer comprehensive services to our patients with modern treatment options such as laser treatments, cryotherapy, and medical skincare.",
                 "tags": [
                     "Acne",
                     "Pruritus",
@@ -177,7 +188,8 @@
                 "title": "General Surgery",
                 "content_title": "General Surgery",
                 "p1": "General Surgery is one of the widest and most basic disciplines of medicine, providing surgical treatment for many systemic and local diseases in the body. Our department works in full integration and cooperation with all other medical branches to provide the most accurate treatment protocol for our patients. In addition to traditional open surgery methods, advanced endoscopic and laparoscopic (closed) surgical interventions that shorten our patients' recovery times and increase their comfort are applied by our expert surgeons with high success rates.",
-                "p2": "In our unit; thyroid gland (goiter) diseases, breast health and surgery, esophagus, stomach, small and large intestine disorders, and all surgical processes covering the rectum and anus region are meticulously managed. In addition, liver, gallbladder, bile duct diseases, and all kinds of hernia operations are performed with modern medical technologies. Our general surgery team, which focuses on patient safety at every step from the diagnosis phase to the rehabilitation process, aims to produce permanent and effective solutions for your health problems by using the most up-to-date techniques offered by modern medicine even in complex surgical cases.",
+                "p2": "In our unit; thyroid gland (goiter) diseases, breast health and surgery, esophagus, stomach, small and large intestine disorders, and all surgical processes covering the rectum and anus region are meticulously managed. In addition, liver, gallbladder, bile duct diseases, and all kinds of hernia operations are performed with modern medical technologies.",
+                "p3": "Our general surgery team, which focuses on patient safety at every step from the diagnosis phase to the rehabilitation process, aims to produce permanent and effective solutions for your health problems by using the most up-to-date techniques offered by modern medicine even in complex surgical cases. Diagnostic procedures such as endoscopy and colonoscopy, treatment of proctological diseases such as hemorrhoids, anal fissure, pilonidal sinus, and circumcision operations are also successfully performed in our clinic.",
                 "tags": [
                     "Endoscopy",
                     "Colonoscopy",
@@ -208,7 +220,8 @@
                 "title": "Eye Health",
                 "content_title": "Eye Health",
                 "p1": "Eye health is a vital element that directly affects how individuals perceive the world and their general quality of life, and should be emphasized with sensitivity. Even the slightest loss in vision can limit daily activities and negatively affect a person's independence. Although some eye diseases do not show significant symptoms in the initial stage, if they are not diagnosed and treated in the early period, they can progress rapidly and lead to permanent and irreversible damage, even vision loss.",
-                "p2": "In order to prevent these risks, regular eye examinations performed with advanced technological devices play a critical role in detecting possible diseases at their very initial stage. At our hospital, comprehensive screening and treatment services are offered to protect the eye health of individuals of all ages. To ensure early detection of serious health problems such as cataract, glaucoma (eye pressure), and retina diseases as well as vision defects, we strongly recommend that even healthy individuals with no complaints undergo a detailed eye screening at least once a year.",
+                "p2": "In order to prevent these risks, regular eye examinations performed with advanced technological devices play a critical role in detecting possible diseases at their very initial stage. At our hospital, comprehensive screening and treatment services are offered to protect the eye health of individuals of all ages.",
+                "p3": "To ensure early detection of serious health problems such as cataract, glaucoma (eye pressure), and retina diseases as well as vision defects, we strongly recommend that even healthy individuals with no complaints undergo a detailed eye screening at least once a year. With our comprehensive services including eye examination, glasses and lens prescription, eye pressure measurement, fundus examination, and visual field test, we protect your eye health.",
                 "tags": [
                     "General Examination",
                     "Eye Redness",
@@ -232,7 +245,8 @@
                 "title": "Internal Medicine",
                 "content_title": "Internal Medicine",
                 "p1": "Our hospital's Internal Medicine polyclinic serves as the first point of contact and solution center for the health problems of adult patients. Our expert physician staff meticulously carries out the diagnosis, treatment, and follow-up processes of a wide range of diseases, considering the complex relationship of body systems with each other. In our unit, all processes from common infectious diseases such as bronchitis, cold, and cystitis to metabolic disorders such as diabetes (sugar disease), hypertension, and goiter, which are among the most important health problems of the modern age, are managed with current medical protocols.",
-                "p2": "Our Internal Medicine unit not only treats individual diseases but also plays a critical role in the early diagnosis of complaints related to the cardiovascular system such as heart failure and palpitations. In order to prevent diseases and keep chronic conditions under control, personalized treatment plans are created by considering our patients' life styles and genetic backgrounds. Thanks to our multifaceted perspective, we aim to make the most accurate diagnosis in patients with complex health problems and help you regain your health as soon as possible by working in coordination with other branches when needed.",
+                "p2": "Our Internal Medicine unit not only treats individual diseases but also plays a critical role in the early diagnosis of complaints related to the cardiovascular system such as heart failure and palpitations. In order to prevent diseases and keep chronic conditions under control, personalized treatment plans are created by considering our patients' life styles and genetic backgrounds.",
+                "p3": "Thanks to our multifaceted perspective, we aim to make the most accurate diagnosis in patients with complex health problems and help you regain your health as soon as possible by working in coordination with other branches when needed. We are by your side with our expert staff in check-up and general health screenings, chronic disease follow-up, vaccination services, and elderly health (geriatrics).",
                 "tags": [
                     "Blood Diseases",
                     "Respiratory Infections",
@@ -256,7 +270,8 @@
                 "title": "Obstetrics & Gynecology",
                 "content_title": "Obstetrics & Gynecology",
                 "p1": "Our hospital's Obstetrics and Gynecology clinic aims to protect and improve women's health with a holistic approach at every stage of life. Our expert team, which closely follows all scientific developments and innovative treatment methods in the medical world in their field, provides a world-class service using the most advanced technological possibilities offered by modern medicine. We are by your side with high success rates in the diagnosis and treatment of all gynecological disorders in the period extending from adolescence to menopause.",
-                "p2": "In our unit, the pregnancy process is managed with the principle of protecting maternal and infant health at the highest level. Starting from pre-pregnancy counseling services, we exhibit a multidisciplinary approach in prenatal follow-up, management of high-risk pregnancies, and the solution of all kinds of problems that may be encountered regarding birth. With our modern delivery rooms and advanced imaging systems, we aim to complete this miraculous process in the safest and most comfortable way for both the expectant mother and the baby. In our clinic, which is proficient in all details of women's health, providing a personalized, ethics-bound, and empathy-oriented health service for each of our patients is our most basic priority.",
+                "p2": "In our unit, the pregnancy process is managed with the principle of protecting maternal and infant health at the highest level. Starting from pre-pregnancy counseling services, we exhibit a multidisciplinary approach in prenatal follow-up, management of high-risk pregnancies, and the solution of all kinds of problems that may be encountered regarding birth.",
+                "p3": "With our modern delivery rooms and advanced imaging systems, we aim to complete this miraculous process in the safest and most comfortable way for both the expectant mother and the baby. In our clinic, which is proficient in all details of women's health, providing a personalized, ethics-bound, and empathy-oriented health service for each of our patients is our most basic priority. We support women's health in all aspects with our services such as gynecological ultrasound, smear test, HPV screening, intrauterine device (IUD) applications, and menopause counseling.",
                 "tags": [
                     "General Examination",
                     "Cyst Examination",
@@ -304,60 +319,200 @@
             "anestezi": {
                 "title": "Anesthesiology & Reanimation",
                 "content_title": "Anesthesiology and Reanimation",
-                "text": "Anesthesiology and reanimation are medical practices used to ensure the patient loses consciousness during surgery or other medical interventions and to maintain vital functions. Anesthesia is used to prevent the patient from feeling pain. Reanimation refers to medical interventions performed to save lives in emergencies."
+                "text": "Our Anesthesiology and Reanimation unit provides 24/7 service to ensure the safety and comfort of our patients at the highest level before, during, and after surgical interventions. Our expert anesthesiologists and experienced healthcare team determine the most appropriate anesthesia method by considering each patient's individual characteristics and medical history.",
+                "text2": "In our unit, all modern anesthesia techniques such as general anesthesia, regional anesthesia (spinal, epidural), local anesthesia, and sedation are applied. During the preoperative evaluation process, our patients' cardiovascular system, respiratory functions, and metabolic status are comprehensively examined. During surgery, our patients' vital signs are continuously monitored with state-of-the-art monitoring devices to ensure their safety.",
+                "text3": "In the field of reanimation, treatment of critically ill patients requiring intensive care, mechanical ventilation support, hemodynamic stabilization, and emergency resuscitation procedures are successfully performed. Patient-controlled analgesia (PCA) systems and multimodal analgesia protocols are used in postoperative pain management to ensure our patients have a comfortable recovery process.",
+                "tags": [
+                    "General Anesthesia",
+                    "Spinal Anesthesia",
+                    "Epidural Anesthesia",
+                    "Local Anesthesia",
+                    "Sedation",
+                    "Preoperative Evaluation",
+                    "Monitoring",
+                    "Pain Management",
+                    "Intensive Care",
+                    "Mechanical Ventilation"
+                ]
             },
             "ameliyathane": {
                 "title": "Operating Room",
                 "content_title": "Operating Room",
-                "text": "The operating room is a special department where medical interventions are performed. Many different procedures are carried out here and the surgical process is meticulously planned and implemented."
+                "text": "Our hospital's operating room unit serves with fully equipped operation halls that have international standard sterilization conditions. Our operating rooms, equipped with modern surgical devices, advanced lighting systems, and high-tech monitoring equipment, provide ideal conditions for all kinds of surgical interventions.",
+                "text2": "In our operating rooms, infection risk is minimized by providing laminar airflow with HEPA-filtered ventilation systems. Our surgical teams perform operations in a wide range, including general surgery, obstetrics and gynecology, eye surgery, dental surgery, and minor surgical interventions.",
+                "text3": "Comfort and safety of our patients are prioritized at every stage from preoperative preparation to postoperative recovery period. Our experienced operating room nurses and healthcare personnel provide professional care services by being with our patients throughout the operation. Thanks to laparoscopic and minimally invasive surgical techniques, our patients' recovery times are shortened and their postoperative comfort is increased.",
+                "tags": [
+                    "General Surgery Operations",
+                    "Laparoscopic Surgery",
+                    "Gynecological Operations",
+                    "Eye Operations",
+                    "Dental Surgery",
+                    "Minor Surgical Interventions",
+                    "Cesarean Section",
+                    "Endoscopic Procedures",
+                    "Biopsy",
+                    "Cyst Operations"
+                ]
             },
             "dogumhane": {
                 "title": "Delivery Room",
                 "content_title": "Delivery Room",
-                "text": "When you apply to the hospital, your doctor first examines you and determines whether labor has actually started. The onset of labor is only understood by vaginal examination."
+                "text": "Our delivery room unit has been carefully designed for expectant mothers to experience this special and miraculous moment in the safest and most comfortable way. Our delivery rooms, equipped with modern delivery tables, fetal monitoring systems, and emergency intervention equipment, provide 24-hour uninterrupted service with our experienced obstetricians and midwife staff.",
+                "text2": "During the delivery process, maternal and infant health is continuously monitored, and the baby's heartbeat and maternal contractions are tracked with NST (Non-Stress Test). With our normal delivery-priority approach, cesarean operations are also performed at the highest safety standards when medically necessary. Epidural anesthesia for painless delivery is also offered to expectant mothers.",
+                "text3": "In the postpartum period, breastfeeding counseling, newborn care, and maternal health follow-up are provided in our special rooms where mother and baby stay together. In our delivery room integrated with the newborn unit, the baby's first examination, screening tests, and vaccinations are fully performed. Special protocols are applied for expectant mothers requiring high-risk pregnancy follow-up, aiming for a healthy delivery process.",
+                "tags": [
+                    "Normal Delivery",
+                    "Cesarean Delivery",
+                    "Epidural Anesthesia",
+                    "Fetal Monitoring",
+                    "NST Follow-up",
+                    "Breastfeeding Counseling",
+                    "Newborn Care",
+                    "High-Risk Pregnancy Follow-up",
+                    "Prenatal Preparation",
+                    "Mother-Baby Room"
+                ]
             },
             "rontgen": {
                 "title": "X-Ray",
-                "content_title": "X-Ray",
-                "text": "X-ray is a medical imaging technology used to image the human body and other objects. This technology works with the use of X-rays."
+                "content_title": "X-Ray and Radiology",
+                "text": "Our X-ray unit serves as one of the cornerstones of diagnostic imaging services with state-of-the-art digital X-ray devices. Our systems that obtain high-quality images with low radiation doses are of critical importance in the diagnosis of bone fractures, joint diseases, lung disorders, and many other diseases.",
+                "text2": "In our unit, direct radiographs (chest, abdomen, bone, joint X-rays), orthopantomography (panoramic dental X-ray), and specially positioned imaging studies are performed. Thanks to the digital imaging system, X-ray results can be evaluated instantly and saved electronically in our patients' files. This allows comparison with past images and facilitates the follow-up of the treatment process.",
+                "text3": "Our experienced radiology technicians obtain the optimal image quality with appropriate positioning and correct technical parameters for each patient's physical characteristics. The examination results are reported in detail by our specialist radiologists and communicated to the relevant clinics. With our capacity to provide rapid results in emergencies, we also provide uninterrupted support to our hospital's emergency department.",
+                "tags": [
+                    "Chest X-Ray",
+                    "Bone X-Ray",
+                    "Joint X-Ray",
+                    "Abdominal X-Ray",
+                    "Panoramic Dental X-Ray",
+                    "Sinus Radiograph",
+                    "Spine X-Ray",
+                    "Hand-Wrist Radiograph",
+                    "Pelvis X-Ray",
+                    "Digital Imaging"
+                ]
             },
             "laboratuvar": {
                 "title": "Laboratory",
-                "content_title": "Laboratory",
-                "text": "Zeytinburnu Medical Center, while providing emergency and routine laboratory services to its patients, continues its service 7 days a week."
+                "content_title": "Medical Laboratory",
+                "text": "Zeytinburnu Medical Center Laboratory is a fully equipped laboratory that provides 24/7 uninterrupted service to our patients and operates according to international quality standards. We have adopted producing reliable and fast test results as our fundamental principle with our state-of-the-art automated analysis systems and experienced laboratory team.",
+                "text2": "In our laboratory, more than 500 different test parameters are studied, including biochemistry, hematology, microbiology, serology, hormones, urine and stool tests, coagulation tests, and cardiac markers. The accuracy and reliability of our results are continuously audited through our regular participation in internal and external quality control programs.",
+                "text3": "In emergency patient evaluations, critical tests are prioritized and concluded in the shortest time. Comprehensive health screenings can be performed within check-up packages, and rapid appointment systems are available for routine checks. Blood collection procedures are performed by our experienced phlebotomists under hygienic conditions with minimal pain. We also reach our patients with limited mobility through our home sample collection service.",
+                "tags": [
+                    "Complete Blood Count",
+                    "Biochemistry Tests",
+                    "Hormone Tests",
+                    "Urine Analysis",
+                    "Stool Analysis",
+                    "Coagulation Tests",
+                    "Thyroid Function Tests",
+                    "Cardiac Markers",
+                    "Hepatitis Tests",
+                    "Check-Up Packages",
+                    "HbA1c",
+                    "Lipid Profile"
+                ]
             },
             "fizik": {
                 "title": "Physical Therapy",
-                "content_title": "Physical Therapy",
-                "text": "In our Physical Therapy and Rehabilitation unit; diagnosis and treatment of muscle, joint, bone and spine diseases are applied."
+                "content_title": "Physical Therapy and Rehabilitation",
+                "text": "Our Physical Therapy and Rehabilitation unit serves with a team specialized in the treatment of musculoskeletal system diseases, neurological disorders, post-orthopedic surgery rehabilitation, and chronic pain syndromes. Our aim is to maximize our patients' functional capacity, reduce their pain, and improve their quality of life.",
+                "text2": "In our unit, electrotherapy (TENS, interferential current, ultrasound, laser), manual therapy, exercise therapy, hydrotherapy, and various physical therapy modalities are applied. Treatment protocols are applied in a wide range of diseases, including lumbar and cervical disc herniation, shoulder impingement syndrome, tennis elbow, carpal tunnel syndrome, fibromyalgia, osteoarthritis, and rheumatic diseases.",
+                "text3": "Post-orthopedic surgery rehabilitation programs (knee prosthesis, hip prosthesis, shoulder surgery), stroke (paralysis) rehabilitation, and treatment of sports injuries are also among our unit's areas of expertise. Personalized rehabilitation programs are prepared for each patient, and their active participation in the treatment process is encouraged. With our modern physical therapy devices and experienced physiotherapists, we aim to help our patients recover in the shortest time.",
+                "tags": [
+                    "Lumbar Disc Herniation Treatment",
+                    "Cervical Disc Herniation Treatment",
+                    "Shoulder Rehabilitation",
+                    "Knee Rehabilitation",
+                    "Manual Therapy",
+                    "Electrotherapy",
+                    "TENS Treatment",
+                    "Laser Therapy",
+                    "Ultrasound Therapy",
+                    "Exercise Programs",
+                    "Stroke Rehabilitation",
+                    "Sports Injuries"
+                ]
             },
             "saglik_raporlari": {
                 "title": "Health Reports",
-                "content_title": "Health Reports",
-                "text": "Health Reports Given by Our Institution",
+                "content_title": "Health Reports Unit",
+                "text": "Our Health Reports unit prepares all health reports required by official institutions and the private sector in accordance with international standards and legal regulations. Following comprehensive examinations and necessary tests performed by our experienced physicians, reports that accurately and reliably reflect the person's health status are prepared.",
+                "text2": "In our unit, various types of reports such as driver's license health report, gun license report, employment entrance and periodic examination reports, marriage health report, sports license report, pool card report, health report for overseas visa applications, and student health reports are prepared.",
+                "text3": "The examinations and tests required for health report procedures (eye examination, hearing test, blood tests, ECG, etc.) can be completed at once in the relevant units of our hospital. Reports are usually prepared and delivered on the same day. Within the scope of our corporate agreements, mass employment entrance examinations and periodic health screenings are also offered with organization-specific programs.",
                 "tags": [
-                    "Marriage health report",
-                    "Driver health report",
-                    "Sports health report",
-                    "Pool health report",
-                    "Work health report",
-                    "Travel Document"
+                    "Driver's License Health Report",
+                    "Gun License Report",
+                    "Employment Entrance Report",
+                    "Periodic Examination",
+                    "Marriage Health Report",
+                    "Sports License Report",
+                    "Pool Card Report",
+                    "Student Health Report",
+                    "Travel Document",
+                    "Visa Health Report",
+                    "Height Work Report",
+                    "Heavy Work Report"
                 ]
             },
             "ultrason": {
                 "title": "Ultrasonography",
-                "content_title": "Ultrasonography",
-                "text": "With Ultrasound (USG), information about internal organs can be obtained and it is used to monitor the fetus in pregnancy diagnosis and control."
+                "content_title": "Ultrasonography (USG)",
+                "text": "Our Ultrasonography unit provides safe and painless imaging services with sound wave technology that does not contain radiation. With our state-of-the-art ultrasound devices and experienced specialists, we play a critical role in detailed examination of internal organs and early diagnosis of diseases.",
+                "text2": "In our unit, abdominal ultrasound, pelvic ultrasound, thyroid and neck ultrasound, breast ultrasound, musculoskeletal ultrasound, soft tissue ultrasound, and Doppler ultrasonography services are provided. Especially in the evaluation of the liver, gallbladder, kidneys, spleen, pancreas, bladder, and reproductive organs, ultrasound is an indispensable diagnostic tool.",
+                "text3": "In pregnancy follow-up, ultrasonography is used as the basic imaging method for monitoring fetal development, performing anomaly scans, and determining the due date. With our 4D ultrasound technology, expectant mothers are offered the opportunity to see their babies live. With our rapid evaluation capacity in emergencies, support is provided to all clinics of our hospital.",
+                "tags": [
+                    "Abdominal Ultrasound",
+                    "Pelvic Ultrasound",
+                    "Thyroid Ultrasound",
+                    "Breast Ultrasound",
+                    "Pregnancy Ultrasound",
+                    "4D Ultrasound",
+                    "Doppler Ultrasound",
+                    "Liver Ultrasound",
+                    "Kidney Ultrasound",
+                    "Prostate Ultrasound",
+                    "Testicular Ultrasound",
+                    "Soft Tissue USG"
+                ]
             },
             "solunum": {
                 "title": "Pulmonary Function Test",
-                "content_title": "Pulmonary Function Test",
-                "text": "Pulmonary function test is basically a test performed to measure the performance of your lungs. These tests measure how much air enters and leaves the lungs."
+                "content_title": "Pulmonary Function Tests (PFT)",
+                "text": "Our Pulmonary Function Tests unit performs tests that are of critical importance in the evaluation of lung health and diagnosis of respiratory tract diseases with state-of-the-art spirometry devices. These tests objectively measure lung capacity, airway resistance, and gas exchange functions.",
+                "text2": "The spirometry test is accepted as the gold standard in the diagnosis of COPD (Chronic Obstructive Pulmonary Disease), asthma, bronchitis, and other restrictive or obstructive lung diseases. Lung functions are analyzed in detail by measuring FEV1 (forced expiratory volume in 1 second), FVC (forced vital capacity), and other parameters.",
+                "text3": "In our unit, lung evaluation before smoking cessation programs, occupational lung disease screening, preoperative pulmonary risk assessment, and periodic PFT measurements for treatment follow-up of chronic respiratory patients are also performed. Test results are interpreted by our specialist physicians and personalized treatment plans are created.",
+                "tags": [
+                    "Spirometry",
+                    "FEV1 Measurement",
+                    "FVC Test",
+                    "COPD Evaluation",
+                    "Asthma Diagnosis",
+                    "Bronchial Provocation Test",
+                    "Lung Capacity Measurement",
+                    "Smoking Cessation Evaluation",
+                    "Occupational Health Screening",
+                    "Preoperative Evaluation"
+                ]
             },
             "odyometri": {
                 "title": "Audiometry and Tympanometry",
                 "content_title": "Audiometry and Tympanometry",
-                "text": "Audiometry is a test used to evaluate a person's hearing ability. Tympanometry is a test where ear drum and middle ear pressure are measured."
+                "text": "Our Audiometry and Tympanometry unit serves in a soundproof cabin equipped with state-of-the-art devices for comprehensive evaluation of hearing health. Early diagnosis of hearing loss and determination of its type and degree are among the main goals of our unit.",
+                "text2": "The audiometry test is a standard test that measures the capacity of both ears to perceive sounds at different frequencies and intensities, determining the degree and type of hearing loss (conductive or sensorineural). Tympanometry is used to evaluate eardrum mobility and middle ear pressure, detecting middle ear fluid accumulation, eardrum perforation, and Eustachian tube function disorders.",
+                "text3": "In our unit, tests for all age groups from newborn hearing screening to elderly hearing loss are performed. Occupational noise exposure assessment, tests before hearing aid application, and hearing examinations for driver's license are also among our unit's services. Test results are reported with detailed audiogram and tympanogram graphs and communicated to the relevant specialist physicians.",
+                "tags": [
+                    "Audiometry Test",
+                    "Tympanometry",
+                    "Hearing Test",
+                    "Newborn Hearing Screening",
+                    "Ear Examination",
+                    "Hearing Loss Evaluation",
+                    "Occupational Hearing Screening",
+                    "Acoustic Reflex Test",
+                    "Eustachian Function Test",
+                    "Hearing Aid Evaluation"
+                ]
             }
         }
     },

@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import "./Stats.css";
 
-// Basit count-up hook'u (requestAnimationFrame ile)
 function useCountUp(target, duration = 2000, start = false) {
   const [value, setValue] = useState(0);
   const startRef = useRef(null);
@@ -35,7 +34,6 @@ export default function Stats() {
   const rootRef = useRef(null);
   const [inView, setInView] = useState(false);
 
-  // Görünür olunca bir kez tetikle
   useEffect(() => {
     const el = rootRef.current;
     if (!el) return;
@@ -56,7 +54,6 @@ export default function Stats() {
     return () => io.disconnect();
   }, []);
 
-  // Hedef sayılar (ileride API/DB’den beslenecek)
   const items = [
     { value: 52347, label: t('home:stats.happy_patients') },
     { value: 236, label: t('home:stats.experienced_doctors') },
@@ -75,7 +72,7 @@ export default function Stats() {
                 {n.toLocaleString(i18n.language === 'tr' ? 'tr-TR' : 'en-US')}+
               </div>
               <div className="stat-label">{it.label}</div>
-              {/* Masaüstü ayırıcıları (CSS ile konumlanıyor) */}
+
               <span className="divider" aria-hidden="true" />
             </div>
           );

@@ -1,4 +1,4 @@
-/* Dashboard Layout */
+
 :root {
   --dashboard-bg: #f0f2f5;
   --dashboard-text: #1e293b;
@@ -18,8 +18,6 @@
   --dashboard-gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
   --dashboard-button-text: #ffffff;
 }
-
-
 
 .dashboard-container {
   display: flex;
@@ -55,7 +53,6 @@
   }
 }
 
-/* Sidebar */
 .dashboard-sidebar {
   width: 260px;
   background: linear-gradient(180deg, #0e2b4b 0%, #1a3d5c 100%);
@@ -69,14 +66,14 @@
   overflow-y: auto;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
   -ms-overflow-style: none !important;
-  /* IE and Edge */
+
   scrollbar-width: none !important;
-  /* Firefox */
+
 }
 
 .dashboard-sidebar::-webkit-scrollbar {
   display: none !important;
-  /* Chrome, Safari and Opera */
+
 }
 
 .dashboard-sidebar.collapsed {
@@ -204,14 +201,14 @@
   padding: 16px 12px;
   overflow-y: auto;
   -ms-overflow-style: none !important;
-  /* IE and Edge */
+
   scrollbar-width: none !important;
-  /* Firefox */
+
 }
 
 .sidebar-nav::-webkit-scrollbar {
   display: none !important;
-  /* Chrome, Safari and Opera */
+
 }
 
 .nav-item {
@@ -315,9 +312,6 @@
   padding: 12px;
 }
 
-
-
-/* Main Content Area */
 .dashboard-main {
   flex: 1;
   padding: 32px;
@@ -338,7 +332,6 @@
   gap: 12px;
 }
 
-/* Responsive */
 .sidebar-backdrop {
   display: none;
 }
@@ -369,7 +362,6 @@
     transition: none;
   }
 
-  /* When expanded, it covers content WITHOUT narrowing it */
   .dashboard-container.sidebar-expanded .dashboard-main {
     margin-left: 80px;
   }
@@ -385,7 +377,6 @@
     width: 100%;
   }
 
-  /* "En dar versiyonda bütün yapılar alt alta hizalansınlar" */
   .dashboard-sidebar:not(.collapsed) .sidebar-header {
     flex-direction: column;
     gap: 16px;
@@ -432,12 +423,8 @@
     width: 100%;
     position: relative;
     padding-top: 70px;
-    /* Space for the floating toggle if needed, or just padding */
-  }
 
-  /* When collapsed in mobile, maybe hide the sidebar entirely or keep it minimal? 
-     The user said it's currently on the side. 
-     If it's already narrow (80px), we can keep it or make it even narrower. */
+  }
 
   .dashboard-sidebar.collapsed {
     width: 60px;

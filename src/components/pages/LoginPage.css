@@ -1,7 +1,4 @@
-/* src/components/pages/LoginPage.css (YENİ TASARIMA GÖRE SON HALİ) */
-/* BU DOSYA HEM LOGIN HEM REGISTER SAYFASI İÇİN KULLANILACAK */
 
-/* :root'tan Menü/Footer yüksekliklerini alıyoruz (Menü.css'te tanımlı) */
 :root {
   --topbar-h: 52px;
   --menubar-h: 70px;
@@ -18,23 +15,18 @@
   box-sizing: border-box;
 }
 
-/* If the page is used within MainLayout, we can slightly adjust it to avoid excessive scrolling, 
-   but 100vh is safer to ensure no white space at the bottom. */
 @media (min-height: 600px) {
   .login-container {
-    /* For pages with headers, we want to at least fill the remaining space */
+
     min-height: calc(100vh - var(--topbar-h, 0px) - var(--menubar-h, 0px));
-    /* But for standalone pages, these variables won't be applied correctly if they are only in :root here */
+
   }
 }
 
-/* Specific fix for standalone pages where we want absolute full height */
 .login-container.standalone {
   min-height: 100vh !important;
 }
 
-
-/* Add subtle pattern background */
 .login-container::before {
   content: '';
   position: absolute;
@@ -90,12 +82,11 @@
   line-height: 1.5;
 }
 
-
 .login-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  /* Form grupları arası boşluk */
+
 }
 
 .form-group {
@@ -183,7 +174,6 @@
   box-shadow: 0 2px 8px rgba(74, 99, 209, 0.3);
 }
 
-/* Login sayfası alt link ("Hesabınız yok mu?") */
 .login-footer-link {
   margin-top: 24px;
   text-align: center;
@@ -202,7 +192,6 @@
   text-decoration: underline;
 }
 
-/* Register sayfası alt link ("Zaten hesabınız var mı?") */
 .register-footer-link {
   margin-top: 24px;
   text-align: center;
@@ -221,7 +210,6 @@
   text-decoration: underline;
 }
 
-/* Kayıt sayfasındaki Doğum Tarihi dropdown'ları için */
 .dob-group {
   display: flex;
   gap: 10px;
@@ -229,11 +217,10 @@
 
 .dob-group>select {
   flex: 1;
-  /* Safari'de <select> içindeki yazının ortalanması için: */
+
   padding-right: 16px;
 }
 
-/* --- Hata ve Yüklenme Stilleri (Değişiklik yok) --- */
 .error-message {
   background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
   color: #dc2626;
@@ -291,12 +278,6 @@
   cursor: not-allowed;
 }
 
-
-
-
-
-
-/* === DARK MODE === */
 [data-theme='dark'] .login-container {
   background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
 }
@@ -323,18 +304,18 @@
 
 [data-theme='dark'] .form-group label {
   color: #94a3af;
-  /* Muted color initially */
+
   transition: color 0.2s ease;
 }
 
 [data-theme='dark'] .form-group:focus-within label {
   color: #60a5fa;
-  /* Subtle accent color when focused */
+
 }
 
 [data-theme='dark'] .form-input {
   background-color: #1f2937 !important;
-  /* Darker bg */
+
   border-color: #374151;
   color: #f3f4f6;
 }
@@ -349,12 +330,11 @@
 
 [data-theme='dark'] .form-input:focus {
   background-color: #1f2937 !important;
-  /* Keep it dark on focus! */
+
   border-color: #60a5fa;
   box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.1), 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Fix for autofill in dark mode */
 [data-theme='dark'] input:-webkit-autofill,
 [data-theme='dark'] input:-webkit-autofill:hover,
 [data-theme='dark'] input:-webkit-autofill:focus {

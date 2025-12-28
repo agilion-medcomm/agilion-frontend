@@ -22,13 +22,11 @@ export default function CashierDashboard() {
   const navigate = useNavigate();
   const { user, token } = usePersonnelAuth();
 
-  // STATES
   const [searchTckn, setSearchTckn] = useState('');
   const [foundPatient, setFoundPatient] = useState(null);
   const [searchLoading, setSearchLoading] = useState(false);
   const [searchError, setSearchError] = useState('');
 
-  // Register form states
   const [showRegisterForm, setShowRegisterForm] = useState(false);
   const [registerForm, setRegisterForm] = useState({
     firstName: '',
@@ -43,7 +41,6 @@ export default function CashierDashboard() {
   const [registerError, setRegisterError] = useState('');
   const [registerSuccess, setRegisterSuccess] = useState('');
 
-  // Appointment states
   const [selectedDepartment, setSelectedDepartment] = useState('');
   const [doctorsList, setDoctorsList] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState('');
@@ -57,7 +54,6 @@ export default function CashierDashboard() {
   const [calendarMonth, setCalendarMonth] = useState(new Date());
   const [confirmModal, setConfirmModal] = useState({ open: false });
 
-  // Authorization check
   if (!user || user.role !== 'CASHIER') {
     return (
       <div style={{ textAlign: 'center', padding: '100px', fontSize: '18px', color: '#c1272d', fontWeight: 'bold', background: 'var(--dash-bg)' }}>
@@ -66,7 +62,6 @@ export default function CashierDashboard() {
     );
   }
 
-  // === SEARCH PATIENT ===
   const handleSearchPatient = async (e) => {
     e.preventDefault();
 
@@ -105,18 +100,16 @@ export default function CashierDashboard() {
     }
   };
 
-  // === REGISTER NEW PATIENT ===
   const handleRegisterChange = (e) => {
     let { name, value } = e.target;
 
-    // TCKN validation: only numbers
     if (name === 'tckn') {
       value = value.replace(/\D/g, '').slice(0, 11);
     }
 
     setRegisterForm(prev => {
       const updated = { ...prev, [name]: value };
-      // TC değiştiğinde password'ü otomatik TC'ye ayarla
+
       if (name === 'tckn') {
         updated.password = value;
       }
@@ -170,7 +163,6 @@ export default function CashierDashboard() {
     }
   };
 
-  // === FETCH DOCTORS BY DEPARTMENT ===
   useEffect(() => {
     if (selectedDepartment && foundPatient) {
       const fetchDoctors = async () => {
@@ -192,28 +184,24 @@ export default function CashierDashboard() {
     }
   }, [selectedDepartment, foundPatient, token]);
 
-  // === GENERATE AVAILABLE DATES ===
   useEffect(() => {
     if (selectedDoctor && foundPatient) {
       const dates = [];
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      // Generate 90 days from today (rolling window - includes past month days)
       const startDate = new Date(today);
-      startDate.setDate(startDate.getDate() - 30); // Show 30 days before for context
+      startDate.setDate(startDate.getDate() - 30);
 
       for (let i = 0; i <= 120; i++) {
         const date = new Date(startDate);
         date.setDate(date.getDate() + i);
 
-        // Include all days (no weekend skip)
         const day = String(date.getDate()).padStart(2, '0');
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const year = date.getFullYear();
         const formattedDate = `${day}.${month}.${year}`;
 
-        // Check if within 90-day bookable range
         const daysFromToday = Math.floor((date - today) / (1000 * 60 * 60 * 24));
         const isBookable = daysFromToday >= 1 && daysFromToday <= 90;
 
@@ -229,17 +217,16 @@ export default function CashierDashboard() {
       setAvailableDates(dates);
       setSelectedDate('');
       setAvailableTimes([]);
-      // Set calendar to today
+
       setCalendarMonth(new Date(today));
     }
   }, [selectedDoctor, foundPatient]);
 
-  // === FETCH AVAILABLE TIMES ===
   useEffect(() => {
     if (selectedDate && selectedDoctor && foundPatient) {
       const fetchAvailableTimes = async () => {
         try {
-          // selectedDate is now an object with formatted date
+
           const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
 
           const response = await axios.get(`${BaseURL}/appointments`, {
@@ -272,7 +259,6 @@ export default function CashierDashboard() {
     }
   }, [selectedDate, selectedDoctor, foundPatient, token]);
 
-  // === SHOW CONFIRMATION MODAL ===
   const handleShowConfirmation = (e) => {
     e.preventDefault();
 
@@ -281,7 +267,6 @@ export default function CashierDashboard() {
       return;
     }
 
-    // Find doctor name from doctorsList
     const doctor = doctorsList.find(d => d.id === parseInt(selectedDoctor));
     const doctorName = doctor ? `${doctor.user?.firstName || ''} ${doctor.user?.lastName || ''}`.trim() : 'Bilinmiyor';
     const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
@@ -300,14 +285,13 @@ export default function CashierDashboard() {
     setConfirmModal({ open: false });
   };
 
-  // === CREATE APPOINTMENT ===
   const handleCreateAppointment = async () => {
     setConfirmModal({ open: false });
     setAppointmentLoading(true);
     setAppointmentError('');
 
     try {
-      // selectedDate is now an object with formatted date
+
       const dateString = typeof selectedDate === 'object' ? selectedDate.formatted : selectedDate;
 
       const appointmentData = {
@@ -324,7 +308,6 @@ export default function CashierDashboard() {
 
       setAppointmentSuccess('✅ Randevu başarıyla oluşturuldu!');
 
-      // Reset form
       setTimeout(() => {
         setFoundPatient(null);
         setSearchTckn('');
@@ -349,7 +332,6 @@ export default function CashierDashboard() {
       <h1 style={{ color: 'var(--dash-text)', marginBottom: '10px', fontSize: '28px' }}>Vezne Paneli - Randevu Alma</h1>
       <p style={{ color: 'var(--dash-text-muted)', marginBottom: '30px', fontSize: '14px' }}>Hastalar için randevu oluştur veya yeni hastalar kaydet</p>
 
-      {/* ===== SEARCH SECTION ===== */}
       <div style={{
         background: 'var(--dash-card-bg)',
         padding: '24px',
@@ -410,7 +392,6 @@ export default function CashierDashboard() {
         )}
       </div>
 
-      {/* ===== REGISTER NEW PATIENT SECTION ===== */}
       {showRegisterForm && !foundPatient && (
         <div style={{
           background: 'var(--dash-card-bg)',
@@ -536,7 +517,6 @@ export default function CashierDashboard() {
         </div>
       )}
 
-      {/* ===== APPOINTMENT BOOKING SECTION ===== */}
       {foundPatient && (
         <div style={{
           background: 'var(--dash-card-bg)',
@@ -557,7 +537,7 @@ export default function CashierDashboard() {
           </div>
 
           <form onSubmit={handleShowConfirmation}>
-            {/* Department Selection */}
+
             <div style={{ marginBottom: '15px' }}>
               <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', color: 'var(--dash-text)' }}>Bölüm Seçiniz *</label>
               <select
@@ -583,7 +563,6 @@ export default function CashierDashboard() {
               </select>
             </div>
 
-            {/* Doctor Selection */}
             {selectedDepartment && (
               <div style={{ marginBottom: '15px' }}>
                 <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', color: 'var(--dash-text)' }}>Doktor Seçiniz *</label>
@@ -619,19 +598,17 @@ export default function CashierDashboard() {
               </div>
             )}
 
-            {/* Tarih Seçimi - Takvim Görünümü */}
             {selectedDoctor && availableDates.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
                 <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '10px', fontSize: '13px', color: 'var(--dash-text)' }}>📅 Tarih Seçiniz *</label>
 
-                {/* Calendar Grid */}
                 <div style={{
                   background: 'var(--dash-bg)',
                   border: '1px solid var(--dash-border)',
                   borderRadius: '8px',
                   padding: '12px',
                 }}>
-                  {/* Group by month and show only current month from calendarMonth state */}
+
                   {Object.entries(availableDates.reduce((groups, dateObj) => {
                     const key = `${dateObj.date.getFullYear()}-${dateObj.date.getMonth()}`;
                     if (!groups[key]) {
@@ -644,7 +621,6 @@ export default function CashierDashboard() {
                     const currentMonthKey = `${calendarMonth.getFullYear()}-${calendarMonth.getMonth()}`;
                     const isCurrentMonth = monthKey === currentMonthKey;
 
-                    // Calculate bounds for month navigation
                     const today = new Date();
                     today.setHours(0, 0, 0, 0);
                     const minMonth = new Date(today);
@@ -652,7 +628,6 @@ export default function CashierDashboard() {
                     const maxMonth = new Date(today);
                     maxMonth.setDate(maxMonth.getDate() + 90);
 
-                    // Create dates for the first day of each month for comparison
                     const currentMonthStart = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), 1);
                     const minMonthStart = new Date(minMonth.getFullYear(), minMonth.getMonth(), 1);
                     const maxMonthStart = new Date(maxMonth.getFullYear(), maxMonth.getMonth(), 1);
@@ -662,7 +637,7 @@ export default function CashierDashboard() {
 
                     return isCurrentMonth ? (
                       <div key={monthKey}>
-                        {/* Month Navigation */}
+
                         <div style={{
                           display: 'flex',
                           justifyContent: 'space-between',
@@ -718,7 +693,6 @@ export default function CashierDashboard() {
                           </button>
                         </div>
 
-                        {/* Days of week header - Starting from Monday */}
                         <div style={{
                           display: 'grid',
                           gridTemplateColumns: 'repeat(7, 1fr)',
@@ -738,13 +712,12 @@ export default function CashierDashboard() {
                           ))}
                         </div>
 
-                        {/* Calendar days - Get first day of month and fill grid */}
                         <div style={{
                           display: 'grid',
                           gridTemplateColumns: 'repeat(7, 1fr)',
                           gap: '6px'
                         }}>
-                          {/* Empty cells for days before month starts */}
+
                           {Array.from({ length: ((monthDates[0].date.getDay() - 1 + 7) % 7) }).map((_, i) => (
                             <div key={`empty-${i}`}></div>
                           ))}
@@ -791,7 +764,6 @@ export default function CashierDashboard() {
               </div>
             )}
 
-            {/* Saat Seçimi */}
             {selectedDate && availableTimes.length > 0 && (
               <div style={{ marginBottom: '15px' }}>
                 <label style={{ display: 'block', fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', color: 'var(--dash-text)' }}>Saat Seçiniz *</label>
@@ -857,7 +829,6 @@ export default function CashierDashboard() {
         </div>
       )}
 
-      {/* Confirmation Modal */}
       {confirmModal.open && (
         <div style={{
           position: 'fixed',

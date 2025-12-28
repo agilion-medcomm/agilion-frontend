@@ -19,7 +19,6 @@ export default function PatientDashboard() {
     navigate('/', { replace: true });
   };
 
-  // URL'e göre başlangıç sekmesi
   const [activeTab, setActiveTab] = useState(() => {
     if (location.pathname.includes('/profile')) return 'settings';
     return 'appointments';
@@ -28,17 +27,16 @@ export default function PatientDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [labResults, setLabResults] = useState([]);
   const [labRequests, setLabRequests] = useState([]);
-  // timeFilter: all, future, past, cancelled
+
   const [timeFilter, setTimeFilter] = useState('all');
-  const [sortBy, setSortBy] = useState('date'); // Sıralama kriteri: 'date' veya 'doctor'
+  const [sortBy, setSortBy] = useState('date');
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // Modal ve Form State'leri
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
-  const [review, setReview] = useState({ rating: 0 }); // Default to 0 for selection
-  const [hoverRating, setHoverRating] = useState(0); // State for hover preview
+  const [review, setReview] = useState({ rating: 0 });
+  const [hoverRating, setHoverRating] = useState(0);
 
   const [profileData, setProfileData] = useState({
     email: '',
@@ -57,7 +55,6 @@ export default function PatientDashboard() {
     confirmPassword: ''
   });
 
-  // Kullanıcı verisi gelince state'i doldur
   useEffect(() => {
     if (user) {
       setProfileData({
@@ -77,7 +74,6 @@ export default function PatientDashboard() {
     }
   }, [user]);
 
-  // Sekme yönetimi
   useEffect(() => {
     if (location.pathname.includes('/profile')) {
       setActiveTab('settings');
@@ -86,11 +82,8 @@ export default function PatientDashboard() {
     }
   }, [location.pathname]);
 
-  // --- API İSTEKLERİ ---
-
-  // Randevu İptal Etme
   const handleCancelAppointment = async (appointmentId) => {
-    // Modern onay modalı
+
     const confirmCancel = window.confirm(
       t('messages.cancelConfirmText', {
         defaultValue: '⚠️ Randevu İptali\n\n' +
@@ -119,7 +112,6 @@ export default function PatientDashboard() {
     }
   };
 
-  // Randevu Değerlendirme Modal Açma
   const openReviewModal = (appointment) => {
     setSelectedAppointment(appointment);
     setReview({ rating: 0 });
@@ -127,7 +119,6 @@ export default function PatientDashboard() {
     setShowReviewModal(true);
   };
 
-  // Değerlendirme Gönderme
   const handleSubmitReview = async () => {
     if (!selectedAppointment) return;
 
@@ -142,7 +133,6 @@ export default function PatientDashboard() {
       );
       setMessage({ type: 'success', text: t('messages.reviewSuccess') });
 
-      // Randevuları yeniden çek ve modalı kapat
       await fetchAppointments();
 
       setTimeout(() => {
@@ -166,24 +156,23 @@ export default function PatientDashboard() {
       const patientId = user?.profileId || user?.patientId || user?.id;
       if (!patientId) throw new Error(t('messages.errorOccurred'));
 
-      console.log('🔍 User object:', user); // User object'ini logla
-      console.log('🔍 Patient ID:', patientId); // Patient ID'yi logla
+      console.log('🔍 User object:', user);
+      console.log('🔍 Patient ID:', patientId);
 
-      // Doğru endpoint: /appointments?list=true&patientId=...
       const url = `${BaseURL}/appointments?list=true&patientId=${patientId}`;
-      console.log('📡 Request URL:', url); // URL'yi logla
+      console.log('📡 Request URL:', url);
 
       const response = await axios.get(url, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      console.log('📡 Response:', response); // Tüm response'u logla
+      console.log('📡 Response:', response);
       const data = response.data.data || response.data;
-      console.log('📋 Randevular:', data); // Rating field kontrol için
+      console.log('📋 Randevular:', data);
       setAppointments(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Randevular alınamadı:', error);
-      console.error('Error details:', error.response?.data || error.message); // Error detaylarını logla
+      console.error('Error details:', error.response?.data || error.message);
       setAppointments([]);
     } finally {
       setLoading(false);
@@ -199,7 +188,6 @@ export default function PatientDashboard() {
       console.log('🔍 Lab Results - User:', user);
       console.log('🔍 Lab Results - Token:', token.substring(0, 20) + '...');
 
-      // Yeni /my endpoint'i kullan - token'dan userId alınır
       const response = await axios.get(`${BaseURL}/medical-files/my`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -214,7 +202,6 @@ export default function PatientDashboard() {
     }
   };
 
-  // Fetch lab requests for patient
   const fetchLabRequests = async () => {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
@@ -233,7 +220,6 @@ export default function PatientDashboard() {
     }
   };
 
-  // Dosya indirme fonksiyonu
   const handleDownloadFile = async (fileId, fileName) => {
     try {
       if (!fileId) {
@@ -246,7 +232,6 @@ export default function PatientDashboard() {
 
       console.log('Downloading from:', fullUrl);
 
-      // Fetch ile indir
       const response = await fetch(fullUrl, {
         method: 'GET',
         headers: {
@@ -273,8 +258,6 @@ export default function PatientDashboard() {
     }
   };
 
-  // --- FORM İŞLEMLERİ ---
-
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -283,24 +266,19 @@ export default function PatientDashboard() {
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
 
-      // Backend'in kabul ettiği alanları gönder - sadece dolu olanları!
       const payload = {};
 
-      // User tablosu alanları - sadece dolu olanları gönder
       if (profileData.email?.trim()) payload.email = profileData.email.trim();
       if (profileData.phoneNumber?.trim()) payload.phoneNumber = profileData.phoneNumber.trim();
 
-      // Patient tablosu alanları - sadece dolu olanları gönder
       if (profileData.address?.trim()) payload.address = profileData.address.trim();
       if (profileData.emergencyContact?.trim()) payload.emergencyContact = profileData.emergencyContact.trim();
       if (profileData.bloodType?.trim()) payload.bloodType = profileData.bloodType.trim();
 
-      // dateOfBirth - sadece doluysa gönder, YYYY-MM-DD formatında
       if (profileData.dateOfBirth?.trim()) {
         payload.dateOfBirth = profileData.dateOfBirth;
       }
 
-      // En az bir alan doluysa gönder
       if (Object.keys(payload).length === 0) {
         setMessage({ type: 'error', text: t('messages.noFieldToUpdate') });
         setLoading(false);
@@ -313,7 +291,6 @@ export default function PatientDashboard() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Context'i güncelle
       updateUser(payload);
 
       setMessage({ type: 'success', text: response.data?.message || t('messages.profileUpdateSuccess') });
@@ -363,7 +340,6 @@ export default function PatientDashboard() {
     alert(t('messages.demoDownload', { testName: labResult.testName }));
   };
 
-  // Randevuları filtreleme ve sıralama
   const filteredAppointments = appointments
     .filter(apt => {
       const dateStr = apt.date || apt.startTime || apt.createdAt;
@@ -427,7 +403,6 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* SEKMELER */}
       <div className="tabs-container">
         <button
           className={`tab-button ${activeTab === 'appointments' ? 'active' : ''}`}
@@ -466,7 +441,6 @@ export default function PatientDashboard() {
         </button>
       </div>
 
-      {/* 1. RANDEVULAR SEKMESİ */}
       {activeTab === 'appointments' && (
         <>
           <div className="filters-bar">
@@ -499,9 +473,9 @@ export default function PatientDashboard() {
                 const dateStr = apt.date || (apt.startTime && new Date(apt.startTime).toLocaleDateString(i18n.language === 'en' ? 'en-US' : 'tr-TR'));
                 const timeStr = apt.time || (apt.startTime && new Date(apt.startTime).toLocaleTimeString(i18n.language === 'en' ? 'en-US' : 'tr-TR', { hour: '2-digit', minute: '2-digit' }));
                 const status = apt.status || 'APPROVED';
-                // Avatar için ilk harfler
+
                 const avatar = doctorName.split(' ').map(s => s[0]).join('').substring(0, 2).toUpperCase();
-                // Renkli durum badge'i
+
                 const statusColors = {
                   'COMPLETED': '#22c55e',
                   'DONE': '#22c55e',
@@ -533,9 +507,9 @@ export default function PatientDashboard() {
                         <div><strong>{t('appointments.time')}:</strong> {timeStr}</div>
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
-                        {/* İptal butonu */}
+
                         {status !== 'CANCELLED' && status !== 'COMPLETED' && status !== 'DONE' && (() => {
-                          // Tarih kontrolü: sadece gelecekteki randevular iptal edilebilir
+
                           let aptDate = new Date();
                           if (apt.date && apt.date.includes('.')) {
                             const parts = apt.date.split('.');
@@ -545,12 +519,11 @@ export default function PatientDashboard() {
                           } else if (apt.startTime) {
                             aptDate = new Date(apt.startTime);
                           }
-                          // Bugünün başlangıcını al (saat 00:00)
+
                           const today = new Date();
                           today.setHours(0, 0, 0, 0);
                           aptDate.setHours(0, 0, 0, 0);
 
-                          // Bugün veya gelecekteki randevular iptal edilebilir
                           if (aptDate >= today) {
                             return (
                               <button className="btn-danger-action modern-btn" style={{ background: '#fee2e2', color: '#b91c1c', border: '1px solid #fecaca', borderRadius: 8, padding: '6px 14px', fontWeight: 600 }} onClick={() => handleCancelAppointment(apt.id)}>
@@ -560,7 +533,7 @@ export default function PatientDashboard() {
                           }
                           return null;
                         })()}
-                        {/* Değerlendir butonu - Sadece DONE ve henüz değerlendirilmemiş randevular için */}
+
                         {status === 'DONE' && !apt.rating && (
                           <button
                             className="btn-primary modern-btn"
@@ -570,7 +543,7 @@ export default function PatientDashboard() {
                             {t('appointments.rate')}
                           </button>
                         )}
-                        {/* Puan göstergesi - Değerlendirilmiş randevular için */}
+
                         {apt.rating && (
                           <div className="review-indicator">
                             ⭐ {apt.rating}/5
@@ -586,7 +559,6 @@ export default function PatientDashboard() {
         </>
       )}
 
-      {/* 2. TAHLİL SONUÇLARI SEKMESİ */}
       {activeTab === 'lab-results' && (
         <div className="data-table-container">
           <table className="data-table">
@@ -637,7 +609,6 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 3. LAB TALEPLERİ SEKMESİ */}
       {activeTab === 'lab-requests' && (
         <div className="data-table-container">
           <table className="data-table">
@@ -731,7 +702,6 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 4. DEĞERLENDİRMELER SEKMESİ */}
       {activeTab === 'reviews' && (
         <div className="reviews-container">
           {appointments.filter(apt => apt.rating).length === 0 ? (
@@ -757,7 +727,6 @@ export default function PatientDashboard() {
         </div>
       )}
 
-      {/* 5. AYARLAR SEKMESİ */}
       {activeTab === 'settings' && (
         <div className="settings-container">
           <div className="settings-card">

@@ -16,7 +16,6 @@ export default function NotificationBadge() {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -31,8 +30,7 @@ export default function NotificationBadge() {
   const handleNotificationClick = (notification) => {
     markAsRead(notification.id);
     setShowDropdown(false);
-    
-    // Navigate based on notification type
+
     switch (notification.type) {
       case 'LEAVE_REQUEST':
         navigate('/dashboard/leave-requests');

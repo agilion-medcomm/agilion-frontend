@@ -8,7 +8,6 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// Icons
 const EyeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -93,7 +92,6 @@ export default function DashboardHome() {
   const { user } = usePersonnelAuth();
   const navigate = useNavigate();
 
-  // Redirect CLEANER, LABORANT, and CASHIER to their specific panels
   useEffect(() => {
     if (user?.role === 'CLEANER') {
       navigate('/dashboard/cleaner', { replace: true });
@@ -144,7 +142,6 @@ export default function DashboardHome() {
       const appointments = appointmentsRes.data?.data || [];
       const patients = patientsRes.data?.users || [];
 
-      // Try to fetch personnel data (only admins can access this)
       let personnel = [];
       if (user?.role === 'ADMIN') {
         try {
@@ -154,12 +151,10 @@ export default function DashboardHome() {
           personnel = personnelRes.data?.data || [];
         } catch (personnelError) {
           console.error('Error fetching personnel data:', personnelError);
-          // Non-admin users will get 403, which is expected
+
         }
       }
-      // Non-admin users: personnel list remains empty (doctors/staff counts will show 0)
 
-      // Filter data based on time period
       const now = new Date();
       const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -202,7 +197,6 @@ export default function DashboardHome() {
       const doctors = personnel.filter(p => p.role === 'DOCTOR');
       const approvedAppointments = filteredAppointments.filter(a => a.status === 'APPROVED');
 
-      // Calculate mock statistics (you can replace with real data)
       setStats({
         patients: approvedAppointments.length,
         surgeries: Math.floor(approvedAppointments.length * 0.08),
@@ -226,7 +220,7 @@ export default function DashboardHome() {
   };
 
   const parseDateString = (dateStr) => {
-    // Parse DD.MM.YYYY format
+
     if (!dateStr) return null;
     const parts = dateStr.split('.');
     if (parts.length !== 3) return null;
@@ -265,7 +259,7 @@ export default function DashboardHome() {
 
   return (
     <div className="dashboard-home">
-      {/* Header with Time Filters */}
+
       <div className="dashboard-header">
         <div className="time-filters">
           {['today', '7d', '2w', '1m', '3m', '6m', '1y'].map((filter) => (
@@ -280,7 +274,6 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* Hero Section */}
       <div className="hero-section">
         <div className="hero-content">
           <div className="hero-text">
@@ -300,8 +293,6 @@ export default function DashboardHome() {
               </div>
             </div>
 
-
-
             <div className="hero-stat-card hero-stat-discharges">
               <div className="hero-stat-icon">
                 <WalkIcon />
@@ -319,7 +310,6 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* Statistics Grid */}
       <div className="stats-grid">
         <div className="stat-card stat-new-patients">
           <div className="stat-card-header">
@@ -331,7 +321,7 @@ export default function DashboardHome() {
             <h2 className="stat-number">{stats.newPatients}</h2>
             <p className="stat-label">Yeni Hastalar</p>
             <div className="stat-footer">
-              {/* <span className="stat-change positive">+40%</span> */}
+
               <span className="stat-period">{getTimeLabel()}</span>
               <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
             </div>
@@ -348,7 +338,7 @@ export default function DashboardHome() {
             <h2 className="stat-number">{stats.opdPatients}</h2>
             <p className="stat-label">{user?.role === 'ADMIN' ? 'Randevulu Hastalar' : 'Poliklinik Hastaları'}</p>
             <div className="stat-footer">
-              {/* <span className="stat-change positive">+30%</span> */}
+
               <span className="stat-period">{getTimeLabel()}</span>
               <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
             </div>
@@ -365,7 +355,7 @@ export default function DashboardHome() {
             <h2 className="stat-number">{stats.labTests}</h2>
             <p className="stat-label">Lab Testleri</p>
             <div className="stat-footer">
-              {/* <span className="stat-change positive">+60%</span> */}
+
               <span className="stat-period">{getTimeLabel()}</span>
               <button className="stat-view-all" onClick={() => navigate('/dashboard/lab-results')}>Tümünü Gör →</button>
             </div>
@@ -373,7 +363,6 @@ export default function DashboardHome() {
         </div>
       </div>
 
-      {/* Bottom Statistics */}
       <div className="bottom-stats">
         <div className="bottom-stat-card">
           <div className="bottom-stat-icon">
@@ -404,8 +393,6 @@ export default function DashboardHome() {
             <h3 className="bottom-stat-number">{stats.staff}</h3>
           </div>
         </div>
-
-
 
         <div className="bottom-stat-card">
           <div className="bottom-stat-icon">

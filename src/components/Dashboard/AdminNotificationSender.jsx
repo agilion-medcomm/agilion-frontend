@@ -7,7 +7,7 @@ const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 export default function AdminNotificationSender() {
   const { user } = usePersonnelAuth();
-  const [targetType, setTargetType] = useState('ALL'); // ALL, ROLE, SPECIFIC
+  const [targetType, setTargetType] = useState('ALL');
   const [targetRole, setTargetRole] = useState('');
   const [targetUsers, setTargetUsers] = useState([]);
   const [personnelList, setPersonnelList] = useState([]);
@@ -26,12 +26,7 @@ export default function AdminNotificationSender() {
 
   const fetchPersonnel = async () => {
     try {
-      // TODO: Replace with real API call
-      // const response = await axios.get(`${BaseURL}/api/v1/personnel`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
 
-      // Mock data
       const mockPersonnel = [
         { id: 1, firstName: 'John', lastName: 'Doe', role: 'DOCTOR' },
         { id: 2, firstName: 'Jane', lastName: 'Smith', role: 'CLEANER' },
@@ -47,12 +42,7 @@ export default function AdminNotificationSender() {
 
   const fetchSentNotifications = async () => {
     try {
-      // TODO: Replace with real API call
-      // const response = await axios.get(`${BaseURL}/api/v1/notifications/sent`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
 
-      // Mock data
       const mockSent = [
         {
           id: 1,
@@ -89,14 +79,8 @@ export default function AdminNotificationSender() {
         ...(targetType === 'SPECIFIC' && { targetUserIds: targetUsers })
       };
 
-      // TODO: Replace with real API call
-      // await axios.post(`${BaseURL}/api/v1/notifications`, payload, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
-
       alert('Notification sent successfully!');
 
-      // Reset form
       setNotification({ title: '', message: '', type: 'GENERAL' });
       setTargetType('ALL');
       setTargetRole('');
@@ -136,12 +120,12 @@ export default function AdminNotificationSender() {
       </div>
 
       <div className="notification-sender-container">
-        {/* Send Form */}
+
         <div className="sender-form-card">
           <h2>Bildirim Oluştur</h2>
 
           <form onSubmit={handleSendNotification}>
-            {/* Target Selection */}
+
             <div className="form-group">
               <label>Şunlara Gönder:</label>
               <div className="target-type-selector">
@@ -169,7 +153,6 @@ export default function AdminNotificationSender() {
               </div>
             </div>
 
-            {/* Role Selection */}
             {targetType === 'ROLE' && (
               <div className="form-group">
                 <label>Rol Seç:</label>
@@ -187,7 +170,6 @@ export default function AdminNotificationSender() {
               </div>
             )}
 
-            {/* User Selection */}
             {targetType === 'SPECIFIC' && (
               <div className="form-group">
                 <label>Personel Seç:</label>
@@ -207,12 +189,10 @@ export default function AdminNotificationSender() {
               </div>
             )}
 
-            {/* Recipient Count */}
             <div className="recipient-count-display">
               Şuna Gönderilecek: <strong>{getRecipientCount()}</strong> {getRecipientCount() === 1 ? 'person' : 'people'}
             </div>
 
-            {/* Notification Type */}
             <div className="form-group">
               <label>Bildirim Türü:</label>
               <select
@@ -228,7 +208,6 @@ export default function AdminNotificationSender() {
               </select>
             </div>
 
-            {/* Title */}
             <div className="form-group">
               <label>Bildirim Başlığı:</label>
               <input
@@ -241,7 +220,6 @@ export default function AdminNotificationSender() {
               />
             </div>
 
-            {/* Message */}
             <div className="form-group">
               <label>Bildirim Mesajı:</label>
               <textarea
@@ -255,7 +233,6 @@ export default function AdminNotificationSender() {
               <small>{notification.message.length}/500 karakter</small>
             </div>
 
-            {/* Preview */}
             <div className="notification-preview">
               <h4>Önizleme:</h4>
               <div className="preview-card">
@@ -264,7 +241,6 @@ export default function AdminNotificationSender() {
               </div>
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               className="btn-primary btn-large"
@@ -275,7 +251,6 @@ export default function AdminNotificationSender() {
           </form>
         </div>
 
-        {/* Sent History */}
         <div className="sent-history-card">
           <h2>Gönderilen Bildirimler</h2>
 
@@ -307,7 +282,6 @@ export default function AdminNotificationSender() {
         </div>
       </div>
 
-      {/* API Notice */}
       <div className="api-notice">
         <p><strong>⚠️ Backend API Required:</strong></p>
         <ul>

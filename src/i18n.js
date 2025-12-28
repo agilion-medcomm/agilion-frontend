@@ -2,8 +2,6 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
-// Namespace'leri şimdilik boş objelerle başlatıyoruz
-// Çeviri dosyaları oluştukça buraya import edilecekler
 import commonTr from './locales/tr/common.json';
 import loginTr from './locales/tr/login.json';
 import homeTr from './locales/tr/home.json';

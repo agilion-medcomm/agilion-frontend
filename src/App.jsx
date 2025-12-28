@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Ana Sayfa ve Alt Sayfalar
 import MainPage from './MainPage';
 import DoctorsPage from './components/pages/DoctorsPage';
 import DoctorBioPage from './components/pages/DoctorBioPage';
@@ -11,7 +10,6 @@ import BolumlerimizPage from './components/pages/BolumlerimizPage';
 import BirimlerimizPage from './components/pages/BirimlerimizPage';
 import SelectDoctorPage from './components/pages/SelectDoctorPage';
 
-// Kimlik Doğrulama ve İletişim Sayfaları
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
@@ -23,15 +21,12 @@ import VerifyEmailPage from './components/pages/VerifyEmailPage';
 import ClarificationTextPage from './components/pages/ClarificationTextPage';
 import ResendVerificationPage from './components/pages/ResendVerificationPage';
 
-// Layoutlar ve Korumalar
 import MainLayout from './components/Layout/MainLayout';
 import ProtectedPersonnelRoute from './components/Layout/ProtectedPersonnelRoute';
 
-// Contextler
 import { usePersonnelAuth } from './context/PersonnelAuthContext';
 import { useAuth } from './context/AuthContext';
 
-// Dashboard Bileşenleri
 import DashboardLayout from './components/Dashboard/DashboardLayout';
 import DashboardHome from './components/Dashboard/DashboardHome';
 import PersonnelPage from './components/Dashboard/PersonnelPage';
@@ -55,13 +50,13 @@ import ScrollToTop from './components/ScrollToTop';
 import { ThemeProvider } from './context/ThemeContext';
 
 export default function App() {
-  const { user: patientUser } = useAuth(); // Hasta kullanıcısı
+  const { user: patientUser } = useAuth();
 
   return (
     <ThemeProvider>
       <ScrollToTop />
       <Routes>
-        {/* 1. Standart Sayfalar (Menü + Footer Var) */}
+
         <Route path="/" element={<MainLayout />}>
           <Route index element={<MainPage />} />
           <Route path="login" element={<LoginPage />} />
@@ -80,25 +75,20 @@ export default function App() {
           <Route path="verify-email" element={<VerifyEmailPage />} />
           <Route path="resend-verification" element={<ResendVerificationPage />} />
 
-          {/* ✅ Profil Rotası: Hasta ise PatientDashboard, değilse ProfilePage */}
           <Route
             path="profile"
             element={patientUser ? <PatientDashboard /> : <ProfilePage />}
           />
         </Route>
 
-        {/* 2. Personel Giriş Sayfası (Bağımsız - Layout Yok) */}
         <Route path="/personelLogin" element={<PersonelLoginPage />} />
 
-        {/* Doktor Kapı Ekranı (Bağımsız - Layout Yok, Kendi Token Kontrolü Var) */}
         <Route path="/doctor-display" element={<DoctorDisplayPage />} />
 
-        {/* 3. Dashboard Sistemi (Personel Korumalı) */}
         <Route element={<ProtectedPersonnelRoute />}>
           <Route path="/dashboard" element={<DashboardLayout />}>
             <Route index element={<DashboardHome />} />
 
-            {/* Admin Routes */}
             <Route path="personnel" element={<PersonnelPage />} />
             <Route path="appointments" element={<AppointmentsPage />} />
             <Route path="patients" element={<PatientsPage />} />
@@ -108,19 +98,15 @@ export default function App() {
             <Route path="lab-results" element={<LabResultsPage />} />
             <Route path="cleaning" element={<CleaningManagementPage />} />
 
-            {/* Doctor Routes */}
             <Route path="lab-requests" element={<DoctorLabRequests />} />
 
-            {/* Role Based Dashboards */}
             <Route path="cleaner" element={<CleanerDashboard />} />
             <Route path="payments" element={<CashierDashboard />} />
             <Route path="lab-tests" element={<LabTechDashboard />} />
             <Route path="laborant" element={<LaborantDashboard />} />
 
-            {/* Hasta Paneli (Dashboard içinden erişim gerekirse) */}
             <Route path="my-appointments" element={<PatientDashboard />} />
 
-            {/* Personel Profil Sayfası */}
             <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Route>

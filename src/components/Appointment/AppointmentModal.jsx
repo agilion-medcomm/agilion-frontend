@@ -1,8 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import Calendar from 'react-calendar'; 
-import './Appointment.css'; 
+import Calendar from 'react-calendar';
+import './Appointment.css';
 
-// Randevu Slot Ayarları
 const SLOT_START = 9;
 const SLOT_END = 17;
 const MAX_DAYS = 90;
@@ -17,7 +16,7 @@ const formatDateForBackend = (date) => {
 const getDays = (startDay) => {
     const dates = [];
     let currentDate = new Date(startDay);
-    currentDate.setHours(0, 0, 0, 0); 
+    currentDate.setHours(0, 0, 0, 0);
     for (let i = 0; i < MAX_DAYS; i++) {
         dates.push(new Date(currentDate));
         currentDate.setDate(currentDate.getDate() + 1);
@@ -32,15 +31,15 @@ const generateTimeSlots = (date, bookedSlots = []) => {
 
     for (let h = SLOT_START; h <= SLOT_END; h++) {
         for (let m of [0, 30]) {
-            if (h === SLOT_END && m > 0) continue; 
-            
+            if (h === SLOT_END && m > 0) continue;
+
             const slotTime = new Date(date);
             slotTime.setHours(h, m, 0, 0);
 
             const timeStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-            
+
             const isPast = isToday && slotTime.getTime() < now.getTime();
-            const isBooked = bookedSlots.includes(timeStr); 
+            const isBooked = bookedSlots.includes(timeStr);
 
             slots.push({
                 time: timeStr,
@@ -48,18 +47,17 @@ const generateTimeSlots = (date, bookedSlots = []) => {
             });
         }
     }
-    return slots.filter(slot => slot.time !== '17:30'); 
+    return slots.filter(slot => slot.time !== '17:30');
 };
 
-// İsim Değişikliği: AppointmentV2Modal -> AppointmentModal
 export default function AppointmentModal({ doctor, onClose }) {
-    
+
     const initialDate = useMemo(() => {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         return today;
     }, []);
-    
+
     const allDays = useMemo(() => getDays(initialDate), [initialDate]);
     const minDate = initialDate;
     const maxDate = allDays[MAX_DAYS - 1];
@@ -78,7 +76,7 @@ export default function AppointmentModal({ doctor, onClose }) {
             setSelectedDate(date);
             setSelectedSlot(null);
             setCalendarVisible(false);
-            
+
             const newIndex = allDays.findIndex(d => d.toDateString() === date.toDateString());
             if (newIndex !== -1) {
                 setWeekStartIndex(Math.max(0, Math.min(newIndex - 2, MAX_DAYS - 5)));
@@ -87,7 +85,7 @@ export default function AppointmentModal({ doctor, onClose }) {
             alert("Sadece bugünden itibaren 90 gün içinde randevu alabilirsiniz.");
         }
     };
-    
+
     const handleDayCardClick = (date) => {
         setSelectedDate(date);
         setSelectedSlot(null);
@@ -104,15 +102,13 @@ export default function AppointmentModal({ doctor, onClose }) {
             setWeekStartIndex(prev => Math.max(prev - 5, 0));
         }
     };
-    
+
     const handleFinalAppointment = () => {
         if (!selectedSlot) {
             alert("Lütfen bir randevu saati seçiniz.");
             return;
         }
-        
-        // Buraya Backend entegrasyonu (axios.post) gelebilir.
-        // Şu an sadece alert veriyor.
+
         alert(`Randevu Onaylandı: ${doctor.firstName} ${doctor.lastName} için ${selectedDate.toLocaleDateString()} @ ${selectedSlot}`);
         onClose();
     };
@@ -131,21 +127,20 @@ export default function AppointmentModal({ doctor, onClose }) {
 
     return (
         <div className="appointment-modal-overlay">
-            {/* Modal Dışına Tıklayınca Kapanmaması için stopPropagation */}
+
             <div className="appointment-modal" onClick={e => e.stopPropagation()}>
                 <button className="modal-close" onClick={onClose}>&times;</button>
-                
+
                 <div className="modal-content-grid">
-                    
-                    {/* SOL PANEL: Doktor Bilgileri */}
+
                     <div className="doctor-panel-left">
                         <h2 className="doctor-name">{doctor.firstName} {doctor.lastName}</h2>
                         <p className="doctor-specialization">{doctor.specialization || 'Genel Hekim'}</p>
                         <DoctorAvatar />
-                        
+
                         <div className="randevu-onay-wrap">
-                            <button 
-                                className="confirm-appointment-btn" 
+                            <button
+                                className="confirm-appointment-btn"
                                 onClick={handleFinalAppointment}
                                 disabled={!selectedSlot}
                             >
@@ -153,24 +148,22 @@ export default function AppointmentModal({ doctor, onClose }) {
                             </button>
                         </div>
                     </div>
-                    
-                    {/* SAĞ PANEL: Takvim ve Slotlar */}
+
                     <div className="calendar-panel-right">
-                        
-                        {/* Haftalık Navigasyon */}
+
                         <div className="date-navigation-container">
-                            <button 
-                                onClick={handlePrevWeek} 
+                            <button
+                                onClick={handlePrevWeek}
                                 disabled={weekStartIndex === 0}
                                 className="nav-btn nav-btn-left"
                             >{'<'}</button>
-                            
+
                             <div className="date-list">
                                 {visibleWeekDays.map((date, index) => {
                                     const isActive = date.toDateString() === selectedDate.toDateString();
                                     return (
-                                        <div 
-                                            key={index} 
+                                        <div
+                                            key={index}
                                             className={`date-card ${isActive ? 'active' : ''}`}
                                             onClick={() => handleDayCardClick(date)}
                                         >
@@ -185,8 +178,8 @@ export default function AppointmentModal({ doctor, onClose }) {
                                 })}
                             </div>
 
-                            <button 
-                                onClick={handleNextWeek} 
+                            <button
+                                onClick={handleNextWeek}
                                 disabled={weekStartIndex >= MAX_DAYS - 5}
                                 className="nav-btn nav-btn-right"
                             >{'>'}</button>
@@ -195,12 +188,12 @@ export default function AppointmentModal({ doctor, onClose }) {
                                 <button className="date-select-btn" onClick={() => setCalendarVisible(prev => !prev)}>
                                     📅 Tarihi Seç
                                 </button>
-                                
+
                                 {calendarVisible && (
                                     <div className="calendar-popup">
-                                        <Calendar 
-                                            onChange={handleDateChangeFromCalendar} 
-                                            value={selectedDate} 
+                                        <Calendar
+                                            onChange={handleDateChangeFromCalendar}
+                                            value={selectedDate}
                                             minDate={minDate}
                                             maxDate={maxDate}
                                             locale="tr-TR"
@@ -212,7 +205,6 @@ export default function AppointmentModal({ doctor, onClose }) {
 
                         </div>
 
-                        {/* Saat Slotları */}
                         <div className="time-slots-grid-wrap">
                             <p className="selected-date-label">
                                 {selectedDate.toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long' })}

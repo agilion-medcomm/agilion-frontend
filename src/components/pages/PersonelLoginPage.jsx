@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-// Context import yolunuzun doğru olduğundan emin olun
+
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import axios from 'axios';
 import './LoginPage.css';
@@ -17,23 +17,19 @@ export default function PersonelLoginPage() {
 
   const navigate = useNavigate();
 
-  // Context'ten fonksiyonları alıyoruz (Harf duyarlılığına dikkat!)
   const { loginPersonnel, user } = usePersonnelAuth();
 
-  // Eğer zaten giriş yapmışsa dashboard'a yönlendir
   useEffect(() => {
     if (user) {
       navigate('/dashboard', { replace: true });
     }
   }, [user, navigate]);
 
-  // Tarayıcı geri tuşuna basınca ana sayfaya git
   useEffect(() => {
     const handlePopState = () => {
       navigate('/', { replace: true });
     };
 
-    // History'ye bir entry ekle ki geri tuşu çalışsın
     window.history.pushState(null, '', window.location.href);
     window.addEventListener('popstate', handlePopState);
 
@@ -48,7 +44,7 @@ export default function PersonelLoginPage() {
     setLoading(true);
 
     try {
-      // 1. Backend'e Giriş İsteği (Endpoint ismine dikkat)
+
       const response = await axios.post(`${BaseURL}/auth/personnel/login`, {
         tckn: tckn.replace(/\D/g, ''),
         password
@@ -56,10 +52,8 @@ export default function PersonelLoginPage() {
 
       const data = response.data?.data;
 
-      // 2. Context'e Giriş Yap (Token 'personnelToken' olarak kaydedilir)
       await loginPersonnel(data.token, data.user);
 
-      // 3. Redirect to new dashboard system
       navigate('/dashboard');
 
     } catch (err) {

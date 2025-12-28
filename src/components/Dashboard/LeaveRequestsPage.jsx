@@ -24,23 +24,20 @@ export default function LeaveRequestsPage() {
   const fetchDoctorProfile = async () => {
     const token = localStorage.getItem('personnelToken');
     try {
-      // Try to get from localStorage first (cached from login)
+
       const cachedDoctorId = localStorage.getItem('doctorId');
       if (cachedDoctorId) {
         setDoctorProfile({ id: parseInt(cachedDoctorId) });
         return;
       }
 
-      // If no user, can't fetch doctor profile
       if (!user?.id) {
         console.warn('User not loaded yet');
-        // Set a default doctor profile with a dummy ID for now
-        // This will be replaced with actual data
+
         setDoctorProfile({ id: 1 });
         return;
       }
 
-      // Fallback: Get all doctors and find current user by matching userId
       const res = await axios.get(`${BaseURL}/doctors`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -48,7 +45,6 @@ export default function LeaveRequestsPage() {
       const doctors = res.data?.data || [];
       console.log('Doctors:', doctors, 'User ID:', user?.id);
 
-      // Find doctor by userId match
       const currentDoctor = doctors.find(d => {
         const doctorUserId = d.userId || d.user?.id;
         return doctorUserId === user?.id;
@@ -58,23 +54,23 @@ export default function LeaveRequestsPage() {
         setDoctorProfile(currentDoctor);
         localStorage.setItem('doctorId', currentDoctor.id);
       } else {
-        // If no matching doctor found, try using first doctor (fallback)
+
         if (doctors.length > 0) {
           setDoctorProfile(doctors[0]);
           localStorage.setItem('doctorId', doctors[0].id);
         } else {
           console.warn('No doctors found');
-          setDoctorProfile({ id: 1 }); // Fallback dummy ID
+          setDoctorProfile({ id: 1 });
         }
       }
     } catch (error) {
-      // Ignore message port errors from browser extensions
+
       if (error.message && error.message.includes('message port closed')) {
         console.log('Extension message port closed (ignored)');
         return;
       }
       console.error('Error fetching doctor profile:', error);
-      // Set fallback doctor profile
+
       setDoctorProfile({ id: 1 });
     }
   };
@@ -127,12 +123,11 @@ export default function LeaveRequestsPage() {
     e.preventDefault();
     const token = localStorage.getItem('personnelToken');
 
-    // Get doctor ID from profile, cache, or use a default
     let doctorId = doctorProfile?.id;
 
     if (!doctorId) {
       const cachedId = localStorage.getItem('doctorId');
-      doctorId = cachedId ? parseInt(cachedId) : 1; // Fallback to 1
+      doctorId = cachedId ? parseInt(cachedId) : 1;
     }
 
     const payload = {
@@ -221,7 +216,6 @@ export default function LeaveRequestsPage() {
         </table>
       </div>
 
-      {/* Create Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
           <div className="modal-content modal-small" onClick={(e) => e.stopPropagation()}>

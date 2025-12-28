@@ -1,4 +1,3 @@
-// src/components/Layout/ProtectedStaffRoute.jsx (GÜNCEL)
 
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
@@ -23,7 +22,7 @@ export default function ProtectedStaffRoute() {
   }
 
   if (!user) {
-    // DÜZELTME: Personel oturumu yoksa, personel giriş sayfasına yönlendir.
+
     return <Navigate to="/personelLogin" replace />;
   }
 

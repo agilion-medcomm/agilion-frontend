@@ -1,4 +1,3 @@
-// src/components/DoctorSlider/DoctorSlider.jsx
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,9 +7,8 @@ import { SPECIALTY_TRANSLATION_KEYS } from "../../constants/medicalSpecialties";
 import "./DoctorSlider.css";
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
-const ITEMS_PER_PAGE = 4; // Her sayfada maksimum 4 doktor
+const ITEMS_PER_PAGE = 4;
 
-// Use new enum-based mapping
 const DEPARTMENT_KEYS = SPECIALTY_TRANSLATION_KEYS;
 
 export default function DoctorSlider() {
@@ -19,7 +17,6 @@ export default function DoctorSlider() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // SLIDER STATE
   const [currentPage, setCurrentPage] = useState(0);
 
   const navigate = useNavigate();
@@ -44,23 +41,20 @@ export default function DoctorSlider() {
   }, []);
 
   const handleAppointmentClick = (doctorData) => {
-    // 1. Giriş kontrolü
+
     if (!patientUser) {
       alert(t('home:doctor_slider.alert_login'));
       navigate('/login');
       return;
     }
 
-    // 2. Doğrudan Randevu Sayfasına yönlendir (Doktor verisiyle)
     navigate('/randevu', { state: { doctor: doctorData } });
   };
 
-  // Hesaplamalar
   const totalPages = Math.ceil(doctors.length / ITEMS_PER_PAGE);
   const startIndex = currentPage * ITEMS_PER_PAGE;
   const visibleDoctors = doctors.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
-  // Navigasyon İşlevleri
   const handleNext = () => {
     setCurrentPage(prev => Math.min(prev + 1, totalPages - 1));
   };
@@ -124,7 +118,6 @@ export default function DoctorSlider() {
               ))}
             </div>
 
-            {/* Navigasyon ve Sayfalama (Alt Bölüm) */}
             {totalPages > 1 && (
               <div className="slider-controls-bottom">
                 <button

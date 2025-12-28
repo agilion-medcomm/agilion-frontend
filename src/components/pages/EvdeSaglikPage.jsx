@@ -6,9 +6,6 @@ import './EvdeSaglikPage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
-
-// Statik veriler artık t() ile bileşen içinde useMemo ile oluşturulacak
-
 export default function EvdeSaglikPage() {
   const { t } = useTranslation(['medical']);
   const { user, token } = useAuth();
@@ -126,7 +123,7 @@ export default function EvdeSaglikPage() {
     setSubmitResult(null);
 
     try {
-      // Transform form data to match backend validation
+
       const submitData = {
         fullName: formData.fullName?.trim() || '',
         tckn: formData.tckn?.trim() || '',
@@ -135,9 +132,9 @@ export default function EvdeSaglikPage() {
         address: formData.address?.trim() || '',
         serviceType: formData.serviceType?.trim() || '',
         preferredDate: formData.preferredDate || '',
-        preferredTime: formData.preferredTime ? formData.preferredTime.split('-')[0].trim() : '', // Extract start time from range
+        preferredTime: formData.preferredTime ? formData.preferredTime.split('-')[0].trim() : '',
         notes: formData.notes?.trim() || '',
-        serviceDetails: formData.notes?.trim() || '' // Include both notes and serviceDetails
+        serviceDetails: formData.notes?.trim() || ''
       };
 
       console.log('Submitting data:', JSON.stringify(submitData, null, 2));
@@ -179,7 +176,7 @@ export default function EvdeSaglikPage() {
 
   return (
     <div className="evde-saglik-page">
-      {/* Üst Banner */}
+
       <div className="page-banner">
         <img src="/esp-banner.png" alt="Banner" className="page-banner-img" />
         <div className="page-banner-overlay">
@@ -187,7 +184,6 @@ export default function EvdeSaglikPage() {
         </div>
       </div>
 
-      {/* Hizmet Kartları Bölümü */}
       <div className="page-section bg-light">
         <div className="container">
           <div className="service-card-grid">
@@ -208,10 +204,9 @@ export default function EvdeSaglikPage() {
         </div>
       </div>
 
-      {/* İçerik Bölümleri */}
       <div className="page-section">
         <div className="container content-container">
-          {/* Evde Sağlık Nedir */}
+
           <section className="content-section">
             <h2>{t('medical:home_health.what_is.title')}</h2>
             <img src="/evde-saglik-1.jpg" alt="Home Health" className="content-image" />
@@ -219,7 +214,6 @@ export default function EvdeSaglikPage() {
             <p>{t('medical:home_health.what_is.p2')}</p>
           </section>
 
-          {/* Evde Sağlık Hizmeti Neleri Kapsar */}
           <section className="content-section">
             <h2>{t('medical:home_health.covers.title')}</h2>
             <img src="/evde-saglik-2.jpg" alt="Home Health Scope" className="content-image" />
@@ -231,7 +225,6 @@ export default function EvdeSaglikPage() {
             </div>
           </section>
 
-          {/* Evde Doktor Hizmeti */}
           <section className="content-section">
             <h2>{t('medical:home_health.doctor_service.title')}</h2>
             <img src="/evde-saglik-3.jpg" alt="Doctor Home Visit" className="content-image" />
@@ -241,7 +234,6 @@ export default function EvdeSaglikPage() {
         </div>
       </div>
 
-      {/* Hizmet Detay Modalı */}
       {selectedService && (
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -254,16 +246,14 @@ export default function EvdeSaglikPage() {
               </button>            </div>
 
             <div className="modal-body">
-              {/* İçeriği yan yana almak için yeni bir kapsayıcı açtık */}
+
               <div className="modal-row">
 
-                {/* SOL Taraf: Açıklama */}
                 <div className="modal-col-left">
                   <h3 className="modal-subtitle">{t('medical:home_health.modal.service_detail')}</h3>
                   <p className="modal-description">{selectedService.description}</p>
                 </div>
 
-                {/* SAĞ Taraf: Liste */}
                 <div className="modal-col-right">
                   <h3 className="modal-subtitle">{t('medical:home_health.modal.offered_services')}</h3>
                   <ul className="service-list">
@@ -276,7 +266,6 @@ export default function EvdeSaglikPage() {
                 </div>
               </div>
 
-              {/* Alt Kısım: Sadece Randevu Butonu */}
               <div className="modal-actions">
                 <button className="btn-primary" onClick={() => openRequestForm(selectedService.backendTitle)}>
                   {t('medical:home_health.modal.book_btn')}
@@ -288,7 +277,6 @@ export default function EvdeSaglikPage() {
         </div>
       )}
 
-      {/* Randevu Talep Formu Modalı */}
       {showRequestForm && (
         <div className="modal-overlay" onClick={closeRequestForm}>
           <div className="modal-content request-form-modal" onClick={(e) => e.stopPropagation()}>
@@ -464,7 +452,6 @@ export default function EvdeSaglikPage() {
         </div>
       )}
 
-      {/* Giriş Uyarı Modalı */}
       {showLoginPrompt && (
         <div className="modal-overlay" onClick={closeLoginPrompt}>
           <div className="modal-content login-prompt-modal" onClick={(e) => e.stopPropagation()}>

@@ -1,9 +1,8 @@
-/* src/components/DoctorSlider/DoctorSlider.css (YENİ DOSYA) */
 
 .doctor-slider-section {
     padding: 60px 0;
     background-color: #f3f6fa;
-    /* Hafif arka plan rengi */
+
 }
 
 .doctor-slider-header {
@@ -27,36 +26,35 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 40px;
-    /* Oklar için boşluk */
+
 }
 
 .doctor-slider-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    /* 4 sütunlu düzen */
+
     gap: 24px;
     justify-content: center;
     overflow: hidden;
     padding: 0;
 }
 
-/* Doktor Kartı Stilleri */
 .slider-doctor-card {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: none;
-    /* Gölge kaldırıldı (çizgi hissi için) */
+
     padding: 24px 16px;
     text-align: center;
     transition: all 0.3s ease;
     border: 1px solid transparent;
-    /* Varsayılan şeffaf sınır */
+
 }
 
 .slider-doctor-card:hover {
     transform: translateY(0px);
     border-color: #5a9fb8;
-    /* Hover'da belirginleşen sınır */
+
     background: #f8fafc;
 }
 
@@ -238,8 +236,6 @@ body.dark .slider-appointment-button:hover {
     background-color: #a0aec0;
 }
 
-
-/* --- Responsive Düzenlemeler --- */
 @media (max-width: 1024px) {
     .doctor-slider-container {
         grid-template-columns: repeat(2, 1fr);
@@ -269,10 +265,9 @@ body.dark .slider-appointment-button:hover {
     }
 }
 
-/* === DARK MODE DESTEĞİ === */
 body.dark .doctor-slider-section {
     background-color: #1a202c;
-    /* Koyu gri/lacivert */
+
 }
 
 body.dark .doctor-slider-header h2 {
@@ -308,7 +303,7 @@ body.dark .slider-doctor-initials {
 
 body.dark .slider-nav-btn img {
     filter: brightness(0) invert(1);
-    /* İkonları beyaza çevir */
+
     opacity: 0.5;
 }
 

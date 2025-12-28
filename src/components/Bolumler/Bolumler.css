@@ -5,7 +5,6 @@
   padding: 60px 20px 40px;
 }
 
-/* === BAŞLIK === */
 .bolumler-title {
   color: #206dbf;
   font-size: 1.9rem;
@@ -27,7 +26,6 @@
   }
 }
 
-/* === GRID === */
 .bolumler-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -36,7 +34,6 @@
   margin: 0 auto;
 }
 
-/* Kart Tasarımı */
 .bolum-card {
   background: #ffffff !important;
   border-radius: 32px;
@@ -84,7 +81,6 @@
   transform: scale(1.05);
 }
 
-/* KIRMIZI (Acil) Kart */
 .bolum-card.red h3,
 .bolum-card.red button {
   color: #c1272d;
@@ -95,7 +91,6 @@
   background: #ffe6e6;
 }
 
-/* === ALT YAZI === */
 .bolumler-footer {
   margin-top: 60px;
   display: flex;
@@ -119,17 +114,16 @@
   border-radius: 999px;
 }
 
-/* === RESPONSIVE GRID === */
 @media (max-width: 900px) {
   .bolumler-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-    /* 24px might be too wide for small mobile */
+
   }
 
   .bolum-card {
     padding: 16px 12px 20px;
-    /* Reduced padding for mobile */
+
   }
 
   .bolum-card button {

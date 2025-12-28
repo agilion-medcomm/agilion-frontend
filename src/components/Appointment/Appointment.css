@@ -1,9 +1,7 @@
-/* src/components/Appointment/Appointment.css (KONSOLİDE EDİLMİŞ VERSİYON) */
 
-/* === BİLEŞEN KAPLAYICISI === */
 .appointment-component-container {
     background: transparent;
-    /* Arkaplanın görünmesi için şeffaf yapıldı */
+
     border: none;
     box-shadow: none;
     backdrop-filter: none;
@@ -15,9 +13,8 @@
     animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     gap: 30px;
-    /* İki kart arasındaki boşluk */
-}
 
+}
 
 @keyframes scaleIn {
     from {
@@ -31,7 +28,6 @@
     }
 }
 
-/* === IZGARA YAPISI (SOL: DOKTOR, SAĞ: TAKVİM) === */
 .modal-content-grid {
     display: grid;
     grid-template-columns: 280px 1fr;
@@ -45,10 +41,9 @@
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.8);
     overflow: hidden;
-    /* Kenar yumuşatma için */
+
 }
 
-/* === SOL PANEL: DOKTOR BİLGİLERİ === */
 .doctor-panel-left {
     padding: 36px 24px;
     text-align: center;
@@ -88,7 +83,6 @@
     font-weight: 600;
 }
 
-/* Doktor Avatarı */
 .doctor-modal-img,
 .doctor-modal-avatar-placeholder {
     width: 120px;
@@ -115,7 +109,6 @@
     gap: 4px;
 }
 
-/* Onay Butonu Alanı */
 .randevu-onay-wrap {
     margin-top: auto;
     width: 100%;
@@ -173,7 +166,6 @@
     opacity: 0.6;
 }
 
-/* === SAĞ PANEL: TAKvİM VE SLOTLAR === */
 .calendar-panel-right {
     padding: 36px;
     display: flex;
@@ -181,7 +173,6 @@
     background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
 }
 
-/* Navigasyon (Oklar ve Kartlar) */
 .date-navigation-container {
     display: flex;
     align-items: center;
@@ -219,8 +210,6 @@
     cursor: not-allowed;
 }
 
-
-/* Tarih Kartları Listesi - Segmented Control Kaplayıcı */
 .date-list {
     display: flex;
     flex-grow: 1;
@@ -250,7 +239,6 @@
     z-index: 1;
 }
 
-/* Dik dikey çizgiler (Dividers) */
 .date-card:not(:last-child)::after {
     content: '';
     position: absolute;
@@ -262,7 +250,6 @@
     transition: opacity 0.2s;
 }
 
-/* Aktif veya yanındaki kart seçiliyse çizgiyi gizle */
 .date-card.active::after,
 .date-card.active+.date-card::after {
     opacity: 0;
@@ -272,7 +259,6 @@
     background: rgba(255, 255, 255, 0.4);
 }
 
-/* "Kaplama" - Yüzen Kutucuk Etkisi */
 .date-card.active {
     background: #ffffff;
     color: #2563eb;
@@ -304,7 +290,6 @@
     color: #334155;
 }
 
-/* Takvim Açılır Pencere */
 .custom-date-selector {
     position: relative;
     margin-bottom: 25px;
@@ -370,7 +355,6 @@
     }
 }
 
-/* Saat Slotları Alanı */
 .time-slots-grid-wrap {
     flex-grow: 1;
 }
@@ -428,7 +412,6 @@
     opacity: 0.6;
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 900px) {
     .modal-content-grid {
         grid-template-columns: 1fr;
@@ -467,7 +450,6 @@
         margin: 0;
     }
 
-    /* İsim ve uzmanlık için kapsayıcı gerekebilir */
     .randevu-onay-wrap {
         display: none;
     }
@@ -522,7 +504,6 @@
     }
 }
 
-/* === DARK MODE === */
 [data-theme='dark'] .appointment-component-container {
     background: transparent;
     border: none;
@@ -653,7 +634,6 @@
     filter: brightness(0) invert(1);
 }
 
-/* === TAKVİM MODALI (MODERN MEDICAL UI) === */
 .calendar-popup {
     position: fixed;
     top: 50%;
@@ -684,7 +664,6 @@
     }
 }
 
-/* React Calendar Genel */
 .react-calendar {
     width: 100% !important;
     background: transparent !important;
@@ -692,7 +671,6 @@
     font-family: 'Inter', -apple-system, sans-serif !important;
 }
 
-/* Header: Ay/Yıl Navigasyon */
 .react-calendar__navigation {
     display: flex;
     margin-bottom: 16px !important;
@@ -737,7 +715,6 @@
     margin: 0 8px;
 }
 
-/* Hafta Günleri (PZT, SAL...) */
 .react-calendar__month-view__weekdays {
     text-align: center;
     text-transform: uppercase;
@@ -755,7 +732,6 @@
     text-decoration: none !important;
 }
 
-/* Gün Kutucukları Izgarası */
 .react-calendar__month-view__days {
     display: grid !important;
     grid-template-columns: repeat(7, 1fr);
@@ -778,20 +754,17 @@
     position: relative;
 }
 
-/* Hover Etkisi */
 .react-calendar__tile:enabled:hover {
     background-color: #f8fafc;
     box-shadow: inset 0 0 0 1px #e2e8f0;
 }
 
-/* Seçili Gün */
 .react-calendar__tile--active {
     background: #2563eb !important;
     color: #ffffff !important;
     font-weight: 700;
 }
 
-/* Bugün */
 .react-calendar__tile--now {
     background: #2564eb20;
     color: #2563eb !important;
@@ -815,7 +788,6 @@
     background: #ffffff;
 }
 
-/* Hafta Sonu */
 .react-calendar__month-view__days__day--weekend {
     color: #ef4444;
 }
@@ -824,19 +796,16 @@
     color: #ef4444 !important;
 }
 
-/* Pasif Günler (Neighboring Month) */
 .react-calendar__month-view__days__day--neighboringMonth {
     opacity: 0.2 !important;
 }
 
-/* Geçmiş Günler (Disabled) */
 .react-calendar__tile:disabled {
     background: transparent !important;
     color: #cbd5e1 !important;
     cursor: not-allowed;
 }
 
-/* === DARK MODE OVERRIDES === */
 [data-theme='dark'] .calendar-popup {
     background: #1e293b;
     border-color: rgba(51, 65, 85, 0.8);
@@ -896,7 +865,6 @@
     color: #5b6d87 !important;
 }
 
-/* === DOKTOR BİLGİ ALANI STİLLERİ === */
 .doctor-extra-info-section {
     padding: 0;
 }
@@ -925,7 +893,7 @@
     height: 28px;
     opacity: 0.9;
     filter: invert(31%) sepia(94%) saturate(1282%) hue-rotate(209deg) brightness(96%) contrast(92%);
-    /* #2563eb rengi */
+
 }
 
 .info-card-header h3 {
@@ -993,7 +961,6 @@
     line-height: 1;
 }
 
-/* Karanlık Mod Uyumu */
 [data-theme='dark'] .doctor-extra-info-section {
     border-top-color: rgba(255, 255, 255, 0.1);
 }
@@ -1028,7 +995,6 @@
     border-bottom-color: #334155;
 }
 
-/* Mobil Uyumu */
 @media (max-width: 768px) {
     .expertise-grid {
         grid-template-columns: 1fr;

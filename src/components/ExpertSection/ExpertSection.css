@@ -14,7 +14,6 @@
   flex-wrap: nowrap;
 }
 
-/* Sol taraf - Görsel */
 .expert-image {
   flex: 0 0 auto;
   max-width: 420px;
@@ -26,8 +25,6 @@
   }
 }
 
-
-
 .expert-image img {
   width: 100%;
   height: auto;
@@ -37,7 +34,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Sağ taraf - İçerik */
 .expert-content {
   flex: 1;
   display: flex;
@@ -60,7 +56,6 @@
   margin: 0;
 }
 
-/* Alt satır (Çağrı + Butonlar) */
 .expert-actions {
   display: flex;
   align-items: stretch;
@@ -69,7 +64,6 @@
   flex-wrap: nowrap;
 }
 
-/* Çağrı Kutusu */
 .call-box {
   background: #0e2b4b;
   color: #fff;
@@ -111,14 +105,13 @@
   filter: brightness(0) invert(1);
 }
 
-/* Sağdaki Butonlar */
 .expert-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
   flex: 0 0 220px;
   justify-content: space-between;
-  /* Butonları alt ve üste yasla */
+
 }
 
 .outline-btn {
@@ -129,12 +122,12 @@
   font-size: 1rem;
   font-weight: 600;
   padding: 18px 20px;
-  /* Yüksekliği artırıldı */
+
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
   flex: 1;
-  /* Alanı doldurması için */
+
   display: flex;
   align-items: center;
 }
@@ -151,7 +144,6 @@
   object-fit: contain;
 }
 
-/* ===== Responsive ===== */
 @media (max-width: 1100px) {
   .expert-container {
     flex-direction: column;
@@ -186,7 +178,7 @@
     flex-direction: row;
     gap: 15px;
     flex: 0 0 auto;
-    /* Masaüstünden kalan sabit yüksekliği sıfırla */
+
   }
 
   .outline-btn {
@@ -214,7 +206,7 @@
   .expert-buttons {
     gap: 10px;
     flex: 0 0 auto;
-    /* Reset flex-basis: 220px from desktop, which was forcing fixed height */
+
     width: 100%;
   }
 

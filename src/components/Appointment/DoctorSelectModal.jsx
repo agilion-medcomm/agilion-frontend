@@ -1,7 +1,6 @@
-// src/components/Appointment/DoctorSelectModal.jsx (YENİ DOSYA)
 
 import React, { useState, useEffect } from 'react';
-import './Appointment.css'; // Ortak stil dosyası
+import './Appointment.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
@@ -28,7 +27,7 @@ export default function DoctorSelectModal({ onClose, onDoctorSelect }) {
   }, []);
 
   const handleDoctorClick = (doc) => {
-    onDoctorSelect(doc); // Seçilen doktoru ana randevu modalini açmak için gönder
+    onDoctorSelect(doc);
   };
 
   const DoctorCard = ({ doc }) => (
@@ -37,7 +36,7 @@ export default function DoctorSelectModal({ onClose, onDoctorSelect }) {
       onClick={() => handleDoctorClick(doc)}
     >
       <div className="doctor-avatar-small">
-        {/* Fotoğraf yoksa baş harflerini göster */}
+
         {`${doc.firstName?.[0] || ''}${doc.lastName?.[0] || ''}`.toUpperCase()}
       </div>
       <div className="info">

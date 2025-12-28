@@ -12,7 +12,6 @@
   background-color: #f8f9fa;
 }
 
-/* Banner Stilleri */
 .page-banner {
   position: relative;
   width: 100%;
@@ -33,7 +32,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* İçeriden sol ve üstten 40px boşluk ekler */
+
   padding: 40px;
 }
 
@@ -44,7 +43,6 @@
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-/* Hizmet Kartları Stilleri */
 .service-card-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -61,9 +59,9 @@
   border: 1px solid #ced4da;
 
   display: flex;
-  /* Kartı esnek kutu yapar */
+
   flex-direction: column;
-  /* İçerikleri alt alta dizer */
+
   height: 100%;
 }
 
@@ -75,7 +73,7 @@
 
 .service-card-icon {
   color: #0d6efd;
-  /* Ana mavi renk */
+
   margin-bottom: 15px;
 }
 
@@ -83,9 +81,9 @@
   font-size: 1.25rem;
   color: #343a40;
   margin-bottom: 8px;
-  /* reduced spacing */
+
   min-height: 50px;
-  /* Başlıkların aynı hizada durması için */
+
 }
 
 .service-card-button {
@@ -101,7 +99,7 @@
   font-size: 1.2rem;
 
   margin-top: auto;
-  /* Üstteki tüm boşluğu doldurarak butonu en alta iter */
+
   align-self: center;
 }
 
@@ -125,7 +123,6 @@
   min-height: 4.5em;
 }
 
-/* İçerik Stilleri */
 .content-container {
   max-width: 850px !important;
 }
@@ -137,7 +134,7 @@
 .content-section h2 {
   font-size: 2rem;
   color: #0d3d6a;
-  /* Koyu mavi */
+
   margin-bottom: 24px;
   text-align: left;
 }
@@ -156,7 +153,6 @@
   font-weight: 500;
 }
 
-/* Hizmet Etiketleri (Pills) Stilleri */
 .pills-grid {
   display: flex;
   flex-wrap: wrap;
@@ -175,7 +171,6 @@
   transition: background-color 0.2s;
 }
 
-/* Mobil Uyum (Responsiveness) */
 @media (max-width: 1200px) {
   .service-card-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -196,7 +191,6 @@
   }
 }
 
-/* Modal Stilleri */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -265,10 +259,6 @@
   margin: 0;
 }
 
-
-
-
-
 .modal-body {
   padding: 15px 20px;
 }
@@ -331,8 +321,6 @@
   cursor: pointer;
 }
 
-
-
 .modal-actions .btn-secondary {
   background: #f8f9fa;
   color: #6c757d;
@@ -352,10 +340,6 @@
     flex-direction: column;
   }
 }
-
-
-
-/* --- MODAL STİLLERİ (GÜNCEL - YATAY VE GENİŞ VERSİYON) --- */
 
 .modal-overlay {
   position: fixed;
@@ -410,14 +394,12 @@
   overflow-y: auto;
 }
 
-/* İçeriği Yanyana Getiren Kapsayıcı */
 .modal-row {
   display: flex;
   gap: 40px;
   align-items: start;
 }
 
-/* Sol Taraf: Açıklama */
 .modal-col-left {
   flex: 0.8;
   font-size: 1em;
@@ -425,10 +407,9 @@
   color: #555;
 }
 
-/* Sağ Taraf: Hizmet Listesi Kutusu */
 .modal-col-right {
   flex: 1.2;
-  /* Sağ taraf biraz daha geniş olsun */
+
   background-color: #f8f9fa;
   padding: 16px;
   border-radius: 12px;
@@ -445,17 +426,15 @@
   padding-bottom: 8px;
 }
 
-/* LİSTE AYARI: İçeriği YATAY'a yayıyoruz (Grid Sistemi) */
 .service-list {
   list-style: none;
   padding: 0;
   margin: 0;
 
-  /* Sihirli kısım burası: Listeyi 2 sütuna bölüyoruz */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 15px 10px;
-  /* Satır ve sütun arası boşluklar */
+
 }
 
 .service-list li {
@@ -463,7 +442,7 @@
   color: #495057;
   display: flex;
   align-items: center;
-  /* Alt çizgi yerine kutu görünümü verelim */
+
   background: white;
   padding: 8px 12px;
   border-radius: 16px;
@@ -477,7 +456,6 @@
   font-size: 1.1rem;
 }
 
-/* Alt Buton Alanı */
 .modal-actions {
   margin-top: 30px;
   padding-top: 20px;
@@ -501,9 +479,6 @@
   background-color: #0b5ed7;
 }
 
-
-
-/* MOBİL UYUM */
 @media (max-width: 768px) {
   .modal-row {
     flex-direction: column;
@@ -531,7 +506,6 @@
   }
 }
 
-/* Buton Alanını ve Butonu Ortalama */
 .modal-actions {
   display: flex;
   justify-content: center;
@@ -555,31 +529,28 @@
   cursor: pointer;
 }
 
-/* Başlığı Sola Yaslama */
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  /* KRİTİK KOD: Başlığı sola yaslar */
+
   padding: 20px 30px;
   border-bottom: 1px solid #e9ecef;
   gap: 15px;
   position: relative;
-  /* Kapat butonu buna göre konumlanır */
+
 }
 
-/* Başlık metninin kendisi */
 .modal-header h2 {
   font-size: 1.5rem;
   color: #333;
   margin: 0;
   text-align: left;
-  /* Metni sola hizalar */
+
   flex: 1;
-  /* Geniş alana yayılmasını sağlar */
+
 }
 
-/* Public klasöründen gelen SVG ikonların boyutu */
 .custom-svg-icon {
   width: 50px;
   height: 50px;
@@ -588,47 +559,34 @@
   filter: invert(34%) sepia(98%) saturate(3025%) hue-rotate(204deg) brightness(101%) contrast(103%);
 }
 
-
-
-
-
-
-/* --- KAPAT BUTONU (SABİT VE KAYMAYAN VERSİYON) --- */
-
 .modal-close {
-  /* Konumlandırma - !important ile kaymayı engelliyoruz */
+
   position: absolute !important;
   right: 25px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
 
-  /* Görünüm Sıfırlama */
   background: transparent !important;
   border: none !important;
   outline: none !important;
   padding: 0 !important;
   margin: 0 !important;
 
-  /* Boyut */
   width: 32px;
   height: 32px;
 
-  /* İçerik Hizalama */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
 
-  /* Z-index ile en üstte kalsın */
   z-index: 10;
 }
 
-/* Hover durumunda POZİSYONA DOKUNMUYORUZ, sadece görsel */
 .modal-close:hover {
   background: transparent;
 }
 
-/* Resim Ayarları */
 .modal-close img {
   width: 100%;
   height: 100%;
@@ -638,17 +596,13 @@
   transition: opacity 0.2s ease, filter 0.2s ease;
 }
 
-/* Resim Hover Efekti */
 .modal-close:hover img {
   opacity: 1;
-  /* Üzerine gelince netleşir */
+
   filter: brightness(0.5);
-  /* İsteğe bağlı renk koyulaşması */
+
 }
 
-/* --- DARK MODE CONFIGURATION --- */
-
-/* Page Background & Text */
 [data-theme="dark"] .evde-saglik-page .bg-light,
 [data-theme="dark"] .evde-saglik-page .page-section {
   background-color: #121212;
@@ -659,7 +613,6 @@
   background-color: #121212;
 }
 
-/* Headings */
 [data-theme="dark"] .evde-saglik-page h2,
 [data-theme="dark"] .content-section h2,
 [data-theme="dark"] .service-card-title,
@@ -671,7 +624,6 @@
   color: #cbd5e1;
 }
 
-/* Service Cards */
 [data-theme="dark"] .service-card {
   background-color: #2251a2 !important;
   border: 1px solid #306fdb !important;
@@ -688,14 +640,12 @@
   border-color: #3b82f6;
 }
 
-/* Pills (Etiketler) */
 [data-theme="dark"] .pill {
   background-color: #1e293b;
   color: #c1d9f5;
   border-color: #3b82f6;
 }
 
-/* Modal Styling */
 [data-theme="dark"] .modal-content {
   background-color: #1a1a1a;
   color: #e2e8f0;
@@ -712,7 +662,6 @@
   color: #cbd5e1;
 }
 
-/* Modal Right Column (List Box) */
 [data-theme="dark"] .modal-col-right {
   background-color: #0f172a;
   border-color: #334155;
@@ -720,7 +669,7 @@
 
 [data-theme="dark"] .service-list li {
   background-color: #1e293b;
-  /* Kart rengi */
+
   border-color: #334155;
   color: #e2e8f0;
 }
@@ -734,79 +683,65 @@
   border-top-color: #333;
 }
 
-/* Modal Close Icon - Invert for visibility on dark */
 [data-theme="dark"] .modal-close img {
   filter: brightness(0) invert(1);
 }
 
 [data-theme="dark"] .modal-close:hover img {
   filter: brightness(0) invert(0.8);
-  /* Slightly dimmer on hover */
+
 }
 
-
-/* --- DARK MODE SERVICE CARD UPDATES --- */
-
 [data-theme="dark"] .service-card {
-  /* 1. Kare Form (Hafif yumuşatılmış köşeler) */
+
   border-radius: 32px !important;
-  /* 2. Zemin Rengi & Gradyan (Aşağıdan yukarıya hafif açılan koyu ton) */
+
   background: rgba(3, 60, 153, 0.8) !important;
-  /* 3. Liquid Glass Etkisi için Kenarlık */
+
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  /* Gölgeyi sıfırla, sadece hoverda gelsin */
+
   box-shadow: none !important;
-  /* Geçiş ayarları */
+
   transition: all 0.3s ease-in-out !important;
 }
 
-/* --- HOVER EFFECT (Renk Değişimi & Glow) --- */
 [data-theme="dark"] .service-card:hover {
   transform: none !important;
-  /* Arka planı hafifçe aydınlat (Renk değişimi) */
+
   background: linear-gradient(to top, rgba(30, 41, 59, 1), rgba(51, 65, 85, 0.9)) !important;
 
-  /* Kenarlığı belirginleştir (Mavi ışıltı) */
   border-color: rgba(59, 130, 246, 0.5) !important;
 
-  /* Hafif bir dış ışıltı (Glow effect) */
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.15) !important;
 }
 
-/* --- KART İÇİNDEKİ BUTON UYUMU --- */
 [data-theme="dark"] .service-card-button {
   background-color: transparent;
   color: #ffffff;
   font-size: 1.2rem;
-  /* Daha sönük gri-mavi */
+
   border: 1px solid rgba(255, 255, 255, 0.505);
   border-radius: 100px;
-  /* Kartla uyumlu köşe */
+
   transition: all 0.3s ease;
 }
 
 [data-theme="dark"] .service-card:hover .service-card-button {
   background-color: #3b82f6;
-  /* Hoverda maviye dön */
+
   color: #ffffff;
   border-color: #3b82f6;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-/* Kart içindeki ikon rengini de dark mode'a uyduralım */
 [data-theme="dark"] .service-card-icon {
   color: #ffffff;
-  /* Fallback for text/svg elements */
+
 }
 
-/* Image icons specific fix */
 [data-theme="dark"] .custom-svg-icon {
   filter: brightness(0) invert(1);
 }
-
-/* ====================================
-   RANDEVU TALEP FORMU STİLLERİ
-   ==================================== */
 
 .request-form-modal {
   max-width: 600px;
@@ -969,7 +904,6 @@
   border-color: #ef4444;
 }
 
-/* Responsive form */
 @media (max-width: 600px) {
   .form-row {
     grid-template-columns: 1fr;
@@ -987,10 +921,6 @@
     width: 100%;
   }
 }
-
-/* ===============================================
-   GİRİŞ UYARI MODALI STİLLERİ
-   =============================================== */
 
 .login-prompt-modal {
   max-width: 450px;
@@ -1023,7 +953,6 @@
   margin-bottom: 20px;
 }
 
-/* Dark mode için login prompt stilleri */
 [data-theme="dark"] .login-prompt-message {
   color: #e0e0e0;
 }

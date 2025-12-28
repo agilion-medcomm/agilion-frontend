@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-// Kullanıcı (hasta) oturumu için context
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
       const storedUser = localStorage.getItem('user');
       if (!storedUser) return null;
       const userData = JSON.parse(storedUser);
-      // Ensure 'id' field exists (appointments fetch için zorunlu)
+
       if (!userData.id && userData.userId) {
         userData.id = userData.userId;
       }
@@ -21,28 +21,24 @@ export function AuthProvider({ children }) {
     } catch (error) { return null; }
   });
 
-  // Hasta login fonksiyonu (token ve user ile)
   const login = async (tokenOrObj, userObj) => {
     let tokenString = null;
     let userToStore = null;
 
-    // Case 1: login(token, userObj) - token string + user object
     if (typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
       tokenString = tokenOrObj;
       userToStore = userObj;
     }
-    // Case 2: login(obj) - object with token and user
+
     else if (typeof tokenOrObj === "object" && tokenOrObj !== null) {
       tokenString = tokenOrObj.token;
       userToStore = tokenOrObj.user;
     }
 
-    // Ensure id field exists
     if (userToStore && !userToStore.id) {
       userToStore.id = userToStore.userId;
     }
 
-    // Save to localStorage immediately
     if (tokenString) {
       localStorage.setItem('token', tokenString);
     }
@@ -54,7 +50,6 @@ export function AuthProvider({ children }) {
       setToken(tokenString);
     }
 
-    // Optional: Verify with /auth/me to get fresh profile data
     if (tokenString) {
       try {
         const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
@@ -73,7 +68,7 @@ export function AuthProvider({ children }) {
           setUser(userData);
         }
       } catch (err) {
-        // /auth/me başarısız olsa da, önceden kaydedilen user ile devam et
+
         console.warn('Profile refresh başarısız, önceki user ile devam ediliyor', err);
       }
     }
@@ -112,10 +107,6 @@ const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-/**
- * PersonnelAuthProvider Context: Sadece gerekli personel bilgileriyle oturum yönetimi
- * phoneNumber ve tckn dışındaki gereksiz alanlar kaldırıldı.
- */
 export function PersonnelAuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
@@ -130,14 +121,9 @@ export function PersonnelAuthProvider({ children }) {
     } catch (error) { return null; }
   });
 
-  /**
-   * loginPersonnel fonksiyonu: yalnızca personel için giriş işlemi yapar.
-   * Hem token+user obje hem sadece token ile çalışır.
-   * Gereksiz property kalmadı.
-   */
   const loginPersonnel = async (tokenOrObj, userObj) => {
     if (typeof tokenOrObj === "string" && userObj && typeof userObj === "object") {
-      // Yalnızca gerekli property'ler alınır
+
       const slimUser = {
         tckn: userObj.tckn,
         firstName: userObj.firstName,
@@ -152,7 +138,6 @@ export function PersonnelAuthProvider({ children }) {
       return;
     }
 
-    // loginPersonnel(token): sadece token ile çağrılırsa
     let tokenString = null, userToStore = null;
     if (typeof tokenOrObj === "string") {
       tokenString = tokenOrObj;
@@ -164,7 +149,7 @@ export function PersonnelAuthProvider({ children }) {
     if (tokenString) localStorage.setItem('personnelToken', tokenString);
 
     if (userToStore && typeof userToStore === "object" && !Array.isArray(userToStore)) {
-      // Sadece gerekli alanlar alınıyor
+
       const slimUser = {
         tckn: userToStore.tckn,
         firstName: userToStore.firstName,
@@ -176,7 +161,7 @@ export function PersonnelAuthProvider({ children }) {
       setUser(slimUser);
       setToken(tokenString);
     } else if (tokenString) {
-      // SADECE TOKEN VARSA: Profili çek
+
       try {
         const meUrl = `${BaseURL}/auth/me`;
         const resp = await axios.get(meUrl, { headers: { Authorization: `Bearer ${tokenString}` } });
@@ -184,7 +169,7 @@ export function PersonnelAuthProvider({ children }) {
         if (!profile.role || profile.role === "PATIENT") {
           throw new Error("Bu token bir personele ait değil.");
         }
-        // Gereksiz alanlar filtrelendi
+
         const slimUser = {
           tckn: profile.tckn,
           firstName: profile.firstName,

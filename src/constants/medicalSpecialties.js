@@ -1,7 +1,3 @@
-/**
- * Medical Specializations Enum Mapping
- * These keys must match the backend Prisma enum values exactly
- */
 
 export const MEDICAL_SPECIALTIES = {
     EMERGENCY: "Acil Servis",
@@ -14,7 +10,6 @@ export const MEDICAL_SPECIALTIES = {
     GYNECOLOGY_OBSTETRICS: "Kadın Hastalıkları ve Doğum"
 };
 
-// Mapping from API enum keys to translation keys for i18n
 export const SPECIALTY_TRANSLATION_KEYS = {
     EMERGENCY: 'acil',
     ORAL_AND_DENTAL: 'dis',
@@ -26,12 +21,10 @@ export const SPECIALTY_TRANSLATION_KEYS = {
     GYNECOLOGY_OBSTETRICS: 'kadin'
 };
 
-// Get specialization label (for components without i18n)
 export const getSpecializationLabel = (key) => {
     return MEDICAL_SPECIALTIES[key] || key;
 };
 
-// Generate options for select dropdowns
 export const getSpecializationOptions = () => {
     return Object.entries(MEDICAL_SPECIALTIES).map(([value, label]) => ({
         value,

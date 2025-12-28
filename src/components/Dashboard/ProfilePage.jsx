@@ -5,7 +5,7 @@ import './ProfilePage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const BaseURL = `${API_BASE}/api/v1`;
-// Production'da fotoğraflar aynı domain'den sunuluyor
+
 const getImageBaseUrl = () => {
     if (import.meta.env.VITE_API_BASE) return import.meta.env.VITE_API_BASE;
     if (typeof window !== 'undefined' && window.location.hostname !== 'localhost') {
@@ -14,7 +14,6 @@ const getImageBaseUrl = () => {
     return API_BASE;
 };
 
-// --- İKONLAR ---
 const SaveIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
 );
@@ -37,21 +36,18 @@ export default function ProfilePage() {
     const [successMsg, setSuccessMsg] = useState('');
     const [errorMsg, setErrorMsg] = useState('');
 
-    // Form State
     const [formData, setFormData] = useState({
         email: '',
         phoneNumber: '',
         specialization: '',
     });
 
-    // Password State
     const [passData, setPassData] = useState({
         currentPassword: '',
         newPassword: '',
         confirmPassword: ''
     });
 
-    // Profil sayfası açıldığında kullanıcı verilerini yenile
     useEffect(() => {
         if (refreshUser) {
             refreshUser();
@@ -78,7 +74,6 @@ export default function ProfilePage() {
         setPassData(prev => ({ ...prev, [name]: value }));
     };
 
-    // --- 1. PROFİL GÜNCELLEME ---
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
         if (!user) return;
@@ -99,10 +94,8 @@ export default function ProfilePage() {
                 userRole: user.role
             });
 
-            // Personel kendi profilini güncelliyor
             const endpoint = `${BaseURL}/personnel/${user.id}`;
 
-            // Sadece dolu alanları gönder
             const payload = {};
             if (formData.email?.trim()) payload.email = formData.email.trim();
             if (formData.phoneNumber?.trim()) payload.phoneNumber = formData.phoneNumber.trim();
@@ -115,7 +108,6 @@ export default function ProfilePage() {
                 headers: { Authorization: `Bearer ${token}` }
             });
 
-            // Profil bilgilerini yenile
             if (refreshUser) {
                 await refreshUser();
             }
@@ -130,7 +122,6 @@ export default function ProfilePage() {
         }
     };
 
-    // --- 2. ŞİFRE GÜNCELLEME ---
     const handlePasswordUpdate = async (e) => {
         e.preventDefault();
         if (!user) return;
@@ -155,7 +146,6 @@ export default function ProfilePage() {
                 throw new Error("Oturum süreniz dolmuş veya giriş yapılmamış. Lütfen tekrar giriş yapın.");
             }
 
-            // Personel kendi şifresini güncelliyor
             const endpoint = `${BaseURL}/personnel/${user.id}`;
 
             console.log("Şifre güncelleme isteği gönderiliyor...", { endpoint });
@@ -193,7 +183,6 @@ export default function ProfilePage() {
 
             <div className="profile-grid">
 
-                {/* LEFT: IDENTITY CARD */}
                 <div className="profile-card identity-card">
                     <div className="card-header">
                         <div className="avatar-circle" style={(user?.photoUrl || user?.img) ? { padding: 0, overflow: 'hidden' } : {}}>
@@ -229,10 +218,8 @@ export default function ProfilePage() {
                     </div>
                 </div>
 
-                {/* RIGHT COLUMN */}
                 <div className="profile-right-column">
 
-                    {/* CONTACT */}
                     <div className="profile-card settings-card">
                         <div className="card-title">
                             <UserIcon /> İletişim Bilgileri
@@ -284,7 +271,6 @@ export default function ProfilePage() {
                         </form>
                     </div>
 
-                    {/* PASSWORD */}
                     <div className="profile-card security-card">
                         <div className="card-title">
                             <LockIcon /> Şifre Değiştir

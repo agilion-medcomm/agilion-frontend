@@ -159,7 +159,6 @@
   line-height: 1.6;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .bio-page-container {
     padding: 40px 16px;

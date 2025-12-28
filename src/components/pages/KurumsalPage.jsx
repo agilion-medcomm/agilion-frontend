@@ -10,7 +10,7 @@ const KurumsalPage = () => {
 
   return (
     <div className="kurumsal-page">
-      {/* Hero Section */}
+
       <section className="kurumsal-hero">
         <div className="kurumsal-hero__content">
           <picture>
@@ -21,9 +21,8 @@ const KurumsalPage = () => {
         </div>
       </section>
 
-      {/* Content Container */}
       <div className="kurumsal-content">
-        {/* Intro Text */}
+
         <div className="kurumsal-intro">
           <p>
             {t('kurumsal:intro.p1')}
@@ -31,12 +30,27 @@ const KurumsalPage = () => {
           <p>
             {t('kurumsal:intro.p2')}
           </p>
+          <p>
+            {t('kurumsal:intro.p3')}
+          </p>
         </div>
 
-        {/* DEĞERLERİMİZ */}
+        <section>
+          <h2 className="kurumsal-section-header">{t('kurumsal:about.title')}</h2>
+          <div className="kurumsal-text-block">
+            <p>
+              {t('kurumsal:about.text')}
+            </p>
+            <p>
+              {t('kurumsal:about.text2')}
+            </p>
+          </div>
+        </section>
+
         <section>
           <h2 className="kurumsal-section-header">{t('kurumsal:values.title')}</h2>
           <div className="kurumsal-text-block">
+            <p className="values-description">{t('kurumsal:values.description')}</p>
             <ul>
               {valuesItems.map((item, index) => (
                 <li key={index}><strong>{item.bold}</strong>{item.text}</li>
@@ -45,28 +59,31 @@ const KurumsalPage = () => {
           </div>
         </section>
 
-        {/* MİSYONUMUZ */}
         <section>
           <h2 className="kurumsal-section-header">{t('kurumsal:mission.title')}</h2>
           <div className="kurumsal-text-block">
             <p>
               {t('kurumsal:mission.text')}
             </p>
+            <p>
+              {t('kurumsal:mission.text2')}
+            </p>
           </div>
         </section>
 
-        {/* VİZYONUMUZ */}
         <section>
           <h2 className="kurumsal-section-header">{t('kurumsal:vision.title')}</h2>
           <div className="kurumsal-text-block">
             <p>
               {t('kurumsal:vision.text')}
             </p>
+            <p>
+              {t('kurumsal:vision.text2')}
+            </p>
           </div>
         </section>
       </div>
 
-      {/* Stats Component */}
       <Stats />
     </div>
   );

@@ -2,7 +2,6 @@
     margin-bottom: 24px;
 }
 
-/* Table Container */
 .table-container {
     background: var(--dashboard-card-bg, white);
     border-radius: 12px;
@@ -187,7 +186,7 @@
     background: rgba(255, 255, 255, 0.02);
     border-color: rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    /* Brighter white for dark mode */
+
 }
 
 [data-theme='dark'] .empty-search-state .hint {
@@ -250,7 +249,6 @@
     background: #dc2626;
 }
 
-/* Expanded Row Styles */
 .expanded-row-container {
     padding: 20px;
 }
@@ -349,7 +347,6 @@
     border-bottom: 1px solid var(--dashboard-border, #f1f5f9);
 }
 
-/* Nested Table Support for Dark Mode */
 .nested-table {
     width: 100%;
     border-collapse: collapse;
@@ -398,7 +395,6 @@
     background: #2563eb;
 }
 
-/* Modal Styles */
 .modal-overlay {
     position: fixed;
     top: 0;

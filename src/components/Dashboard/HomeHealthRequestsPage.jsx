@@ -6,7 +6,6 @@ import './HomeHealthRequestsPage.css';
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const BaseURL = `${API_BASE}/api/v1`;
 
-// Status badge renkleri ve Türkçe karşılıkları
 const STATUS_CONFIG = {
   PENDING: { label: 'Beklemede', color: '#f39c12', bgColor: '#fef9e7' },
   APPROVED: { label: 'Onaylandı', color: '#27ae60', bgColor: '#e9f7ef' },
@@ -28,7 +27,6 @@ export default function HomeHealthRequestsPage() {
   const isCashier = user?.role === 'CASHIER';
   const canApprove = isAdmin || isCashier;
 
-  // Talepleri getir
   const fetchRequests = async () => {
     try {
       setLoading(true);
@@ -49,7 +47,6 @@ export default function HomeHealthRequestsPage() {
     }
   };
 
-  // İstatistikleri getir
   const fetchStats = async () => {
     try {
       const response = await axios.get(`${BaseURL}/home-health/stats`, {
@@ -70,7 +67,6 @@ export default function HomeHealthRequestsPage() {
     }
   }, [token, filterStatus]);
 
-  // Onay
   const handleApprove = async () => {
     if (!selectedRequest) return;
     setActionLoading(true);
@@ -91,7 +87,6 @@ export default function HomeHealthRequestsPage() {
     }
   };
 
-  // Red
   const handleReject = async () => {
     if (!selectedRequest) return;
     setActionLoading(true);
@@ -112,7 +107,6 @@ export default function HomeHealthRequestsPage() {
     }
   };
 
-  // Yetki kontrolü
   if (!user || (user.role !== 'ADMIN' && user.role !== 'CASHIER')) {
     return (
       <div className="unauthorized-message">
@@ -121,7 +115,6 @@ export default function HomeHealthRequestsPage() {
     );
   }
 
-  // Tarih formatla
   const formatDate = (dateString) => {
     if (!dateString) return '-';
     const date = new Date(dateString);
@@ -143,7 +136,6 @@ export default function HomeHealthRequestsPage() {
         </div>
       </div>
 
-      {/* İstatistikler */}
       {stats && (
         <div className="stats-grid">
           <div className="stat-card pending">
@@ -165,7 +157,6 @@ export default function HomeHealthRequestsPage() {
         </div>
       )}
 
-      {/* Filtreler */}
       <div className="filters-section">
         <label htmlFor="statusFilter">Durum Filtresi:</label>
         <select
@@ -183,7 +174,6 @@ export default function HomeHealthRequestsPage() {
         </button>
       </div>
 
-      {/* Yükleniyor */}
       {loading && (
         <div className="loading-spinner">
           <div className="spinner"></div>
@@ -191,10 +181,8 @@ export default function HomeHealthRequestsPage() {
         </div>
       )}
 
-      {/* Hata */}
       {error && <div className="error-message">{error}</div>}
 
-      {/* Talepler Tablosu */}
       {!loading && !error && (
         <div className="requests-table-container">
           {requests.length === 0 ? (
@@ -251,7 +239,6 @@ export default function HomeHealthRequestsPage() {
         </div>
       )}
 
-      {/* Detay Modal */}
       {selectedRequest && (
         <div className="modal-overlay" onClick={() => setSelectedRequest(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -319,7 +306,6 @@ export default function HomeHealthRequestsPage() {
                 )}
               </div>
 
-              {/* Onay işlemleri - sadece PENDING durumunda Admin veya Cashier için */}
               {canApprove && selectedRequest.status === 'PENDING' && (
                 <div className="action-section">
                   <h3>İşlemler</h3>

@@ -3,12 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { MEDICAL_SPECIALTIES, SPECIALTY_TRANSLATION_KEYS } from "../../constants/medicalSpecialties";
 
-// API Adresini diğer sayfalardaki gibi tanımlıyoruz
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// Use new enum-based mapping
 const DEPARTMENT_KEYS = SPECIALTY_TRANSLATION_KEYS;
 
 import { useTheme } from "../../context/ThemeContext";
@@ -84,7 +82,6 @@ const SelectDoctorPage = () => {
           {t('medical:doctors.select_doctor_subtitle')}
         </p>
 
-        {/* BÖLÜMLERİ GÖRE FİLTRE */}
         <div style={{ maxWidth: 400, margin: '0 0 50px 0' }}>
           <label style={{
             display: 'block',
@@ -149,7 +146,7 @@ const SelectDoctorPage = () => {
                   e.currentTarget.style.boxShadow = isDark ? '0 4px 6px rgba(0,0,0,0.3)' : '0 4px 15px rgba(0,0,0,0.05)';
                 }}
               >
-                {/* Fotoğraf Alanı */}
+
                 <div
                   style={{
                     width: 120,
@@ -195,7 +192,6 @@ const SelectDoctorPage = () => {
                   )}
                 </div>
 
-                {/* Bilgiler */}
                 <h3 style={{
                   fontSize: 18,
                   fontWeight: 700,

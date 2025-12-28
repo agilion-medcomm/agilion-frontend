@@ -1,31 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './LoginPage.css'; // Mevcut stilleri kullanalım
+import './LoginPage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
-  const [status, setStatus] = useState('verifying'); // verifying, success, error
+  const [status, setStatus] = useState('verifying');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = searchParams.get('token');
-    
+
     if (!token) {
       setStatus('error');
       setMessage('Geçersiz doğrulama bağlantısı.');
       return;
     }
 
-    // Backend'e doğrulama isteği at
     axios.post(`${API_BASE}/api/v1/auth/verify-email`, { token })
       .then(res => {
         setStatus('success');
         setMessage('E-postanız başarıyla doğrulandı! Yönlendiriliyorsunuz...');
-        // 3 saniye sonra login'e at
+
         setTimeout(() => navigate('/login'), 3000);
       })
       .catch(err => {

@@ -1,10 +1,9 @@
-/* Birimlerimiz Page Styles */
+
 .birimlerimiz-page {
     font-family: 'Inter', sans-serif;
     background-color: #fff;
 }
 
-/* Header Section */
 .birimlerimiz-header {
     width: 100%;
     background-color: #f0f4f8;
@@ -20,7 +19,6 @@
     color: #0044cc;
 }
 
-/* Grid Layout */
 .birimlerimiz-grid {
     max-width: 1200px;
     margin: 0 auto 40px auto;
@@ -30,8 +28,6 @@
     gap: 16px;
 }
 
-/* Card Styles */
-/* Card Styles */
 .birim-card {
     background: white;
     border-radius: 20px;
@@ -59,7 +55,7 @@
     height: 36px;
     object-fit: contain;
     margin-bottom: 6px;
-    /* Transform black icon to #1c345f */
+
     filter: invert(18%) sepia(21%) saturate(2852%) hue-rotate(192deg) brightness(96%) contrast(90%);
 }
 
@@ -72,7 +68,6 @@
     padding: 0 10px;
 }
 
-/* The Absolute Positioned Arrow */
 .birim-card-arrow-icon {
     position: absolute;
     right: 0px;
@@ -89,10 +84,9 @@
     transform: translateY(-50%) translateX(2px);
 }
 
-/* Selected State */
 .birim-card.selected {
     background-color: #e0f2fe !important;
-    /* Sky blue */
+
     border-color: #0ea5e9;
     box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.2);
 }
@@ -102,17 +96,15 @@
 }
 
 .birim-card.selected .birim-card-arrow-icon {
-    /* Blue tint filter */
+
     filter: invert(34%) sepia(87%) saturate(1639%) hue-rotate(183deg) brightness(96%) contrast(93%);
     opacity: 1;
 }
 
-/* Button styles removed */
 .birim-card__btn {
     display: none;
 }
 
-/* Content Section */
 .birim-content-section {
     background: white;
     padding: 40px 20px;
@@ -145,12 +137,21 @@
     font-weight: 500;
 }
 
-/* Tags (Maddeler) */
+.birim-content-text p {
+    margin-bottom: 16px;
+}
+
+.birim-content-text p:last-of-type {
+    margin-bottom: 0;
+}
+
 .birim-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
 }
 
 .birim-tags span {
@@ -163,17 +164,12 @@
     border: 1px solid rgba(0, 82, 204, 0.1);
 }
 
-/* Responsive Grid Logic */
-/* Desktop (default): 4 cols. */
-
-/* Tablet: 3 cols. */
 @media (max-width: 1024px) {
     .birimlerimiz-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-/* Mobile: 2 cols. */
 @media (max-width: 600px) {
     .birimlerimiz-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -198,14 +194,12 @@
         right: 8px;
     }
 
-    /* Ensure selected state works on mobile */
     .birim-card.selected {
         background-color: #e0f2fe !important;
         border-color: #0ea5e9;
     }
 }
 
-/* Dark Mode Configuration for BirimlerimizPage */
 [data-theme="dark"] .birimlerimiz-page {
     background-color: #121212;
     color: #e2e8f0;
@@ -219,7 +213,6 @@
     color: #f1f5f9;
 }
 
-/* Cards Dark Mode */
 [data-theme="dark"] .birim-card {
     background: #1e5bb8;
     border: 1px solid #3b82f6;
@@ -230,10 +223,9 @@
     box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
 }
 
-/* Selected State Dark Mode */
 [data-theme="dark"] .birim-card.selected {
     background: #1d4ed8 !important;
-    /* Darker blue */
+
     border-color: #60a5fa !important;
     box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
     transform: translateY(-2px);
@@ -256,7 +248,6 @@
     opacity: 1;
 }
 
-/* Content Area Dark Mode */
 [data-theme="dark"] .birim-content-section {
     background: #1a1a1a;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
@@ -271,7 +262,10 @@
     color: #cbd5e1;
 }
 
-/* Tags in Dark Mode */
+[data-theme="dark"] .birim-tags {
+    border-top-color: #3b82f6;
+}
+
 [data-theme="dark"] .birim-tags span {
     background-color: #1e293b;
     color: #93c5fd;

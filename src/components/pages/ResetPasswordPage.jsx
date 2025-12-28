@@ -58,7 +58,7 @@ export default function ResetPasswordPage() {
 
       if (response.data?.status === 'success') {
         setSuccess(true);
-        // 3 saniye sonra login sayfasına yönlendir
+
         setTimeout(() => {
           navigate('/login');
         }, 3000);

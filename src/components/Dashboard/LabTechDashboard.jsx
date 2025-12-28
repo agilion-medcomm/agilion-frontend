@@ -8,7 +8,7 @@ const BaseURL = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 export default function LabTechDashboard() {
   const { user } = usePersonnelAuth();
   const [tests, setTests] = useState([]);
-  const [filter, setFilter] = useState('pending'); // pending, all
+  const [filter, setFilter] = useState('pending');
   const [loading, setLoading] = useState(false);
   const [showResultModal, setShowResultModal] = useState(false);
   const [selectedTest, setSelectedTest] = useState(null);
@@ -25,13 +25,7 @@ export default function LabTechDashboard() {
   const fetchTests = async () => {
     setLoading(true);
     try {
-      // TODO: Replace with real API call
-      // const response = await axios.get(`${BaseURL}/api/v1/lab-tests`, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-      //   params: { status: filter === 'pending' ? 'PENDING,IN_PROGRESS' : undefined }
-      // });
 
-      // Mock data
       const mockTests = [
         {
           id: 1,
@@ -79,10 +73,6 @@ export default function LabTechDashboard() {
 
   const handleStartTest = async (testId) => {
     try {
-      // TODO: Replace with real API call
-      // await axios.put(`${BaseURL}/api/v1/lab-tests/${testId}/start`, {}, {
-      //   headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-      // });
 
       alert('Test started!');
       fetchTests();
@@ -106,14 +96,6 @@ export default function LabTechDashboard() {
       if (resultData.resultFile) {
         formData.append('resultFile', resultData.resultFile);
       }
-
-      // TODO: Replace with real API call
-      // await axios.put(`${BaseURL}/api/v1/lab-tests/${selectedTest.id}/results`, formData, {
-      //   headers: { 
-      //     Authorization: `Bearer ${localStorage.getItem('token')}`,
-      //     'Content-Type': 'multipart/form-data'
-      //   }
-      // });
 
       alert('Results uploaded successfully!');
       setShowResultModal(false);
@@ -141,7 +123,6 @@ export default function LabTechDashboard() {
         </div>
       </div>
 
-      {/* Statistics */}
       <div className="stats-grid">
         <div className="stat-card" style={{ background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%)' }}>
           <div className="stat-icon">⏳</div>
@@ -176,7 +157,6 @@ export default function LabTechDashboard() {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="filters-bar">
         <div className="filter-group">
           <label>Görünüm:</label>
@@ -187,7 +167,6 @@ export default function LabTechDashboard() {
         </div>
       </div>
 
-      {/* Tests Table */}
       <div className="data-table-container">
         <table className="data-table">
           <thead>
@@ -264,7 +243,6 @@ export default function LabTechDashboard() {
         </table>
       </div>
 
-      {/* Upload Results Modal */}
       {showResultModal && (
         <div className="modal-overlay" onClick={() => setShowResultModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -324,7 +302,6 @@ export default function LabTechDashboard() {
         </div>
       )}
 
-      {/* API Notice */}
       <div className="api-notice">
         <p><strong>⚠️ Backend API Gereksinimi:</strong></p>
         <ul>

@@ -1,4 +1,4 @@
-/* --- THEME VARIABLES --- */
+
 :root {
     --dash-bg: #f8fafc;
     --dash-card-bg: #ffffff;
@@ -32,7 +32,6 @@ body.dark {
     --dash-header-bg: #1e293b;
 }
 
-/* --- GENEL SAYFA DÜZENİ --- */
 .dashboard-page {
     padding: 2rem;
     max-width: 1200px;
@@ -105,7 +104,7 @@ body.dark {
 
 [data-theme='dark'] .logout-btn-header {
     background: rgba(255, 107, 107, 0.12);
-    /* Daha açık kırmızı */
+
     border-color: rgba(255, 135, 135, 0.25);
 }
 
@@ -165,7 +164,6 @@ body.dark {
     font-size: 1rem;
 }
 
-/* --- SEKMELER (TABS) --- */
 .tabs-container {
     display: flex;
     justify-content: center;
@@ -228,8 +226,6 @@ body.dark {
     transform: none !important;
 }
 
-
-/* --- RANDEVULAR SEKMESİ --- */
 .filters-bar {
     display: flex;
     gap: 1.5rem;
@@ -319,7 +315,6 @@ body.dark .modern-appointment-card {
     color: var(--dash-text);
 }
 
-
 .appointment-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -348,8 +343,6 @@ body.dark .modern-appointment-card {
     color: var(--dash-text);
 }
 
-
-/* Badge (Etiketler) */
 .badge {
     padding: 4px 10px;
     border-radius: 20px;
@@ -385,7 +378,6 @@ body.dark .modern-appointment-card {
     color: #166534;
 }
 
-/* --- LAB SONUÇLARI (TABLO) --- */
 .data-table-container {
     background: var(--dash-card-bg);
     border-radius: 12px;
@@ -433,7 +425,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* --- YORUMLAR (REVIEWS) --- */
 .reviews-container {
     display: grid;
     gap: 1.5rem;
@@ -468,7 +459,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     color: var(--dash-text-muted);
     font-weight: 500;
 }
-
 
 .rating-stars {
     font-size: 1.2rem;
@@ -556,7 +546,7 @@ body.dark .dashboard-page .data-table tr:hover td {
     font-size: 0.95rem;
     transition: all 0.2s ease;
     box-sizing: border-box;
-    /* Padding taşmasını önler */
+
 }
 
 .form-input:focus {
@@ -573,7 +563,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     cursor: not-allowed;
 }
 
-/* Butonlar */
 .btn-primary,
 .btn-save,
 .btn-secondary {
@@ -593,20 +582,14 @@ body.dark .dashboard-page .data-table tr:hover td {
     white-space: nowrap !important;
 }
 
-
-
-
-
 .btn-primary,
 .btn-save {
     background: #3b82f6;
     color: white;
     border: none;
     padding: 0 2rem !important;
-    /* Increased padding to prevent edge contact */
+
 }
-
-
 
 .btn-save {
     width: 100%;
@@ -649,10 +632,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     padding: 0 1rem !important;
 }
 
-
-
-
-
 .btn-secondary:hover {
     background: var(--dash-bg);
     border-color: var(--dash-tab-active-border);
@@ -663,7 +642,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     font-size: 0.85rem;
 }
 
-/* --- MODAL --- */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -676,7 +654,7 @@ body.dark .dashboard-page .data-table tr:hover td {
     align-items: center;
     justify-content: center;
     z-index: 2050;
-    /* Above floating buttons */
+
     animation: fadeIn 0.2s;
 }
 
@@ -708,7 +686,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     color: var(--dash-text-muted);
 }
 
-
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -724,7 +701,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     margin: 0;
     color: var(--dash-text);
 }
-
 
 .modal-close {
     background: none;
@@ -767,7 +743,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     opacity: 1 !important;
 }
 
-
 .star-icon-img {
     width: 38px;
     height: 38px;
@@ -775,15 +750,9 @@ body.dark .dashboard-page .data-table tr:hover td {
     transition: all 0.2s ease;
 }
 
-
-
-
-
 .dash-text-muted {
     color: var(--dash-text-muted) !important;
 }
-
-
 
 .modal-actions {
     display: flex !important;
@@ -794,8 +763,6 @@ body.dark .dashboard-page .data-table tr:hover td {
     padding: 0 !important;
     border: none !important;
 }
-
-
 
 @media (max-width: 768px) {
     .settings-container {

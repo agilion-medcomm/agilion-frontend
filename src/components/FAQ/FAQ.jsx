@@ -14,17 +14,15 @@ export default function FAQ() {
 
   return (
     <section className="faq-section">
-      {/* Başlık */}
+
       <h2 className="faq-title">{t('home:faq.title')}</h2>
 
-      {/* Ana konteyner */}
       <div className="faq-container">
-        {/* Sol taraf: Görsel */}
+
         <div className="faq-image">
           <img src="/kdoctor.png" alt="Kadın Doktor" />
         </div>
 
-        {/* Sağ taraf: Akordiyon */}
         <div className="faq-accordion">
           {faqData.map((item, index) => (
             <div

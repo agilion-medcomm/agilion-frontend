@@ -7,17 +7,14 @@ import { useNavigate } from 'react-router-dom';
 import { MEDICAL_SPECIALTIES } from '../../constants/medicalSpecialties';
 import './Appointment.css';
 
-// API Ayarları
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const API_PREFIX = '/api/v1';
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
-// Slot Ayarları
 const SLOT_START = 9;
 const SLOT_END = 17;
 const MAX_DAYS = 90;
 
-// --- Yardımcı Fonksiyonlar ---
 const formatDateForBackend = (date) => {
 	const day = String(date.getDate()).padStart(2, '0');
 	const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -58,7 +55,7 @@ const generateTimeSlots = (date, bookedTimes = []) => {
 			});
 		}
 	}
-	// 17:30 slotunu çıkar (tercihe bağlı)
+
 	return slots.filter(slot => slot.time !== '17:30');
 };
 
@@ -67,7 +64,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 	const { user, token } = useAuth();
 	const navigate = useNavigate();
 
-	// --- State Yönetimi ---
 	const initialDate = useMemo(() => {
 		const today = new Date();
 		today.setHours(0, 0, 0, 0);
@@ -85,7 +81,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 	const [calendarVisible, setCalendarVisible] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	// --- Backend'den Dolu Saatleri Çekme ---
 	useEffect(() => {
 		if (!doctor) return;
 		const fetchBookedSlots = async () => {
@@ -97,7 +92,7 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 						date: dateStr
 					}
 				});
-				// Backend yapısına göre bookedTimes'ı al
+
 				const data = response.data?.data;
 				const slots = Array.isArray(data) ? data.map(a => a.time) : (data?.bookedTimes || []);
 				setBookedTimes(slots);
@@ -113,14 +108,12 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 		return generateTimeSlots(selectedDate, bookedTimes);
 	}, [selectedDate, bookedTimes]);
 
-	// --- Olay İşleyiciler ---
 	const handleDateChangeFromCalendar = (date) => {
 		if (date >= minDate && date <= maxDate) {
 			setSelectedDate(date);
 			setSelectedSlot(null);
 			setCalendarVisible(false);
 
-			// Seçilen tarihin olduğu haftaya git
 			const newIndex = allDays.findIndex(d => d.toDateString() === date.toDateString());
 			if (newIndex !== -1) {
 				setWeekStartIndex(Math.max(0, Math.min(newIndex - 2, MAX_DAYS - 5)));
@@ -137,7 +130,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 			return navigate('/login');
 		}
 
-		// Modern onay modalı
 		const confirmBooking = window.confirm(
 			`${t('appointment:form.confirm_title')}\n\n` +
 			`${t('appointment:form.confirm_doctor')}: ${doctor.firstName} ${doctor.lastName}\n` +
@@ -165,8 +157,8 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 				headers: { Authorization: `Bearer ${token}` }
 			});
 			alert(`${t('appointment:form.success_message')}\n\n${payload.date} - ${payload.time}`);
-			if (onSuccess) onSuccess(); // Başarı callback'i (örn: sayfayı yenilemek için)
-			if (onClose) onClose();     // Modalı kapat
+			if (onSuccess) onSuccess();
+			if (onClose) onClose();
 		} catch (error) {
 			alert("❌ Hata: " + (error.response?.data?.message || error.message));
 		} finally {
@@ -174,7 +166,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 		}
 	};
 
-	// --- Render Helper ---
 	const DoctorAvatar = () => {
 		if (doctor.img) {
 			const imgSrc = doctor.img.startsWith('http') ? doctor.img : `${API_BASE}${doctor.img}`;
@@ -185,7 +176,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 	};
 
 	const visibleWeekDays = allDays.slice(weekStartIndex, weekStartIndex + 5);
-
 
 	return (
 		<div className="appointment-component-container">
@@ -208,7 +198,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 					</div>
 				</div>
 
-				{/* SAĞ PANEL: Takvim */}
 				<div className="calendar-panel-right">
 					<div className="date-navigation-container">
 						<button onClick={() => setWeekStartIndex(p => Math.max(p - 5, 0))} disabled={weekStartIndex === 0} className="nav-btn">
@@ -271,7 +260,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 						</div>
 					</div>
 
-					{/* Mobil İçin Alt Tarafta Onay Butonu */}
 					<div className="randevu-onay-wrap-mobile">
 						<button
 							className="confirm-appointment-btn"
@@ -285,7 +273,6 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 				</div>
 			</div>
 
-			{/* DOKTOR BİLGİ ALANI */}
 			<div className="doctor-extra-info-section">
 				<div className="doctor-info-card">
 					<div className="info-card-header">

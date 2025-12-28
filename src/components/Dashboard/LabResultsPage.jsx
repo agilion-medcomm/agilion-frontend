@@ -28,7 +28,6 @@ export default function LabResultsPage() {
     try {
       const token = localStorage.getItem('personnelToken');
 
-      // Önce hasta bilgilerini alalım
       const patientRes = await axios.get(`${BaseURL}/patients/search`, {
         params: { tckn },
         headers: { Authorization: `Bearer ${token}` }
@@ -37,7 +36,6 @@ export default function LabResultsPage() {
       const patient = patientRes.data.data;
       setPatientInfo(patient);
 
-      // Sonra bu hastanın lab isteklerini alalım
       const resultsRes = await axios.get(`${BaseURL}/lab-requests`, {
         params: {
           patientId: patient.patientId,
@@ -46,7 +44,6 @@ export default function LabResultsPage() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Randevu bilgilerini de alalım
       const appointmentsRes = await axios.get(`${BaseURL}/appointments`, {
         params: {
           list: 'true',
@@ -176,7 +173,6 @@ export default function LabResultsPage() {
         </form>
       </div>
 
-      {/* Message */}
       {message.text && (
         <div style={{
           padding: '12px 16px',
@@ -190,10 +186,9 @@ export default function LabResultsPage() {
         </div>
       )}
 
-      {/* Results */}
       {patientInfo && (
         <div>
-          {/* Patient Info Card */}
+
           <div style={{
             background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white',
@@ -226,7 +221,6 @@ export default function LabResultsPage() {
             </div>
           </div>
 
-          {/* Results Table */}
           {results && results.length > 0 ? (
             <div style={{
               background: 'var(--dashboard-card-bg)',
@@ -338,7 +332,6 @@ export default function LabResultsPage() {
             )
           )}
 
-          {/* Appointments Table */}
           {appointments && appointments.length > 0 && (
             <div style={{
               background: 'var(--dashboard-card-bg)',
@@ -414,7 +407,6 @@ export default function LabResultsPage() {
         </div>
       )}
 
-      {/* Initial State */}
       {!searchPerformed && !patientInfo && (
         <div style={{
           background: 'var(--dashboard-card-bg)',

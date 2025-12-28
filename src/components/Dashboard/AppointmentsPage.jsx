@@ -34,7 +34,7 @@ export default function AppointmentsPage() {
     const token = localStorage.getItem('personnelToken');
 
     try {
-      // Get patient ID from TCKN
+
       const patientRes = await axios.get(`${BaseURL}/patients/search`, {
         params: { tckn: searchTckn },
         headers: { Authorization: `Bearer ${token}` }
@@ -49,7 +49,6 @@ export default function AppointmentsPage() {
       const patientId = patientRes.data.data.id;
       setSearchPatient(patientRes.data.data);
 
-      // Fetch appointments for this patient
       const appointmentsRes = await axios.get(`${BaseURL}/appointments`, {
         params: { list: 'true', patientId },
         headers: { Authorization: `Bearer ${token}` }
@@ -130,10 +129,9 @@ export default function AppointmentsPage() {
   };
 
   const filteredAppointments = appointments.filter(app => {
-    // Status filter
+
     if (statusFilter !== 'ALL' && app.status !== statusFilter) return false;
 
-    // Date filter
     const appDate = parseDateString(app.date);
     if (appDate) {
       if (startDate) {
@@ -160,7 +158,6 @@ export default function AppointmentsPage() {
         </div>
       </div>
 
-      {/* TC Search Section */}
       {user?.role === 'ADMIN' && (
         <div className="search-section" style={{
           backgroundColor: 'var(--dashboard-card-bg)',
@@ -345,7 +342,6 @@ export default function AppointmentsPage() {
         </table>
       </div>
 
-      {/* Cancel Confirmation Modal */}
       {cancelModal.open && (
         <div className="modal-overlay" style={{
           position: 'fixed',

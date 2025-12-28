@@ -1,10 +1,9 @@
-/* Bolumlerimiz Page Styles */
+
 .bolumlerimiz-page {
     font-family: 'Inter', sans-serif;
     background-color: #fff;
 }
 
-/* Header Section */
 .bolumlerimiz-header {
     width: 100%;
     background-color: #f0f4f8;
@@ -20,7 +19,6 @@
     color: #0044cc;
 }
 
-/* Grid Layout */
 .bolumlerimiz-grid {
     max-width: 1200px;
     margin: 0 auto 40px auto;
@@ -30,7 +28,6 @@
     gap: 16px;
 }
 
-/* Card Styles */
 .bolum-card {
     background: white;
     border-radius: 20px;
@@ -44,9 +41,9 @@
     transition: all 0.2s ease;
     border: 2px solid transparent;
     position: relative;
-    /* relative for absolute arrow */
+
     min-height: 90px;
-    /* Further reduced height, compact */
+
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -60,30 +57,29 @@
     height: 36px;
     object-fit: contain;
     margin-bottom: 6px;
-    /* Transform black icon to #1c345f */
+
     filter: invert(18%) sepia(21%) saturate(2852%) hue-rotate(192deg) brightness(96%) contrast(90%);
 }
 
 .bolum-card__title {
     font-size: 1.05rem;
-    /* Slightly smaller font */
+
     font-weight: 700;
     color: #475569;
-    /* Neutral dark gray by default */
+
     margin-bottom: 0;
     line-height: 1.2;
     padding: 0 10px;
-    /* Space for text */
+
 }
 
-/* The Absolute Positioned Arrow */
 .card-arrow-icon {
     position: absolute;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
     width: 14px;
-    /* Reduced to 14px */
+
     height: 14px;
     opacity: 0.4;
     transition: all 0.2s ease;
@@ -94,12 +90,9 @@
     transform: translateY(-50%) translateX(2px);
 }
 
-/* Button styles removed */
-
-/* Selected State (Red for Acil) */
 .bolum-card.selected.is-acil {
     background-color: #ffb0b0 !important;
-    /* Very light red */
+
     border-color: #ef4444;
 }
 
@@ -109,29 +102,27 @@
 
 .bolum-card.selected.is-acil .card-arrow-icon {
     filter: invert(16%) sepia(73%) saturate(5474%) hue-rotate(356deg) brightness(88%) contrast(98%);
-    /* Red tint */
+
     opacity: 1;
 }
 
-/* Selected State for others - Distinct Light Blue */
 .bolum-card.selected:not(.is-acil) {
     background-color: #e0f2fe !important;
-    /* Sky blue 100 with !important */
+
     border: 1px solid #0ea4e9a0 !important;
 }
 
 .bolum-card.selected:not(.is-acil) .bolum-card__title {
     color: #0369a1;
-    /* Sky blue 700 */
+
 }
 
 .bolum-card.selected:not(.is-acil) .card-arrow-icon {
     filter: invert(34%) sepia(87%) saturate(1639%) hue-rotate(183deg) brightness(96%) contrast(93%);
-    /* Blue tint */
+
     opacity: 1;
 }
 
-/* Content Section */
 .bolum-content-section {
     background: white;
     padding: 40px 20px;
@@ -174,7 +165,6 @@
     margin-bottom: 5px;
 }
 
-/* Tags (Maddeler) */
 .bolum-tags {
     display: flex;
     flex-wrap: wrap;
@@ -192,7 +182,6 @@
     border: 1px solid rgba(0, 82, 204, 0.1);
 }
 
-/* Detailed Info Cards */
 .bolum-detail-list {
     display: flex;
     flex-direction: column;
@@ -202,9 +191,9 @@
 
 .bolum-detail-card {
     background-color: #1c7aff;
-    /* Mavi arka plan */
+
     color: #ffffff;
-    /* Beyaz yazı */
+
     padding: 20px;
 
 }
@@ -216,7 +205,6 @@
     display: block;
 }
 
-/* Responsive */
 @media (max-width: 900px) {
     .bolumlerimiz-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -238,10 +226,6 @@
     }
 }
 
-
-
-
-/* 1. LİSTE CONTAINER (Mavi Alan) */
 .bolum-detail-list {
     width: 100vw;
     position: relative;
@@ -251,29 +235,25 @@
     margin-right: -50vw;
 
     background-color: #E6F0FA;
-    /* Sayfa mavisi */
 
-    /* İçerik Düzeni */
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* Kartları sayfanın ortasında tut */
+
     gap: 16px;
 
     padding: 60px 20px;
-    /* Üstten alttan geniş boşluk, yanlardan mobilde yapışmasın diye pay */
+
     margin-top: 40px;
     box-sizing: border-box;
 }
 
-/* 2. KARTLAR (Beyaz Kutucuklar) */
 .bolum-detail-card {
     width: 100%;
     max-width: 1000px;
-    /* Kartlar sonsuza kadar uzamasın, üstteki metinle aynı hizada dursun */
 
     background-color: #fcfcfc;
-    /* Yumurta beyazı */
+
     color: #334155;
     font-weight: 600;
     padding: 24px;
@@ -282,17 +262,15 @@
     border: none;
 }
 
-/* 3. BAŞLIK RENGİ */
 .bolum-detail-title {
     font-weight: 800;
     font-size: 1.25rem;
     margin-bottom: 8px;
     display: block;
     color: #0035a0;
-    /* Başlıklar, metinden bir ton daha koyu mavi olsun */
+
 }
 
-/* Dark Mode Configuration for BolumlerimizPage */
 [data-theme="dark"] .bolumlerimiz-page {
     background-color: #121212;
     color: #e2e8f0;
@@ -306,24 +284,21 @@
     color: #f1f5f9;
 }
 
-/* Dark Mode Cards */
 [data-theme="dark"] .bolum-card {
     background: #1e5bb8;
-    /* Blue card variant */
+
     border: 1px solid #3b82f6;
     box-shadow: none;
 }
 
-/* Force Acil Card Red (Unselected) */
 [data-theme="dark"] .bolum-card.is-acil {
     background: #b91c1c !important;
     border-color: #ef4444 !important;
 }
 
-/* Force Acil Card Red (Selected) */
 [data-theme="dark"] .bolum-card.is-acil.selected {
     background: #7f1d1d !important;
-    /* Darker red */
+
     border-color: #ff5d5d !important;
     box-shadow: 0 0 4px rgba(239, 68, 68, 0.6);
     transform: translateY(-2px);
@@ -337,11 +312,9 @@
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
 
-/* Selected state overrides for dark mode */
-/* Selected state overrides for dark mode */
 [data-theme="dark"] .bolum-card.selected:not(.is-acil) {
     background: #1d4ed8 !important;
-    /* Proper dark mode blue - darker than light mode blue */
+
     border-color: #60a5fa !important;
     box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
     transform: translateY(-2px);
@@ -352,7 +325,7 @@
 }
 
 [data-theme="dark"] .bolum-card.selected:not(.is-acil) .card-arrow-icon {
-    /* Make array white/light for dark bg */
+
     filter: brightness(0) invert(1) !important;
     opacity: 1;
 }
@@ -361,7 +334,6 @@
     color: #ffffff;
 }
 
-/* Ensure Acil Title is White in Dark Mode (Override specific light mode rule) */
 [data-theme="dark"] .bolum-card.is-acil .bolum-card__title,
 [data-theme="dark"] .bolum-card.is-acil.selected .bolum-card__title {
     color: #ffffff !important;
@@ -371,14 +343,12 @@
     filter: brightness(0) invert(1);
 }
 
-/* Button Dark Mode (Default for non-selected) */
 [data-theme="dark"] .bolum-card__btn {
     background: #ffffff;
     color: #1e5bb8;
     border: none;
 }
 
-/* Button for Acil Card (Non-selected) */
 [data-theme="dark"] .bolum-card.is-acil .bolum-card__btn {
     background-color: #ffffff !important;
     color: #b91c1c !important;
@@ -386,16 +356,12 @@
     font-weight: 800;
 }
 
-/* --- SELECTED CARD BUTTONS --- */
-
-/* Selected Standard Card Button (Darker Blue + White Border) */
 [data-theme="dark"] .bolum-card.selected:not(.is-acil) .bolum-card__btn {
     background: #002855;
     color: #ffffff;
     border: 1px solid #ffffff;
 }
 
-/* Selected Acil Card Button (Darker Red + White Border) */
 [data-theme="dark"] .bolum-card.is-acil.selected .bolum-card__btn {
     background-color: #7a0c0c !important;
     color: #ffffff !important;
@@ -406,17 +372,14 @@
     background: #f1f5f9;
 }
 
-/* Hover override for selected buttons to keep them dark/readable */
 [data-theme="dark"] .bolum-card.selected .bolum-card__btn:hover {
     background-color: transparent !important;
-    /* or keep the dark color */
+
     color: #ffffff !important;
     border-color: #ffffff !important;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
-
-/* Content Area Dark Mode */
 [data-theme="dark"] .bolum-content-section {
     background: #1e1e1e;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
@@ -428,31 +391,28 @@
 
 [data-theme="dark"] .bolum-content-title[style*="cc0000"] {
     color: #ef4444 !important;
-    /* Red title for acil */
+
 }
 
 [data-theme="dark"] .bolum-content-title[style*="0052cc"] {
     color: #60a5fa !important;
-    /* Blue title for others */
+
 }
 
 [data-theme="dark"] .bolum-content-text {
     color: #cbd5e1;
 }
 
-/* Tags in Dark Mode */
 [data-theme="dark"] .bolum-tags span {
     background-color: #1e293b;
     color: #93c5fd;
     border-color: #3b82f6;
 }
 
-/* Detail List Area (Mavi kısım) */
 [data-theme="dark"] .bolum-detail-list {
     background-color: #0F172A;
 }
 
-/* Detail Cards */
 [data-theme="dark"] .bolum-detail-card {
     background-color: #1E293B;
     color: #bacde8;
@@ -464,7 +424,6 @@
     color: #60a5fa;
 }
 
-/* Fix mobile overflow/layout issues */
 @media (max-width: 768px) {
     .bolumlerimiz-page {
         overflow-x: hidden;
@@ -472,7 +431,7 @@
 
     .bolumlerimiz-header {
         padding: 20px 16px 10px 16px;
-        /* Added top padding, removed margin-top */
+
         margin-top: 0;
     }
 
@@ -488,7 +447,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
         margin-bottom: 0;
-        /* Removed margin-bottom */
+
         padding: 0;
         box-sizing: border-box;
     }
@@ -496,9 +455,9 @@
     .bolum-card {
         height: auto;
         min-height: 80px;
-        /* Reduced height as requested */
+
         padding: 8px 8px;
-        /* Tighter padding for vertical centering */
+
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -517,7 +476,7 @@
         align-items: center;
         justify-content: center;
         padding: 0;
-        /* Removed padding */
+
     }
 
     .bolum-card__icon {
@@ -527,10 +486,9 @@
         flex-shrink: 0;
     }
 
-    /* Adjust arrow for mobile */
     .card-arrow-icon {
         width: 38px !important;
-        /* Smaller arrow */
+
         height: 38px !important;
         right: 4px;
     }
@@ -555,10 +513,9 @@
         padding: 20px 16px;
     }
 
-    /* Force Selected bg on mobile too */
     .bolum-card.selected:not(.is-acil) {
         background-color: #e0f2fe !important;
-        /* Sky blue */
+
         border-color: #0ea5e9 !important;
     }
 

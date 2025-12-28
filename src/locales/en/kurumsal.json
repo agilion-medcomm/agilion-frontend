@@ -1,43 +1,60 @@
 {
     "intro": {
-        "p1": "We crowned our 23 years of experience with our new Medical Center project, which we brought to life in 2024. In our 2500 m² new building, we are with you 24/7 with our modern medical equipment and expert physicians.",
-        "p2": "We fulfill the requirements of modern medicine in accordance with legal standards and without compromising ethical principles. With our expert team, we have built a structure that not only our patients but also our employees trust. While providing high-quality and accessible healthcare services, we accept it as our basic duty to inform the society and popularize preventive medicine."
+        "p1": "We crowned our 23 years of experience with our new Medical Center project, which we brought to life in 2024. In our 2500 m² new building, we are with you 24/7 with our modern medical equipment and expert physicians. As Zeytinburnu Surgical Medical Center, we are proud to serve our region and country by combining our deep-rooted history in the healthcare sector with an innovative vision.",
+        "p2": "We fulfill the requirements of modern medicine in accordance with legal standards and without compromising ethical principles. With our expert team, we have built a structure that not only our patients but also our employees trust. While providing high-quality and accessible healthcare services, we accept it as our basic duty to inform the society and popularize preventive medicine.",
+        "p3": "At our hospital, we provide services with our expert physicians in Emergency Services, Oral and Dental Health, Nutrition and Diet, Dermatology, General Surgery, Eye Health, Internal Medicine, and Obstetrics-Gynecology departments. We are by your side as a fully equipped healthcare facility with our modern operating room, delivery room, laboratory, X-ray, ultrasonography, and physical therapy units."
     },
     "values": {
         "title": "OUR VALUES",
+        "description": "As Zeytinburnu Surgical Medical Center, the core values we adopt in healthcare delivery form the foundation of our corporate identity and service quality.",
         "items": [
             {
                 "bold": "Respect for People:",
-                "text": " Full commitment to patient and employee rights."
+                "text": " With the awareness that every individual is unique, we show full commitment to patient and employee rights, and protect human dignity under all circumstances."
             },
             {
                 "bold": "Happiness Oriented:",
-                "text": " Unconditional patient and employee satisfaction."
+                "text": " We aim for unconditional patient and employee satisfaction, believing that healthcare is not just treatment but also an experience."
             },
             {
                 "bold": "Scientific Approach:",
-                "text": " Professional responsibility and ethical values."
+                "text": " Within the framework of professional responsibility and ethical values, we adopt evidence-based medical practices and apply the most current treatment protocols."
             },
             {
                 "bold": "24/7 Access:",
-                "text": " Continuous and accessible health service."
+                "text": " Knowing that healthcare needs are not time-dependent, we provide continuous and accessible health services."
             },
             {
                 "bold": "Open Communication:",
-                "text": " Full transparency in management and service."
+                "text": " With the principle of full transparency in management and service, we fully inform our patients about their treatment processes."
             },
             {
                 "bold": "Current Treatment:",
-                "text": " Evidence-based, modern medical service."
+                "text": " By closely following developments in the medical world, we provide modern and evidence-based medical services."
+            },
+            {
+                "bold": "Team Spirit:",
+                "text": " With a multidisciplinary approach, we embrace a strong team mentality where all our healthcare professionals work in harmony."
+            },
+            {
+                "bold": "Continuous Development:",
+                "text": " By constantly renewing ourselves, we increase our service quality every day with investments in education and technological infrastructure."
             }
         ]
     },
     "mission": {
         "title": "OUR MISSION",
-        "text": "By following all developments in the sector closely, we adopt the principle of delivering health services to the society in the light of ethical principles. With our philosophy of 'continuous renewal'; we aim to provide high quality service by integrating universal, scientific and technological innovations into our practices; and to keep patient, relative and employee satisfaction at the highest level at all times."
+        "text": "By following all developments in the sector closely, we adopt the principle of delivering health services to the society in the light of ethical principles. With our philosophy of 'continuous renewal'; we aim to provide high quality service by integrating universal, scientific and technological innovations into our practices; and to keep patient, relative and employee satisfaction at the highest level at all times.",
+        "text2": "By emphasizing preventive medicine, we believe that diseases should be prevented before treatment. We conduct awareness activities to improve public health and take an active role in promoting healthy lifestyle habits. We see each of our patients as a member of our family and work with all our might to restore your health with a personalized and holistic treatment approach."
     },
     "vision": {
         "title": "OUR VISION",
-        "text": "Our principle of excellence is to provide preventive, therapeutic and holistic health services in the light of modern medicine with our expert staff within the framework of full compliance with legal regulations. With our innovative and contemporary structure; we commit to making these standards sustainable by based on the safety and satisfaction of our patients, their relatives and our employees."
+        "text": "Our principle of excellence is to provide preventive, therapeutic and holistic health services in the light of modern medicine with our expert staff within the framework of full compliance with legal regulations. With our innovative and contemporary structure; we commit to making these standards sustainable by based on the safety and satisfaction of our patients, their relatives and our employees.",
+        "text2": "We aim to be a pioneering and reference institution in healthcare services in our region and country, and to strengthen our position as a reliable and preferred health center providing services at international quality standards. With our technological investments and human resource development, we are preparing today for the healthcare needs of the future."
+    },
+    "about": {
+        "title": "ABOUT US",
+        "text": "Zeytinburnu Surgical Medical Center has been serving in the heart of Istanbul since 2001, combining its experience in the healthcare sector with the modern facility it opened in 2024. Our center provides healthcare services in a wide range from polyclinic services to surgical interventions with state-of-the-art medical devices and a team of expert physicians.",
+        "text2": "In our 2500 square meter modern building, we aim to provide the highest level of healthcare service to our patients with fully equipped operating rooms, advanced technology imaging units, comprehensive laboratory services, and comfortable patient rooms. Our emergency service continues to be with you at all times, providing 24/7 uninterrupted service."
     }
 }

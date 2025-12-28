@@ -6,7 +6,6 @@ import './SharedDashboard.css';
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const BaseURL = `${API_BASE}/api/v1`;
 
-// Available areas matching what cleaners can select
 const areas = [
   "Zemin Kat Koridor",
   "Zemin Kat Tuvalet",
@@ -44,14 +43,13 @@ export default function CleaningManagementPage() {
     const token = localStorage.getItem('personnelToken');
 
     try {
-      // Fetch personnel to get cleaners
+
       const personnelRes = await axios.get(`${BaseURL}/personnel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const allCleaners = (personnelRes.data?.data || []).filter(p => p.role === 'CLEANER');
       setCleaners(allCleaners);
 
-      // Fetch real cleaning records from API
       const cleaningRes = await axios.get(`${BaseURL}/cleaning`, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -61,7 +59,7 @@ export default function CleaningManagementPage() {
         cleanerId: record.cleaner?.user?.id,
         cleanerName: record.cleaner?.user ? `${record.cleaner.user.firstName} ${record.cleaner.user.lastName}` : 'Unknown',
         area: record.area,
-        zone: record.area, // For backward compatibility
+        zone: record.area,
         date: record.date,
         time: record.time,
         status: 'Completed',
@@ -103,7 +101,6 @@ export default function CleaningManagementPage() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className="filters-section">
         <div style={{ display: 'flex', gap: '16px', marginBottom: '16px', flexWrap: 'wrap' }}>
           <div className="form-group" style={{ margin: 0, flex: 1, minWidth: '200px' }}>
@@ -181,7 +178,6 @@ export default function CleaningManagementPage() {
         </div>
       </div>
 
-      {/* Cleaning Records Table */}
       <div>
         <h2 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '16px' }}>Temizlik Kayıtları</h2>
         <div className="table-container">
@@ -228,7 +224,6 @@ export default function CleaningManagementPage() {
         </div>
       </div>
 
-      {/* Photo View Modal */}
       {showPhotoModal && (
         <div
           className="modal-overlay"
@@ -292,7 +287,6 @@ export default function CleaningManagementPage() {
         </div>
       )}
 
-      {/* Stats Summary */}
       <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
         <div style={{ padding: '20px', background: '#f0fdf4', borderRadius: '12px', border: '1px solid #86efac' }}>
           <p style={{ margin: 0, fontSize: '14px', color: '#166534' }}>Toplam Kayıt</p>

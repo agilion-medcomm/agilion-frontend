@@ -10,7 +10,6 @@ export default function NotificationsPage() {
   const handleNotificationClick = (notification) => {
     markAsRead(notification.id);
 
-    // Navigate based on notification type
     switch (notification.type) {
       case 'LEAVE_REQUEST':
         navigate('/dashboard/leave-requests');
@@ -43,7 +42,6 @@ export default function NotificationsPage() {
         )}
       </div>
 
-      {/* Unread Notifications */}
       {unreadNotifications.length > 0 && (
         <div className="notifications-section">
           <h2 className="section-title">Unread ({unreadNotifications.length})</h2>
@@ -74,7 +72,6 @@ export default function NotificationsPage() {
         </div>
       )}
 
-      {/* Read Notifications */}
       {readNotifications.length > 0 && (
         <div className="notifications-section">
           <h2 className="section-title">Earlier</h2>

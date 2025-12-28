@@ -25,12 +25,11 @@ export default function Bolumler() {
 
   return (
     <section className="bolumler-section">
-      {/* Başlık */}
+
       <h2 className="bolumler-title">
         {t('home:bolumler.title')}
       </h2>
 
-      {/* Grid Kartlar */}
       <div className="bolumler-grid">
         {services.map((item, i) => (
           <div
@@ -49,7 +48,6 @@ export default function Bolumler() {
         ))}
       </div>
 
-      {/* Alt yazı */}
       <div className="bolumler-footer">
         <hr />
         <span>{t('home:bolumler.cite')}</span>

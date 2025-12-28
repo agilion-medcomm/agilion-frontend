@@ -10,7 +10,6 @@ export default function ContactFormsPage() {
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // Reply Modal
   const [replyModalOpen, setReplyModalOpen] = useState(false);
   const [selectedIssue, setSelectedIssue] = useState(null);
   const [replyText, setReplyText] = useState('');
@@ -186,7 +185,6 @@ export default function ContactFormsPage() {
         )}
       </div>
 
-      {/* Reply Modal */}
       {replyModalOpen && selectedIssue && (
         <div style={{
           position: 'fixed',
@@ -212,7 +210,7 @@ export default function ContactFormsPage() {
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
             animation: 'slideUp 0.3s ease'
           }} onClick={(e) => e.stopPropagation()}>
-            {/* Header */}
+
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
               <div>
                 <h2 style={{ margin: '0 0 4px 0', color: '#1e293b', fontSize: '22px', fontWeight: 700 }}>Mesaja Yanıt Ver</h2>
@@ -241,7 +239,6 @@ export default function ContactFormsPage() {
               </button>
             </div>
 
-            {/* Original Message Info */}
             <div style={{
               background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
               padding: '20px',
@@ -271,7 +268,6 @@ export default function ContactFormsPage() {
               </div>
             </div>
 
-            {/* Original Message */}
             <div style={{ marginBottom: '24px' }}>
               <p style={{ margin: '0 0 12px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Gelen Mesaj</p>
               <div style={{
@@ -294,7 +290,6 @@ export default function ContactFormsPage() {
               </div>
             </div>
 
-            {/* Reply Form */}
             <form onSubmit={handleReplySubmit}>
               <div style={{ marginBottom: '20px' }}>
                 <label style={{
@@ -335,7 +330,6 @@ export default function ContactFormsPage() {
                 </p>
               </div>
 
-              {/* Action Buttons */}
               <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
                 <button
                   type="button"

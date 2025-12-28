@@ -1,12 +1,11 @@
 .faq-section {
   width: 100%;
   background-color: #f3f4f6;
-  /* açık gri zemin */
+
   padding: 80px 20px;
   box-sizing: border-box;
 }
 
-/* === Başlık === */
 .faq-title {
   text-align: center;
   font-size: 2rem;
@@ -15,7 +14,6 @@
   margin-bottom: 50px;
 }
 
-/* === Ana konteyner === */
 .faq-container {
   display: flex;
   align-items: flex-start;
@@ -26,7 +24,6 @@
   flex-wrap: nowrap;
 }
 
-/* === Görsel === */
 .faq-image {
   flex: 0 0 420px;
   display: flex;
@@ -42,7 +39,6 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* === Akordiyon === */
 .faq-accordion {
   flex: 1;
   display: flex;
@@ -50,7 +46,6 @@
   gap: 16px;
 }
 
-/* Soru kutusu */
 .faq-item {
   background: #ffffff;
   border-radius: 16px;
@@ -82,12 +77,10 @@
   transition: transform 0.3s ease;
 }
 
-/* Açıldığında ikon döner */
 .faq-item.open .faq-icon {
   transform: rotate(180deg);
 }
 
-/* Cevap kısmı */
 .faq-answer {
   margin-top: 12px;
   font-size: 0.95rem;
@@ -98,7 +91,6 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* Animasyon */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -111,7 +103,6 @@
   }
 }
 
-/* === Responsive === */
 @media (max-width: 900px) {
   .faq-container {
     flex-direction: column;

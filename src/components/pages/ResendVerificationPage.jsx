@@ -23,12 +23,11 @@ export default function ResendVerificationPage() {
         try {
             const payload = {
                 tckn: tckn.replace(/\D/g, ''),
-                email: newEmail || undefined // Only send if provided
+                email: newEmail || undefined
             };
 
             const response = await axios.post(`${BaseURL}/auth/resend-verification`, payload);
 
-            // Determine which success message to show based on action
             const successKey = payload.email
                 ? 'auth:resend_verification.success_updated'
                 : 'auth:resend_verification.success_resended';
@@ -37,7 +36,7 @@ export default function ResendVerificationPage() {
                 type: 'success',
                 text: t(successKey)
             });
-            // Clear form on success
+
             setTckn('');
             setNewEmail('');
 

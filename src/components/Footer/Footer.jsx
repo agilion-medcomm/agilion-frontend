@@ -10,43 +10,40 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer__container">
-        {/* SOL SÜTUN */}
+
         <div className="footer__col footer__col--left">
-          {/* Logo bloğu */}
+
           <div className="footer__logoBlock" onClick={() => navigate('/')}>
             <h2 className="footer__logoText">{t('footer:logo_text')}</h2>
           </div>
 
-          {/* Açıklama */}
           <p className="footer__desc">
             {t('footer:desc')}
           </p>
 
-          {/* Bilgi butonları */}
           <div className="footer__list">
             <button className="footer__item" onClick={() => window.location.href = 'https://maps.google.com'}>
-              <span className="footer__icon">{/* pin */}</span>
+              <span className="footer__icon"></span>
               {t('footer:address')}
             </button>
 
             <button className="footer__item" onClick={() => window.location.href = 'mailto:info@agilionmedtıpmerkezi.com.tr'}>
-              <span className="footer__icon">{/* mail */}</span>
+              <span className="footer__icon"></span>
               info@zeytinburnutipmerkezi.com.tr
             </button>
 
             <button className="footer__item" onClick={() => window.location.href = 'tel:+902126657010'}>
-              <span className="footer__icon">{/* phone */}</span>
+              <span className="footer__icon"></span>
               +90 (212) 665 70 10
             </button>
 
             <button className="footer__item" onClick={() => window.location.href = 'tel:+902125584052'}>
-              <span className="footer__icon">{/* phone */}</span>
+              <span className="footer__icon"></span>
               +90 (212) 558 40 52
             </button>
           </div>
         </div>
 
-        {/* ORTA SÜTUN */}
         <div className="footer__col">
           <h4 className="footer__heading">{t('footer:headings.corporate')}</h4>
           <div className="footer__menu">
@@ -56,7 +53,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* SAĞ SÜTUN */}
         <div className="footer__col">
           <h4 className="footer__heading">{t('footer:headings.departments')}</h4>
           <div className="footer__menu">

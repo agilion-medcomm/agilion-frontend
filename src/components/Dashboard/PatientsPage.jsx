@@ -13,21 +13,21 @@ export default function PatientsPage() {
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedPatient, setExpandedPatient] = useState(null);
-  const [expandedTab, setExpandedTab] = useState(null); // 'appointments' or 'labResults'
-  const [appointmentsSubTab, setAppointmentsSubTab] = useState('past'); // 'past' or 'upcoming'
+  const [expandedTab, setExpandedTab] = useState(null);
+  const [appointmentsSubTab, setAppointmentsSubTab] = useState('past');
   const [appointments, setAppointments] = useState({});
   const [loadingAppointments, setLoadingAppointments] = useState({});
   const [labResults, setLabResults] = useState({});
   const [loadingLabResults, setLoadingLabResults] = useState({});
   const [error, setError] = useState(null);
   const [searchError, setSearchError] = useState(null);
-  const [viewMode, setViewMode] = useState('search'); // 'search' or 'all'
+  const [viewMode, setViewMode] = useState('search');
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const token = localStorage.getItem('personnelToken');
 
   useEffect(() => {
-    // No initial fetch needed - search by TCKN only
+
   }, []);
 
   const fetchAllPatients = async () => {
@@ -88,7 +88,6 @@ export default function PatientsPage() {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      // Response'da single patient object döner, bunu array'e dönüştür
       const patient = res.data?.data;
       if (patient) {
         setPatients([patient]);
@@ -248,7 +247,6 @@ export default function PatientsPage() {
 
   const noSearchPerformed = patients.length === 0 && !error && !searchError && !searchQuery;
 
-  // Key consistent usage: patient.patientId if it exists, else patient.id
   const getPatientIdentifier = (patient) => patient.patientId || patient.id;
 
   return (
@@ -414,7 +412,6 @@ export default function PatientsPage() {
                         </td>
                       </tr>
 
-                      {/* Expanded Appointments Row */}
                       {expandedPatient === patientIdentifier && expandedTab === 'appointments' && (
                         <tr className="expanded-row">
                           <td colSpan="6" className="expanded-row-container">
@@ -510,7 +507,6 @@ export default function PatientsPage() {
                         </tr>
                       )}
 
-                      {/* Expanded Lab Results Row */}
                       {expandedPatient === patientIdentifier && expandedTab === 'labResults' && (
                         <tr className="expanded-row">
                           <td colSpan="6" className="expanded-row-container">
@@ -581,7 +577,6 @@ export default function PatientsPage() {
         )}
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showDeleteConfirm && selectedPatient && (
         <div className="modal-overlay">
           <div className="modal-content">

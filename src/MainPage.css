@@ -1,4 +1,4 @@
-/* ====== CSS Variables ====== */
+
 :root {
 	--topbar-h: 52px;
 	--menubar-h: 70px;
@@ -9,7 +9,6 @@
 	--text-900: #1a202c;
 }
 
-/* ====== Site Container ====== */
 .site {
 	width: 100%;
 	min-height: 100vh;

@@ -38,7 +38,7 @@
     max-width: 1200px;
     margin: 0 auto;
     align-items: start;
-    /* Prevents stretching to match the taller card's height */
+
 }
 
 @media (max-width: 1080px) {
@@ -62,7 +62,7 @@
     margin-bottom: 20px;
     color: var(--dash-text);
     font-size: 1.4rem;
-    /* Synchronized font size */
+
     font-weight: 700;
 }
 
@@ -86,13 +86,13 @@
 .cleaner-label {
     font-weight: 600;
     color: #4e80ee;
-    /* Mavi yazılar kalıyor */
+
     font-size: 0.9rem;
 }
 
 [data-theme='dark'] .cleaner-label {
     color: #60a5fa;
-    /* Daha parlak mavi (karanlık mod için) */
+
 }
 
 .cleaner-select,
@@ -150,7 +150,6 @@
     font-weight: bold;
 }
 
-/* Table Styles */
 .cleaner-table-wrapper {
     overflow-x: auto;
 }
@@ -188,7 +187,6 @@
     background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* Status Badges */
 .status-done {
     color: #10b981;
     font-weight: bold;
