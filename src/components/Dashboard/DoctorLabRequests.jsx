@@ -487,13 +487,31 @@ export default function DoctorLabRequests() {
 
                         {req.status === 'COMPLETED' && req.medicalFile && (
                           <button
-                            onClick={() => {
-                              const link = document.createElement('a');
-                              link.href = `${BaseURL}/medical-files/${req.medicalFile.id}/download`;
-                              link.setAttribute('Authorization', `Bearer ${token}`);
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
+                            onClick={async () => {
+                              try {
+                                const response = await axios.get(
+                                  `${BaseURL}/medical-files/${req.medicalFile.id}/download`,
+                                  {
+                                    headers: { Authorization: `Bearer ${token}` },
+                                    responseType: 'blob'
+                                  }
+                                );
+
+                                const url = window.URL.createObjectURL(new Blob([response.data]));
+                                const link = document.createElement('a');
+                                link.href = url;
+                                link.setAttribute('download', req.medicalFile.fileName || `medical_file_${req.medicalFile.id}`);
+                                document.body.appendChild(link);
+                                link.click();
+                                link.parentNode.removeChild(link);
+                                window.URL.revokeObjectURL(url);
+                              } catch (error) {
+                                console.error('Download failed:', error);
+                                setRequestsMessage({
+                                  type: 'error',
+                                  text: 'Dosya indirilemedi. Yetkiniz olmayabilir.'
+                                });
+                              }
                             }}
                             style={{
                               padding: '8px 16px',

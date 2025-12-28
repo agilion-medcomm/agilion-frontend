@@ -84,15 +84,29 @@ export default function LabResultsPage() {
     setSearchPerformed(false);
   };
 
-  const downloadFile = (fileId, fileName) => {
-    const token = localStorage.getItem('personnelToken');
-    const link = document.createElement('a');
-    link.href = `${BaseURL}/medical-files/${fileId}/download`;
-    link.setAttribute('Authorization', `Bearer ${token}`);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const downloadFile = async (fileId, fileName) => {
+    try {
+      const token = localStorage.getItem('personnelToken');
+      const response = await axios.get(
+        `${BaseURL}/medical-files/${fileId}/download`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          responseType: 'blob'
+        }
+      );
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', fileName || `file_${fileId}`);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Download failed:', error);
+      setMessage({ type: 'error', text: 'Dosya indirilemedi. Yetkiniz olmayabilir.' });
+    }
   };
 
   return (

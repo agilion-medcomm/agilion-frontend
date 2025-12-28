@@ -201,12 +201,13 @@ export default function DashboardHome() {
 
       const doctors = personnel.filter(p => p.role === 'DOCTOR');
       const approvedAppointments = filteredAppointments.filter(a => a.status === 'APPROVED');
+      const completedAppointments = filteredAppointments.filter(a => a.status === 'DONE');
 
       // Calculate mock statistics (you can replace with real data)
       setStats({
-        patients: approvedAppointments.length,
+        patients: patients.length, // Use real patient count
         surgeries: Math.floor(approvedAppointments.length * 0.08),
-        discharges: Math.floor(approvedAppointments.length * 0.05),
+        discharges: completedAppointments.length, // Use completed appointments count
         newPatients: Math.floor(patients.length * 0.35),
         opdPatients: Math.floor(approvedAppointments.length * 0.75),
         labTests: Math.floor(approvedAppointments.length * 2.1),
@@ -216,7 +217,7 @@ export default function DashboardHome() {
         staff: personnel.length,
         operations: Math.floor(approvedAppointments.length * 0.12),
         admitted: Math.floor(approvedAppointments.length * 0.95),
-        discharged: Math.floor(approvedAppointments.length * 0.6),
+        discharged: completedAppointments.length,
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -308,7 +309,7 @@ export default function DashboardHome() {
               </div>
               <div className="hero-stat-info">
                 <h3>{stats.discharges}</h3>
-                <p>Taburcular</p>
+                <p>Tamamlanan Randevular</p>
               </div>
             </div>
           </div>
@@ -412,7 +413,7 @@ export default function DashboardHome() {
             <UserXIcon />
           </div>
           <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Taburcu</p>
+            <p className="bottom-stat-label">Tamamlanan</p>
             <h3 className="bottom-stat-number">{stats.discharged}</h3>
           </div>
         </div>
