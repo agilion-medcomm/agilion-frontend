@@ -128,9 +128,14 @@ export default function LeaveRequestsPage() {
       return;
     }
 
+    // API'nin beklediği format
     const payload = {
-      personnelId: doctorId,
-      ...form
+      personnelId: doctorId, // Doctor ID doğrudan personnelId olarak gönderiliyor
+      startDate: form.startDate,
+      startTime: form.startTime,
+      endDate: form.endDate,
+      endTime: form.endTime,
+      reason: form.reason
     };
 
     console.log('Submitting leave request with payload:', payload);
@@ -138,7 +143,10 @@ export default function LeaveRequestsPage() {
 
     try {
       const response = await axios.post(`${BaseURL}/leave-requests`, payload, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Bearer prefix eklendi - ÖNEMLİ!
+        }
       });
 
       console.log('Leave request response:', response.data);
