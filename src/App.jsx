@@ -50,6 +50,7 @@ import LaborantDashboard from './components/Dashboard/LaborantDashboard';
 import DoctorDisplayPage from './components/Dashboard/DoctorDisplayPage';
 import HomeHealthRequestsPage from './components/Dashboard/HomeHealthRequestsPage';
 import DoctorLabRequests from './components/Dashboard/DoctorLabRequests';
+import DoctorAvailabilityPage from './components/Dashboard/DoctorAvailabilityPage';
 import ScrollToTop from './components/ScrollToTop';
 
 import { ThemeProvider } from './context/ThemeContext';
@@ -100,6 +101,7 @@ export default function App() {
 
             {/* Admin Routes */}
             <Route path="personnel" element={<PersonnelPage />} />
+            <Route path="availability" element={<DoctorAvailabilityPage />} />
             <Route path="appointments" element={<AppointmentsPage />} />
             <Route path="patients" element={<PatientsPage />} />
             <Route path="leave-requests" element={<LeaveRequestsPage />} />

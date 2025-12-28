@@ -12,7 +12,7 @@
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 32px;
   padding-right: 64px;
   /* Space for notification badge */
@@ -40,16 +40,17 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 24px 12px;
+  padding: 12px 24px;
   background: #2563eb;
   color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 9999px;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
+  height: 44px;
 }
 
 .btn-primary:hover {
@@ -127,6 +128,15 @@
 
 .btn-delete:hover {
   background: #fecaca;
+}
+
+.btn-availability {
+  background: #f3e8ff;
+  color: #9333ea;
+}
+
+.btn-availability:hover {
+  background: #e9d5ff;
 }
 
 .btn-close {
@@ -295,6 +305,10 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap !important;
+}
+
+.data-table th:last-child {
+  text-align: center;
 }
 
 .data-table td {

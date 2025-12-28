@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
 import { MEDICAL_SPECIALTIES } from '../../constants/medicalSpecialties';
+import DoctorAvailabilityModal from './DoctorAvailabilityModal';
 import './PersonnelPage.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
@@ -48,6 +49,13 @@ const CameraIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
     <circle cx="12" cy="13" r="4"></circle>
+  </svg>
+);
+
+const ClockIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <polyline points="12 6 12 12 16 14"></polyline>
   </svg>
 );
 
@@ -104,7 +112,9 @@ export default function PersonnelPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
   const [selectedPersonnel, setSelectedPersonnel] = useState(null);
+  const [selectedDoctorForAvailability, setSelectedDoctorForAvailability] = useState(null);
 
   // Photo upload state
   const [photoFile, setPhotoFile] = useState(null);
@@ -399,6 +409,11 @@ export default function PersonnelPage() {
     setShowPhotoModal(true);
   };
 
+  const openAvailabilityModal = (doctor) => {
+    setSelectedDoctorForAvailability(doctor);
+    setShowAvailabilityModal(true);
+  };
+
   const handlePhotoSelect = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -607,6 +622,16 @@ export default function PersonnelPage() {
                   {user?.role === 'ADMIN' && (
                     <td>
                       <div className="action-buttons">
+                        {personnel.role === 'DOCTOR' && (
+                          <button
+                            className="btn-icon btn-availability"
+                            onClick={() => openAvailabilityModal(personnel)}
+                            title="Çalışma Saatlerini Düzenle"
+                            style={{ marginRight: '8px', color: '#4b5563' }}
+                          >
+                            <ClockIcon />
+                          </button>
+                        )}
                         <button
                           className="btn-icon btn-edit"
                           onClick={() => openEditModal(personnel)}
@@ -630,6 +655,18 @@ export default function PersonnelPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Doctor Availability Modal */}
+      {showAvailabilityModal && selectedDoctorForAvailability && (
+        <DoctorAvailabilityModal
+          doctor={selectedDoctorForAvailability}
+          onClose={() => {
+            setShowAvailabilityModal(false);
+            setSelectedDoctorForAvailability(null);
+          }}
+          refreshData={fetchPersonnel}
+        />
+      )}
 
       {/* Add Personnel Modal */}
       {showAddModal && (

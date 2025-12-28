@@ -1,0 +1,238 @@
+/* DoctorAvailabilityPage.css */
+
+.doctor-availability-page {
+    padding: var(--space-xl);
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: var(--space-xl);
+    text-align: left;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--space-xs);
+    background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.page-subtitle {
+    color: var(--gray-500);
+    font-size: 1rem;
+}
+
+/* Grid Layout */
+.doctor-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+/* Card Styling */
+.doctor-card {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all var(--transition-base);
+    border: 1px solid var(--gray-100);
+    position: relative;
+    overflow: hidden;
+}
+
+.doctor-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-400), var(--primary-600));
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.doctor-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+    border-color: var(--primary-100);
+}
+
+.doctor-card:hover::before {
+    opacity: 1;
+}
+
+/* Avatar Styling */
+.doctor-avatar-container {
+    position: relative;
+    margin-bottom: var(--space-md);
+}
+
+.doctor-avatar-large {
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: var(--primary-50);
+    color: var(--primary-600);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    font-weight: 600;
+    border: 3px solid white;
+    box-shadow: var(--shadow-md);
+}
+
+.doctor-avatar-large img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+/* Text Styling */
+.doctor-info {
+    width: 100%;
+    margin-bottom: var(--space-lg);
+}
+
+.doctor-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--space-xs);
+}
+
+.doctor-role-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background-color: var(--primary-50);
+    color: var(--primary-700);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Button Styling */
+.btn-manage-schedule {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--primary-600);
+    color: white;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    transition: all var(--transition-base);
+    margin-top: auto;
+    /* Push to bottom */
+    box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.2);
+}
+
+.btn-manage-schedule:hover {
+    background-color: var(--primary-700);
+    box-shadow: 0 10px 15px -3px rgba(2, 132, 199, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-manage-schedule svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Empty State */
+.loading-state,
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-2xl);
+    color: var(--gray-500);
+    min-height: 400px;
+}
+
+.spinner {
+    border: 3px solid var(--gray-200);
+    border-top: 3px solid var(--primary-600);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+    margin-bottom: var(--space-md);
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Dark Mode Overrides */
+[data-theme='dark'] .page-title {
+    background: linear-gradient(135deg, var(--primary-300), var(--primary-500));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-theme='dark'] .page-subtitle {
+    color: var(--gray-400);
+}
+
+[data-theme='dark'] .doctor-card {
+    background-color: var(--gray-800);
+    border-color: var(--gray-700);
+}
+
+[data-theme='dark'] .doctor-card:hover {
+    border-color: var(--primary-500);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .doctor-avatar-large {
+    border-color: var(--gray-700);
+    background-color: var(--gray-900);
+    color: var(--primary-400);
+}
+
+[data-theme='dark'] .doctor-info h3 {
+    color: var(--gray-100);
+}
+
+[data-theme='dark'] .doctor-role-badge {
+    background-color: rgba(14, 165, 233, 0.15);
+    /* semi-transparent primary */
+    color: var(--primary-300);
+}
+
+[data-theme='dark'] .btn-manage-schedule {
+    background-color: var(--primary-600);
+    color: white;
+}
+
+[data-theme='dark'] .btn-manage-schedule:hover {
+    background-color: var(--primary-500);
+}
