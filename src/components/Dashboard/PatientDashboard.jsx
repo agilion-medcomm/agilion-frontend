@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { useTranslation } from 'react-i18next';
 import './SharedDashboard.css';
 
 export default function PatientDashboard() {
   const { t, i18n } = useTranslation('dashboard');
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
   const BaseURL = `${API_BASE}/api/v1`;
@@ -39,6 +41,7 @@ export default function PatientDashboard() {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [review, setReview] = useState({ rating: 0 }); // Default to 0 for selection
   const [hoverRating, setHoverRating] = useState(0); // State for hover preview
+  const [reviewModalMessage, setReviewModalMessage] = useState({ type: '', text: '' }); // Modal içindeki mesaj
 
   const [profileData, setProfileData] = useState({
     email: '',
@@ -124,6 +127,7 @@ export default function PatientDashboard() {
     setSelectedAppointment(appointment);
     setReview({ rating: 0 });
     setHoverRating(0);
+    setReviewModalMessage({ type: '', text: '' });
     setShowReviewModal(true);
   };
 
@@ -132,7 +136,7 @@ export default function PatientDashboard() {
     if (!selectedAppointment) return;
 
     setLoading(true);
-    setMessage({ type: '', text: '' });
+    setReviewModalMessage({ type: '', text: '' });
     try {
       const token = localStorage.getItem('token') || localStorage.getItem('patientToken');
       await axios.post(
@@ -140,22 +144,26 @@ export default function PatientDashboard() {
         { rating: review.rating },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage({ type: 'success', text: t('messages.reviewSuccess') });
+      
+      // Modal içinde başarı mesajı göster
+      setReviewModalMessage({ type: 'success', text: t('messages.reviewSuccess') });
 
-      // Randevuları yeniden çek ve modalı kapat
+      // Randevuları yeniden çek (modal açık kalacak)
       await fetchAppointments();
-
-      setTimeout(() => {
-        setShowReviewModal(false);
-        setSelectedAppointment(null);
-        setReview({ rating: 5 });
-        setMessage({ type: '', text: '' });
-      }, 1500);
     } catch (error) {
-      setMessage({ type: 'error', text: error.response?.data?.message || t('messages.reviewError') });
+      // Modal içinde hata mesajı göster
+      setReviewModalMessage({ type: 'error', text: error.response?.data?.message || t('messages.reviewError') });
     } finally {
       setLoading(false);
     }
+  };
+
+  // Modal kapatılırken mesajları temizle
+  const handleCloseReviewModal = () => {
+    setShowReviewModal(false);
+    setSelectedAppointment(null);
+    setReview({ rating: 0 });
+    setReviewModalMessage({ type: '', text: '' });
   };
 
   const fetchAppointments = async () => {
@@ -927,63 +935,105 @@ export default function PatientDashboard() {
       )}
 
       {showReviewModal && selectedAppointment && (
-        <div className="modal-overlay" onClick={() => setShowReviewModal(false)}>
+        <div className="modal-overlay" onClick={handleCloseReviewModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{t('appointments.rate')}</h2>
-              <button className="modal-close" onClick={() => setShowReviewModal(false)}>×</button>
+              <button className="modal-close" onClick={handleCloseReviewModal}>×</button>
             </div>
+
+            {/* Modal içinde mesaj gösterimi */}
+            {reviewModalMessage.text && (
+              <div 
+                className={`alert ${reviewModalMessage.type === 'error' ? 'alert-error' : 'alert-success'}`}
+                style={{
+                  padding: '14px 18px',
+                  borderRadius: '8px',
+                  marginBottom: '16px',
+                  backgroundColor: reviewModalMessage.type === 'error' 
+                    ? (theme === 'dark' ? '#7f1d1d' : '#fef2f2')
+                    : (theme === 'dark' ? '#065f46' : '#f0fdf4'),
+                  color: reviewModalMessage.type === 'error' 
+                    ? (theme === 'dark' ? '#fecaca' : '#991b1b')
+                    : (theme === 'dark' ? '#d1fae5' : '#166534'),
+                  border: `1.5px solid ${reviewModalMessage.type === 'error' 
+                    ? (theme === 'dark' ? '#991b1b' : '#fca5a5')
+                    : (theme === 'dark' ? '#047857' : '#86efac')}`,
+                  fontWeight: '600',
+                  fontSize: '15px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  boxShadow: theme === 'dark' 
+                    ? '0 2px 8px rgba(0, 0, 0, 0.4)' 
+                    : '0 1px 3px rgba(0, 0, 0, 0.1)'
+                }}
+              >
+                {reviewModalMessage.text}
+              </div>
+            )}
+
             <div className="appointment-info">
               <p><strong>{t('labRequests.doctor')}:</strong> {selectedAppointment.doctorName || t('labRequests.notAssigned')}</p>
               <p><strong>{t('appointments.date')}:</strong> {selectedAppointment.date} {selectedAppointment.time}</p>
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); handleSubmitReview(); }}>
-              <div className="form-group" style={{ marginBottom: '1.5rem' }}>
-                <label className="form-label">{t('reviews.rating')} (1-5 Yıldız) *</label>
-                <div
-                  className="rating-input"
-                  onMouseLeave={() => setHoverRating(0)}
-                >
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      className={`star-button ${star <= (hoverRating || review.rating) ? 'is-hovered' : ''} ${star <= review.rating ? 'is-selected' : ''}`}
-                      onMouseEnter={() => setHoverRating(star)}
-                      onClick={() => setReview({ ...review, rating: star })}
-                    >
-                      <svg
-                        width="38"
-                        height="38"
-                        viewBox="0 0 512 512"
-                        className="star-icon-svg"
-                        style={{
-                          transition: 'all 0.2s',
-                          fill: star <= (hoverRating || review.rating) ? '#FFD700' : '#E2E8F0',
-                          transform: star <= (hoverRating || review.rating) ? 'scale(1.1)' : 'scale(1)',
-                          pointerEvents: 'none',
-                          boxShadow: 'none',
-                          border: 'none'
-                        }}
+
+            {/* Başarılı değerlendirme sonrası formu gizle */}
+            {reviewModalMessage.type !== 'success' ? (
+              <form onSubmit={(e) => { e.preventDefault(); handleSubmitReview(); }}>
+                <div className="form-group" style={{ marginBottom: '1.5rem' }}>
+                  <label className="form-label">{t('reviews.rating')} (1-5 Yıldız) *</label>
+                  <div
+                    className="rating-input"
+                    onMouseLeave={() => setHoverRating(0)}
+                  >
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <button
+                        key={star}
+                        type="button"
+                        className={`star-button ${star <= (hoverRating || review.rating) ? 'is-hovered' : ''} ${star <= review.rating ? 'is-selected' : ''}`}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onClick={() => setReview({ ...review, rating: star })}
                       >
-                        <path d="M393 526.27L265.48 607.008L302.863 460.798C304.117 455.892 302.437 450.708 298.535 447.478L182.345 351.138L332.965 341.505C338.02 341.181 342.43 337.974 344.297 333.271L400.004 193.001L455.715 333.271C457.586 337.974 461.996 341.181 467.047 341.505L617.647 351.134L501.467 447.466C497.576 450.692 495.885 455.88 497.139 460.79L534.522 607.01L406.992 526.276C404.855 524.921 402.422 524.245 399.992 524.245C397.555 524.241 395.125 524.921 392.984 526.269Z" transform="translate(-144 -144)" />
-                      </svg>
-                    </button>
-                  ))}
+                        <svg
+                          width="38"
+                          height="38"
+                          viewBox="0 0 512 512"
+                          className="star-icon-svg"
+                          style={{
+                            transition: 'all 0.2s',
+                            fill: star <= (hoverRating || review.rating) ? '#FFD700' : '#E2E8F0',
+                            transform: star <= (hoverRating || review.rating) ? 'scale(1.1)' : 'scale(1)',
+                            pointerEvents: 'none',
+                            boxShadow: 'none',
+                            border: 'none'
+                          }}
+                        >
+                          <path d="M393 526.27L265.48 607.008L302.863 460.798C304.117 455.892 302.437 450.708 298.535 447.478L182.345 351.138L332.965 341.505C338.02 341.181 342.43 337.974 344.297 333.271L400.004 193.001L455.715 333.271C457.586 337.974 461.996 341.181 467.047 341.505L617.647 351.134L501.467 447.466C497.576 450.692 495.885 455.88 497.139 460.79L534.522 607.01L406.992 526.276C404.855 524.921 402.422 524.245 399.992 524.245C397.555 524.241 395.125 524.921 392.984 526.269Z" transform="translate(-144 -144)" />
+                        </svg>
+                      </button>
+                    ))}
+                  </div>
+                  <p className="dash-text-muted" style={{ fontSize: '14px', marginTop: '0.5rem' }}>
+                    {t('reviews.rating')}: <strong>{review.rating} / 5</strong>
+                  </p>
                 </div>
-                <p className="dash-text-muted" style={{ fontSize: '14px', marginTop: '0.5rem' }}>
-                  {t('reviews.rating')}: <strong>{review.rating} / 5</strong>
-                </p>
-              </div>
+                <div className="modal-actions">
+                  <button type="submit" className="btn-primary" disabled={loading || review.rating === 0}>
+                    {loading ? t('appointments.loading') : t('appointments.rate')}
+                  </button>
+                  <button type="button" className="btn-secondary" onClick={handleCloseReviewModal}>
+                    {t('appointments.cancel')}
+                  </button>
+                </div>
+              </form>
+            ) : (
               <div className="modal-actions">
-                <button type="submit" className="btn-primary" disabled={loading}>
-                  {loading ? t('appointments.loading') : t('appointments.rate')}
-                </button>
-                <button type="button" className="btn-secondary" onClick={() => setShowReviewModal(false)}>
-                  {t('appointments.cancel')}
+                <button type="button" className="btn-primary" onClick={handleCloseReviewModal} style={{ width: '100%' }}>
+                  Tamam
                 </button>
               </div>
-            </form>
+            )}
           </div>
         </div>
       )}
