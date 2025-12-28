@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { MEDICAL_SPECIALTIES } from '../../constants/medicalSpecialties';
+import { MEDICAL_SPECIALTIES, SPECIALTY_TRANSLATION_KEYS } from '../../constants/medicalSpecialties';
 import './Appointment.css';
 
 // API Ayarları
@@ -63,7 +63,7 @@ const generateTimeSlots = (date, bookedTimes = []) => {
 };
 
 export default function Appointment({ doctor, onClose, onSuccess }) {
-	const { t, i18n } = useTranslation(['appointment']);
+	const { t, i18n } = useTranslation(['appointment', 'medical']);
 	const { user, token } = useAuth();
 	const navigate = useNavigate();
 
@@ -194,7 +194,11 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 					<DoctorAvatar />
 					<div className="doctor-info-text">
 						<h2 className="doctor-name">{doctor.firstName} {doctor.lastName}</h2>
-						<p className="doctor-specialization">{MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.general_doctor')}</p>
+						<p className="doctor-specialization">
+							{t(`medical:departments.list.${SPECIALTY_TRANSLATION_KEYS[doctor.specialization] || doctor.specialization}.title`, {
+								defaultValue: MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.general_doctor')
+							})}
+						</p>
 					</div>
 					<div className="randevu-onay-wrap">
 						<button
@@ -298,7 +302,9 @@ export default function Appointment({ doctor, onClose, onSuccess }) {
 							<p>
 								{doctor.bio || t('appointment:placeholders.default_bio', {
 									name: `${doctor.firstName} ${doctor.lastName}`,
-									specialization: MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.expertise_area')
+									specialization: t(`medical:departments.list.${SPECIALTY_TRANSLATION_KEYS[doctor.specialization] || doctor.specialization}.title`, {
+										defaultValue: MEDICAL_SPECIALTIES[doctor.specialization] || doctor.specialization || t('appointment:placeholders.expertise_area')
+									})
 								})}
 							</p>
 						</div>

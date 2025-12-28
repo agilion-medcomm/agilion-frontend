@@ -35,7 +35,7 @@
 .birim-card {
     background: white;
     border-radius: 20px;
-    padding: 12px 16px;
+    padding: 10px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -45,7 +45,7 @@
     transition: all 0.2s ease;
     border: 2px solid transparent;
     position: relative;
-    min-height: 90px;
+    min-height: 75px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
@@ -86,7 +86,7 @@
 
 .birim-card:hover .birim-card-arrow-icon {
     opacity: 1;
-    transform: translateY(-50%) translateX(2px);
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* Selected State */
@@ -105,6 +105,7 @@
     /* Blue tint filter */
     filter: invert(34%) sepia(87%) saturate(1639%) hue-rotate(183deg) brightness(96%) contrast(93%);
     opacity: 1;
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* Button styles removed */
@@ -182,7 +183,7 @@
 
     .birim-card {
         height: auto;
-        min-height: 100px;
+        min-height: 80px;
         padding: 12px 8px;
         gap: 8px;
     }
@@ -221,8 +222,8 @@
 
 /* Cards Dark Mode */
 [data-theme="dark"] .birim-card {
-    background: #1e5bb8;
-    border: 1px solid #3b82f6;
+    background: rgba(30, 92, 184, 0.48);
+    border: 1px solid rgba(59, 130, 246, 0.3);
     box-shadow: none;
 }
 
@@ -232,10 +233,10 @@
 
 /* Selected State Dark Mode */
 [data-theme="dark"] .birim-card.selected {
-    background: #1d4ed8 !important;
-    /* Darker blue */
+    background: #2563eb !important;
+    /* More vibrant blue */
     border-color: #60a5fa !important;
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
     transform: translateY(-2px);
 }
 
@@ -254,6 +255,7 @@
 [data-theme="dark"] .birim-card.selected .birim-card-arrow-icon {
     filter: brightness(0) invert(1) !important;
     opacity: 1;
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* Content Area Dark Mode */
