@@ -43,16 +43,8 @@ export default function DoctorSlider() {
       });
   }, []);
 
-  const handleAppointmentClick = (doctorData) => {
-    // 1. Giriş kontrolü
-    if (!patientUser) {
-      alert(t('home:doctor_slider.alert_login'));
-      navigate('/login');
-      return;
-    }
-
-    // 2. Doğrudan Randevu Sayfasına yönlendir (Doktor verisiyle)
-    navigate('/randevu', { state: { doctor: doctorData } });
+  const handleViewDetails = (doc) => {
+    navigate(`/doktor/${doc.id}`);
   };
 
   // Hesaplamalar
@@ -120,7 +112,7 @@ export default function DoctorSlider() {
 
                   <button
                     className="slider-appointment-button"
-                    onClick={() => handleAppointmentClick(doc)}
+                    onClick={() => handleViewDetails(doc)}
                   >
                     {t('home:doctor_slider.book')}
                   </button>

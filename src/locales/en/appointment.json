@@ -5,7 +5,7 @@
         "back_button": "Go Back"
     },
     "form": {
-        "confirm_title": "📅 Appointment Confirmation",
+        "confirm_title": "Appointment Confirmation",
         "confirm_doctor": "Doctor",
         "confirm_date": "Date",
         "confirm_time": "Time",
@@ -16,7 +16,7 @@
         "error_range": "You can only book appointments within 90 days from today."
     },
     "labels": {
-        "confirm_btn": "✅ Confirm Appointment",
+        "confirm_btn": "Confirm Appointment",
         "processing": "Processing...",
         "select_date": "Select Date",
         "about_doctor": "About Doctor",

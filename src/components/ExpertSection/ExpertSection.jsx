@@ -28,7 +28,10 @@ export default function ExpertSection() {
               <h4>{t('home:expert.call_center_title')}</h4>
               <p className="subtitle">{t('home:expert.call_center_sub')}</p>
               <p className="phone">
-                <img src="/phone.svg" alt="" className="phone-icon" /> (0212) 665 70 10
+                <img src="/phone.svg" alt="" className="phone-icon" />
+                <a href="tel:+902126657010" className="phone-link">
+                  (0212) 665 70 10
+                </a>
               </p>
             </div>
 

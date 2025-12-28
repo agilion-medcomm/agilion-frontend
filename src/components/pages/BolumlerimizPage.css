@@ -91,7 +91,7 @@
 
 .bolum-card:hover .card-arrow-icon {
     opacity: 1;
-    transform: translateY(-50%) translateX(2px);
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* Button styles removed */
@@ -111,6 +111,7 @@
     filter: invert(16%) sepia(73%) saturate(5474%) hue-rotate(356deg) brightness(88%) contrast(98%);
     /* Red tint */
     opacity: 1;
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* Selected State for others - Distinct Light Blue */
@@ -129,6 +130,7 @@
     filter: invert(34%) sepia(87%) saturate(1639%) hue-rotate(183deg) brightness(96%) contrast(93%);
     /* Blue tint */
     opacity: 1;
+    transform: translateY(-50%) rotate(90deg);
 }
 
 /* Content Section */

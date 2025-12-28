@@ -119,7 +119,7 @@
 
 .confirm-appointment-btn {
     width: 100%;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: #059669;
     color: white;
     border: none;
     padding: 16px 20px;
@@ -128,8 +128,6 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3),
-        0 2px 6px rgba(16, 185, 129, 0.2);
     position: relative;
     overflow: hidden;
 }
@@ -167,18 +165,22 @@
 
 /* === SAĞ PANEL: TAKvİM VE SLOTLAR === */
 .calendar-panel-right {
-    padding: 36px;
+    padding: 24px;
     display: flex;
     flex-direction: column;
     background: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+    overflow: hidden;
+    max-width: 100%;
 }
 
 /* Navigasyon (Oklar ve Kartlar) */
 .date-navigation-container {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     margin-bottom: 30px;
+    width: 100%;
+    overflow: hidden;
 }
 
 .nav-btn {
@@ -186,24 +188,21 @@
     border: none;
     width: 36px;
     height: 36px;
+    min-width: 36px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background-color 0.2s;
     padding: 0;
-    box-shadow: none;
-}
-
-.nav-btn:hover {
-    background-color: transparent !important;
-    background: transparent !important;
-    border: none !important;
+    box-shadow: none !important;
+    border-radius: 50%;
 }
 
 .nav-btn:hover:not(:disabled) {
-    transform: scale(1.2);
-    background-color: none !important;
+    background-color: rgba(0, 0, 0, 0.08);
+    /* Gri yuvarlak background */
 }
 
 .nav-btn:disabled {
@@ -222,10 +221,14 @@
     gap: 0;
     position: relative;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    max-width: calc(100% - 80px);
+    min-width: 0;
+    overflow: hidden;
 }
 
 .date-card {
     flex: 1;
+    min-width: 0;
     height: 64px;
     border: none;
     background: transparent;
@@ -365,6 +368,8 @@
 /* Saat Slotları Alanı */
 .time-slots-grid-wrap {
     flex-grow: 1;
+    width: 100%;
+    overflow: hidden;
 }
 
 .selected-date-label {
@@ -378,6 +383,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
     gap: 12px;
+    width: 100%;
+    max-width: 100%;
 }
 
 .time-slot {
@@ -490,10 +497,24 @@
     }
 
     .date-list {
-        width: auto;
-        margin-top: 0;
-        flex: 1;
+        max-width: calc(100% - 70px);
         min-width: 0;
+        flex: 1;
+        padding: 3px;
+    }
+
+    .date-card {
+        min-width: 0;
+        height: 56px;
+        padding: 4px 2px;
+    }
+
+    .date-number {
+        font-size: 1rem;
+    }
+
+    .day-name {
+        font-size: 0.65rem;
     }
 
     .nav-btn {
@@ -558,6 +579,10 @@
 [data-theme='dark'] .nav-btn {
     background: transparent;
     border: none;
+}
+
+[data-theme='dark'] .nav-btn:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 [data-theme='dark'] .nav-btn img {

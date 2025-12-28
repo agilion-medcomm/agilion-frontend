@@ -60,9 +60,9 @@ export default function Doctors() {
           className="department-select"
         >
           <option value="">{t('medical:doctors.all_departments')}</option>
-          {Object.keys(DEPARTMENT_KEYS).map(dept => (
-            <option key={dept} value={dept}>
-              {t(`medical:departments.list.${DEPARTMENT_KEYS[dept]}.title`)}
+          {[...new Set(Object.values(DEPARTMENT_KEYS))].map(deptKey => (
+            <option key={deptKey} value={deptKey}>
+              {t(`medical:departments.list.${deptKey}.title`)}
             </option>
           ))}
         </select>
@@ -75,7 +75,7 @@ export default function Doctors() {
       ) : (
         <div className="doctors-container">
           {doctors
-            .filter(doc => !selectedDepartment || doc.specialization === selectedDepartment)
+            .filter(doc => !selectedDepartment || DEPARTMENT_KEYS[doc.specialization] === selectedDepartment)
             .map((doc, i) => (
               <div
                 className="doctor-card"

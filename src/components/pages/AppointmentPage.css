@@ -15,28 +15,49 @@
     max-width: 1000px;
 }
 
-.back-link-btn {
-    background: transparent;
-    border: none;
-    color: #64748b;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
+.back-nav-container {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 20px;
-    padding: 0;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.back-nav-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #64748b;
     transition: color 0.2s;
 }
 
-.back-link-btn:hover {
+.back-nav-container:hover .back-nav-text {
     color: #0e2b4b;
 }
 
-.back-link-btn svg {
-    width: 20px;
-    height: 20px;
+.back-nav-container:hover .back-link-btn {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.back-link-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 0;
+    padding: 0;
+    transition: background-color 0.2s;
+    box-shadow: none !important;
+}
+
+.back-link-btn img {
+    width: 24px;
+    height: 24px;
 }
 
 /* === DARK MODE === */
@@ -44,10 +65,18 @@
     background-color: #111827;
 }
 
-[data-theme='dark'] .back-link-btn {
+[data-theme='dark'] .back-nav-text {
     color: #9ca3af;
 }
 
-[data-theme='dark'] .back-link-btn:hover {
+[data-theme='dark'] .back-nav-container:hover .back-nav-text {
     color: #f3f4f6;
+}
+
+[data-theme='dark'] .back-nav-container:hover .back-link-btn {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme='dark'] .back-link-btn img {
+    filter: brightness(0) invert(1);
 }

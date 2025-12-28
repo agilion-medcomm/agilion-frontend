@@ -357,7 +357,7 @@ export default function EvdeSaglikPage() {
                       />
                     </div>
                     <div className="form-group">
-                      <label htmlFor="email">{t('medical:auth.labels.email')}</label>
+                      <label htmlFor="email">Mail</label>
                       <input
                         type="email"
                         id="email"
