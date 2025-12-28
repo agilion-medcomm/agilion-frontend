@@ -17,7 +17,7 @@ const DAYS = [
 ];
 
 const DEFAULT_START = '09:00';
-const DEFAULT_END = '17:00';
+const DEFAULT_END = '17:30';
 
 const XIcon = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -131,8 +131,21 @@ export default function DoctorAvailabilityModal({ onClose, doctor, refreshData }
     const [saving, setSaving] = useState(false);
 
     useEffect(() => {
-        if (doctor?.availabilityProtocol) {
+        if (doctor?.availabilityProtocol && Object.keys(doctor.availabilityProtocol).length > 0) {
+            // If doctor has a saved protocol, use it
             setProtocol(doctor.availabilityProtocol);
+        } else {
+            // If no protocol exists, default to all days available (9:00-17:30)
+            // This matches the database initial state where doctors are free for the whole week
+            const defaultProtocol = {};
+            DAYS.forEach(day => {
+                defaultProtocol[day.key] = {
+                    start: DEFAULT_START,
+                    end: DEFAULT_END,
+                    isAvailable: true
+                };
+            });
+            setProtocol(defaultProtocol);
         }
     }, [doctor]);
 
