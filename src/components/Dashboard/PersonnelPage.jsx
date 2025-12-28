@@ -308,6 +308,9 @@ export default function PersonnelPage() {
     const token = localStorage.getItem('personnelToken');
 
     const updateData = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      tckn: form.tckn,
       email: form.email,
       phoneNumber: form.phoneNumber,
       dateOfBirth: form.dateOfBirth,
@@ -865,18 +868,38 @@ export default function PersonnelPage() {
             <form onSubmit={handleEditPersonnel} className="modal-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Ad (Yalnızca Okunur)</label>
-                  <input type="text" value={form.firstName} disabled />
+                  <label>Ad *</label>
+                  <input 
+                    type="text" 
+                    name="firstName"
+                    value={form.firstName} 
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <label>Soyad (Yalnızca Okunur)</label>
-                  <input type="text" value={form.lastName} disabled />
+                  <label>Soyad *</label>
+                  <input 
+                    type="text" 
+                    name="lastName"
+                    value={form.lastName} 
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="form-group">
-                <label>TCKN (Yalnızca Okunur)</label>
-                <input type="text" value={form.tckn} disabled />
+                <label>TCKN *</label>
+                <input 
+                  type="text" 
+                  name="tckn"
+                  value={form.tckn} 
+                  onChange={handleInputChange}
+                  maxLength={11}
+                  minLength={11}
+                  required
+                />
               </div>
 
               <div className="form-group">

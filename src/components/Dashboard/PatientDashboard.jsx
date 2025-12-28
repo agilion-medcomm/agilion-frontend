@@ -295,6 +295,8 @@ export default function PatientDashboard() {
       const payload = {};
 
       // User tablosu alanları - sadece dolu olanları gönder
+      if (profileData.firstName?.trim()) payload.firstName = profileData.firstName.trim();
+      if (profileData.lastName?.trim()) payload.lastName = profileData.lastName.trim();
       if (profileData.email?.trim()) payload.email = profileData.email.trim();
       if (profileData.phoneNumber?.trim()) payload.phoneNumber = profileData.phoneNumber.trim();
 
@@ -798,16 +800,20 @@ export default function PatientDashboard() {
               <div className="form-row">
                 <div className="settings-form-group">
                   <label className="form-label">{t('settings.firstName')}</label>
-                  <input type="text" className="form-input"
+                  <input 
+                    type="text" 
+                    className="form-input"
                     value={profileData.firstName}
-                    disabled
+                    onChange={(e) => setProfileData({ ...profileData, firstName: e.target.value })}
                   />
                 </div>
                 <div className="settings-form-group">
                   <label className="form-label">{t('settings.lastName')}</label>
-                  <input type="text" className="form-input"
+                  <input 
+                    type="text" 
+                    className="form-input"
                     value={profileData.lastName}
-                    disabled
+                    onChange={(e) => setProfileData({ ...profileData, lastName: e.target.value })}
                   />
                 </div>
               </div>
