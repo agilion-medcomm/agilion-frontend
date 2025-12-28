@@ -14,6 +14,21 @@ export default function ResendVerificationPage() {
     const [newEmail, setNewEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState({ type: '', text: '' });
+    const { i18n: i18nInstance } = useTranslation();
+
+    const mapErrorMessage = (msg) => {
+        if (!msg) return t('auth:resend_verification.error_default');
+
+        // Backend'den gelen statik Türkçe mesajları i18n anahtarlarıyla eşleştiriyoruz
+        const errorMapping = {
+            'Kullanıcı bulunamadı.': 'auth:resend_verification.errors.user_not_found',
+            'E-posta adresi zaten doğrulanmış.': 'auth:resend_verification.errors.already_verified',
+            'Bu işlem sadece hasta hesapları için geçerlidir.': 'auth:resend_verification.errors.only_patients',
+            'Bu e-posta adresi başka bir kullanıcı tarafından kullanılıyor.': 'auth:resend_verification.errors.email_taken',
+        };
+
+        return errorMapping[msg] ? t(errorMapping[msg]) : msg;
+    };
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -43,8 +58,8 @@ export default function ResendVerificationPage() {
 
         } catch (err) {
             console.error('Resend verification error:', err);
-            const errorMsg = err.response?.data?.message || err.message || 'Operation failed.';
-            setMessage({ type: 'error', text: errorMsg });
+            const rawErrorMsg = err.response?.data?.message || err.message || 'Operation failed.';
+            setMessage({ type: 'error', text: mapErrorMessage(rawErrorMsg) });
         } finally {
             setLoading(false);
         }
