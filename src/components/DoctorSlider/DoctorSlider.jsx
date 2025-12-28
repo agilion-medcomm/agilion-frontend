@@ -82,9 +82,13 @@ export default function DoctorSlider() {
           <div className="slider-error">{t('home:doctor_slider.error', { error })}</div>
         ) : (
           <div className="doctor-slider-wrapper">
-            <div className="doctor-slider-container">
+            <div className="doctor-slider-container" key={currentPage}>
               {visibleDoctors.map((doc, i) => (
-                <div className="slider-doctor-card" key={doc.id || i}>
+                <div
+                  className="slider-doctor-card"
+                  key={doc.id || i}
+                  style={{ animationDelay: `${i * 0.1}s` }}
+                >
                   {doc.img ? (
                     <img
                       src={doc.img.startsWith('http') ? doc.img : `${API_BASE}${doc.img}`}

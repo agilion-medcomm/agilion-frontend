@@ -169,7 +169,7 @@ export default function AppointmentsPage() {
           padding: '16px',
           marginBottom: '20px'
         }}>
-          <h3 style={{ marginBottom: '12px', fontSize: '14px', fontWeight: '600' }}>TC Numarası İle Randevu Ara</h3>
+          <h3 style={{ marginBottom: '12px', fontSize: '14px', color: 'var(--dashboard-text)', fontWeight: '600' }}>TC Numarası İle Randevu Ara</h3>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <input
               type="text"

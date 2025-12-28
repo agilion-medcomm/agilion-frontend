@@ -124,7 +124,7 @@
 .info-value {
     font-size: 0.95rem;
     font-weight: 500;
-    color: #334155;
+    color: var(--dashboard-text);
 }
 
 /* Sağ Kolon: Form Kartları */
@@ -199,6 +199,21 @@
     border-color: #3b82f6;
     background: var(--dashboard-card-bg);
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Disabled Input Styling */
+.profile-disabled-input {
+    background-color: var(--dashboard-bg) !important;
+    color: var(--dashboard-text) !important;
+    opacity: 0.6;
+    cursor: not-allowed;
+    border: 1px solid var(--dashboard-border) !important;
+}
+
+[data-theme='dark'] .profile-disabled-input {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #e2e8f0 !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
 /* Butonlar */

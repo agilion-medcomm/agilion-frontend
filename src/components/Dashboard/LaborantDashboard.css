@@ -1,6 +1,6 @@
 .laborant-dashboard {
     padding: 20px;
-    background: var(--dash-bg);
+    background: none;
     min-height: 100vh;
     color: var(--dash-text);
 }
@@ -11,6 +11,7 @@
     padding: 24px;
     border-radius: 12px;
     margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .laborant-header h1 {
