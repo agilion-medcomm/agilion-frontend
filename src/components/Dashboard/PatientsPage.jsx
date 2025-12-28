@@ -405,10 +405,10 @@ export default function PatientsPage() {
                                   setSelectedPatient(patient);
                                   setShowDeleteConfirm(true);
                                 }}
-                                title="Hastayı sil"
-                              >
-                                🗑️ Sil
-                              </button>
+                              title="Hastayı sil"
+                            >
+                              Sil
+                            </button>
                             )}
                           </div>
                         </td>

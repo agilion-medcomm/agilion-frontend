@@ -437,7 +437,7 @@ export default function LaborantDashboard() {
                       fontSize: '14px'
                     }}
                   >
-                    {requestsLoading ? '✓ Yükleniyor...' : '✓ Dosyayı Yükle ve Talebi Tamamla'}
+                    {requestsLoading ? 'Yükleniyor...' : 'Dosyayı Yükle ve Talebi Tamamla'}
                   </button>
                 </form>
               </div>
@@ -609,7 +609,7 @@ export default function LaborantDashboard() {
                       transition: 'all 0.3s'
                     }}
                   >
-                    {loading ? 'Yükleniyor...' : '✓ Dosyayı Yükle'}
+                    {loading ? 'Yükleniyor...' : 'Dosyayı Yükle'}
                   </button>
                 </form>
               </div>

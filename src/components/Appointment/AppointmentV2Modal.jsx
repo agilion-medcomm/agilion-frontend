@@ -155,7 +155,7 @@ export default function AppointmentV2Modal({ doctor, onClose }) {
                                 onClick={handleFinalAppointment}
                                 disabled={!selectedSlot}
                             >
-                                ✅ Randevuyu Onaylayın
+                                Randevuyu Onaylayın
                             </button>
                         </div>
                     </div>

@@ -239,7 +239,7 @@ export default function HomeHealthRequestsPage() {
                           className="view-btn"
                           onClick={() => setSelectedRequest(req)}
                         >
-                          👁️ Görüntüle
+                          Görüntüle
                         </button>
                       </td>
                     </tr>
@@ -335,14 +335,14 @@ export default function HomeHealthRequestsPage() {
                       onClick={handleApprove}
                       disabled={actionLoading}
                     >
-                      {actionLoading ? 'İşleniyor...' : '✓ Onayla'}
+                      {actionLoading ? 'İşleniyor...' : 'Onayla'}
                     </button>
                     <button
                       className="reject-btn"
                       onClick={handleReject}
                       disabled={actionLoading}
                     >
-                      {actionLoading ? 'İşleniyor...' : '✕ Reddet'}
+                      {actionLoading ? 'İşleniyor...' : 'Reddet'}
                     </button>
                   </div>
                 </div>

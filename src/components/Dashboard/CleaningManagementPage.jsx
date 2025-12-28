@@ -214,7 +214,7 @@ export default function CleaningManagementPage() {
                           style={{ background: '#3b82f6', color: 'white', padding: '6px 12px', border: 'none', borderRadius: '6px', cursor: 'pointer' }}
                           onClick={() => handleViewPhoto(record.photoUrl)}
                         >
-                          📷 Görüntüle
+                          Görüntüle
                         </button>
                       ) : (
                         <span style={{ color: '#94a3b8' }}>Fotoğraf yok</span>
