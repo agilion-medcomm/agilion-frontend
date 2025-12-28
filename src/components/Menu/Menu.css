@@ -959,6 +959,56 @@ input[type="button"] {
   }
 }
 
+/* ====== DESKTOP MENU - SAĞ TARAFTAN AÇILMA (1101px ve üstü) ====== */
+@media (min-width: 1101px) {
+  .mobile-menu {
+    /* Sağ taraftan konumlandırma */
+    left: auto !important;
+    right: 20px !important;
+    top: calc(var(--topbar-h) + var(--menubar-h) + 12px) !important;
+    /* Sadece içerik kadar uzasın, boşluk kalmasın */
+    bottom: auto !important;
+
+    /* Daha dar genişlik */
+    width: 380px !important;
+    max-width: 380px !important;
+    min-width: 320px !important;
+
+    /* Orijinal transform'u kaldır, sağdan slide-in animasyonu */
+    transform: translateX(20px) !important;
+    opacity: 0;
+
+    /* Yükseklik ve margin ayarları - FloatingButtons için alan bırak */
+    margin: 0 !important;
+    max-height: calc(100vh - var(--topbar-h) - var(--menubar-h) - 110px) !important;
+
+    /* FloatingButtons'ın üstünde görünmesi için z-index */
+    z-index: 1001 !important;
+  }
+
+  .mobile-menu--open {
+    transform: translateX(0) !important;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Overlay sağ tarafa odaklanır */
+  .mobile-menu-overlay {
+    top: calc(var(--topbar-h) + var(--menubar-h)) !important;
+  }
+
+  /* İçerik padding ayarı */
+  .mobile-menu__content {
+    padding: 24px 20px;
+  }
+
+  /* Link stili Desktop için daha kompakt */
+  .mobile-menu__link {
+    padding: 12px 14px;
+    font-size: 1rem;
+  }
+}
+
 /* ====== DROPDOWN STYLES (Added for Department & Units) ====== */
 /* Dropdown Wrapper */
 .nav__dropdown-wrapper {
