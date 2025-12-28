@@ -87,11 +87,15 @@ export default function ContactFormsPage() {
           <p className="page-subtitle">Ziyaretçilerden gelen mesajları yönetin</p>
         </div>
         <div style={{
-          background: pendingCount > 0 ? '#fef3c7' : '#dcfce7',
+          background: pendingCount > 0 
+            ? (theme === 'dark' ? '#854d0e' : '#fef3c7')
+            : (theme === 'dark' ? '#065f46' : '#dcfce7'),
           padding: '8px 16px',
           borderRadius: '8px',
           fontWeight: 600,
-          color: pendingCount > 0 ? '#92400e' : '#166534'
+          color: pendingCount > 0 
+            ? (theme === 'dark' ? '#fef3c7' : '#92400e')
+            : (theme === 'dark' ? '#d1fae5' : '#166534')
         }}>
           {pendingCount > 0 ? `${pendingCount} Bekleyen Mesaj` : 'Tüm mesajlar yanıtlandı ✓'}
         </div>
@@ -99,13 +103,23 @@ export default function ContactFormsPage() {
 
       {message.text && (
         <div style={{
-          padding: '12px',
+          padding: '14px 18px',
           borderRadius: '8px',
           marginBottom: '20px',
-          backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
-          color: message.type === 'error' ? '#991b1b' : '#166534',
-          border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
-          fontWeight: '500'
+          backgroundColor: message.type === 'error' 
+            ? (theme === 'dark' ? '#7f1d1d' : '#fef2f2')
+            : (theme === 'dark' ? '#065f46' : '#f0fdf4'),
+          color: message.type === 'error' 
+            ? (theme === 'dark' ? '#fecaca' : '#991b1b')
+            : (theme === 'dark' ? '#d1fae5' : '#166534'),
+          border: `1.5px solid ${message.type === 'error' 
+            ? (theme === 'dark' ? '#991b1b' : '#fca5a5')
+            : (theme === 'dark' ? '#047857' : '#86efac')}`,
+          fontWeight: '600',
+          fontSize: '15px',
+          boxShadow: theme === 'dark' 
+            ? '0 2px 8px rgba(0, 0, 0, 0.4)' 
+            : '0 1px 3px rgba(0, 0, 0, 0.1)'
         }}>
           {message.text}
         </div>
