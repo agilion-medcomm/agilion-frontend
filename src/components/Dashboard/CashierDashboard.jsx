@@ -530,7 +530,7 @@ export default function CashierDashboard() {
                 width: '100%'
               }}
             >
-              {registerLoading ? '⏳ Kaydediliyor...' : '✅ Hastayı Kaydet'}
+              {registerLoading ? 'Kaydediliyor...' : 'Hastayı Kaydet'}
             </button>
           </form>
         </div>
@@ -851,7 +851,7 @@ export default function CashierDashboard() {
                 fontSize: '15px'
               }}
             >
-              {appointmentLoading ? '⏳ Randevu Oluşturuluyor...' : '✅ Randevu Oluştur'}
+              {appointmentLoading ? 'Randevu Oluşturuluyor...' : 'Randevu Oluştur'}
             </button>
           </form>
         </div>
@@ -961,7 +961,7 @@ export default function CashierDashboard() {
                   transition: 'all 0.2s'
                 }}
               >
-                ✅ Onayla
+                Onayla
               </button>
             </div>
           </div>

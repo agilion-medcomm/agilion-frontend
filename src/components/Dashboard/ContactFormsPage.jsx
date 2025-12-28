@@ -401,7 +401,7 @@ export default function ContactFormsPage() {
                     </>
                   ) : (
                     <>
-                      ✓ Yanıt Gönder
+                      Yanıt Gönder
                     </>
                   )}
                 </button>

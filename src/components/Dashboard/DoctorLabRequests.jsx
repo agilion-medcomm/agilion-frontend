@@ -731,7 +731,7 @@ export default function DoctorLabRequests() {
                     fontSize: '14px'
                   }}
                 >
-                  {createLoading ? '✓ Oluşturuluyor...' : '✓ Talep Oluştur'}
+                  {createLoading ? 'Oluşturuluyor...' : 'Talep Oluştur'}
                 </button>
               </form>
             )}
