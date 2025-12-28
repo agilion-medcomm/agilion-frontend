@@ -210,7 +210,7 @@
 }
 
 .requests-table tbody tr:hover {
-  background: #f8f9fa;
+  background: rgba(59, 130, 246, 0.05);
 }
 
 .requests-table td {
@@ -230,9 +230,9 @@
 /* Görüntüle butonu */
 .view-btn {
   padding: 6px 12px;
-  background: #e8f4fd;
-  color: #007bff;
-  border: none;
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -240,8 +240,9 @@
 }
 
 .view-btn:hover {
-  background: #007bff;
-  color: #fff;
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
 }
 
 /* Modal */
