@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { MEDICAL_SPECIALTIES } from '../../constants/medicalSpecialties';
 import DoctorAvailabilityModal from './DoctorAvailabilityModal';
 import './PersonnelPage.css';
@@ -101,6 +102,7 @@ const PersonnelAvatar = ({ img, firstName, lastName, initials, size = 'medium', 
 
 export default function PersonnelPage() {
   const { user, refreshUser } = usePersonnelAuth();
+  const { theme } = useTheme();
   const [personnelList, setPersonnelList] = useState([]);
   const [filteredPersonnel, setFilteredPersonnel] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -308,6 +310,9 @@ export default function PersonnelPage() {
     const token = localStorage.getItem('personnelToken');
 
     const updateData = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      tckn: form.tckn,
       email: form.email,
       phoneNumber: form.phoneNumber,
       dateOfBirth: form.dateOfBirth,
@@ -543,7 +548,28 @@ export default function PersonnelPage() {
 
       {/* Message */}
       {message.text && (
-        <div className={`alert alert-${message.type}`}>
+        <div 
+          className={`alert alert-${message.type}`}
+          style={{
+            padding: '14px 18px',
+            borderRadius: '8px',
+            marginBottom: '20px',
+            backgroundColor: message.type === 'error' 
+              ? (theme === 'dark' ? '#7f1d1d' : '#fef2f2')
+              : (theme === 'dark' ? '#065f46' : '#f0fdf4'),
+            color: message.type === 'error' 
+              ? (theme === 'dark' ? '#fecaca' : '#991b1b')
+              : (theme === 'dark' ? '#d1fae5' : '#166534'),
+            border: `1.5px solid ${message.type === 'error' 
+              ? (theme === 'dark' ? '#991b1b' : '#fca5a5')
+              : (theme === 'dark' ? '#047857' : '#86efac')}`,
+            fontWeight: '600',
+            fontSize: '15px',
+            boxShadow: theme === 'dark' 
+              ? '0 2px 8px rgba(0, 0, 0, 0.4)' 
+              : '0 1px 3px rgba(0, 0, 0, 0.1)'
+          }}
+        >
           {message.text}
         </div>
       )}
@@ -865,18 +891,38 @@ export default function PersonnelPage() {
             <form onSubmit={handleEditPersonnel} className="modal-form">
               <div className="form-row">
                 <div className="form-group">
-                  <label>Ad (Yalnızca Okunur)</label>
-                  <input type="text" value={form.firstName} disabled />
+                  <label>Ad *</label>
+                  <input 
+                    type="text" 
+                    name="firstName"
+                    value={form.firstName} 
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <label>Soyad (Yalnızca Okunur)</label>
-                  <input type="text" value={form.lastName} disabled />
+                  <label>Soyad *</label>
+                  <input 
+                    type="text" 
+                    name="lastName"
+                    value={form.lastName} 
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="form-group">
-                <label>TCKN (Yalnızca Okunur)</label>
-                <input type="text" value={form.tckn} disabled />
+                <label>TCKN *</label>
+                <input 
+                  type="text" 
+                  name="tckn"
+                  value={form.tckn} 
+                  onChange={handleInputChange}
+                  maxLength={11}
+                  minLength={11}
+                  required
+                />
               </div>
 
               <div className="form-group">
@@ -1020,16 +1066,17 @@ export default function PersonnelPage() {
             </div>
             <div className="modal-body photo-modal-body">
               <div className="photo-preview-section">
-                <PersonnelAvatar
-                  photoUrl={photoPreview && !photoPreview.startsWith('data:') ? photoPreview.replace(API_BASE, '') : null}
-                  firstName={selectedPersonnel.firstName}
-                  lastName={selectedPersonnel.lastName}
-                  size="large"
-                />
-                {photoPreview && photoPreview.startsWith('data:') && (
-                  <div className="new-photo-preview">
-                    <img src={photoPreview} alt="New photo preview" />
+                {photoPreview ? (
+                  <div className="personnel-avatar avatar-large">
+                    <img src={photoPreview} alt={`${selectedPersonnel.firstName} ${selectedPersonnel.lastName}`} />
                   </div>
+                ) : (
+                  <PersonnelAvatar
+                    img={null}
+                    firstName={selectedPersonnel.firstName}
+                    lastName={selectedPersonnel.lastName}
+                    size="large"
+                  />
                 )}
               </div>
 

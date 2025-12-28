@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import './SharedDashboard.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
@@ -8,6 +9,7 @@ const BaseURL = `${API_BASE}/api/v1`;
 
 export default function LeaveRequestsPage() {
   const { user } = usePersonnelAuth();
+  const { theme } = useTheme();
   const [leaveRequests, setLeaveRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -239,10 +241,18 @@ export default function LeaveRequestsPage() {
       {/* Create Modal */}
       {showCreateModal && (
         <div className="modal-overlay" onClick={() => setShowCreateModal(false)}>
-          <div className="modal-content modal-small" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h2>İzin Talebi Oluştur</h2>
-              <button className="btn-close" onClick={() => setShowCreateModal(false)}>×</button>
+          <div className="modal-content modal-small" onClick={(e) => e.stopPropagation()} style={{
+            background: theme === 'dark' ? '#1e293b' : 'white',
+            color: theme === 'dark' ? '#f1f5f9' : '#1e293b'
+          }}>
+            <div className="modal-header" style={{
+              borderBottom: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+              background: 'transparent'
+            }}>
+              <h2 style={{ color: theme === 'dark' ? '#f1f5f9' : '#1e293b' }}>İzin Talebi Oluştur</h2>
+              <button className="btn-close" onClick={() => setShowCreateModal(false)} style={{
+                color: theme === 'dark' ? '#cbd5e1' : '#64748b'
+              }}>×</button>
             </div>
             <form onSubmit={handleCreateRequest} className="modal-form">
               <div className="form-row">

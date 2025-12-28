@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTheme } from '../../context/ThemeContext';
 import './SharedDashboard.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5001';
 const BaseURL = `${API_BASE}/api/v1`;
 
 export default function ContactFormsPage() {
+  const { theme } = useTheme();
   const [contactIssues, setContactIssues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -85,11 +87,15 @@ export default function ContactFormsPage() {
           <p className="page-subtitle">Ziyaretçilerden gelen mesajları yönetin</p>
         </div>
         <div style={{
-          background: pendingCount > 0 ? '#fef3c7' : '#dcfce7',
+          background: pendingCount > 0 
+            ? (theme === 'dark' ? '#854d0e' : '#fef3c7')
+            : (theme === 'dark' ? '#065f46' : '#dcfce7'),
           padding: '8px 16px',
           borderRadius: '8px',
           fontWeight: 600,
-          color: pendingCount > 0 ? '#92400e' : '#166534'
+          color: pendingCount > 0 
+            ? (theme === 'dark' ? '#fef3c7' : '#92400e')
+            : (theme === 'dark' ? '#d1fae5' : '#166534')
         }}>
           {pendingCount > 0 ? `${pendingCount} Bekleyen Mesaj` : 'Tüm mesajlar yanıtlandı ✓'}
         </div>
@@ -97,13 +103,23 @@ export default function ContactFormsPage() {
 
       {message.text && (
         <div style={{
-          padding: '12px',
+          padding: '14px 18px',
           borderRadius: '8px',
           marginBottom: '20px',
-          backgroundColor: message.type === 'error' ? '#fee2e2' : '#dcfce7',
-          color: message.type === 'error' ? '#991b1b' : '#166534',
-          border: `1px solid ${message.type === 'error' ? '#f87171' : '#86efac'}`,
-          fontWeight: '500'
+          backgroundColor: message.type === 'error' 
+            ? (theme === 'dark' ? '#7f1d1d' : '#fef2f2')
+            : (theme === 'dark' ? '#065f46' : '#f0fdf4'),
+          color: message.type === 'error' 
+            ? (theme === 'dark' ? '#fecaca' : '#991b1b')
+            : (theme === 'dark' ? '#d1fae5' : '#166534'),
+          border: `1.5px solid ${message.type === 'error' 
+            ? (theme === 'dark' ? '#991b1b' : '#fca5a5')
+            : (theme === 'dark' ? '#047857' : '#86efac')}`,
+          fontWeight: '600',
+          fontSize: '15px',
+          boxShadow: theme === 'dark' 
+            ? '0 2px 8px rgba(0, 0, 0, 0.4)' 
+            : '0 1px 3px rgba(0, 0, 0, 0.1)'
         }}>
           {message.text}
         </div>
@@ -202,30 +218,30 @@ export default function ContactFormsPage() {
           backdropFilter: 'blur(4px)'
         }} onClick={() => setReplyModalOpen(false)}>
           <div style={{
-            background: 'white',
+            background: theme === 'dark' ? '#1e293b' : 'white',
             borderRadius: '16px',
             padding: '32px',
             maxWidth: '600px',
             width: '90%',
             maxHeight: '90vh',
             overflow: 'auto',
-            boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+            boxShadow: theme === 'dark' ? '0 20px 60px rgba(0,0,0,0.6)' : '0 20px 60px rgba(0,0,0,0.3)',
             animation: 'slideUp 0.3s ease'
           }} onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
               <div>
-                <h2 style={{ margin: '0 0 4px 0', color: '#1e293b', fontSize: '22px', fontWeight: 700 }}>Mesaja Yanıt Ver</h2>
-                <p style={{ margin: 0, color: '#94a3b8', fontSize: '14px' }}>Ziyaretçiye profesyonel bir yanıt gönderin</p>
+                <h2 style={{ margin: '0 0 4px 0', color: theme === 'dark' ? '#f1f5f9' : '#1e293b', fontSize: '22px', fontWeight: 700 }}>Mesaja Yanıt Ver</h2>
+                <p style={{ margin: 0, color: theme === 'dark' ? '#94a3b8' : '#94a3b8', fontSize: '14px' }}>Ziyaretçiye profesyonel bir yanıt gönderin</p>
               </div>
               <button
                 onClick={() => setReplyModalOpen(false)}
                 style={{
-                  background: '#f1f5f9',
+                  background: theme === 'dark' ? '#334155' : '#f1f5f9',
                   border: 'none',
                   fontSize: '28px',
                   cursor: 'pointer',
-                  color: '#64748b',
+                  color: theme === 'dark' ? '#cbd5e1' : '#64748b',
                   width: '40px',
                   height: '40px',
                   borderRadius: '8px',
@@ -234,8 +250,8 @@ export default function ContactFormsPage() {
                   justifyContent: 'center',
                   transition: 'all 0.2s'
                 }}
-                onMouseOver={(e) => e.target.style.background = '#e2e8f0'}
-                onMouseOut={(e) => e.target.style.background = '#f1f5f9'}
+                onMouseOver={(e) => e.target.style.background = theme === 'dark' ? '#475569' : '#e2e8f0'}
+                onMouseOut={(e) => e.target.style.background = theme === 'dark' ? '#334155' : '#f1f5f9'}
               >
                 ✕
               </button>
@@ -243,30 +259,30 @@ export default function ContactFormsPage() {
 
             {/* Original Message Info */}
             <div style={{
-              background: 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
+              background: theme === 'dark' ? '#0f172a' : 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)',
               padding: '20px',
               borderRadius: '12px',
               marginBottom: '24px',
-              border: '1px solid #e2e8f0'
+              border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
             }}>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
                 <div>
                   <p style={{ margin: '0 0 6px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Gönderen</p>
-                  <p style={{ margin: 0, color: '#1e293b', fontWeight: 600, fontSize: '16px' }}>{selectedIssue.name}</p>
+                  <p style={{ margin: 0, color: theme === 'dark' ? '#e2e8f0' : '#1e293b', fontWeight: 600, fontSize: '16px' }}>{selectedIssue.name}</p>
                 </div>
                 <div>
                   <p style={{ margin: '0 0 6px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>E-Posta</p>
-                  <p style={{ margin: 0, color: '#1e293b', fontSize: '14px' }}>{selectedIssue.email}</p>
+                  <p style={{ margin: 0, color: theme === 'dark' ? '#e2e8f0' : '#1e293b', fontSize: '14px' }}>{selectedIssue.email}</p>
                 </div>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <div>
                   <p style={{ margin: '0 0 6px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Telefon</p>
-                  <p style={{ margin: 0, color: '#1e293b', fontSize: '14px' }}>{selectedIssue.phone}</p>
+                  <p style={{ margin: 0, color: theme === 'dark' ? '#e2e8f0' : '#1e293b', fontSize: '14px' }}>{selectedIssue.phone}</p>
                 </div>
                 <div>
                   <p style={{ margin: '0 0 6px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Konu</p>
-                  <p style={{ margin: 0, color: '#1e293b', fontWeight: 600, fontSize: '14px' }}>{selectedIssue.subject}</p>
+                  <p style={{ margin: 0, color: theme === 'dark' ? '#e2e8f0' : '#1e293b', fontWeight: 600, fontSize: '14px' }}>{selectedIssue.subject}</p>
                 </div>
               </div>
             </div>
@@ -275,15 +291,15 @@ export default function ContactFormsPage() {
             <div style={{ marginBottom: '24px' }}>
               <p style={{ margin: '0 0 12px 0', color: '#64748b', fontSize: '12px', fontWeight: 600, textTransform: 'uppercase' }}>Gelen Mesaj</p>
               <div style={{
-                background: '#f8fafc',
+                background: theme === 'dark' ? '#0f172a' : '#f8fafc',
                 padding: '16px',
                 borderRadius: '10px',
-                border: '2px solid #e2e8f0',
+                border: `2px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
                 borderLeft: '4px solid #3b82f6'
               }}>
                 <p style={{
                   margin: 0,
-                  color: '#334155',
+                  color: theme === 'dark' ? '#cbd5e1' : '#334155',
                   fontSize: '14px',
                   lineHeight: '1.6',
                   whiteSpace: 'pre-wrap',
@@ -301,7 +317,7 @@ export default function ContactFormsPage() {
                   display: 'block',
                   marginBottom: '10px',
                   fontWeight: 700,
-                  color: '#1e293b',
+                  color: theme === 'dark' ? '#f1f5f9' : '#1e293b',
                   fontSize: '15px'
                 }}>
                   Yanıtınız <span style={{ color: '#ef4444' }}>*</span>
@@ -315,7 +331,9 @@ export default function ContactFormsPage() {
                     width: '100%',
                     padding: '14px',
                     borderRadius: '10px',
-                    border: '2px solid #e2e8f0',
+                    border: `2px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+                    background: theme === 'dark' ? '#0f172a' : 'white',
+                    color: theme === 'dark' ? '#e2e8f0' : '#1e293b',
                     fontSize: '14px',
                     resize: 'vertical',
                     boxSizing: 'border-box',
@@ -323,7 +341,7 @@ export default function ContactFormsPage() {
                     transition: 'all 0.3s'
                   }}
                   onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-                  onBlur={(e) => e.target.style.borderColor = '#e2e8f0'}
+                  onBlur={(e) => e.target.style.borderColor = theme === 'dark' ? '#334155' : '#e2e8f0'}
                   required
                 />
                 <p style={{
@@ -343,21 +361,21 @@ export default function ContactFormsPage() {
                   style={{
                     padding: '12px 24px',
                     borderRadius: '10px',
-                    border: '2px solid #e2e8f0',
-                    background: 'white',
+                    border: `2px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+                    background: theme === 'dark' ? '#1e293b' : 'white',
                     cursor: 'pointer',
                     fontWeight: 600,
-                    color: '#475569',
+                    color: theme === 'dark' ? '#cbd5e1' : '#475569',
                     fontSize: '15px',
                     transition: 'all 0.2s'
                   }}
                   onMouseOver={(e) => {
-                    e.target.style.background = '#f1f5f9';
-                    e.target.style.borderColor = '#cbd5e1';
+                    e.target.style.background = theme === 'dark' ? '#0f172a' : '#f1f5f9';
+                    e.target.style.borderColor = theme === 'dark' ? '#475569' : '#cbd5e1';
                   }}
                   onMouseOut={(e) => {
-                    e.target.style.background = 'white';
-                    e.target.style.borderColor = '#e2e8f0';
+                    e.target.style.background = theme === 'dark' ? '#1e293b' : 'white';
+                    e.target.style.borderColor = theme === 'dark' ? '#334155' : '#e2e8f0';
                   }}
                 >
                   İptal Et

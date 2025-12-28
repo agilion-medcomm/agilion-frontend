@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { usePersonnelAuth } from '../../context/PersonnelAuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import './SharedDashboard.css';
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
@@ -26,6 +27,7 @@ const areas = [
 
 export default function CleaningManagementPage() {
   const { user } = usePersonnelAuth();
+  const { theme } = useTheme();
   const [cleaningRecords, setCleaningRecords] = useState([]);
   const [cleaners, setCleaners] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -249,30 +251,47 @@ export default function CleaningManagementPage() {
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: 'white',
+              background: theme === 'dark' ? '#1e293b' : 'white',
               borderRadius: '12px',
               padding: '20px',
               maxWidth: '90vw',
               maxHeight: '90vh',
-              position: 'relative'
+              position: 'relative',
+              boxShadow: theme === 'dark' ? '0 20px 60px rgba(0,0,0,0.6)' : '0 20px 60px rgba(0,0,0,0.3)'
             }}
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ margin: 0 }}>Temizlik Fotoğrafı</h3>
+              <h3 style={{ 
+                margin: 0,
+                color: theme === 'dark' ? '#f1f5f9' : '#1e293b',
+                fontSize: '20px',
+                fontWeight: 700
+              }}>Temizlik Fotoğrafı</h3>
               <button
                 onClick={() => setShowPhotoModal(false)}
                 style={{
-                  background: 'none',
+                  background: theme === 'dark' ? '#334155' : '#f1f5f9',
                   border: 'none',
                   fontSize: '24px',
                   cursor: 'pointer',
-                  padding: '4px 8px'
+                  padding: '4px 12px',
+                  borderRadius: '8px',
+                  color: theme === 'dark' ? '#cbd5e1' : '#64748b',
+                  transition: 'all 0.2s'
                 }}
+                onMouseOver={(e) => e.target.style.background = theme === 'dark' ? '#475569' : '#e2e8f0'}
+                onMouseOut={(e) => e.target.style.background = theme === 'dark' ? '#334155' : '#f1f5f9'}
               >
                 ×
               </button>
             </div>
-            <div style={{ textAlign: 'center' }}>
+            <div style={{ 
+              textAlign: 'center',
+              background: theme === 'dark' ? '#0f172a' : '#f8fafc',
+              padding: '16px',
+              borderRadius: '8px',
+              border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
+            }}>
               <img
                 src={`${API_BASE}${selectedPhoto}`}
                 alt="Temizlik fotoğrafı"
@@ -294,17 +313,32 @@ export default function CleaningManagementPage() {
 
       {/* Stats Summary */}
       <div style={{ marginTop: '32px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
-        <div style={{ padding: '20px', background: '#f0fdf4', borderRadius: '12px', border: '1px solid #86efac' }}>
-          <p style={{ margin: 0, fontSize: '14px', color: '#166534' }}>Toplam Kayıt</p>
-          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#166534' }}>{cleaningRecords.length}</p>
+        <div style={{ 
+          padding: '20px', 
+          background: theme === 'dark' ? '#065f46' : '#f0fdf4', 
+          borderRadius: '12px', 
+          border: `1px solid ${theme === 'dark' ? '#047857' : '#86efac'}` 
+        }}>
+          <p style={{ margin: 0, fontSize: '14px', color: theme === 'dark' ? '#d1fae5' : '#166534' }}>Toplam Kayıt</p>
+          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: theme === 'dark' ? '#d1fae5' : '#166534' }}>{cleaningRecords.length}</p>
         </div>
-        <div style={{ padding: '20px', background: '#eff6ff', borderRadius: '12px', border: '1px solid #93c5fd' }}>
-          <p style={{ margin: 0, fontSize: '14px', color: '#1e40af' }}>Aktif Temizlikçi</p>
-          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#1e40af' }}>{cleaners.length}</p>
+        <div style={{ 
+          padding: '20px', 
+          background: theme === 'dark' ? '#1e3a8a' : '#eff6ff', 
+          borderRadius: '12px', 
+          border: `1px solid ${theme === 'dark' ? '#1e40af' : '#93c5fd'}` 
+        }}>
+          <p style={{ margin: 0, fontSize: '14px', color: theme === 'dark' ? '#dbeafe' : '#1e40af' }}>Aktif Temizlikçi</p>
+          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: theme === 'dark' ? '#dbeafe' : '#1e40af' }}>{cleaners.length}</p>
         </div>
-        <div style={{ padding: '20px', background: '#fefce8', borderRadius: '12px', border: '1px solid #fde047' }}>
-          <p style={{ margin: 0, fontSize: '14px', color: '#854d0e' }}>Bugünkü Kayıtlar</p>
-          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: '#854d0e' }}>
+        <div style={{ 
+          padding: '20px', 
+          background: theme === 'dark' ? '#854d0e' : '#fefce8', 
+          borderRadius: '12px', 
+          border: `1px solid ${theme === 'dark' ? '#a16207' : '#fde047'}` 
+        }}>
+          <p style={{ margin: 0, fontSize: '14px', color: theme === 'dark' ? '#fef3c7' : '#854d0e' }}>Bugünkü Kayıtlar</p>
+          <p style={{ margin: '8px 0 0', fontSize: '24px', fontWeight: '700', color: theme === 'dark' ? '#fef3c7' : '#854d0e' }}>
             {cleaningRecords.filter(r => r.date === new Date().toISOString().split('T')[0]).length}
           </p>
         </div>
