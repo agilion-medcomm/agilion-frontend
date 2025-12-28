@@ -1043,16 +1043,17 @@ export default function PersonnelPage() {
             </div>
             <div className="modal-body photo-modal-body">
               <div className="photo-preview-section">
-                <PersonnelAvatar
-                  photoUrl={photoPreview && !photoPreview.startsWith('data:') ? photoPreview.replace(API_BASE, '') : null}
-                  firstName={selectedPersonnel.firstName}
-                  lastName={selectedPersonnel.lastName}
-                  size="large"
-                />
-                {photoPreview && photoPreview.startsWith('data:') && (
-                  <div className="new-photo-preview">
-                    <img src={photoPreview} alt="New photo preview" />
+                {photoPreview ? (
+                  <div className="personnel-avatar avatar-large">
+                    <img src={photoPreview} alt={`${selectedPersonnel.firstName} ${selectedPersonnel.lastName}`} />
                   </div>
+                ) : (
+                  <PersonnelAvatar
+                    img={null}
+                    firstName={selectedPersonnel.firstName}
+                    lastName={selectedPersonnel.lastName}
+                    size="large"
+                  />
                 )}
               </div>
 
