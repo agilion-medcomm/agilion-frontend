@@ -1,0 +1,577 @@
+/* DoctorAvailabilityModal.css */
+
+.availability-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.availability-modal {
+    background-color: white;
+    border-radius: var(--radius-xl);
+    width: 90%;
+    max-width: 600px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-2xl);
+    overflow: hidden;
+    animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--gray-100);
+}
+
+.availability-header {
+    padding: var(--space-lg) var(--space-xl);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    position: relative;
+    /* For absolute positioning of close button */
+}
+
+.availability-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: 0;
+}
+
+.availability-header .btn-icon {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+}
+
+.btn-icon {
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    box-shadow: none;
+}
+
+.btn-icon:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-900);
+    transform: none;
+    box-shadow: none;
+}
+
+.availability-content {
+    padding: var(--space-xl);
+    overflow-y: auto;
+    background-color: white;
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+.availability-content::-webkit-scrollbar {
+    display: none;
+}
+
+.availability-days {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.day-row {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+    transition: all var(--transition-base);
+}
+
+.day-row:hover {
+    border-color: var(--primary-300);
+    transform: translateX(2px);
+}
+
+.day-row.active {
+    background-color: var(--primary-50);
+    border-color: var(--primary-200);
+}
+
+.day-checkbox {
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.day-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-600);
+    border-radius: 4px;
+}
+
+.day-name {
+    width: 120px;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.day-row.active .day-name {
+    color: var(--primary-800);
+}
+
+.time-inputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.time-inputs input,
+.time-inputs select {
+    padding: 8px 12px;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    color: var(--gray-900);
+    width: 110px;
+    background-color: white;
+    transition: border-color 0.2s;
+    appearance: none;
+    /* Remove default arrow on some browsers */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    padding-right: 30px;
+}
+
+.time-inputs input:focus,
+.time-inputs select:focus {
+    border-color: var(--primary-500);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+}
+
+.time-inputs span {
+    color: var(--gray-400);
+    font-weight: 500;
+}
+
+/* Time Picker Popover Styles */
+.time-picker-container {
+    position: relative;
+}
+
+.time-picker-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: white;
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray-900);
+    cursor: pointer;
+    min-width: 90px;
+    justify-content: space-between;
+    transition: all var(--transition-base);
+}
+
+.time-picker-button:hover {
+    border-color: var(--primary-400);
+}
+
+.time-picker-button:active,
+.time-picker-button.active {
+    border-color: var(--primary-600);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.1);
+}
+
+.chevron-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--gray-400);
+    transition: transform 0.2s;
+}
+
+.time-picker-button.active .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.time-picker-popover {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    z-index: 2000;
+    /* Ensure high z-index to prevent overlap */
+    display: flex;
+    width: 140px;
+    max-height: 220px;
+    /* Allow shrinking if fewer items */
+    height: auto;
+    overflow: hidden;
+}
+
+.time-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--gray-100);
+}
+
+.time-column:last-child {
+    border-right: none;
+}
+
+.time-column-header {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    padding: 6px;
+    background-color: var(--gray-50);
+    border-bottom: 1px solid var(--gray-100);
+    text-transform: uppercase;
+}
+
+.time-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.time-item {
+    padding: 6px;
+    text-align: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    color: var(--gray-700);
+    transition: background-color 0.1s;
+    margin-bottom: 2px;
+}
+
+.time-item:hover {
+    background-color: var(--gray-100);
+    color: var(--gray-900);
+}
+
+.time-item.selected {
+    background-color: var(--primary-50);
+    color: var(--primary-700);
+    font-weight: 600;
+}
+
+.time-item.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+/* Custom Scrollbar for Time List */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--gray-300);
+    border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-400);
+}
+
+/* Dark Mode Support for Popover */
+[data-theme='dark'] .time-picker-button {
+    background-color: var(--gray-900);
+    border-color: var(--gray-600);
+    color: var(--gray-200);
+}
+
+[data-theme='dark'] .time-picker-button:hover {
+    border-color: var(--primary-500);
+}
+
+[data-theme='dark'] .time-picker-popover {
+    background-color: var(--gray-800);
+    border-color: var(--gray-600);
+}
+
+[data-theme='dark'] .time-column {
+    border-right-color: var(--gray-700);
+}
+
+[data-theme='dark'] .time-column-header {
+    background-color: var(--gray-900);
+    border-bottom-color: var(--gray-700);
+    color: var(--gray-400);
+}
+
+[data-theme='dark'] .time-item {
+    color: var(--gray-300);
+}
+
+[data-theme='dark'] .time-item:hover {
+    background-color: var(--gray-700);
+    color: white;
+}
+
+[data-theme='dark'] .time-item.selected {
+    background-color: rgba(14, 165, 233, 0.2);
+    color: var(--primary-400);
+}
+
+
+.closed-badge {
+    margin-left: auto;
+    padding: 6px 14px;
+    background-color: #fee2e2;
+    color: #ef4444;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    border: 1px solid #fecaca;
+}
+
+.availability-footer {
+    padding: var(--space-lg) var(--space-xl);
+    border-top: 1px solid var(--gray-200);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-md);
+    background-color: var(--gray-50);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.btn-save {
+    background-color: var(--primary-600);
+    color: white;
+    border: none;
+    padding: 0 !important;
+    /* Override SharedDashboard */
+    border-radius: 9999px !important;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+    width: 140px !important;
+    /* Override SharedDashboard */
+    height: 48px !important;
+    /* Override SharedDashboard */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 !important;
+    /* Override SharedDashboard */
+}
+
+.btn-save:hover {
+    background-color: var(--primary-700);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-cancel {
+    background-color: #fee2e2;
+    border: none;
+    color: #ef4444;
+    padding: 0 !important;
+    /* Override SharedDashboard */
+    border-radius: 9999px !important;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+    width: 140px !important;
+    /* Override SharedDashboard */
+    height: 48px !important;
+    /* Override SharedDashboard */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 !important;
+    /* Override SharedDashboard */
+}
+
+.btn-cancel:hover {
+    background-color: #fecaca;
+    color: #dc2626;
+    border-color: transparent;
+}
+
+/* Animations */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+/* Dark Mode Support */
+[data-theme='dark'] .availability-modal {
+    background-color: var(--gray-800);
+    border-color: var(--gray-700);
+}
+
+[data-theme='dark'] .availability-header {
+    background-color: var(--gray-800);
+    border-bottom-color: var(--gray-700);
+}
+
+[data-theme='dark'] .availability-header h2 {
+    color: var(--gray-100);
+}
+
+[data-theme='dark'] .btn-icon {
+    color: var(--gray-400);
+}
+
+[data-theme='dark'] .btn-icon:hover {
+    background-color: var(--gray-700);
+    color: white;
+    /* Make icon white on hover */
+}
+
+/* Force SVG stroke to be white in dark mode for visibility */
+[data-theme='dark'] .btn-icon svg,
+[data-theme='dark'] .btn-icon svg line,
+[data-theme='dark'] .btn-icon svg path {
+    stroke: var(--gray-300);
+}
+
+[data-theme='dark'] .btn-icon:hover svg,
+[data-theme='dark'] .btn-icon:hover svg line,
+[data-theme='dark'] .btn-icon:hover svg path {
+    stroke: white;
+}
+
+[data-theme='dark'] .availability-content {
+    background-color: var(--gray-800);
+}
+
+[data-theme='dark'] .day-row {
+    background-color: var(--gray-900);
+    border-color: var(--gray-700);
+}
+
+/* Ensure stacking context handles popovers correctly */
+.day-row {
+    position: relative;
+    z-index: 1;
+}
+
+/* When a user interacts with a row, bring it to front */
+.day-row:hover,
+.day-row:focus-within {
+    z-index: 100;
+}
+
+[data-theme='dark'] .day-row:hover,
+[data-theme='dark'] .day-row:focus-within {
+    border-color: var(--primary-500);
+}
+
+[data-theme='dark'] .day-row.active {
+    background-color: rgba(14, 165, 233, 0.1);
+    border-color: var(--primary-700);
+}
+
+[data-theme='dark'] .day-name {
+    color: var(--gray-300);
+}
+
+[data-theme='dark'] .day-row.active .day-name {
+    color: var(--primary-400);
+}
+
+[data-theme='dark'] .time-picker-group {
+    background-color: var(--gray-900);
+    border-color: var(--gray-600);
+}
+
+[data-theme='dark'] .time-picker-group:focus-within {
+    border-color: var(--primary-500);
+}
+
+[data-theme='dark'] .time-select {
+    color: var(--gray-200);
+}
+
+[data-theme='dark'] .time-select:disabled {
+    color: var(--gray-600);
+}
+
+[data-theme='dark'] .closed-badge {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+[data-theme='dark'] .availability-footer {
+    background-color: var(--gray-900);
+    border-top-color: var(--gray-700);
+}
+
+[data-theme='dark'] .btn-cancel {
+    background-color: rgba(239, 68, 68, 0.2);
+    border-color: transparent;
+    color: #fca5a5;
+    border-radius: 9999px !important;
+    /* Force Pill in Dark Mode */
+}
+
+[data-theme='dark'] .btn-cancel:hover {
+    background-color: rgba(239, 68, 68, 0.3);
+    color: white;
+}

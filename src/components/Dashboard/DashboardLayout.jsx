@@ -118,11 +118,38 @@ const MailIcon = () => (
   </svg>
 );
 
+const ClockIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"></circle>
+    <polyline points="12 6 12 12 16 14"></polyline>
+  </svg>
+);
+
 const DisplayIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
     <line x1="8" y1="21" x2="16" y2="21"></line>
     <line x1="12" y1="17" x2="12" y2="21"></line>
+  </svg>
+);
+
+const SunIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+);
+
+const MoonIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
   </svg>
 );
 
@@ -132,7 +159,7 @@ import { useTheme } from '../../context/ThemeContext'; // Import useTheme
 
 export default function DashboardLayout() {
   const { user, logoutPersonnel } = usePersonnelAuth();
-  const { theme } = useTheme(); // Get theme if needed, but don't toggle
+  const { theme, toggleTheme } = useTheme(); // Get toggleTheme
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(window.innerWidth <= 1024);
@@ -162,6 +189,7 @@ export default function DashboardLayout() {
       return [
         ...baseNav,
         { path: '/dashboard/personnel', icon: <PeopleIcon />, label: 'Personel' },
+        { path: '/dashboard/availability', icon: <ClockIcon />, label: 'Çalışma Saatleri' },
         { path: '/dashboard/appointments', icon: <CalendarIcon />, label: 'Randevular' },
         { path: '/dashboard/patients', icon: <UsersIcon />, label: 'Hastalar' },
         { path: '/dashboard/lab-results', icon: <ActivityIcon />, label: 'Lab Sonuçları' },
@@ -345,6 +373,29 @@ export default function DashboardLayout() {
 
       {/* Main Content */}
       <main className="dashboard-main">
+        <div className="main-header">
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Aydınlık Mod' : 'Karanlık Mod'}
+            style={{
+              background: 'var(--dashboard-card-bg)',
+              border: '1px solid var(--dashboard-border)',
+              color: 'var(--dashboard-text)',
+              padding: '10px',
+              borderRadius: '50%',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
+              width: '44px',
+              height: '44px'
+            }}
+          >
+            {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+          </button>
+        </div>
         <Outlet />
       </main>
     </div>
