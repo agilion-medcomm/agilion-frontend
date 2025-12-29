@@ -10,6 +10,22 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
+// Scraped doctor photos from zeytinburnutipmerkezi.com.tr
+const SEEDED_DOCTOR_PHOTOS = {
+  "Turgay Karamustafa": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Turgay-karamustafa.png",
+  "Naci Onan": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Naci-Onan.png",
+  "Vagıf Ahmetoğlu": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/vagif-ahmedoglu.png",
+  "İbrahim Süve": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Ibrahim-suve.png",
+  "Vildan Gür": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Vildan-gur.png",
+  "Şükran Tamtürk": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Sukran-tamturk.png",
+  "Tolga Aydemir": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/tolga-aydemir.png",
+  "İsmail Vurgun": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/ismail-vurgun.png",
+  "Elif Kuybet Çelik": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Elif-kuybet-celik.png",
+  "Hüseyin İpektel": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/huseyin-ipektel.png",
+  "Çağdaş Aydın": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/cagdas-aydin.png",
+  "Ayşe Reyhan Uzun": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/ayse-reyhan-uzun.png"
+};
+
 // Icons
 const PlusIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -164,7 +180,23 @@ export default function PersonnelPage() {
       const res = await axios.get(`${BaseURL}/personnel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setPersonnelList(res.data?.data || []);
+      const personnelData = res.data?.data || [];
+
+      // Add scraped photos for seeded doctors
+      const mergedPersonnel = personnelData.map(person => {
+        if (person.role === 'DOCTOR') {
+          // Try to match by full name (firstName + lastName)
+          const fullName = `${person.firstName} ${person.lastName}`;
+          const photoUrl = SEEDED_DOCTOR_PHOTOS[fullName];
+
+          if (photoUrl) {
+            return { ...person, photoUrl };
+          }
+        }
+        return person;
+      });
+
+      setPersonnelList(mergedPersonnel);
     } catch (error) {
       if (error.response?.status === 401) {
         showMessage('error', 'Session expired. Please login again.');
@@ -410,7 +442,11 @@ export default function PersonnelPage() {
   const openPhotoModal = (personnel) => {
     setSelectedPersonnel(personnel);
     setPhotoFile(null);
-    setPhotoPreview(personnel.photoUrl ? `${API_BASE}${personnel.photoUrl}` : null);
+    // Check if photoUrl is external (starts with http) or internal path
+    const photoUrl = personnel.photoUrl
+      ? (personnel.photoUrl.startsWith('http') ? personnel.photoUrl : `${API_BASE}${personnel.photoUrl}`)
+      : null;
+    setPhotoPreview(photoUrl);
     setShowPhotoModal(true);
   };
 
@@ -548,25 +584,25 @@ export default function PersonnelPage() {
 
       {/* Message */}
       {message.text && (
-        <div 
+        <div
           className={`alert alert-${message.type}`}
           style={{
             padding: '14px 18px',
             borderRadius: '8px',
             marginBottom: '20px',
-            backgroundColor: message.type === 'error' 
+            backgroundColor: message.type === 'error'
               ? (theme === 'dark' ? '#7f1d1d' : '#fef2f2')
               : (theme === 'dark' ? '#065f46' : '#f0fdf4'),
-            color: message.type === 'error' 
+            color: message.type === 'error'
               ? (theme === 'dark' ? '#fecaca' : '#991b1b')
               : (theme === 'dark' ? '#d1fae5' : '#166534'),
-            border: `1.5px solid ${message.type === 'error' 
+            border: `1.5px solid ${message.type === 'error'
               ? (theme === 'dark' ? '#991b1b' : '#fca5a5')
               : (theme === 'dark' ? '#047857' : '#86efac')}`,
             fontWeight: '600',
             fontSize: '15px',
-            boxShadow: theme === 'dark' 
-              ? '0 2px 8px rgba(0, 0, 0, 0.4)' 
+            boxShadow: theme === 'dark'
+              ? '0 2px 8px rgba(0, 0, 0, 0.4)'
               : '0 1px 3px rgba(0, 0, 0, 0.1)'
           }}
         >
@@ -892,20 +928,20 @@ export default function PersonnelPage() {
               <div className="form-row">
                 <div className="form-group">
                   <label>Ad *</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="firstName"
-                    value={form.firstName} 
+                    value={form.firstName}
                     onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div className="form-group">
                   <label>Soyad *</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="lastName"
-                    value={form.lastName} 
+                    value={form.lastName}
                     onChange={handleInputChange}
                     required
                   />
@@ -914,10 +950,10 @@ export default function PersonnelPage() {
 
               <div className="form-group">
                 <label>TCKN *</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   name="tckn"
-                  value={form.tckn} 
+                  value={form.tckn}
                   onChange={handleInputChange}
                   maxLength={11}
                   minLength={11}
@@ -1028,26 +1064,26 @@ export default function PersonnelPage() {
         <div className="modal-overlay" onClick={() => setShowDeleteModal(false)}>
           <div className="modal-content modal-small" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Confirm Delete</h2>
+              <h2>Silmeyi Onayla</h2>
               <button className="btn-close" onClick={() => setShowDeleteModal(false)}>
                 <XIcon />
               </button>
             </div>
             <div className="modal-body">
-              <p>Are you sure you want to delete this personnel?</p>
+              <p>Bu personeli silmek istediğinize emin misiniz?</p>
               <div className="delete-info">
-                <p><strong>Name:</strong> {selectedPersonnel.firstName} {selectedPersonnel.lastName}</p>
-                <p><strong>Role:</strong> {getRoleLabel(selectedPersonnel.role)}</p>
+                <p><strong>İsim:</strong> {selectedPersonnel.firstName} {selectedPersonnel.lastName}</p>
+                <p><strong>Rol:</strong> {getRoleLabel(selectedPersonnel.role)}</p>
                 <p><strong>TCKN:</strong> {selectedPersonnel.tckn}</p>
               </div>
-              <p className="warning-text">This action cannot be undone.</p>
+              <p className="warning-text">Bu işlem geri alınamaz.</p>
             </div>
             <div className="modal-actions">
               <button className="btn-secondary" onClick={() => setShowDeleteModal(false)}>
-                Cancel
+                İptal
               </button>
               <button className="btn-danger" onClick={handleDeletePersonnel}>
-                Delete
+                Sil
               </button>
             </div>
           </div>
@@ -1059,7 +1095,7 @@ export default function PersonnelPage() {
         <div className="modal-overlay" onClick={() => setShowPhotoModal(false)}>
           <div className="modal-content modal-photo" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
-              <h2>Update Profile Photo</h2>
+              <h2>Profil Fotoğrafını Güncelle</h2>
               <button className="btn-close" onClick={() => setShowPhotoModal(false)}>
                 <XIcon />
               </button>
@@ -1095,7 +1131,7 @@ export default function PersonnelPage() {
                 />
                 <label htmlFor="photo-upload" className="btn-secondary upload-label">
                   <CameraIcon />
-                  <span>Select Photo</span>
+                  <span>Fotoğraf Seç</span>
                 </label>
                 <p className="upload-hint">Max 5MB, JPG/PNG/GIF</p>
               </div>
@@ -1107,18 +1143,18 @@ export default function PersonnelPage() {
                   onClick={handlePhotoDelete}
                   disabled={uploadingPhoto}
                 >
-                  {uploadingPhoto ? 'Deleting...' : 'Remove Photo'}
+                  {uploadingPhoto ? 'Siliniyor...' : 'Fotoğrafı Kaldır'}
                 </button>
               )}
               <button className="btn-secondary" onClick={() => setShowPhotoModal(false)}>
-                Cancel
+                İptal
               </button>
               <button
                 className="btn-primary"
                 onClick={handlePhotoUpload}
                 disabled={!photoFile || uploadingPhoto}
               >
-                {uploadingPhoto ? 'Uploading...' : 'Save Photo'}
+                {uploadingPhoto ? 'Yükleniyor...' : 'Fotoğrafı Kaydet'}
               </button>
             </div>
           </div>
