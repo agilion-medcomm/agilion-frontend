@@ -292,11 +292,15 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: all 0.2s;
+  padding: 6px 12px;
+  border-radius: 6px;
 }
 
 .stat-view-all:hover {
-  color: #1d4ed8;
+  background: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
 }
 
 /* Bottom Statistics */
