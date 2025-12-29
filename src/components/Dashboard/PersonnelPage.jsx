@@ -10,6 +10,22 @@ const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5001";
 const API_PREFIX = "/api/v1";
 const BaseURL = `${API_BASE}${API_PREFIX}`;
 
+// Scraped doctor photos from zeytinburnutipmerkezi.com.tr
+const SEEDED_DOCTOR_PHOTOS = {
+  "Turgay Karamustafa": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Turgay-karamustafa.png",
+  "Naci Onan": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Naci-Onan.png",
+  "Vagıf Ahmetoğlu": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/vagif-ahmedoglu.png",
+  "İbrahim Süve": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Ibrahim-suve.png",
+  "Vildan Gür": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Vildan-gur.png",
+  "Şükran Tamtürk": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Sukran-tamturk.png",
+  "Tolga Aydemir": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/tolga-aydemir.png",
+  "İsmail Vurgun": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/ismail-vurgun.png",
+  "Elif Kuybet Çelik": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/Elif-kuybet-celik.png",
+  "Hüseyin İpektel": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/huseyin-ipektel.png",
+  "Çağdaş Aydın": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/cagdas-aydin.png",
+  "Ayşe Reyhan Uzun": "https://zeytinburnutipmerkezi.com.tr/wp-content/uploads/2024/10/ayse-reyhan-uzun.png"
+};
+
 // Icons
 const PlusIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -164,7 +180,23 @@ export default function PersonnelPage() {
       const res = await axios.get(`${BaseURL}/personnel`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setPersonnelList(res.data?.data || []);
+      const personnelData = res.data?.data || [];
+
+      // Add scraped photos for seeded doctors
+      const mergedPersonnel = personnelData.map(person => {
+        if (person.role === 'DOCTOR') {
+          // Try to match by full name (firstName + lastName)
+          const fullName = `${person.firstName} ${person.lastName}`;
+          const photoUrl = SEEDED_DOCTOR_PHOTOS[fullName];
+          
+          if (photoUrl) {
+            return { ...person, photoUrl };
+          }
+        }
+        return person;
+      });
+
+      setPersonnelList(mergedPersonnel);
     } catch (error) {
       if (error.response?.status === 401) {
         showMessage('error', 'Session expired. Please login again.');
@@ -410,7 +442,11 @@ export default function PersonnelPage() {
   const openPhotoModal = (personnel) => {
     setSelectedPersonnel(personnel);
     setPhotoFile(null);
-    setPhotoPreview(personnel.photoUrl ? `${API_BASE}${personnel.photoUrl}` : null);
+    // Check if photoUrl is external (starts with http) or internal path
+    const photoUrl = personnel.photoUrl 
+      ? (personnel.photoUrl.startsWith('http') ? personnel.photoUrl : `${API_BASE}${personnel.photoUrl}`)
+      : null;
+    setPhotoPreview(photoUrl);
     setShowPhotoModal(true);
   };
 
