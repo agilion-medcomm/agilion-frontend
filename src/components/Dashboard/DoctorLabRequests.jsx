@@ -524,7 +524,7 @@ export default function DoctorLabRequests() {
                               fontSize: '13px'
                             }}
                           >
-                            📥 İndir
+                            İndir
                           </button>
                         )}
                       </div>
