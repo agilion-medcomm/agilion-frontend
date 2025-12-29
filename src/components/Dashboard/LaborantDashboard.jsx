@@ -662,15 +662,15 @@ export default function LaborantDashboard() {
                       <tr key={file.id}>
                         <td style={{ fontWeight: 600 }}>{file.testName}</td>
                         <td>
-                          {file.medicalFileRequest?.patient?.user?.firstName} {file.medicalFileRequest?.patient?.user?.lastName}
+                          {file.patient?.user?.firstName} {file.patient?.user?.lastName}
                         </td>
                         <td>
-                          Dr. {file.medicalFileRequest?.createdByUser?.firstName} {file.medicalFileRequest?.createdByUser?.lastName}
+                          {file.request?.createdByUser ? `Dr. ${file.request.createdByUser.firstName} ${file.request.createdByUser.lastName}` : '-'}
                         </td>
                         <td>
                           {new Date(file.createdAt).toLocaleDateString('tr-TR')}
                         </td>
-                        <td style={{ padding: '16px', textAlign: 'center' }}>
+                        <td style={{ textAlign: 'center' }}>
                           <span style={{
                             background: '#dcfce7',
                             color: '#166534',

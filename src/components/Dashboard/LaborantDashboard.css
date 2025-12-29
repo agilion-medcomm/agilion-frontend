@@ -150,12 +150,14 @@
     color: var(--dash-text);
     background: var(--dash-bg);
     border-bottom: 1px solid var(--dash-border);
+    vertical-align: middle;
 }
 
 .laborant-table td {
     padding: 16px;
     color: var(--dash-text);
     border-bottom: 1px solid var(--dash-border);
+    vertical-align: middle;
 }
 
 .laborant-status-badge {

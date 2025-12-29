@@ -135,7 +135,7 @@ export default function EvdeSaglikPage() {
         address: formData.address?.trim() || '',
         serviceType: formData.serviceType?.trim() || '',
         preferredDate: formData.preferredDate || '',
-        preferredTime: formData.preferredTime ? formData.preferredTime.split('-')[0].trim() : '', // Extract start time from range
+        preferredTime: formData.preferredTime || '', // Keep full range string (e.g. "09:00-12:00")
         notes: formData.notes?.trim() || '',
         serviceDetails: formData.notes?.trim() || '' // Include both notes and serviceDetails
       };
@@ -167,7 +167,13 @@ export default function EvdeSaglikPage() {
           notes: ''
         });
       } else {
-        setSubmitResult({ success: false, message: data.message || t('medical:home_health.form.error_msg') });
+        let errorMessage = data.message || t('medical:home_health.form.error_msg');
+        if (data.errors && Array.isArray(data.errors)) {
+          // Joi errors format: [{ field: "address", message: "Address must be at least 10 characters." }]
+          const details = data.errors.map(err => `• ${err.message}`).join('\n');
+          errorMessage = `${errorMessage}\n${details}`;
+        }
+        setSubmitResult({ success: false, message: errorMessage });
       }
     } catch (error) {
       console.error('Error submitting request:', error);
@@ -377,6 +383,7 @@ export default function EvdeSaglikPage() {
                       value={formData.address}
                       onChange={handleInputChange}
                       required
+                      minLength={10}
                       placeholder={t('medical:home_health.form.address_placeholder')}
                       rows={3}
                     />
