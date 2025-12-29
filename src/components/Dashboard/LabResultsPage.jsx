@@ -312,7 +312,7 @@ export default function LabResultsPage() {
                               fontWeight: 600
                             }}
                           >
-                            📥 İndir
+                            İndir
                           </button>
                         ) : (
                           <span style={{

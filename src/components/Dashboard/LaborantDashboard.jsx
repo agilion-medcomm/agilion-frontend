@@ -704,7 +704,7 @@ export default function LaborantDashboard() {
                               }
                             }}
                           >
-                            📥 İndir
+                            İndir
                           </button>
                         </td>
                       </tr>
