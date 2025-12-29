@@ -134,6 +134,17 @@ export default function HomeHealthRequestsPage() {
     });
   };
 
+  // Tarih formatla (Sadece tarih)
+  const formatDateOnly = (dateString) => {
+    if (!dateString) return '-';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('tr-TR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+  };
+
   return (
     <div className="home-health-page">
       <div className="page-header">
@@ -224,7 +235,7 @@ export default function HomeHealthRequestsPage() {
                       <td>{req.fullName}</td>
                       <td>{req.phoneNumber}</td>
                       <td>{req.serviceType}</td>
-                      <td>{req.preferredDate || '-'}</td>
+                      <td>{formatDateOnly(req.preferredDate)}</td>
                       <td>
                         <span
                           className="status-badge"
@@ -287,7 +298,7 @@ export default function HomeHealthRequestsPage() {
                 </div>
                 <div className="detail-item">
                   <label>Tercih Edilen Tarih:</label>
-                  <span>{selectedRequest.preferredDate || '-'}</span>
+                  <span>{formatDateOnly(selectedRequest.preferredDate)}</span>
                 </div>
                 <div className="detail-item">
                   <label>Tercih Edilen Saat:</label>

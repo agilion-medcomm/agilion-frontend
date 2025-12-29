@@ -388,7 +388,7 @@ export default function DoctorLabRequests() {
                             {req.fileTitle}
                           </p>
                           <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: 'var(--dash-text-muted)' }}>
-                            👤 Hasta: {req.patient.firstName} {req.patient.lastName}
+                            👤 Hasta: {req.patient.user?.firstName} {req.patient.user?.lastName}
                           </p>
                           <p style={{ margin: '0 0 4px 0', fontSize: '13px', color: 'var(--dash-text-muted)' }}>
                             📝 {req.notes || 'Not yok'}

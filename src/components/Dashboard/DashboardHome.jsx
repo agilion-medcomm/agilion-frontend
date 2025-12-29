@@ -123,8 +123,10 @@ export default function DashboardHome() {
   const [timeFilter, setTimeFilter] = useState('today');
 
   useEffect(() => {
-    fetchDashboardStats();
-  }, [timeFilter]);
+    if (user) {
+      fetchDashboardStats();
+    }
+  }, [timeFilter, user]);
 
   const fetchDashboardStats = async () => {
     setLoading(true);
@@ -142,18 +144,30 @@ export default function DashboardHome() {
       ]);
 
       const appointments = appointmentsRes.data?.data || [];
-      const patients = patientsRes.data?.users || [];
+      const patients = patientsRes.data?.data?.users || [];
 
       // Try to fetch personnel data (only admins can access this)
       let personnel = [];
+      let pendingLeavesCount = 0;
+      let pendingContactsCount = 0;
+
       if (user?.role === 'ADMIN') {
         try {
-          const personnelRes = await axios.get(`${BaseURL}/personnel`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
+          const [personnelRes, contactRes, leaveRes] = await Promise.all([
+            axios.get(`${BaseURL}/personnel`, { headers: { Authorization: `Bearer ${token}` } }),
+            axios.get(`${BaseURL}/contact`, { headers: { Authorization: `Bearer ${token}` } }),
+            axios.get(`${BaseURL}/leave-requests`, { headers: { Authorization: `Bearer ${token}` } })
+          ]);
           personnel = personnelRes.data?.data || [];
-        } catch (personnelError) {
-          console.error('Error fetching personnel data:', personnelError);
+
+          const contacts = contactRes.data?.data || [];
+          pendingContactsCount = contacts.filter(c => c.status === 'PENDING').length;
+
+          const leaves = leaveRes.data?.data || [];
+          pendingLeavesCount = leaves.filter(l => l.status === 'PENDING').length;
+
+        } catch (adminError) {
+          console.error('Error fetching admin data:', adminError);
           // Non-admin users will get 403, which is expected
         }
       }
@@ -218,6 +232,8 @@ export default function DashboardHome() {
         operations: Math.floor(approvedAppointments.length * 0.12),
         admitted: Math.floor(approvedAppointments.length * 0.95),
         discharged: completedAppointments.length,
+        pendingLeaves: pendingLeavesCount,
+        pendingContacts: pendingContactsCount,
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -329,13 +345,25 @@ export default function DashboardHome() {
             </div>
           </div>
           <div className="stat-card-body">
-            <h2 className="stat-number">{stats.newPatients}</h2>
-            <p className="stat-label">Yeni Hastalar</p>
-            <div className="stat-footer">
-              {/* <span className="stat-change positive">+40%</span> */}
-              <span className="stat-period">{getTimeLabel()}</span>
-              <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
-            </div>
+            {user?.role === 'ADMIN' ? (
+              <>
+                <h2 className="stat-number">{stats.pendingLeaves}</h2>
+                <p className="stat-label">Bekleyen İzinler</p>
+                <div className="stat-footer">
+                  <span className="stat-period">Aktif Talepler</span>
+                  <button className="stat-view-all" onClick={() => navigate('/dashboard/leave-requests')}>Git →</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="stat-number">{stats.newPatients}</h2>
+                <p className="stat-label">Yeni Hastalar</p>
+                <div className="stat-footer">
+                  <span className="stat-period">{getTimeLabel()}</span>
+                  <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
@@ -346,13 +374,25 @@ export default function DashboardHome() {
             </div>
           </div>
           <div className="stat-card-body">
-            <h2 className="stat-number">{stats.opdPatients}</h2>
-            <p className="stat-label">{user?.role === 'ADMIN' ? 'Randevulu Hastalar' : 'Poliklinik Hastaları'}</p>
-            <div className="stat-footer">
-              {/* <span className="stat-change positive">+30%</span> */}
-              <span className="stat-period">{getTimeLabel()}</span>
-              <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
-            </div>
+            {user?.role === 'ADMIN' ? (
+              <>
+                <h2 className="stat-number">{stats.pendingContacts}</h2>
+                <p className="stat-label">Bekleyen Mesajlar</p>
+                <div className="stat-footer">
+                  <span className="stat-period">Okunmamış</span>
+                  <button className="stat-view-all" onClick={() => navigate('/dashboard/contact-forms')}>Git →</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="stat-number">{stats.opdPatients}</h2>
+                <p className="stat-label">{user?.role === 'ADMIN' ? 'Randevulu Hastalar' : 'Poliklinik Hastaları'}</p>
+                <div className="stat-footer">
+                  <span className="stat-period">{getTimeLabel()}</span>
+                  <button className="stat-view-all" onClick={() => navigate('/dashboard/patients')}>Tümünü Gör →</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
