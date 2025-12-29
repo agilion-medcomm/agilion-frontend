@@ -447,25 +447,29 @@ export default function DashboardHome() {
           </div>
         </div>
 
-        <div className="bottom-stat-card">
-          <div className="bottom-stat-icon">
-            <UsersIcon />
-          </div>
-          <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Doktorlar</p>
-            <h3 className="bottom-stat-number">{stats.doctors}</h3>
-          </div>
-        </div>
+        {user?.role === 'ADMIN' && (
+          <>
+            <div className="bottom-stat-card">
+              <div className="bottom-stat-icon">
+                <UsersIcon />
+              </div>
+              <div className="bottom-stat-info">
+                <p className="bottom-stat-label">Doktorlar</p>
+                <h3 className="bottom-stat-number">{stats.doctors}</h3>
+              </div>
+            </div>
 
-        <div className="bottom-stat-card">
-          <div className="bottom-stat-icon">
-            <PeopleIcon />
-          </div>
-          <div className="bottom-stat-info">
-            <p className="bottom-stat-label">Personel</p>
-            <h3 className="bottom-stat-number">{stats.staff}</h3>
-          </div>
-        </div>
+            <div className="bottom-stat-card">
+              <div className="bottom-stat-icon">
+                <PeopleIcon />
+              </div>
+              <div className="bottom-stat-info">
+                <p className="bottom-stat-label">Personel</p>
+                <h3 className="bottom-stat-number">{stats.staff}</h3>
+              </div>
+            </div>
+          </>
+        )}
 
 
 

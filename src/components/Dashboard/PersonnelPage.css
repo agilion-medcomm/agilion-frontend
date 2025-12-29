@@ -493,6 +493,14 @@ body.dark .modal-content {
   font-size: 19px;
 }
 
+[data-theme='dark'] .modal-content.modal-small .modal-header {
+  border-bottom-color: rgba(127, 29, 29, 0.4);
+}
+
+[data-theme='dark'] .modal-content.modal-small .modal-header h2 {
+  color: #fca5a5;
+}
+
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -681,6 +689,24 @@ body.dark .modal-content {
   border-radius: 6px;
   text-align: center;
   letter-spacing: 0.3px;
+}
+
+[data-theme='dark'] .delete-info {
+  background: rgba(127, 29, 29, 0.2);
+  border-left-color: #ef4444;
+}
+
+[data-theme='dark'] .delete-info p {
+  color: #fca5a5;
+}
+
+[data-theme='dark'] .delete-info p strong {
+  color: #f87171;
+}
+
+[data-theme='dark'] .warning-text {
+  background: rgba(127, 29, 29, 0.2);
+  color: #fca5a5;
 }
 
 
