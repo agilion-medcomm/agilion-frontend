@@ -317,7 +317,7 @@ export default function LaborantDashboard() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '12px' }}>
                       <div style={{ flex: 1 }}>
                         <h4>{req.fileTitle}</h4>
-                        <p>👤 {req.patient.firstName} {req.patient.lastName}</p>
+                        <p>👤 {req.patient?.user?.firstName} {req.patient?.user?.lastName}</p>
                         <p>📝 {req.notes || 'Not yok'}</p>
                         {req.assigneeLaborantId && (
                           <p style={{ color: '#059669', fontWeight: 600 }}>✓ Size atanmış</p>
@@ -402,7 +402,7 @@ export default function LaborantDashboard() {
                   {selectedRequest.fileTitle}
                 </h3>
                 <p style={{ margin: '0 0 16px 0', fontSize: '13px' }}>
-                  Hasta: {selectedRequest.patient.firstName} {selectedRequest.patient.lastName}
+                  Hasta: {selectedRequest.patient?.user?.firstName} {selectedRequest.patient?.user?.lastName}
                 </p>
 
                 <form onSubmit={handleUploadForRequest}>
