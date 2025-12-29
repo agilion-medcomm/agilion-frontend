@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './BirimlerimizPage.css';
@@ -7,12 +7,30 @@ const BirimlerimizPage = () => {
   const { t } = useTranslation(['medical']);
   const location = useLocation();
   const [selectedId, setSelectedId] = useState(location.state?.selectedId || 'anestezi');
+  const contentRef = useRef(null);
 
   useEffect(() => {
     if (location.state?.selectedId) {
       setSelectedId(location.state.selectedId);
     }
   }, [location.state]);
+
+  const handleUnitClick = (unitId) => {
+    setSelectedId(unitId);
+    // Scroll to content section with offset for header
+    setTimeout(() => {
+      if (contentRef.current) {
+        const headerOffset = 100; // Navbar yüksekliği için offset
+        const elementPosition = contentRef.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
 
   const units = useMemo(() => [
     {
@@ -108,7 +126,7 @@ const BirimlerimizPage = () => {
             <div
               key={unit.id}
               className={`birim-card ${selectedId === unit.id ? 'selected' : ''}`}
-              onClick={() => setSelectedId(unit.id)}
+              onClick={() => handleUnitClick(unit.id)}
             >
               <img src={unit.icon} alt={unit.title} className="birim-card__icon" />
               <div className="birim-card__title">{unit.title}</div>
@@ -119,7 +137,7 @@ const BirimlerimizPage = () => {
       </div>
 
       {/* Content Section */}
-      <div className="birim-content-section">
+      <div className="birim-content-section" ref={contentRef}>
         <div className="birim-content-container">
           <div className="birim-content-header">
             <h2 className="birim-content-title">

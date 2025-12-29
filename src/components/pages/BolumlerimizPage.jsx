@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import './BolumlerimizPage.css';
@@ -7,12 +7,30 @@ const BolumlerimizPage = () => {
   const { t } = useTranslation(['medical']);
   const location = useLocation();
   const [selectedId, setSelectedId] = useState(location.state?.selectedId || 'acil');
+  const contentRef = useRef(null);
 
   useEffect(() => {
     if (location.state?.selectedId) {
       setSelectedId(location.state.selectedId);
     }
   }, [location.state]);
+
+  const handleDeptClick = (deptId) => {
+    setSelectedId(deptId);
+    // Scroll to content section with offset for header
+    setTimeout(() => {
+      if (contentRef.current) {
+        const headerOffset = 100; // Navbar yüksekliği için offset
+        const elementPosition = contentRef.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
 
   const departments = useMemo(() => [
     {
@@ -180,7 +198,7 @@ const BolumlerimizPage = () => {
             <div
               key={dept.id}
               className={`bolum-card ${selectedId === dept.id ? 'selected' : ''} ${dept.isAcil ? 'is-acil' : ''}`}
-              onClick={() => setSelectedId(dept.id)}
+              onClick={() => handleDeptClick(dept.id)}
             >
               <img src={dept.icon} alt={dept.title} className="bolum-card__icon" />
               <div className="bolum-card__title">{dept.title}</div>
@@ -191,7 +209,7 @@ const BolumlerimizPage = () => {
       </div>
 
       {/* Content Section */}
-      <div className="bolum-content-section">
+      <div className="bolum-content-section" ref={contentRef}>
         <div className="bolum-content-container">
           <div className="bolum-content-header">
             <h2
