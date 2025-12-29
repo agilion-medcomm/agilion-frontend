@@ -150,13 +150,15 @@ export default function DashboardHome() {
       let personnel = [];
       let pendingLeavesCount = 0;
       let pendingContactsCount = 0;
+      let pendingHomeHealthCount = 0;
 
       if (user?.role === 'ADMIN') {
         try {
-          const [personnelRes, contactRes, leaveRes] = await Promise.all([
+          const [personnelRes, contactRes, leaveRes, homeHealthRes] = await Promise.all([
             axios.get(`${BaseURL}/personnel`, { headers: { Authorization: `Bearer ${token}` } }),
             axios.get(`${BaseURL}/contact`, { headers: { Authorization: `Bearer ${token}` } }),
-            axios.get(`${BaseURL}/leave-requests`, { headers: { Authorization: `Bearer ${token}` } })
+            axios.get(`${BaseURL}/leave-requests`, { headers: { Authorization: `Bearer ${token}` } }),
+            axios.get(`${BaseURL}/home-health/stats`, { headers: { Authorization: `Bearer ${token}` } })
           ]);
           personnel = personnelRes.data?.data || [];
 
@@ -165,6 +167,10 @@ export default function DashboardHome() {
 
           const leaves = leaveRes.data?.data || [];
           pendingLeavesCount = leaves.filter(l => l.status === 'PENDING').length;
+
+          const homeHealthStats = homeHealthRes.data?.data || {};
+          pendingHomeHealthCount = homeHealthStats.pending || 0;
+
 
         } catch (adminError) {
           console.error('Error fetching admin data:', adminError);
@@ -233,7 +239,9 @@ export default function DashboardHome() {
         admitted: Math.floor(approvedAppointments.length * 0.95),
         discharged: completedAppointments.length,
         pendingLeaves: pendingLeavesCount,
+
         pendingContacts: pendingContactsCount,
+        pendingHomeHealth: pendingHomeHealthCount || 0,
       });
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);
@@ -403,13 +411,26 @@ export default function DashboardHome() {
             </div>
           </div>
           <div className="stat-card-body">
-            <h2 className="stat-number">{stats.labTests}</h2>
-            <p className="stat-label">Lab Testleri</p>
-            <div className="stat-footer">
-              {/* <span className="stat-change positive">+60%</span> */}
-              <span className="stat-period">{getTimeLabel()}</span>
-              <button className="stat-view-all" onClick={() => navigate('/dashboard/lab-results')}>Tümünü Gör →</button>
-            </div>
+            {user?.role === 'ADMIN' ? (
+              <>
+                <h2 className="stat-number">{stats.pendingHomeHealth}</h2>
+                <p className="stat-label">Bekleyen Evde Sağlık</p>
+                <div className="stat-footer">
+                  <span className="stat-period">Aktif Talepler</span>
+                  <button className="stat-view-all" onClick={() => navigate('/dashboard/home-health')}>Git →</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 className="stat-number">{stats.labTests}</h2>
+                <p className="stat-label">Lab Testleri</p>
+                <div className="stat-footer">
+                  {/* <span className="stat-change positive">+60%</span> */}
+                  <span className="stat-period">{getTimeLabel()}</span>
+                  <button className="stat-view-all" onClick={() => navigate('/dashboard/lab-results')}>Tümünü Gör →</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
